@@ -1,0 +1,106 @@
+{
+  "logo": {
+    "type": "auto",
+    "color": {
+      "1": "dim_blue",
+      "2": "magenta"
+    },
+    "position": "right"
+  },
+
+  "display": {
+    "color": {
+      "keys": "dim_red",
+      "title": "bright_red"
+    },
+    "key": {
+      "type": "both"
+    }
+  },
+
+  "general": {
+    "playerName": "spotify"
+  },
+  "modules": [
+    {
+      "type": "title",
+      "key": "Superior",
+      "keyIcon": "",
+      "color": {
+        "user": "yellow",
+        "host": ""
+      }
+    },
+    {
+      "type": "separator",
+      "string": "-",
+      "outputColor": "yellow"
+    },
+    {
+      "type": "kernel",
+      "keyIcon": ""
+    },
+    {
+      "type": "uptime",
+      "keyIcon": ""
+    },
+    {
+      "type": "packages",
+      "keyIcon": "󰏖",
+      "combined": false
+    },
+    {
+      "type": "de",
+      "keyIcon": ""
+    },
+    {
+      "type": "wm",
+      "keyIcon": ""
+    },
+    {
+      "type": "cpu",
+      "keyIcon": "",
+      "temp": true
+    },
+    {
+      "type": "gpu",
+      "keyIcon": "󰾲",
+      "driverSpecific": true,
+      "detectionMethod": "auto",
+      "temp": true
+    },
+    {
+      "type": "memory",
+      "keyIcon": ""
+    },
+    {
+      "type": "swap",
+      "keyIcon": "󰓡"
+    },
+    {
+      "type": "disk",
+      "keyIcon": "",
+      "folders": "",
+      "useAvailable": true
+    },
+    {
+      "type": "localip",
+      "keyIcon": "󰩟",
+      "compact": true
+    },
+    {
+      "type": "battery",
+      "keyIcon": "",
+      "temp": false,
+      "percent": {
+        "green": 80,
+        "yellow": 50,
+        "type": 0
+      }
+    },
+    {
+      "type": "poweradapter",
+      "keyIcon": "󰚥"
+    }
+    ]
+}

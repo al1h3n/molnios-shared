@@ -1,0 +1,95 @@
+# ==========================================================
+# lyinit al1h3n edition - v1
+# Changed: first release.
+# ==========================================================
+
+# 1. Design.
+
+# 1.1. Colors.
+# bg = 0x000000FF
+border_fg = 0x80FFFFFF # Border foreground color id.
+hide_borders = false
+# 0xSSRRGGBB, where SS is the styling, RR is red, GG is green, and BB is blue. 0x00000000 is default.
+# TB_BOLD      0x01000000
+# TB_UNDERLINE 0x02000000
+# TB_REVERSE   0x04000000
+# TB_ITALIC    0x08000000
+# TB_BLINK     0x10000000
+# TB_HI_BLACK  0x20000000
+# TB_BRIGHT    0x40000000
+# TB_DIM       0x80000000
+
+# 1.2. Position & size.
+margin_box_h = 1
+margin_box_v = 0
+input_len = 25
+
+# 1.3. Animations.
+# doom (fire), matrix, colormix (cool color transition), gameoflife (life game), none by default.
+animation = colormix
+
+# 1.3.1. CMatrix.
+# cmatrix_fg = 0x00833AB4
+# cmatrix_head_col = 0x01405DE6
+
+# 1.3.2. DOOM (fire)
+doom_fire_spread = 2 # Lower = faster.
+doom_top_color = 0x009F2707
+doom_middle_color = 0x00C78F17
+doom_bottom_color = 0x00FFFFFF
+doom_fire_height = 5
+
+# 1.3.3. Game of life.
+# Game of Life entropy interval (0 = disabled, >0 = add entropy every N generations)
+# 0 -> Pure Conway's Game of Life (will eventually stabilize)
+# 10 -> Add entropy every 10 generations (recommended for continuous activity)
+# 50+ -> Less frequent entropy for more natural evolution
+gameoflife_entropy_interval = 0
+gameoflife_fg = 0x0000FF00
+gameoflife_frame_delay = 1
+gameoflife_initial_density = 0.4 # How active they are [.1~.7+]
+
+# 1.3.4. Color mix.
+colormix_col1 = 0x003b3b3b
+colormix_col2 = 0x00222222
+colormix_col3 = 0x00808080
+
+# 2. Password.
+# Type in UTF-8/32, if null, the password will be hidden.
+# Note: you can use a # by escaping it like so: \#
+asterisk = 0x2022
+auth_fails = 10 # Number of failed passwords before breaking animation.
+clear_password = false # Erase password input on failure
+
+# 3. Information.
+
+# 3.1. Battery (laptops).
+battery_id = BAT0
+
+# 3.2. Clocks.
+bigclock = en
+bigclock_seconds = true
+clock = %A, %B %-d # See strftime specification, in top right.
+
+# 3.3. Branding.
+box_title = MOLNIUX OS
+hide_version_string = true
+initial_info_text = Welcome back!
+
+# 4. Functionality.
+default_input = password # Available inputs: info_line, session, login, password
+hide_key_hints = true
+
+# 4.1. Brighness.
+brightness_down_cmd = /usr/bin/brightnessctl -q -n s 10%-
+brightness_down_key = F5
+brightness_up_cmd = /usr/bin/brightnessctl -q -n s +10%
+brightness_up_key = F6
+
+# 4.2. Keys.
+hibernate_key = F3
+hibernate_cmd = systemctl hybrid-sleep # Requires swap.
+sleep_key = F4
+sleep_cmd = systemctl sleep
+inactivity_cmd = systemctl sleep
+inactivity_delay = 120

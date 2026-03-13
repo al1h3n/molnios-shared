@@ -1,0 +1,187 @@
+# ==========================================================
+# kittyconfig al1h3n edition - v1
+# Used mankier.com/5/kitty.conf | sw.kovidgoyal.net/kitty/conf
+# Changed: first release.
+# ==========================================================
+
+# Keybinds: mankier.com/5/kitty.conf#Keyboard_shortcuts
+# Create keybind by 'map ctrl+f1 launch cmatrix'
+
+# ==========================================================
+
+# Inside ~/.config/kitty/kitty.conf
+# include ${L_PATH}/config/kitty
+
+# 0. Connectedness.
+include ${L_PATH}/config/kittystyle
+allow_remote_control yes
+listen_on unix:@borderline-{kitty_pid}
+# file_transfer_confirmation_bypass # Use to bypass password copying on trusted computers.
+
+# 1. Visuals.
+
+# 1.1. Font.
+# You might need to install ttf-jetbrains-mono-nerd.
+font_family JetBrains Mono Nerd Font
+font_size 14
+
+# 1.2 Colors.
+# In kittystyle.
+
+# 1.3. Style.
+url_style straight
+
+cursor_shape block
+cursor_shape_unfocused beam
+# Can be block, beam, underline, hollow and unchanged.
+
+# 1.4. Animations.
+cursor_trail 1
+
+cursor_trail_decay .1 .2
+# Animation speed.
+
+cursor_trail_start_threshold 3
+# Minimum symbols to start animation.
+
+# 1.5. Transparency.
+inactive_text_alpha .75
+# Can affect perfomance.
+dynamic_background_opacity yes
+dim_opacity .4
+
+# 1.6. Content (images etc).
+# window_logo_path ~/Downloads/omni.png
+#: Must be in PNG/JPEG/WEBP/GIF/TIFF/BMP format.
+window_logo_position bottom-right
+# top-left, top, top-right, left, center, right, bottom-left, bottom, bottom-right.
+window_logo_alpha .5
+window_logo_scale 20
+
+# 2. Text cursor.
+shell_integration no-cursor # For block or underline cursor_shape.
+
+# 3. Scrollbar.
+# scrollback_lines 1000
+scrollbar_hover_width 1.5
+scrollbar_handle_opacity .5
+scrollbar_radius .4
+scrollbar_gap .3
+scrollbar_hitbox_expansion 2
+scrollbar_track_hover_opacity 0
+
+# 3.1. Sensivity.
+wheel_scroll_multiplier 7.5
+
+# Adjust on laptops.
+touch_scroll_multiplier 1
+
+# 4. Keyboard + mouse.
+
+# 4.1. Mouse.
+# mouse_hide_wait 3 - you can change this.
+focus_follows_mouse yes
+
+# 4.2. Keyboard.
+copy_on_select clipboard
+clear_selection_on_clipboard_loss yes
+# Change "copy_on_select" not to copy from terminal, a1 = kitty local buffer.
+paste_actions replace-newline,quote-urls-at-prompt,confirm
+
+# 4.3. Syntax.
+# open_url_with firefox - you can change browser type.
+show_hyperlink_targets yes
+strip_trailing_spaces always
+# Change to smart if you're copying art.
+
+# 5. Actions.
+map ctrl+c copy_or_interrupt
+map ctrl+v paste_from_clipboard
+map ctrl+backspace send_text all \x08
+
+# 5. Perfomance.
+repaint_delay 6
+# Approximately 167 FPS. 1000 / number = FPS (only int).
+input_delay 0
+sync_to_monitor no
+
+# 6. Notifications.
+enable_audio_bell yes
+bell_on_tab " "
+command_on_bell mpv --no-video --volume=80 $L_PATH/sfx/keyboard/creams.ogg
+notify_on_cmd_finish invisible 30 notify-bell
+
+# 7. Window layout.
+remember_window_size no
+initial_window_width 1024
+initial_window_height 576
+window_padding_width 10
+# Blank area between text and window border.
+
+confirm_os_window_close 0
+# Be careful with this, 0 = withour confirmation, 1 with.
+
+# 8. Tab bar.
+tab_bar_edge top
+tab_bar_margin_height 5 0
+# First number - margin between edge and tab bar. Second number is margin between tab bar and content.
+tab_bar_style powerline
+# Or custom (write python function). Cool are fade, powerline. Slant, separator and hidden are bullshit.
+tab_bar_align center
+tab_switch_strategy right
+# Can be left, right, previous (default, to last used one) and last (most right one).
+tab_fade .25 .5 .75 1
+# For fade.
+tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{tab.last_focused_progress_percent}{index}. {tab.active_exe}"
+#: title
+#:     The current tab title.
+#: index
+#:     The tab index usable with goto_tab N goto_tab shortcuts.
+#: tab.active_exe
+#:     The name of the executable running in the foreground of the currently
+#:     active window in the tab (expensive, requires syscall). Use
+#:     tab.active_oldest_exe for the oldest foreground process.
+
+# 9. Background.
+background_tint 1
+background_tint_gaps 2
+background_image_layout scaled
+
+# 11. Color table. mankier.com/5/kitty.conf#Color_scheme
+
+# 12. Applications.
+shell zsh
+editor nvim
+nvim:fileencoding=utf-8:foldmethod=marker
+
+# 13. Search.
+exe_search_path = $L_PATH/scripts
+
+# 14. Updated and branding.
+update_check_interval 0
+
+# 15. Clipboard.
+clipboard_max_size 512
+# 0 for unlimited space (in MB).
+
+# 16. OS tweaks.
+macos_traditional_fullscreen yes
+macos_colorspace displayp3
+linux_display_server wayland
+# Can be auto.
+
+# 17. Keyboard shortcuts. sw.kovidgoyal.net/kitty/actions
+# Like hyprland.
+
+# 17.1. Custom keybinds.
+map ctrl+f1 launch micro
+map ctrl+f2 launch nvim
+
+map kitty_mod+l clear_terminal last_command active
+map kitty_mod+g set_tab_title
+
+# Don't intercept the following key strokes to make zsh-shift-select work.
+map ctrl+shift+left no_op
+map ctrl+shift+right no_op
+map ctrl+shift+home no_op
+map ctrl+shift+end no_op

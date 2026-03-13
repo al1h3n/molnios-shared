@@ -1,0 +1,19 @@
+# ==========================================================
+# sddmconfig al1h3n edition - v1
+# Changed: first release
+# ==========================================================
+
+# Try this: github.com/uiriansan/SilentSDDM
+
+[General]
+DisplayServer=wayland
+InputMethod=qtvirtualkeyboard
+GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+
+[Theme]
+Current=silent
+CursorSize=29
+CursorTheme=clay_white
+Font=SF Pro Display Bold
+FacesDir=/usr/share/sddm/faces # The files should be named <username>.face.icon
+ThemeDir=/usr/share/sddm/themes

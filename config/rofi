@@ -1,0 +1,282 @@
+// ==========================================================
+// config.rasi al1h3n edition - v1.0.1
+// Changed: removed icons, improven text visibility.
+// ==========================================================
+
+// Reloads automatically. Path - ~/.config/rofi/config.rasi
+// Ctrl+Tab automatically switches modes.
+// To reset type "rofi -dump-config > ~/.config/rofi/config.rasi"
+
+// Control + BackSpace - remove word. Control + Enter - custom command/program.
+// Control + Up/Down - search history.
+// Control + Q/W/E - left text position, clear line, right text position.
+// Control + A/S - remove text on left/right side.
+// Control + Tab, Alt + 1~0 - switch types. Alt + "." - move text if too big.
+// Type "-x" to exclude part of a word.
+
+// Note that not all the colors are configurable (e.g. in gradients), so you need to change images, corners, color palette or shape by youself.
+
+configuration {
+
+  // 0. Variables.
+  terminal: "kitty";
+
+  // 1. Looks.
+  font: "JetBrains Mono Nerd Font 15";
+  fixed-num-lines: false; // Not fixed height.
+  icon-theme: "MacTahoe";
+  window-format: "{w}  {c}  {t}"; // In window section.
+  window-thumbnail: true;
+  show-icons: false;
+
+  // 1.1 Icons.
+  display-window: " ";
+  display-run: " ";
+  display-ssh: "󰌘 ";
+  display-drun: " ";
+  display-combi: " ";
+  display-keys: "󰌌 ";
+  display-filebrowser: " ";
+  display-calc: " ";
+  display-recursivebrowser: " ";
+  display-emoji: " ";
+
+  // 2. Functionality.
+
+  // 2.1. Modules and autorun commands.
+  modes: "drun,window,run,emoji,calc,keys,filebrowser,recursivebrowser";
+  drun-display-format: "{name} [<span size='small' alpha='90%' foreground='#FFFFFF'>({generic})</span>]";
+  run-list-command: "sh -c 'source ~/.zshrc; alias -p | cut -d= -f1 | cut -dbs -f2'"; // Custom commands in .rc file.
+  sidebar-mode: true;
+  filebrowser{directories-first: true;}
+
+  // 2.2. Selection and typing.
+  case-smart: true;
+  hover-select: true;
+  auto-select: true; // Remove if you getting bothered.
+  normalize-match: true;
+  timeout{action: "kb-cancel"; delay: 60;}
+
+  // 2.1. Sorting.
+  sort: true;
+  sorting-method: "fzf";
+  matching: "fuzzy";
+
+  // 3. SFX.
+  on-selection-changed: "sh $L_PATH/scripts/rofi/gta_sa.sh tap"; // Moving up & down.
+  on-mode-changed: "sh $L_PATH/scripts/rofi/gta_sa.sh tab"; // Ctrl+Tab.
+  on-entry-accepted: "sh $L_PATH/scripts/rofi/gta_sa.sh enter"; // Enter.
+  on-menu-error: "sh $L_PATH/scripts/rofi/gta_sa.sh error"; // Wrong prompt.
+  on-menu-canceled: "sh $L_PATH/scripts/rofi/gta_sa.sh exit"; // Escape.
+  drun-show-actions: false; // Might be frustrating.
+  
+
+
+  // 4. Keybinds.
+  kb-remove-word-forward: "Alt+BackSpace";
+
+  kb-move-front: "Control+q";
+  kb-clear-line: "Control+w";
+  kb-move-end: "Control+e";
+
+  kb-remove-to-eol: "Control+a";
+  kb-remove-to-sol: "Control+s";
+}
+
+// 5. Design.
+* {
+  // Predefining colors.
+  white: #FFFFFF;
+  grey: #6C7086;
+  blue: #89B4FA;
+
+  bg-col:  #1E1E2E80;
+  bg-col-light: #1E1E24;
+}
+
+window {
+  // Rofi window.
+
+  // Size.
+  width: 40%;
+  height: 49%;
+
+  // Additional attributes (pivot and etc).
+  padding: 0;
+
+  // Visuals.
+  transparency: "real";
+  border: 2;
+  border-color: @white;
+  border-radius: 20;
+  background-color: transparent;
+  background-image: linear-gradient(90deg, #24243E80, #302B6399, #0F0C29BF); // Change colors if required.
+}
+
+mainbox {
+  // Rofi window with context.
+  // padding: 0 15 0 15; // Custom space between context & borders. Header/left/bottom/right.
+
+  // Additional attributes (pivot and etc).
+  padding: 0;
+  children: [headerbox, inputbar, listview, mode-switcher]; // Image, search bar, context, mode switcher.
+
+  // Visuals.
+  background-color: transparent; // Required for transparent context beyond window.
+}
+
+headerbox {
+  // Header.
+
+  // Additional attributes (pivot and etc).
+  expand: false;
+  orientation: vertical;
+  margin: 0;
+  padding: 0;
+  children: [imagebox];
+
+  // Visuals.
+  background-color: transparent;
+  background-image: url("$L_PATH/wallpapers/static/space.png", width);
+  border-radius: 20 20 0 0; // First 2 same as your border-radius in window.
+}
+
+imagebox {
+  // Gradient for the image.
+
+  // Additional attributes (pivot and etc).
+  padding: 8%; // Height of image.
+  margin: 0; // No radius needed here, the parent has it.
+
+  // Visuals.
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, transparent, transparent, #1E1E24);
+}
+
+inputbar {
+  // Search bar.
+
+  // Additional attributes (pivot and etc).
+  padding: 0; // Proper space from borders.
+  margin: 10 0 0 0; // Space between search bar & elements.
+  children: [entry];
+
+  // Visuals.
+  border-radius: 5;
+}
+
+entry {
+  // Prompt (search text).
+
+  // Additional attributes (pivot and etc).
+  padding: 0 20;
+
+  // Visuals.
+  text-color: @white;
+  placeholder-color: #FFFFFF80;
+  placeholder: "What’s on your mind?";
+  // Remove to add Google like search bar.
+  /*
+   *  background-color: @bg-col;
+   *  border-radius: 20;
+   */
+}
+
+listview {
+  // Result column.
+
+  // Additional attributes (pivot and etc).
+  padding: 0;
+  margin: 10 20; // Vertical, horizontal.
+
+  // Visuals.
+  columns: 2;
+  lines: 6;
+  border: 0; // "- - -" line.
+  spacing: 8;
+}
+
+scrollbar {
+  // Visuals.
+  handle-color: @blue;
+  background-color: transparent;
+
+  // Size and shape.
+  handle-width: 7; // Thickness.
+  margin: 0 0 0 5; // Space between list and scrollbar.
+  border-radius:20;
+}
+
+element {
+  // Context itself.
+
+  // Additional attributes (pivot and etc).
+  padding: 5;
+
+  // Visuals.
+  background-color: transparent;
+  background-image: linear-gradient(45deg, #D63AACE6, #722E85E6);
+  border-radius: 10;
+}
+
+element-icon {
+  // Visuals.
+  size: 2.5%;
+  margin: 0 10 0 0;
+}
+
+element-text {
+  vertical-align: 0.5;
+}
+
+element selected {
+  // Hovered element.
+  background-color: transparent;
+  background-image: linear-gradient(45deg, #6060E6E6, #2E2E85E6);
+}
+
+mode-switcher {
+  // The container for the icons
+  spacing: 10;
+  margin: 10 20; // Top, Right, Bottom, Left
+  background-color: transparent;
+}
+
+button {
+  // Unhovered mode button.
+
+  // Additional attributes (pivot and etc).
+  background-color: @bg-col; // Dark background.
+  vertical-align: 0.5;
+  horizontal-align: 0.5;
+  cursor: pointer;
+
+  // Visuals.
+  padding: 10;
+  text-color: @grey;
+  border-radius: 10;
+}
+
+button selected {
+  // Active mode button.
+  background-color: transparent;
+  background-image: linear-gradient(45deg, #6060E6E6, #2E2E85E6);
+  text-color: @white;
+}
+
+element normal.normal, element alternate.normal {
+  // Weird corners fix.
+  background-color: transparent;
+}
+
+textbox {
+  // Text inside error message.
+  text-color: @white;
+}
+
+error-message {
+  // Error window.
+  padding: 25;
+  background-color: transparent;
+  background-image: linear-gradient(45deg, #FF000080, #FF000040);
+}

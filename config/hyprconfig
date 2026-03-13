@@ -1,0 +1,514 @@
+# ==========================================================
+# hyprconfig al1h3n edition - v1.0.11
+# Changed: windowrule syntax: integer to boolean.
+# ==========================================================
+
+# 0. Including files.
+# Main colors + video + cursor (sourced). Add it to "~/.config/hypr" path or enter another one.
+source = custom
+
+# 1. Defining variables.
+
+# 1.1. Patches (environment variables).
+# 1.1.1. Nvidia (unimportant).
+env = LIBVA_DRIVER_NAME,nvidia
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = NVD_BACKEND,direct # Hardware video acceleration.
+
+# 1.1.2. Fix Electron flickering. Use "--enable-features=UseOzonePlatform --ozone-platform=wayland" in individual apps.
+env = ELECTRON_OZONE_PLATFORM_HINT,auto
+
+# 1.1.3. Theming for qt6.
+env = QT_QPA_PLATFORMTHEME,qt6ct
+
+# 1.2. Flags.
+$electron = --enable-features=UseOzonePlatform --ozone-platform=wayland
+$noicons = -no-show-icons -theme-str 'listview{columns: 1;}'
+$icons = -show-icons
+
+# 1.3. Directories.
+$dir = $L_PATH
+$scripts = $dir/scripts
+$conf = $dir/config
+
+# 1.4. CLI.
+$shell = zsh
+$terminal = kitty -c $conf/kitty
+
+# 1.5. Utilities.
+# 1.5.1. Launcher-related.
+$menuid = rofi
+$menuconfig = -config $conf/rofi # CHECK
+$menu = $menuid $menuconfig -show
+$appmenu = $menu drun $icons
+$emojimenu = $menu emoji $noicons # Requires wtype package.
+$commandmenu = $menu run $noicons
+$switchmenu = $menu window $icons
+$youtube = yt-x -s $menuid
+$switcher = hyprswitch simple
+$gpu = $scripts/gpu.sh
+$temp = $scripts/temp.sh
+
+# 1.5.2. Clipboard related.
+$clipman = cliphist list | $menu -dmenu $noicons | cliphist decode | wl-copy && wtype -M ctrl -k v -m ctrl
+$cliptext = wl-paste --type text --watch cliphist store # Storing text.
+$clipmage = wl-paste --type image --watch cliphist store # Storing images.
+$clipsave = wl-clip-persist --clipboard regular # Save elements when application is closed. Requires wl-clip-persist.
+
+# 1.5.3. Polkit (permission) related.
+$permissionsid = polkit-gnome-authentication-agent-1
+$permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
+
+# 1.5.4. Connectivity related.
+$network = nm-applet
+$bluetooth = blueman-applet
+
+# 1.5.5. Screen sharing related.
+$screenshot = grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy # date +%F_%H-%M-%S = 2026-01-09_14-37-14
+$record = $shell $scripts/record.sh
+
+# 1.5.6. Notifications.
+$notifications = dunst -conf $conf/dunst
+$notify = swaync -c $conf/swaync -s $conf/swayncstyle
+
+# 1.5.7. Lock screen and external applications.
+$lock = hyprlock -q -c $conf/hyprlock
+
+# 1.5.7. Visuals.
+$brightness = brightnessctl -q s
+$borders = $shell $scripts/borderline.sh
+$tray = waybar -c $conf/mechabar/config.jsonc -s $conf/mechabar/style.css
+$tray_next = qs
+$wallpaperengine = waypaper
+$wallpaper = $wallpaperengine --restore # For wallpapers you should install swww, for videos mpvpaper-git.
+$idlewallpaper = mpvpaper-stop
+
+# Applications.
+$explorer = thunar
+$browser = firefox
+$musicplayer = spotify-launcher
+$coder = zeditor
+$texteditor = $terminal nvim
+$player = mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200
+$notes = notion-app $electron
+$netman = nm-connection-editor
+$blueman = blueman-manager
+
+# Colors. Look for elegant combinations with images or videos on paletter.online
+
+# Default.
+$black = rgb(000000)
+$white = rgb(FFFFFF)
+$red   = rgb(FF0000)
+$green = rgb(00FF00)
+$blue  = rgb(0000FF)
+
+# Borders. They're overriden if you have custom file in source or you have dynamic border selection.
+$bg_light = rgba(FFFFFF40)
+$bg_dark  = rgba(1A1A1A90)
+
+# 2. Heart configs.
+monitor=DP-1,2560x1440@144,0x0,1.25
+
+# 3. Autostarting.
+
+# 3.1. Main programs.
+
+# Services.
+exec-once = $network & $bluetooth & $permissions
+# Wallpaper, tray and other main additions.
+exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders
+# Clipboard managers.
+exec-once = $cliptext & $clipmage & $clipsave
+
+# 3.2. Additional programs.
+exec-once = faillock --reset # It's irritating tbh.
+
+# 4. Environment variables.
+
+# 4.1. XCURSOR - in X11 applications, HYPRCURSOR is faster and was made later.
+env = HYPRCURSOR_SIZE,29
+env = HYPRCURSOR_THEME,$cursor
+env = XCURSOR_SIZE,29
+env = XCURSOR_THEME,$cursor
+
+# 5. Design.
+general {
+    # Window adjustment.
+    gaps_in = 5
+    gaps_out = 7
+    border_size = 2
+
+    # Color adjustment.
+    # E.g. col.active_border = rgba(FFFFFFFF) rgba(FF0055AA) rgba(FF66CCAA) 45deg
+	col.active_border =  $color1 $color2 45deg
+    col.inactive_border = $bg_light $bg_dark # Default gray: rgba(595959aa)
+
+    # Screen adjustment.
+    resize_on_border = 1
+    allow_tearing = 1
+    layout = dwindle
+}
+
+# 6. Effects.
+decoration {
+    # Shape of a window.
+    rounding = 20
+    rounding_power = 3
+
+    # Transparency.
+    active_opacity = 1
+    inactive_opacity = .85
+
+    # Effects - shadow.
+    shadow {
+        enabled = 1
+        range = 20
+        render_power = 3
+        color = $bg_dark
+    }
+
+    # Effects - blur.
+    blur {
+        enabled = 1
+        size = 2
+        passes = 2
+        new_optimizations = 1
+        vibrancy = .25
+        ignore_opacity = true
+        xray = false # Set to true if you want a "see-through" skeletal look.
+    }
+}
+
+# 7. Animations.
+# Customized Diablo2/LimeFrenzy/Dynamic on github.com/HyDE-Project/HyDE/blob/master/Configs/.config/hypr/animations
+animations {
+    enabled = 1
+
+    # 7.1. Curves. To create custom one use cssportal.com/css-cubic-bezier-generator
+    # beizer = NAME, X0, Y0, X1, Y1
+    # NAME - any name, Xz/Yz - control points.
+
+    # easings.co
+    bezier = easeInOutQuad, 0.45, 0, 0.55, 1
+    bezier = easeInOutQuart, 0.77, 0, 0.18, 1
+    bezier = easeInOutSine, 0.37, 0, 0.63, 1
+
+    # Default.
+    bezier = default, 0.05, 0.9, 0.1, 1.05
+    bezier = liner, 1, 1, 1, 1
+
+    # Custom.
+    bezier = notify, 0.05, 0.9, 0.1, 1.05
+    bezier = window, 0.13, 0.99, 0.29, 1.08
+    bezier = workspace, 0.1, 1.2, 0.5, 1
+    bezier = quick, 0.15, 0, 0.1, 1
+
+    # 7.2. Animations. To create custom one use wiki.hypr.land/Configuring/Animations
+    # animation = ID, TOGGLE, SPEED, CURVE [, STYLE]
+    # TOGGLE = 0/1, SPEED - in ds (1ds = 100ms), CURVE - beizer curve, STYLE (optional) - animation type.
+
+    # 7.2.1. Window animations. Styles: slide, popin, gnomed.
+    # Element windows contains windowsIn/Out.
+    animation = windowsIn, 1, 7, window, popin # Opened window.
+    animation = windowsOut, 1, 5, window, popin # Closed window.
+    animation = windowsMove, 1, 6, window, slide # Moving, dragging, resizing.
+
+    # 7.2.2. Layers. Styles: slide, popin, fade.
+    # Every program above hyprland.
+    animation = layersIn, 1, 5, notify, popin # Layer open.
+    animation = layersOut, 1, 3, easeInOutQuad, popin # Layer close, slide looks better with notifications.
+
+    # 7.2.3. Fade. Styles: curves, default.
+    animation = fadeIn, 1, 10, window # Fade for opened windows.
+    animation = fadeOut, 1, 10, window # Fade for closed windows.
+    animation = fadeSwitch, 1, 10, window # Fade on changing active window.
+    animation = fadeShadow, 1, 10, default # Fade on chaning active window shadow.
+    animation = fadeDim, 1, 10, default # Easing of the dimming of inactive windows
+    animation = fadeLayers, 1, 10, default # Fade on 200layers (contains fadeLayersIn/Out)
+
+    # 7.2.4. Workspaces. Styles: slide, slidevert, fade, slidefade, slidefadevert.
+    # Element workspaces contains workspacesIn/Out.
+    animation = workspaces, 1, 7, workspace, slidefadevert
+
+    # 7.2.5. Borders.
+    animation = border, 1, 1, liner
+    animation = borderangle, 1, 20, easeInOutQuad, loop # Remove if you don't like border loop, might be laggy.
+}
+
+# 7. Smart gaps. You may comment it.
+workspace = w[tv1], gapsout:0, gapsin:0
+workspace = f[1], gapsout:0, gapsin:0
+windowrule {
+    name = no-gaps-wtv1
+    match:float = false
+    match:workspace = w[tv1]
+
+    border_size = 0
+    rounding = 0
+}
+
+windowrule {
+    name = no-gaps-f1
+    match:float = false
+    match:workspace = f[1]
+
+    border_size = 0
+    rounding = 0
+}
+
+# 8. dwindles (window arrangements).
+dwindle {
+    pseudotile = 1
+    preserve_split = 1
+}
+
+# 9. new_status (first opened window is turned to be main one).
+master {
+    new_status = master
+}
+
+# 10. Other (branding).
+misc {
+    force_default_wallpaper = 1
+    disable_hyprland_logo = 1
+}
+debug {
+    disable_logs = true
+    enable_stdout_logs = false
+}
+
+
+# 11. Keyboard + mouse.
+input {
+    # Keyboard
+    kb_layout = us,ru
+    kb_options = ctrl:nocaps # Caps Lock as Control.
+
+    # Mouse
+    follow_mouse = 1 # To enable auto border changes.
+    sensitivity = 0 # Ranges from -1 to 1.
+    force_no_accel = 1 # Acceleration adds ability to change sensitivity.
+
+    # Touchpad - laptops.
+    touchpad {
+        natural_scroll = true # Swiping up moves up and vice versa.
+    }
+}
+
+# 12. Gestures - laptops.
+
+# 13. Keybinds.
+
+# 13.1. Defining keys.
+$main = super
+
+# 13.2.1. Top bar keybinds [Q~O].
+bind = $main, Q, exec, $terminal
+bind = $main, W, togglefloating # Remove window from tiling.
+bind = $main, E, exec, $explorer
+bind = $main, R, exec, $appmenu
+bind = $main, T, exec, $commandmenu
+
+# 13.2.2. Private workspace (you can open windows there by window selector btw).
+bind = $main, P, togglespecialworkspace, magic # Open special workspace.
+bind = $main shift, P, movetoworkspace, special:magi # Move window from main workspace to special one.
+bind = $main ctrl, P, movetoworkspace, +0 # Move window from special workspace to last one.
+
+# 13.3.1. Middle bar keybinds [A~L].
+bind = $main, A, exec, $notes
+bind = $main, S, exec, $browser
+bind = $main, F, fullscreen
+bindl = $main, J, exec, playerctl previous
+bindl = $main, K, exec, playerctl play-pause
+bindl = $main, L, exec, playerctl next
+
+# 13.3.2. Show desktop.
+bind = $main, D, togglespecialworkspace, magic
+bind = $main, D, movetoworkspace, +0
+bind = $main, D, togglespecialworkspace, magic
+bind = $main, D, movetoworkspace, special:magic
+bind = $main, D, togglespecialworkspace, magic
+
+# 13.4. Borrom bar keybinds [Z~M].
+bind = $main, Z, exit
+bind = $main, X, exec, $emojimenu
+bind = $main, C, killactive
+bind = $main, V, exec, $clipman
+
+# 13.5. Top bar double keybinds [Q~O].
+# These're dwindle (window position and grid) keybinds.
+bind = $main shift, Q, pseudo # Do not stretch window.
+bind = $main shift, W, togglesplit # Switch window axis.
+bind = $main shift, E, exec, $texteditor
+bind = $main shift, R, exec, $shell $scripts/wallpaper.sh # Toggle wallpaper on/off
+
+# 13.6.1. Middle bar double keybinds [A~G].
+bind = $main shift, A, exec, $youtube
+bind = $main shift, S, exec, $clipman
+bind = $main shift, F, exec, $wallpaperengine
+bind = $main shift, G, exec, $shell $scripts/gamemode.sh
+
+# 13.6.2. Move windows double keybinds [H~L].
+bind = $main shift, H, swapwindow, l
+bind = $main shift, L, swapwindow, r
+bind = $main shift, J, swapwindow, u
+bind = $main shift, K, swapwindow, d
+
+# 13.7.  Borrom bar double keybinds [Z~M].
+bind = $main shift, Z, exec, $coder
+bind = $main shift, X, exec, $browser
+bind = $main shift, C, exec, $musicplayer
+bind = $main shift, V, exec, $blueman
+bind = $main shift, B, exec, $netman
+bind = $main shift, M, exec, $player
+
+# 13.8. Move focus with main + arrow keys
+bind = $main, left, movefocus, l
+bind = $main, right, movefocus, r
+bind = $main, up, movefocus, u
+bind = $main, down, movefocus, d
+
+# 13.9. Switch workspaces with main + [0-9]
+bind = $main, 1, workspace, 1
+bind = $main, 2, workspace, 2
+bind = $main, 3, workspace, 3
+bind = $main, 4, workspace, 4
+bind = $main, 5, workspace, 5
+bind = $main, 6, workspace, 6
+bind = $main, 7, workspace, 7
+bind = $main, 8, workspace, 8
+bind = $main, 9, workspace, 9
+bind = $main, 0, workspace, 10
+
+# 13.10. Move active window to a workspace with main + SHIFT + [0-9]
+bind = $main shift, 1, movetoworkspace, 1
+bind = $main shift, 2, movetoworkspace, 2
+bind = $main shift, 3, movetoworkspace, 3
+bind = $main shift, 4, movetoworkspace, 4
+bind = $main shift, 5, movetoworkspace, 5
+bind = $main shift, 6, movetoworkspace, 6
+bind = $main shift, 7, movetoworkspace, 7
+bind = $main shift, 8, movetoworkspace, 8
+bind = $main shift, 9, movetoworkspace, 9
+bind = $main shift, 0, movetoworkspace, 10
+
+# 13.11. Scroll through existing workspaces with main + scroll.
+bind = $main, mouse_down, workspace, e+1
+bind = $main, mouse_up, workspace, e-1
+
+# 13.12. Move/resize windows with main + LMB/RMB and dragging.
+bindm = $main, mouse:272, movewindow
+bindm = $main, mouse:273, resizewindow
+
+# 13.13. Laptop multimedia keys for volume and LCD brightness.
+bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindel = ,XF86MonBrightnessUp, exec, $brightness 10%+
+bindel = ,XF86MonBrightnessDown, exec, $brightness 10%-
+
+# 13.14. For desktop keyboards.
+bindel = $main shift, F1, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-
+bindel = $main shift, F2, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = $main shift, F3, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindel = $main shift, F4, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindel = $main shift, F5, exec, brightnessctl s 10%-
+bindel = $main shift, F6, exec, brightnessctl s 10%+
+
+# 13.15. Information keybinds.
+bindel = $main ctrl, F1, exec, notify-send "Current volume" "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) "%" ($3 ? " " $3 : "")}')"
+bindel = $main ctrl, F2, exec, notify-send "Current time" "$(date +%H:%M:%S)"
+bindel = $main ctrl, F3, exec, notify-send "Current date" "$(date +%d.%m.%Y)"
+bindel = $main ctrl, F4, exec, notify-send "Brightness value" "$(brightnessctl -m | awk -F, '{print $4}')"
+bindel = $main ctrl, F5, exec, notify-send "GPU utilization value" "$(sh $gpu)"
+bindel = $main ctrl, F6, exec, notify-send "CPU utilization value" "$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{printf("%.0f%%", 100 - $1)}')"
+bindel = $main ctrl, F7, exec, notify-send "RAM usage value" "$(free | awk '/Mem:/ {printf("%.0f%%", $3/$2 * 100)}')"
+bindel = $main ctrl, F8, exec, notify-send "Temperature" "$(sh $temp)"
+
+# 13.16. Zoom.
+bind = $main shift, up, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor -j | jq '.float * 2.5')
+bind = $main shift, down, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor -j | jq '(.float * .25) | if . < 1 then 1 else . end')
+
+# 13.17. Screen sharing binds.
+bind = , print, exec, $screenshot
+bind = $main, print, exec, $record
+bind = $main shift, print, exec, $record -a
+bind = $main ctrl, print, exec, $record -o
+
+# 13.18. Additional keybinds.
+bind = $main, space, exec, hyprctl switchxkblayout current next
+bind = alt, tab, exec, $switcher
+bind = alt shift, tab, exec, $switchmenu
+bind = $main, escape, exec, systemctl hybrid-sleep # Requires swap, sleep + hibernate.
+bind = $main shift, escape, exec, $lock
+
+# 14. Window rules - wiki.hypr.land/Configuring/Window-Rules
+# From 0.53.0: Unified syntax using 'windowrule' and 'match:' properties. There're no windowrulev2 now. Get class by hyprctl clients.
+windowrule {
+    # Ignore maximize requests from all apps. You'll probably like this.
+    name = suppress-maximize-events
+    match:class = .*
+    suppress_event = maximize
+}
+windowrule {
+    # Fix some dragging issues with XWayland
+    name = fix-xwayland-drags
+    match:class = ^$
+    match:title = ^$
+    match:xwayland = true
+    match:float = true
+    match:fullscreen = false
+    match:pin = false
+    no_focus = true
+}
+
+# Glass effect for permissions manager. opacity = active, inactive
+windowrule {
+    match:class ^($permissionsid)$
+    match:float = on
+    dim_around = on
+    center = on
+    opacity 1 .8
+}
+
+# Make player not opaque.
+windowrule {
+    match:class ^(mpv)$
+    opacity 1 override 1 override
+}
+
+# 15. Effect rules (layerrules).
+
+# Blur might be not satisfying when another app is opened.
+
+# 15.1 Glass effect for notifications.
+layerrule {
+    match:namespace = notifications
+    ignore_alpha = 0
+    blur = on
+    animation slide right
+}
+
+layerrule {
+    match:namespace = swaync-notification-window
+    ignore_alpha = 0
+    blur = on
+    animation = slide right
+}
+
+layerrule {
+  match:namespace = swaync-control-center
+  ignore_alpha = 0
+  blur = on
+  animation slide right
+}
+
+# 15.2. Glass effect for launcher.
+layerrule {
+  match:namespace = $menuid
+  ignore_alpha = 0
+  blur = on
+  animation slide bottom
+}

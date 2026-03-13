@@ -1,0 +1,447 @@
+# ==========================================================
+# hyprlock.conf al1h3n edition - v1
+# Changed: first release.
+# ==========================================================
+
+# Path - ~/.config/hypr/hyprlock
+# Launch by "hyprlock -q"
+
+# THE GLOW EFFECT
+# shadow_passes = 3       # 3 or 4 creates a nice soft glow
+# shadow_size = 5         # Distance/Spread of the glow
+# shadow_color = $shadow # Glow (change to match your theme)
+# shadow_boost = 1.2      # Makes it brighter
+
+# 0. Pre defining colors.
+# 1.1. Main.
+$white =rgb(255, 255, 255)
+$test = rgb(31, 137, 153)
+
+# 1.2. RGBA colors.
+$null = rgba(0, 0, 0, 0)
+$white_transparent = rgba(255, 255, 255, .55)
+$white_transparent_extra = rgba(255, 255, 255, .3)
+$gray_transparent = rgba(80, 80, 80, .9)
+$black_transparent = rgba(0, 0, 0, .75)
+$red_transparent = rgba(255, 0, 0, .5)
+
+# 1.3. Main definitions.
+$media_player = rgba(255, 255, 255, .5)
+$checking_color = $red_transparent
+$foreground = $white_transparent
+$background = $test
+
+# Liquid glass.
+$shadow = rgba(0, 0, 0, .3)
+$border = rgba(255, 255, 255, .2)
+$glass = rgba(255, 255, 255, 0.1)
+$glass_less = rgba(255, 255, 255, 0.4)
+
+# 1. Animations.
+animations {
+    # Fading to main window.
+    bezier = linear, 1, 1, 0, 0
+    animation = fade, 1, 2.5, linear
+}
+
+# 2. Background image/color.
+background {
+    color = $background
+    path = ~/.local/share/molnios/wallpapers/static/tahoe.jpg # Change to "color = $background" or "path = screenshot".
+    blur_passes = 2
+    blur_size = 2
+    brightness = .75
+    vibrancy = .2
+    vibrancy_darkness = .1
+}
+
+# 3. Password field.
+input-field {
+    size = 15%, 4.5%
+    dots_size = .2
+    dots_color = $black_transparent
+    dots_spacing = .35
+    font_family = SF Pro Display Bold
+    outer_color = $white_transparent_extra
+    inner_color = $glass
+    font_color = $white
+    fade_on_empty = false
+    check_color = $checking_color
+    fail_text = Insanity is doing the <b>exact same</b> thing <b>over</b> and <b>over</b> again and expecting different results - wrong attempts ($ATTEMPTS).
+    placeholder_text = Open sesame..
+    position = 0, -17.5%
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 4. Lock icon.
+
+label {
+    text = <span> </span>
+    color = $white_transparent_extra
+    font_size = 30
+    font_family = SF Pro Display Bold
+    position = 2, -5%
+    valign = top
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 4.1. Date.
+label {
+    text = cmd[update:100] echo $(date +"%A, %B %d")
+    color = $white_transparent # Change this if not visible.
+    font_size = 40
+    font_family = SF Pro Display Bold
+    position = 0, -10%
+    valign = top
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 4.2.. Time.
+label {
+    text = cmd[update:100] echo $(date +"%-I:%M")
+    color = $white_transparent # Change this if not visible.
+    font_size = 250
+    font_family = SF Pro Display Ultra-Bold
+    position = 0, -11%
+    valign = top
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+
+# 5.1. Account (name).
+label {
+    text = cmd[update:100] echo "$(whoami)"
+    color = $white
+    font_size = 20
+    font_family = SF Pro Display Bold
+    position = 0, -12%
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 5.2. Profile picture.
+label {
+    text = <span> </span>
+    color = $white_transparent
+    font_size = 80
+    font_family = SF Pro Display Bold
+    position = .6%, -6.75%
+
+    shadow_passes = 3
+    shadow_size = 10
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 6. Media player.
+
+# Simple variant
+# label {
+#     text = cmd[update:100] echo "$(sh ~/.al1h3n/song.sh)"
+#     color = $media_player
+#     font_size = 18
+#     font_family = SF Pro Display Bold
+#     onclick = playerctl play-pause
+#     position = 0, 5%
+#     valign = bottom
+# }
+
+# 6.1. Song album.
+image {
+    size = 75
+    rounding = 25
+    border_size = 0
+    reload_time = 1
+    reload_cmd = sh ~/.local/share/molnios/scripts/hyprsong.sh --art
+    position = -5.75%, 9.35%
+    valign = bottom
+    zindex = 1
+
+    shadow_passes = 2
+    shadow_size = 3
+    shadow_color = $shadow
+    shadow_boost = .8
+}
+
+# 6.2. Backgrounds.
+shape {
+    #6.2.1. Music player square.
+    color = $glass
+    border_size = 1
+    border_color = $border
+    size = 4%, 2.25%
+    rounding = 35
+    position = 0, 16.25%
+    valign = bottom
+
+    shadow_passes = 2
+    shadow_size = 3
+    shadow_color = $shadow
+    shadow_boost = 1
+}
+
+shape {
+    #6.2.1. Main player.
+    color = $glass
+    border_size = 1
+    border_color = $border
+    size = 15.5%, 12.4%
+    rounding = 35
+    position = 0, 3.1%
+    valign = bottom
+
+    shadow_passes = 2
+    shadow_size = 3
+    shadow_color = $shadow
+    shadow_boost = 1
+}
+
+# 6.3. Player source. (e.g., Spotify, Firefox)
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --player)"
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 13
+    font_family = SF Pro Display Bold
+    position = 0, 16.725%
+    valign = bottom
+    zindex = 2
+}
+
+# 6.4. Headers.
+
+# 6.4.1. Song title.
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --title)"
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 14
+    font_family = SF Pro Display Heavy
+    position = 46.25%, 12%
+    text_align = left
+    halign = left
+    valign = bottom
+    zindex = 1
+}
+
+# 6.4.2. Artist name
+label {
+    text = cmd[update:100] echo "󰠃  $(sh ~/.local/share/molnios/scripts/hyprsong.sh --artist)"
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 12
+    font_family = SF Pro Display
+    text_align = left
+    position = 46.25%, 10.75%
+    halign = left
+    valign = bottom
+    zindex = 1
+}
+
+# 6.5. Progress bar.
+
+# 6.5.1. Current position timestamp.
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --position)"
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 10
+    font_family = SF Pro Display Medium
+    position = -5.6%, 6.8%
+    valign = bottom
+}
+
+# 6.5.2. Progress bar (with Pango markup for colored segments).
+label {
+    text = cmd[update:100] sh ~/.local/share/molnios/scripts/hyprsong.sh --progress-bar
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 14
+    font_family = SF Pro Display Medium
+    position = 0, 6.6%
+    valign = bottom
+}
+
+# 6.5.3. Total length timestamp.
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --length)"
+    color = rgba(216, 222, 233, 0.70)
+    font_size = 10
+    font_family = SF Pro Display Medium
+    position = 5.6%, 6.8%
+    valign = bottom
+}
+
+# 6.6. Playback Controls.
+
+# 6.6.1. Previous track button.
+label {
+    text = 󰒮
+    color = $white_transparent
+    font_size = 25
+    onclick = playerctl previous
+    position = -2%, 3.85%
+    valign = bottom
+}
+
+# 6.6.2. Play/Pause button.
+label {
+    text = cmd[update:100] sh ~/.local/share/molnios/scripts/hyprsong.sh --status
+    color = $white_transparent
+    font_size = 25
+    onclick = playerctl play-pause
+    position = 0, 3.85%
+    valign = bottom
+}
+
+# 6.6.3. Next track button.
+label {
+    text = 󰒭
+    color = $white_transparent
+    font_size = 25
+    onclick = playerctl next
+    position = 2%, 3.85%
+    valign = bottom
+}
+
+# shape {
+#     #7. Shape.
+#     color = $glass
+#     border_size = 1
+#     border_color = $border
+#     size = 15.5%, 3.5%
+#     rounding = 35
+#     position = -10, -.75%
+#     halign = right
+#     valign = top
+#
+#     shadow_passes = 2
+#     shadow_size = 3
+#     shadow_color = $shadow
+#     shadow_boost = 1
+# }
+
+# 7. Internet.
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/inet.sh)"
+    text_align = right
+    color = $foreground
+    font_size = 24
+    font_family = SF Pro Display Semi-Bold
+    position = 1%, -1.125%
+    halign = left
+    valign = top
+}
+
+# 8. Battery.
+label {
+    text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/battery.sh)"
+    text_align = right
+    color = $foreground
+    font_size = 24
+    font_family = SF Pro Display Semi-Bold
+    position = -1%, -1.125%
+    halign = right
+    valign = top
+}
+
+# 9. Power Menu (Bottom Right)
+# 9.1. Background shape (main)
+shape {
+    color = $glass
+    border_size = 1
+    border_color = $border
+    size = 6%, 3.5%
+    rounding = 25
+    position = -4%, 1.125%
+    halign = right
+    valign = bottom
+
+    shadow_passes = 2
+    shadow_size = 3
+    shadow_color = $shadow
+    shadow_boost = 1
+}
+
+# 9.2. Background shape (shutdown button)
+shape {
+    color = $glass
+    border_size = 1
+    border_color = $border
+    size = 2%, 3.5%
+    rounding = 25
+    position = -1.375%, 1.125%
+    halign = right
+    valign = bottom
+
+    shadow_passes = 2
+    shadow_size = 3
+    shadow_color = $shadow
+    shadow_boost = 1
+}
+
+# 9.3. Logout button.
+label {
+    text = <span>󰈆 </span>
+    color = $white
+    font_size = 23
+    font_family = SF Pro Display
+    position = -8%, 1.65%
+    halign = right
+    valign = bottom
+    zindex = 2
+    onclick = hyprctl dispatch exit
+}
+
+# 9.4. Hibernate button.
+label {
+    text = <span> </span>
+    color = $white
+    font_size = 22
+    font_family = SF Pro Display
+    position = -6%, 1.75%
+    halign = right
+    valign = bottom
+    zindex = 2
+    onclick = systemctl hibernate
+}
+
+# 9.5. Reboot button.
+label {
+    text = <span> </span>
+    color = $white
+    font_size = 23
+    font_family = SF Pro Display
+    position = -4%, 1.65%
+    halign = right
+    valign = bottom
+    zindex = 2
+    onclick = systemctl reboot
+}
+
+# 9.6. Shutdown button.
+label {
+    text = <span> </span>
+    color = $white
+    font_size = 22
+    font_family = SF Pro Display
+    position = -1.5%, 1.8%
+    halign = right
+    valign = bottom
+    zindex = 2
+    onclick = systemctl poweroff
+}

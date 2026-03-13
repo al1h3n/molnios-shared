@@ -1,0 +1,9 @@
+# ==========================================================
+# hyprtheme color al1h3n edition.
+# Theme: Sample configuation (custom).
+# ==========================================================
+
+# Colors shown on borders. RGBA is supported as well.
+$color1 = rgb(FFFFFF)
+$color2 = rgb(000000)
+$cursor = clay_white # Add any cursor to "~/.icons" path and paste here name of it.

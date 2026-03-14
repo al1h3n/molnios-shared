@@ -240,23 +240,10 @@ animations {
 # 7. Smart gaps. You may comment it.
 workspace = w[tv1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrule {
-    name = no-gaps-wtv1
-    match:float = false
-    match:workspace = w[tv1]
-
-    border_size = 0
-    rounding = 0
-}
-
-windowrule {
-    name = no-gaps-f1
-    match:float = false
-    match:workspace = f[1]
-
-    border_size = 0
-    rounding = 0
-}
+windowrule = border_size 0, match:float false, match:workspace w[tv1]
+windowrule = rounding 0, match:float false, match:workspace w[tv1]
+windowrule = border_size 0, match:float false, match:workspace f[1]
+windowrule = rounding 0, match:float false, match:workspace f[1]
 
 # 8. dwindles (window arrangements).
 dwindle {
@@ -447,69 +434,39 @@ bind = $main shift, escape, exec, $lock
 
 # 14. Window rules - wiki.hypr.land/Configuring/Window-Rules
 # From 0.53.0: Unified syntax using 'windowrule' and 'match:' properties. There're no windowrulev2 now. Get class by hyprctl clients.
-windowrule {
-    # Ignore maximize requests from all apps. You'll probably like this.
-    name = suppress-maximize-events
-    match:class = .*
-    suppress_event = maximize
-}
-windowrule {
-    # Fix some dragging issues with XWayland
-    name = fix-xwayland-drags
-    match:class = ^$
-    match:title = ^$
-    match:xwayland = true
-    match:float = true
-    match:fullscreen = false
-    match:pin = false
-    no_focus = true
-}
+
+# Ignore maximize requests from all apps.
+windowrule = suppress_event maximize, match:class .*
+
+# Fix some dragging issues with XWayland.
+windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
 
 # Glass effect for permissions manager. opacity = active, inactive
-windowrule {
-    match:class ^($permissionsid)$
-    match:float = on
-    dim_around = on
-    center = on
-    opacity 1 .8
-}
+windowrule = dim_around on, match:class ^($permissionsid)$, match:float true
+windowrule = center on, match:class ^($permissionsid)$, match:float true
+windowrule = opacity 1 .8, match:class ^($permissionsid)$, match:float true
 
 # Make player not opaque.
-windowrule {
-    match:class ^(mpv)$
-    opacity 1 override 1 override
-}
+windowrule = opacity 1 override 1 override, match:class ^(mpv)$
 
 # 15. Effect rules (layerrules).
 
 # Blur might be not satisfying when another app is opened.
 
 # 15.1 Glass effect for notifications.
-layerrule {
-    match:namespace = notifications
-    ignore_alpha = 0
-    blur = on
-    animation slide right
-}
+layerrule = blur on, match:namespace notifications
+layerrule = ignore_alpha 0, match:namespace notifications
+layerrule = animation slide right, match:namespace notifications
 
-layerrule {
-    match:namespace = swaync-notification-window
-    ignore_alpha = 0
-    blur = on
-    animation = slide right
-}
+layerrule = blur on, match:namespace swaync-notification-window
+layerrule = ignore_alpha 0, match:namespace swaync-notification-window
+layerrule = animation slide right, match:namespace swaync-notification-window
 
-layerrule {
-  match:namespace = swaync-control-center
-  ignore_alpha = 0
-  blur = on
-  animation slide right
-}
+layerrule = blur on, match:namespace swaync-control-center
+layerrule = ignore_alpha 0, match:namespace swaync-control-center
+layerrule = animation slide right, match:namespace swaync-control-center
 
 # 15.2. Glass effect for launcher.
-layerrule {
-  match:namespace = $menuid
-  ignore_alpha = 0
-  blur = on
-  animation slide bottom
-}
+layerrule = blur on, match:namespace rofi
+layerrule = ignore_alpha 0, match:namespace rofi
+layerrule = animation slide bottom, match:namespace rofi

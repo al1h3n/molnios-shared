@@ -11,7 +11,7 @@
 127.0.0.1 www.omaze.com
 127.0.0.1 omaze.com
 127.0.0.1 bounceexchange.com
-127.0.0.1 http://www.googleadservices.com
+127.0.0.1 googleadservices.com
 127.0.0.1 pagead46.l.doubleclick.net
 127.0.0.1 pagead.l.doubleclick.net
 127.0.0.1 video-ad-stats.googlesyndication.com
@@ -28,7 +28,7 @@
 127.0.0.1 geo3.ggpht.com
 127.0.0.1 showads33000.pubmatic.com
 127.0.0.1 securepubads.g.doubleclick.net
-127.0.0.1 http://audio2.spotify.com
+127.0.0.1 audio2.spotify.com
 127.0.0.1 www.audio2.spotify.com
 127.0.0.1 core.insightexpressai.com
 127.0.0.1 content.bitsontherun.com

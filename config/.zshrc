@@ -14,7 +14,6 @@
 # chsh -s $(which zsh)
 
 # 1. Pre-definitions.
-share=/usr/share
 sharel=~/.local/share
 bin=/usr/local/bin
 
@@ -22,7 +21,42 @@ dir="$sharel/molnios"
 scripts=$dir/scripts
 conf=$dir/config
 
-# 2. Functions and custom commands.
+# 2. Plugin manager.
+# Zinit setup - works on Arch, macOS, nixOS.
+if [ -f /etc/os-release ] && grep -q "NixOS" /etc/os-release; then
+  # NixOS - zinit installed via nixpkgs.
+  source @ZINIT_PATH@ # replaced by nix at build time
+else
+  # Arch + macOS - auto-install zinit if missing.
+  ZINIT_HOME=$sharel/zinit/zinit.git
+  if [ ! -d $ZINIT_HOME ]; then
+    mkdir -p $(dirname $ZINIT_HOME)
+    git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_HOME
+  fi
+  source $ZINIT_HOME/zinit.zsh
+fi
+
+# 3. Plugins via zinit.
+
+# Theme - load first, instantly.
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+# Core plugins.
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light jirutka/zsh-shift-select
+
+# Autocomplete - needs to load after compinit.
+zinit ice wait lucid
+zinit light marlonrichert/zsh-autocomplete
+
+# 4. Completions init.
+autoload -Uz compinit
+compinit
+
+# 5. Functions and custom commands.
 
 function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
@@ -65,7 +99,7 @@ rr(){ # rm-improved
 # Custom scripts for paths in Molniux.
 alias sw="sh $bin/sweeper.sh"
 alias p="sh $bin/path.sh"
-alias u="sh $bin/molniux.sh -u"
+alias u="sh $bin/molnios.sh -u"
 
 alias rec="sh $scripts/record.sh"
 alias r="sh $scripts/reloadus.sh" # Reload hyprland.
@@ -104,7 +138,7 @@ alias uu="sh $mecha/system-update.sh"
 alias n="sh $mecha/network.sh "
 alias b="sh $mecha/bluetooth.sh"
 
-# Keybinds.
+# 6. Keybinds.
 
 # Moving in between words.
 
@@ -121,26 +155,7 @@ bindkey "^[[1;6C" forward-select-word
 # ZSH autosuggestion shift keybind.
 bindkey '^[[Z' autosuggest-accept
 
-# Plugins.
-z=$share/zsh # ZSH location.
-zl=$sharel/zsh
-
-if [ -f /etc/os-release ] && grep -q "NixOS" /etc/os-release; then
-  # NixOS - plugins sourced by home-manager, skip
-  source $share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme 2>/dev/null || true
-else
-  # Arch
-  source $z/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Auto suggestions.
-  source $z/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Color syntax.
-  source $z/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-  source $share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme # zsh-theme-powerlevel10k-git.
-  source $zl/plugins/zsh-shift-select/zsh-shift-select.plugin.zsh # git clone https://github.com/jirutka/zsh-shift-select ~/.local/share/zsh/plugins/zsh-shift-select
-fi
-source $conf/.p10k.zsh # Write 'p10k configure' to configure.
-
-# Plugin configurations.
-
-# zsh highlight colors.
+# 7. ZSH highlight colors.
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold' # Not found command.
 ZSH_HIGHLIGHT_STYLES[command]='fg=green' # Known command.
@@ -149,3 +164,6 @@ ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan' # A zsh built-in command.
 ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command).
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
+
+# 8. Theme config.
+source $conf/.p10k.zsh

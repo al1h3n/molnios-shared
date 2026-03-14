@@ -58,6 +58,7 @@ $clipsave = wl-clip-persist --clipboard regular # Save elements when application
 # 1.5.3. Polkit (permission) related.
 $permissionsid = polkit-gnome-authentication-agent-1
 $permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
+$permissions2 = hyprpolkitagent
 
 # 1.5.4. Connectivity related.
 $network = nm-applet
@@ -115,7 +116,8 @@ monitor=DP-1,2560x1440@144,0x0,1.25
 # 3.1. Main programs.
 
 # Services.
-exec-once = $network & $bluetooth & $permissions
+exec-once = $network & $bluetooth #& $permissions
+exec-once = systemctl --user start $permissions2
 # Wallpaper, tray and other main additions.
 exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.
@@ -435,7 +437,7 @@ bind = $main shift, escape, exec, $lock
 # From 0.53.0: Unified syntax using 'windowrule' and 'match:' properties. There're no windowrulev2 now. Get class by hyprctl clients.
 
 # Ignore maximize requests from all apps.
-windowrule = suppress_event fullscreen, match:class .* # maximize
+windowrule = suppress_event maximize, match:class .* # maximize
 
 # Fix some dragging issues with XWayland.
 windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false

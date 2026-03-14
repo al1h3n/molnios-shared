@@ -154,17 +154,6 @@ label {
 
 # 6. Media player.
 
-# Simple variant
-# label {
-#     text = cmd[update:100] echo "$(sh ~/.al1h3n/song.sh)"
-#     color = $media_player
-#     font_size = 18
-#     font_family = SF Pro Display Bold
-#     onclick = playerctl play-pause
-#     position = 0, 5%
-#     valign = bottom
-# }
-
 # 6.1. Song album.
 image {
     size = 75

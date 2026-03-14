@@ -78,6 +78,7 @@ $lock = hyprlock -q -c $conf/hyprlock
 $brightness = brightnessctl -q s
 $borders = $shell $scripts/borderline.sh
 $tray = waybar -c $conf/mechabar/config.jsonc -s $conf/mechabar/style.css
+# Or waybar -c ~/.config/waybar/mechabar/config.jsonc -s ~/.config/waybar/mechabar/style.css
 $tray_next = qs
 $wallpaperengine = waypaper
 $wallpaper = $wallpaperengine --restore # For wallpapers you should install swww, for videos mpvpaper-git.

@@ -25,7 +25,7 @@
 #### Custom scripts
 `sw` - [sweeper](https://github.com/Alihan1ai9595/sweeper) script. (use to clean system)<br>
 `ml` - [molnios](https://codeberg.org/al1h3n/install) script. (installation/updating system)<br>
-`p` - path script. (use to shorten paths of configurations)
+`pa` - path script. (use to shorten paths of configurations)
 
 `rec` - _recording_ script (record your screen)<br>
 `r` - reloadus script. (reload __configuration__ and applications)
@@ -45,7 +45,7 @@
 
 ##### Editing (nvim)
 `d` - open dotfiles root directory.
-`conf` - open config dir.
+`cfg` - open config dir.
 `scr` - open scripts dir.
 
 ##### Misc

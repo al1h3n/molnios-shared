@@ -1,7 +1,6 @@
 # ==========================================================
-# zshconfig al1h3n edition - v1
+# zshconfig al1h3n edition.
 # Used powerlevel10k theme.
-# Changed: first release.
 # ==========================================================
 
 # 0. Pre-installing.
@@ -21,13 +20,25 @@ dir="$sharel/molnios"
 scripts=$dir/scripts
 conf=$dir/config
 
+# ZSH history.
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTFILE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space # Use spacebar to prevent unimportant commands to be written.
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
 # 2. Plugin manager.
-# Zinit setup - works on Arch, macOS, nixOS.
-if [ -f /etc/os-release ] && grep -q "NixOS" /etc/os-release; then
-  # NixOS - zinit installed via nixpkgs.
-  source @ZINIT_PATH@ # replaced by nix at build time
+if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ]; then
+  # NixOS / MaconlyOS - ZINIT_HOME set by home-manager in zsh.nix.
+  source $ZINIT_HOME/zinit.zsh
 else
-  # Arch + macOS - auto-install zinit if missing.
+  # Arch - auto-install zinit if missing.
   ZINIT_HOME=$sharel/zinit/zinit.git
   if [ ! -d $ZINIT_HOME ]; then
     mkdir -p $(dirname $ZINIT_HOME)
@@ -47,6 +58,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light jirutka/zsh-shift-select
+zinit light Aloxaf/fzf-tab
 
 # Autocomplete - needs to load after compinit.
 zinit ice wait lucid
@@ -57,10 +69,6 @@ autoload -Uz compinit
 compinit
 
 # 5. Functions and custom commands.
-
-function sc(){
-    grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
-}
 
 # Clear everything or just move above.
 alias c='printf "\e[H\e[3J"'
@@ -73,7 +81,6 @@ alias k="killall"
 alias q="zsh"
 alias po="poweroff"
 alias re="reboot"
-alias ns="notify-send"
 alias sl="sleep"
 alias ln="ln -sfn"
 rr(){ # rm-improved
@@ -85,7 +92,7 @@ rr(){ # rm-improved
 
   # 2. Prompt the user.
   # "$*" shows the list of files you are about to delete
-  read "Do you want to run rm -rf $* [y/n]? "
+  read "reply?Do you want to run rm -rf $* [y/n]? "
 
   # 3. Check if the answer is 'y' or 'Y'
   if [[ "$reply" =~ ^[Yy]$ ]]; then
@@ -98,19 +105,32 @@ rr(){ # rm-improved
 # github.com/Alihan1ai9595/sweeper
 # Custom scripts for paths in Molniux.
 alias sw="sh $bin/sweeper.sh"
-alias p="sh $bin/path.sh"
+alias pa="sh $bin/path.sh"
 alias u="sh $bin/molnios.sh -u"
 
 alias rec="sh $scripts/record.sh"
-alias r="sh $scripts/reloadus.sh" # Reload hyprland.
+
 
 # Related to hyprconfig.
-alias lock="hyprlock -q -c $conf/hyprlock"
-alias menu="rofi -config $conf/rofi -show drun &>/dev/null"
+if [ "$(uname)" != "Darwin" ]; then
+  function sc(){
+    grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
+  }
+  alias lock="hyprlock -q -c $conf/hyprlock"
+  alias menu="rofi -config $conf/rofi -show drun &>/dev/null"
+  alias wb="waybar"
+  alias lan="nmtui"
+  alias ns="notify-send"
+
+  alias r="sh $scripts/reloadus.sh" # Reload hyprland.
+  function bt(){ nohup blueman-manager & }
+fi
+
+
 alias y="yazi"
 alias yt="yt-x -p mpv --preview"
 alias f="sh $scripts/fastfetch.sh"
-alias wb="waybar -c $conf/waybar/waybar -s $conf/waybar/waybarstyle"
+
 
 alias dir="eza --icons"
 alias ls="eza --icons"
@@ -118,14 +138,12 @@ alias l="eza --icons"
 alias lt="eza --icons -T -L 2"
 
 # Connection.
-alias lan=nmtui
-function bt(){
-    nohup blueman-manager &
-}
+
+
 
 # Open config dirs.
 alias d="nvim $dir"
-alias conf="nvim $conf"
+alias cfg="nvim $conf"
 alias scr="nvim $scripts"
 
 # Help.
@@ -155,15 +173,27 @@ bindkey "^[[1;6C" forward-select-word
 # ZSH autosuggestion shift keybind.
 bindkey '^[[Z' autosuggest-accept
 
+# History search with Ctrl+Up/Down.
+bindkey "^[[1;5A" history-search-backward
+bindkey "^[[1;5B" history-search-forward
+
 # 7. ZSH highlight colors.
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold' # Not found command.
 ZSH_HIGHLIGHT_STYLES[command]='fg=green' # Known command.
 ZSH_HIGHLIGHT_STYLES[path]='fg=yellow' # Directory or file.
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan' # A zsh built-in command.
-ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command).
+ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command)
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
 
 # 8. Theme config.
 source $conf/.p10k.zsh
+
+# 9. ZSH settings.
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
+
+eval "$(fzf --zsh)"

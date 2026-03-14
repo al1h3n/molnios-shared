@@ -77,8 +77,7 @@ $lock = hyprlock -q -c $conf/hyprlock
 # 1.5.7. Visuals.
 $brightness = brightnessctl -q s
 $borders = $shell $scripts/borderline.sh
-$tray = waybar -c $conf/mechabar/config.jsonc -s $conf/mechabar/style.css
-# Or waybar -c ~/.config/waybar/mechabar/config.jsonc -s ~/.config/waybar/mechabar/style.css
+$tray = waybar # -c $conf/mechabar/config.jsonc -s $conf/mechabar/style.css
 $tray_next = qs
 $wallpaperengine = waypaper
 $wallpaper = $wallpaperengine --restore # For wallpapers you should install swww, for videos mpvpaper-git.
@@ -240,10 +239,10 @@ animations {
 # 7. Smart gaps. You may comment it.
 workspace = w[tv1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrule = border_size 0, match:float false, match:workspace w[tv1]
-windowrule = rounding 0, match:float false, match:workspace w[tv1]
-windowrule = border_size 0, match:float false, match:workspace f[1]
-windowrule = rounding 0, match:float false, match:workspace f[1]
+windowrule = border_size 0, match:float 0, match:workspace w[tv1]
+windowrule = rounding 0, match:float 0, match:workspace w[tv1]
+windowrule = border_size 0, match:float 0, match:workspace f[1]
+windowrule = rounding 0, match:float 0, match:workspace f[1]
 
 # 8. dwindles (window arrangements).
 dwindle {
@@ -436,7 +435,7 @@ bind = $main shift, escape, exec, $lock
 # From 0.53.0: Unified syntax using 'windowrule' and 'match:' properties. There're no windowrulev2 now. Get class by hyprctl clients.
 
 # Ignore maximize requests from all apps.
-windowrule = suppress_event maximize, match:class .*
+windowrule = suppress_event fullscreen, match:class .* # maximize
 
 # Fix some dragging issues with XWayland.
 windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false

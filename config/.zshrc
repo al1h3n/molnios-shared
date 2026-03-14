@@ -113,8 +113,10 @@ bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 
 # Ctrl + shift + arrows. [selection]
-bindkey "^[[1;6D" select-beginning-of-word
-bindkey "^[[1;6C" select-end-of-word
+bindkey "^[[1;6D" backward-select-word
+bindkey "^[[1;6C" forward-select-word
+# bindkey "^[[1;6D" select-beginning-of-word
+# bindkey "^[[1;6C" select-end-of-word
 
 # ZSH autosuggestion shift keybind.
 bindkey '^[[Z' autosuggest-accept

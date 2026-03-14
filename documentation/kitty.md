@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/install)_ kitty keybinds:
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ kitty keybinds:
 #### Create keybind by `map ctrl+f1 launch cmatrix`
 
 ### Definitions

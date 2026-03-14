@@ -1,1 +1,1 @@
-# _[MolniOS](https://codeberg.org/al1h3n/install)_ neovim keybinds:
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ neovim keybinds:

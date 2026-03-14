@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/install)_ ZSH keybinds:
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ ZSH keybinds:
 
 `Shift / right arrow` - accept autosuggestion.
 
@@ -40,12 +40,12 @@
 `dir` | `ls` | `l` - colorful [ls](https://github.com/eza-community/eza) command. `lt` - tree view [ls](https://github.com/eza-community/eza) command with icons.
 
 ##### Connection
-`lan` - connection manager. (nmtui)
+`lan` - connection manager. (nmtui)<br>
 `bt` - bluetooth connection. (blueman)
 
 ##### Editing (nvim)
-`d` - open dotfiles root directory.
-`cfg` - open config dir.
+`d` - open dotfiles root directory.<br>
+`cfg` - open config dir.<br>
 `scr` - open scripts dir.
 
 ##### Misc
@@ -56,3 +56,16 @@
 `uu` - update manager.
 `n` - network manager.
 `b` - bluetooth manager.
+
+### Navigating (extreme speed).
+1. Train zoxide alrorithm by moving into directories as always (it'll check your activity).
+2. Type `cd folder1 folder2` to find nearest folder to your path.<br>
+It will work like this: you wrote 95 times `~/.config/hyprland/custom/img`, next `cd hyprland img` will switch you to the directory!
+#### Rules:
+1. Last component must be final folder.
+2. No reversed search like `cd img hyprland`.<br>
+Or use it with `fzf`: `cd` (most used directories, use `Ctrl+P/N` to navigate).<br>
+Example: `cd hyprland` will show fzf window with directories.
+#### FAQ:
+To remove folder type `zoxide remove <dir>`, `zoxide edit` will open interactive window.<br>
+To change `cd` back again to default `z/zi` remove `--cmd cd` flag in `.zshrc` file.

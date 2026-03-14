@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/install)_ hyprland keybinds:
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ hyprland keybinds:
 `Caps Lock` = Control.<br>
 `Alt + Tab` - window switcher, `Alt + Shift + Tab` - window menu switcher (advanced).<br>
 `PrintScreen` - make _screenshot_ and save it to __clipboard__, __`~/Pictures/screenshot_<date>.png`__. `Super + PrintScreen` - __record__ screen.<br>

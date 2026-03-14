@@ -34,13 +34,13 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # 2. Plugin manager.
-if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ]; then
+if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ];then
   # NixOS / MaconlyOS - ZINIT_HOME set by home-manager in zsh.nix.
   source $ZINIT_HOME/zinit.zsh
 else
   # Arch - auto-install zinit if missing.
   ZINIT_HOME=$sharel/zinit/zinit.git
-  if [ ! -d $ZINIT_HOME ]; then
+  if [ ! -d $ZINIT_HOME ];then
     mkdir -p $(dirname $ZINIT_HOME)
     git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_HOME
   fi
@@ -64,9 +64,15 @@ zinit light Aloxaf/fzf-tab
 zinit ice wait lucid
 zinit light marlonrichert/zsh-autocomplete
 
+# Auto-completion from OhMyZsh. Like gst - aliased to git status.
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
+
 # 4. Completions init.
 autoload -Uz compinit
 compinit
+zinit cdreplay -q
 
 # 5. Functions and custom commands.
 
@@ -85,7 +91,7 @@ alias sl="sleep"
 alias ln="ln -sfn"
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
-  if [ $# -eq 0 ]; then
+  if [ $# -eq 0 ];then
     echo "Usage: rr <files>"
     return 1
   fi
@@ -95,7 +101,7 @@ rr(){ # rm-improved
   read "reply?Do you want to run rm -rf $* [y/n]? "
 
   # 3. Check if the answer is 'y' or 'Y'
-  if [[ "$reply" =~ ^[Yy]$ ]]; then
+  if [[ "$reply" =~ ^[Yy]$ ]];then
     sudo rm -rf $@
   else
     echo "\nCancelled."
@@ -112,7 +118,8 @@ alias rec="sh $scripts/record.sh"
 
 
 # Related to hyprconfig.
-if [ "$(uname)" != "Darwin" ]; then
+if [ "$(uname)" != "Darwin" ];then
+  zinit snippet OMZP::archlinux
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
@@ -197,3 +204,4 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 
 eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"

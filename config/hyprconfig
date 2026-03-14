@@ -58,7 +58,6 @@ $clipsave = wl-clip-persist --clipboard regular # Save elements when application
 # 1.5.3. Polkit (permission) related.
 $permissionsid = polkit-gnome-authentication-agent-1
 $permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
-$permissions2 = hyprpolkitagent
 
 # 1.5.4. Connectivity related.
 $network = nm-applet
@@ -116,8 +115,7 @@ monitor=DP-1,2560x1440@144,0x0,1.25
 # 3.1. Main programs.
 
 # Services.
-exec-once = $network & $bluetooth #& $permissions
-exec-once = systemctl --user start $permissions2
+exec-once = $network & $bluetooth & $permissions
 # Wallpaper, tray and other main additions.
 exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.

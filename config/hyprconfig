@@ -239,10 +239,8 @@ animations {
 # 7. Smart gaps. You may comment it.
 workspace = w[tv1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrule = border_size 0, match:float 0, match:workspace w[tv1]
-windowrule = rounding 0, match:float 0, match:workspace w[tv1]
-windowrule = border_size 0, match:float 0, match:workspace f[1]
-windowrule = rounding 0, match:float 0, match:workspace f[1]
+windowrule = border_size 0, rounding 0, match:float = 0, match:workspace = w[tv1]
+windowrule = border_size 0, rounding 0, match:float = 0, match:workspace = f[1]
 
 # 8. dwindles (window arrangements).
 dwindle {
@@ -435,7 +433,7 @@ bind = $main shift, escape, exec, $lock
 # From 0.53.0: Unified syntax using 'windowrule' and 'match:' properties. There're no windowrulev2 now. Get class by hyprctl clients.
 
 # Ignore maximize requests from all apps.
-windowrule = suppress_event maximize, match:class .* # maximize
+windowrule = suppress_event maximize, match:class .*
 
 # Fix some dragging issues with XWayland.
 windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
@@ -449,23 +447,12 @@ windowrule = opacity 1 .8, match:class ^($permissionsid)$, match:float true
 windowrule = opacity 1 override 1 override, match:class ^(mpv)$
 
 # 15. Effect rules (layerrules).
-
 # Blur might be not satisfying when another app is opened.
 
 # 15.1 Glass effect for notifications.
-layerrule = blur on, match:namespace notifications
-layerrule = ignore_alpha 0, match:namespace notifications
-layerrule = animation slide right, match:namespace notifications
-
-layerrule = blur on, match:namespace swaync-notification-window
-layerrule = ignore_alpha 0, match:namespace swaync-notification-window
-layerrule = animation slide right, match:namespace swaync-notification-window
-
-layerrule = blur on, match:namespace swaync-control-center
-layerrule = ignore_alpha 0, match:namespace swaync-control-center
-layerrule = animation slide right, match:namespace swaync-control-center
+layerrule = ignore_alpha 0, blur on, animation slide right, match:namespace notifications
+layerrule = ignore_alpha 0, blur on, animation slide right, match:namespace swaync-notification-window
+layerrule = ignore_alpha 0, blur on, animation slide right, match:namespace swaync-control-center
 
 # 15.2. Glass effect for launcher.
-layerrule = blur on, match:namespace rofi
-layerrule = ignore_alpha 0, match:namespace rofi
-layerrule = animation slide bottom, match:namespace rofi
+layerrule = ignore_alpha 0, blur on, animation slide bottom, match:namespace rofi

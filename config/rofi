@@ -137,7 +137,7 @@ headerbox {
 
   // Visuals.
   background-color: transparent;
-  background-image: url("~/.local/share/molnios/wallpapers/static/space.png", width);
+  background-image: url("~/.local/share/molnios/molnios-media/wallpapers/static/space.png", width);
   border-radius: 20 20 0 0; // First 2 same as your border-radius in window.
 }
 

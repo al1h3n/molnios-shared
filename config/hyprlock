@@ -47,7 +47,7 @@ animations {
 # 2. Background image/color.
 background {
     color = $background
-    path = ~/.local/share/molnios/wallpapers/static/tahoe.jpg # Change to "color = $background" or "path = screenshot".
+    path = ~/.local/share/molnios/molnios-media/wallpapers/static/tahoe.jpg # Change to "color = $background" or "path = screenshot".
     blur_passes = 2
     blur_size = 2
     brightness = .75

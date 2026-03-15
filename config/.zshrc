@@ -58,11 +58,10 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light jirutka/zsh-shift-select
-zinit light Aloxaf/fzf-tab
+zinit light Aloxaf/fzf-tab # zinit light marlonrichert/zsh-autocomplete
 
 # Autocomplete - needs to load after compinit.
 zinit ice wait lucid
-zinit light marlonrichert/zsh-autocomplete
 
 # Auto-completion from OhMyZsh. Like gst - aliased to git status.
 zinit snippet OMZP::git
@@ -163,7 +162,29 @@ alias uu="sh $mecha/system-update.sh"
 alias n="sh $mecha/network.sh "
 alias b="sh $mecha/bluetooth.sh"
 
-# 6. Keybinds.
+# 6. ZSH highlight colors.
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold' # Not found command.
+ZSH_HIGHLIGHT_STYLES[command]='fg=green' # Known command.
+ZSH_HIGHLIGHT_STYLES[path]='fg=yellow' # Directory or file.
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan' # A zsh built-in command.
+ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command)
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
+
+# 7. Theme config.
+source $conf/.p10k.zsh
+
+# 8. ZSH settings.
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
+
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+# 9. Keybinds.
 
 # Moving in between words.
 
@@ -181,27 +202,8 @@ bindkey "^[[1;6C" forward-select-word
 bindkey '^[[Z' autosuggest-accept
 
 # History search with Ctrl+Up/Down.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
 bindkey "^[[1;5A" history-search-backward
 bindkey "^[[1;5B" history-search-forward
-
-# 7. ZSH highlight colors.
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold' # Not found command.
-ZSH_HIGHLIGHT_STYLES[command]='fg=green' # Known command.
-ZSH_HIGHLIGHT_STYLES[path]='fg=yellow' # Directory or file.
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan' # A zsh built-in command.
-ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command)
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
-
-# 8. Theme config.
-source $conf/.p10k.zsh
-
-# 9. ZSH settings.
-
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
-
-eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"

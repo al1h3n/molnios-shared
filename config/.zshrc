@@ -23,7 +23,7 @@ conf=$dir/config
 # ZSH history.
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
-SAVEHIST=$HISTFILE
+SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory
 setopt sharehistory

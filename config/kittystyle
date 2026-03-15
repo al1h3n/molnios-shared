@@ -7,18 +7,22 @@
 # 1. Schemes.
 text_fg_override_threshold 0
 
-# 2. Cursor (text stick).
+# 2. Font.
+# You might need to install ttf-jetbrains-mono-nerd.
+font_family JetBrains Mono Nerd Font
+
+# 3. Cursor (text stick).
 cursor #444444
 cursor_text_color #FF0000
 
-# 3. Scrollbar.
+# 4. Scrollbar.
 scrollbar_handle_color #444444
 
-# 3. Url.
+# 5. Url.
 url_color #800080
 # Do not use same foreground and background.
 
-# 4. Tabs.
+# 6. Tabs.
 active_tab_foreground   #F00
 active_tab_background   #EEE
 active_tab_font_style   bold
@@ -26,18 +30,18 @@ inactive_tab_foreground #AAA
 inactive_tab_background #444
 inactive_tab_font_style normal
 
-# 5. Main colors.
+# 7. Main colors.
 foreground #DDDDDD
 background #000000
 
-# 6. Blur and opacity.
+# 8. Blur and opacity.
 # Can affect perfomance.
 background_opacity .6
 background_blur 9
 
-# 7. Background image.
+# 9. Background image.
 # background_image none
 
-# 8. Selection.
+# 10. Selection.
 selection_foreground #000000
 selection_background #E0C9A6

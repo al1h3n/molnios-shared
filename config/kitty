@@ -21,8 +21,6 @@ listen_on unix:@borderline-{kitty_pid}
 # 1. Visuals.
 
 # 1.1. Font.
-# You might need to install ttf-jetbrains-mono-nerd.
-font_family JetBrains Mono Nerd Font
 font_size 14
 
 # 1.2 Colors.

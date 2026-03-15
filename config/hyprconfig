@@ -58,6 +58,7 @@ $clipsave = wl-clip-persist --clipboard regular # Save elements when application
 # 1.5.3. Polkit (permission) related.
 $permissionsid = polkit-gnome-authentication-agent-1
 $permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
+$hyprpermissionsid = hyprpolkit
 
 # 1.5.4. Connectivity related.
 $network = nm-applet
@@ -115,7 +116,8 @@ monitor=DP-1,2560x1440@144,0x0,1.25
 # 3.1. Main programs.
 
 # Services.
-exec-once = $network & $bluetooth & $permissions
+exec-once = $network & $bluetooth
+exec-once = sh -c 'if command -v hyprpolkitagent >/dev/null 2>&1;then systemctl --user start hyprpolkitagent; else $permissions; fi'
 # Wallpaper, tray and other main additions.
 exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.
@@ -441,9 +443,15 @@ windowrule = suppress_event maximize, match:class .*
 windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
 
 # Glass effect for permissions manager. opacity = active, inactive
+# polkit-gnome
 windowrule = dim_around on, match:class ^($permissionsid)$, match:float true
 windowrule = center on, match:class ^($permissionsid)$, match:float true
 windowrule = opacity 1 .8, match:class ^($permissionsid)$, match:float true
+
+# hyprpolkitagent
+windowrule = dim_around on, match:class ^($hyprpermissionsid)$, match:float true
+windowrule = center on, match:class ^($hyprpermissionsid)$, match:float true
+windowrule = opacity 1 .8, match:class ^($hyprpermissionsid)$, match:float true
 
 # Make player not opaque.
 windowrule = opacity 1 override 1 override, match:class ^(mpv)$

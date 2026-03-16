@@ -3,7 +3,7 @@
 # Rofi soundtheme. Location: ~/.local/bin
 # ==========================================================
 
-DIR="$L_PATH/sfx/minecraft"
+DIR="~/.local/share/molnios/sfx/minecraft"
 
 if [ $1 = "error" ];then
     pw-play --volume 1.2 $DIR/toast.ogx &

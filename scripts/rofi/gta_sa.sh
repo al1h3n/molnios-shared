@@ -3,7 +3,7 @@
 # Rofi soundtheme.
 # ==========================================================
 
-DIR="$L_PATH/sfx/gta_sa"
+DIR="~/.local/share/molnios/sfx/gta_sa"
 
 if [ $1 = "error" ];then
     pw-play --volume 2 $DIR/rdr2.mp3 &

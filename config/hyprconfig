@@ -58,7 +58,7 @@ $clipsave = wl-clip-persist --clipboard regular # Save elements when application
 # 1.5.3. Polkit (permission) related.
 $permissionsid = polkit-gnome-authentication-agent-1
 $permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
-$hyprpermissionsid = hyprpolkit
+$hyprpermissionsid = hyprpolkitagent
 
 # 1.5.4. Connectivity related.
 $network = nm-applet

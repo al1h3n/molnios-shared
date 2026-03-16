@@ -63,11 +63,11 @@ configuration {
   matching: "fuzzy";
 
   // 3. SFX.
-  on-selection-changed: "sh $L_PATH/scripts/rofi/gta_sa.sh tap"; // Moving up & down.
-  on-mode-changed: "sh $L_PATH/scripts/rofi/gta_sa.sh tab"; // Ctrl+Tab.
-  on-entry-accepted: "sh $L_PATH/scripts/rofi/gta_sa.sh enter"; // Enter.
-  on-menu-error: "sh $L_PATH/scripts/rofi/gta_sa.sh error"; // Wrong prompt.
-  on-menu-canceled: "sh $L_PATH/scripts/rofi/gta_sa.sh exit"; // Escape.
+  on-selection-changed: "sh ~/.local/share/molnios/scripts/rofi/gta_sa.sh tap"; // Moving up & down.
+  on-mode-changed: "sh ~/.local/share/molnios/scripts/rofi/gta_sa.sh tab"; // Ctrl+Tab.
+  on-entry-accepted: "sh ~/.local/share/molnios/scripts/rofi/gta_sa.sh enter"; // Enter.
+  on-menu-error: "sh ~/.local/share/molnios/scripts/rofi/gta_sa.sh error"; // Wrong prompt.
+  on-menu-canceled: "sh ~/.local/share/molnios/scripts/rofi/gta_sa.sh exit"; // Escape.
   drun-show-actions: false; // Might be frustrating.
   
 

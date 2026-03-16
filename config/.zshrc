@@ -61,7 +61,7 @@ zinit light jirutka/zsh-shift-select
 zinit light Aloxaf/fzf-tab # zinit light marlonrichert/zsh-autocomplete
 
 # Autocomplete - needs to load after compinit.
-zinit ice wait lucid
+# zinit ice wait lucid
 
 # Auto-completion from OhMyZsh. Like gst - aliased to git status.
 zinit snippet OMZP::git

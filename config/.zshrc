@@ -135,7 +135,7 @@ fi
 
 alias y="yazi"
 alias yt="yt-x -p mpv --preview"
-alias f="sh $scripts/fastfetch.sh"
+alias fa="sh $scripts/fastfetch.sh"
 
 alias dir="eza --icons"
 alias ls="eza --icons -la"
@@ -183,7 +183,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 export _PR_AI_ADDITIONAL_PROMPT="User is on Arch Linux or nixOS with Zsh and Hyprland. Answer him the questions for both systems."
-eval "$(pay-respects zsh --alias)"
+alias f="$(pay-respects zsh)"
 
 # 9. Keybinds.
 

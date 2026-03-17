@@ -20,7 +20,8 @@
 `ns` - `notify-send`<br>
 `sl` - `sleep`<br>
 `ln` - `ln -sfn`<br>
-`rr` - __rmproved__ (removes all provided files in list)
+`rr` - __rmproved__ (removes all provided files in list)<br>
+`f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)
 
 #### Custom scripts
 `sw` - [sweeper](https://github.com/Alihan1ai9595/sweeper) script. (use to clean system)<br>
@@ -35,7 +36,7 @@
 `menu` = `rofi -config $conf/rofi -show drun &>/dev/null` - starts application selection menu.<br>
 `y` - starts terminal file manager ([yazi](https://github.com/sxyazi/yazi))<br>
 `yt` - browse [youtube](https://github.com/Benexl/yt-x) from your terminal. (watch, download videos and not only)<br>
-`f` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration.<br>
+`fa` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration.<br>
 `wb` - starts [waybar](https://github.com/Alexays/Waybar) with custom configuration.<br>
 `dir` | `ls` | `l` - colorful [ls](https://github.com/eza-community/eza) command. `lt` - tree view [ls](https://github.com/eza-community/eza) command with icons.
 

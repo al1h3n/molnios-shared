@@ -6,7 +6,7 @@
 
 `Super + Q/W/E/R/T/P` - terminal, __free__ window mode, file manager, run application, run command, private workspace.<br>
 `Super + A/S/D/F/J/K/L` -  notes, browser, show desktop full screen, _previous_ song, __pause|unpause__, _next_ song.<br>
-`Super + Z/X/C/V` - exit hyprland, emoji picker, close, clipboard manager.
+`Super + Z/X/C/V/B` - exit hyprland, emoji picker, close, clipboard manager, OCR (read from screen).
 
 `Super + Escape` - hibernate.<br>
 `Super + Shift + Escape` - lock screen.<br>

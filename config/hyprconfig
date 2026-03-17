@@ -66,6 +66,7 @@ $bluetooth = blueman-applet
 
 # 1.5.5. Screen sharing related.
 $screenshot = grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy # date +%F_%H-%M-%S = 2026-01-09_14-37-14
+$ocr_simple = grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tesseract stdin stdout | wl-copy
 $record = $shell $scripts/record.sh
 
 # 1.5.6. Notifications.
@@ -324,6 +325,7 @@ bind = $main, Z, exit
 bind = $main, X, exec, $emojimenu
 bind = $main, C, killactive
 bind = $main, V, exec, $clipman
+bind = $main, B, exec, $scripts/ocr-select.sh
 
 # 13.5. Top bar double keybinds [Q~O].
 # These're dwindle (window position and grid) keybinds.

@@ -12,6 +12,13 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
+if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
+    . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
+fi
+[ -f ~/.nix-profile/etc/profile.d/nix.sh ] && . ~/.nix-profile/etc/profile.d/nix.sh
+export PATH="/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH"
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
 # 0. Dependencies.
 for cmd in grep cut xargs file magick hyprctl kitty;do
     if ! command -v $cmd &> /dev/null;then
@@ -23,7 +30,7 @@ done
 # 1. Get the current wallpaper path.
 # Waypaper updates its config file before running the post-command.
 CONFIG_FILE=~/.config/waypaper/config.ini
-WALLPAPER=$(grep ^wallpaper = $CONFIG_FILE | cut -d= -f2 | xargs)
+WALLPAPER=$(grep "^wallpaper = " "$CONFIG_FILE" | cut -d= -f2- | xargs)
 
 if [ ! -f "$CONFIG_FILE" ];then
     notify-send -u critical Borderline "Waypaper config not found."
@@ -31,7 +38,7 @@ if [ ! -f "$CONFIG_FILE" ];then
 fi
 
 # Fallback if argument is passed directly.
-if [ -n $1 ];then
+if [ -n "$1" ];then
     WALLPAPER=$1
 fi
 
@@ -50,7 +57,7 @@ fi
 # If it's an image, use it directly.
 IS_VIDEO=$(file --mime-type -b $WALLPAPER | grep video)
 
-if [ -n $IS_VIDEO ];then
+if [ -n "$IS_VIDEO" ];then
     # Extract frame from video
     # -vframes 1: get 1 frame
     # -f image2pipe: pipe output to magick

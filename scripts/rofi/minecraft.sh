@@ -4,6 +4,7 @@
 # ==========================================================
 
 DIR=~/.local/share/molnios/sfx/minecraft
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 if [ "$1" = "error" ];then
     pw-play --volume 1.2 $DIR/toast.ogx &

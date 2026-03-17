@@ -4,6 +4,7 @@
 # ==========================================================
 
 DIR=~/.local/share/molnios/sfx/gta
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 if [ "$1" = "error" ];then
     pw-play --volume 2 $DIR/rdr2.mp3 &

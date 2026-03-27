@@ -5,89 +5,55 @@ Session\AlternativeGlobalDLSpeedLimit=0
 Session\TorrentStopCondition=FilesChecked
 Session\Port=41498
 Session\AnonymousModeEnabled=true
+Session\uTPMixedMode=true
+Session\ResumeDataStorageType=SQLite
+Session\MaxConnections=300
+Session\MaxUploads=20
+Session\MaxConnectionsPerTorrent=100
+Session\MaxUploadsPerTorrent=4
+Session\uTPMixedMode=true
+Session\MultiConnectionsPerIp=false
+Session\SendBufferWatermark=500
+Session\SendBufferLowWatermark=10
+Session\SendBufferWatermarkFactor=50
 
 [Preferences]
 Advanced\confirmTorrentDeletion=false
-General\CloseToTrayNotified=true
 Advanced\updateCheck=false
+Advanced\TrayIconStyle=MonoDark
+Advanced\RecheckOnCompletion=false
+Advanced\ResumeDataStorageType=SQLite
 General\CustomUIThemePath=/home/al1h3n/.config/qBittorrent/themes/defaulticons-fluent-dark-no-mica.qbtheme
 General\ToolbarDisplayed=true
-Downloads\DblClOnTorDl=1
-Bittorrent\CustomizeTrackersListUrl=https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_best.txt
 General\StatusbarDisplayed=false
 General\SystrayEnabled=true
 General\UseCustomUITheme=true
-Advanced\TrayIconStyle=MonoDark
-
-[AddNewTorrentDialog]
-DownloadPathHistory=
-SplitterState=@ByteArray(\0\0\0\xff\0\0\0\x1\0\0\0\x2\0\0\x1\x1b\0\0\x1j\0\xff\xff\xff\xff\x1\0\0\0\x1\0)
-DialogSize=@Size(1261 680)
-TreeHeaderState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x6\x34\0\0\0\x3\0\0\0\x4\0\0\0\x64\0\0\0\x5\0\0\0\x64\0\0\0\x2\0\0\0\x64\0\0\x2\xad\0\0\0\x6\x1\x1\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\x6\0\0\x1\x1b\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\x1.\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\0\0\0\x64)
-RememberLastSavePath=false
-Enabled=true
-Attached=false
-TopLevel=true
+Downloads\SavePath=/home/al1h3n/Downloads
+Bittorrent\CustomizeTrackersListUrl=https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_best.txt
 
 [Core]
 AutoDeleteAddedTorrentFile=Never
 
 [GUI]
 MainWindow\FiltersSidebarVisible=false
-UIThemeDialog\Size=@Size(451 348)
 DownloadTrackerFavicon=false
 Log\Enabled=false
 StartUpWindowState=Normal
 
 [Application]
-FileLogger\AgeType=0
-GUI\Notifications\TorrentAdded=false
-FileLogger\MaxSizeBytes=1000
-FileLogger\DeleteOld=true
-FileLogger\Age=1
 FileLogger\Enabled=false
-FileLogger\Backup=false
-
-[MainWindow]
-geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\0\xa7\0\0\0\xcd\0\0\x3\xe4\0\0\x2\x9a\0\0\0\xa8\0\0\0\xec\0\0\x3\xe3\0\0\x2\x99\0\0\0\0\0\0\0\0\n\0\0\0\0\xa8\0\0\0\xec\0\0\x3\xe3\0\0\x2\x99)
-
-[Meta]
-MigrationVersion=6
-
-[TransferList]
-qt5\HeaderState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\x2\x1\0\0\0\"\0\0\0\0\0\0\0\x1\0\0\0\x4\0\0\0\x5\0\0\0\x3\0\0\0\x6\0\0\0\v\0\0\0\f\0\0\0\t\0\0\0\n\0\0\0\x2\0\0\0\r\0\0\0\xe\0\0\0\xf\0\0\0\x10\0\0\0\x11\0\0\0\x12\0\0\0\x13\0\0\0\x14\0\0\0\a\0\0\0\x15\0\0\0\x16\0\0\0\x17\0\0\0\b\0\0\0\x18\0\0\0\x19\0\0\0\x1a\0\0\0\x1b\0\0\0\x1c\0\0\0\x1d\0\0\0\x1e\0\0\0\x1f\0\0\0 \0\0\0!\0\0\0\"\0\0\0\0\0\0\0\x1\0\0\0\n\0\0\0\x4\0\0\0\x2\0\0\0\x3\0\0\0\x5\0\0\0\x13\0\0\0\x17\0\0\0\b\0\0\0\t\0\0\0\x6\0\0\0\a\0\0\0\v\0\0\0\f\0\0\0\r\0\0\0\xe\0\0\0\xf\0\0\0\x10\0\0\0\x11\0\0\0\x12\0\0\0\x14\0\0\0\x15\0\0\0\x16\0\0\0\x18\0\0\0\x19\0\0\0\x1a\0\0\0\x1b\0\0\0\x1c\0\0\0\x1d\0\0\0\x1e\0\0\0\x1f\0\0\0 \0\0\0!\0\0\0\"Q\xfc\xff\xfe\x3\0\0\0\x1a\0\0\0\x14\0\0\0\x64\0\0\0\x16\0\0\0\x64\0\0\0\x11\0\0\0\x64\0\0\0\x10\0\0\0\x64\0\0\0\x12\0\0\0\x64\0\0\0\x1d\0\0\0\x64\0\0\0\x1c\0\0\0\x64\0\0\0\x1f\0\0\0\x64\0\0\0\x1e\0\0\0\x64\0\0\0\x19\0\0\0\x64\0\0\0\x1b\0\0\0\x64\0\0\0\x1a\0\0\0\x64\0\0\0\x5\0\0\0\x64\0\0\0\a\0\0\0'\0\0\0\x6\0\0\0'\0\0\0\0\0\0\0\x64\0\0\0\x2\0\0\0>\0\0\0\r\0\0\0'\0\0\0\f\0\0\0'\0\0\0!\0\0\0\x64\0\0\0\xf\0\0\0\x64\0\0\0 \0\0\0\x64\0\0\0\xe\0\0\0\x64\0\0\0\t\0\0\0'\0\0\0\v\0\0\0'\0\0\0\x15\0\0\0\x64\0\0\x3\x1a\0\0\0\"\x1\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\"\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0X\0\0\0\x1\0\0\0\0\0\0\0\x80\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0q\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0W\0\0\0\x1\0\0\0\0\0\0\0l\0\0\0\x1\0\0\0\0\0\0\0\x46\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\0\0\0\x64)
-SubSortOrder=0
-SubSortColumn=13
-
-[TorrentProperties]
-Visible=false
-Trackers\qt5\TrackerListState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x3 \0\0\0\b\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\b\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\0\0\0\x64)
-SplitterSizes="190,234"
-CurrentTab=-1
-Peers\qt5\PeerListState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\x1\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\xf@@\0\0\0\x2\0\0\0\x6\0\0\0\x64\0\0\0\xe\0\0\0\x64\0\0\x5\x14\0\0\0\xf\x1\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\xf\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\xff\xff\xff\xff)
-qt5\FilesListState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2X\0\0\0\x6\x1\x1\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\x6\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\0\0\0\x64)
-
-[OptionsDialog]
-HorizontalSplitterSizes=120, 636
-LastViewedPage=1
-Size=@Size(779 591)
-
-[AboutDialog]
-Size=@Size(545 295)
-
-[CookiesDialog]
-Size=@Size(618 369)
-CookiesViewState=@ByteArray(\0\0\0\xff\0\0\0\0\0\0\0\x1\0\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2-\0\0\0\x5\x1\0\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\x64\xff\xff\xff\xff\0\0\0\x81\0\0\0\0\0\0\0\x5\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x64\0\0\0\x1\0\0\0\0\0\0\0\x9d\0\0\0\x1\0\0\0\0\0\0\x3\xe8\0\0\0\0\x64)
 
 [RSS]
 AutoDownloader\DownloadRepacks=true
 AutoDownloader\SmartEpisodeFilter=s(\\d+)e(\\d+), (\\d+)x(\\d+), "(\\d{4}[.\\-]\\d{1,2}[.\\-]\\d{1,2})", "(\\d{1,2}[.\\-]\\d{1,2}[.\\-]\\d{4})"
+RSS\Session\EnableProcessing=true
+RSS\AutoDownloader\EnableProcessing=true
+
+[TransferListFilters]
+HideZeroStatusFilters=true
 
 [LegalNotice]
 Accepted=true
 
-[Network]
-Cookies=@Invalid()
-
-[TransferListFilters]
-HideZeroStatusFilters=true
+[Meta]
+MigrationVersion=6

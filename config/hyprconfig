@@ -38,7 +38,7 @@ $terminal = kitty -c $conf/kitty
 # 1.5. Utilities.
 # 1.5.1. Launcher-related.
 $menuid = rofi
-$menuconfig = -config $conf/rofi # CHECK
+$menuconfig = $(grep -q "ID=nixos" /etc/os-release && echo "" || echo "-config $conf/rofi")
 $menu = $menuid $menuconfig -show
 $appmenu = $menu drun $icons
 $emojimenu = $menu emoji $noicons # Requires wtype package.

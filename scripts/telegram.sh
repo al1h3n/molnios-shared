@@ -11,22 +11,23 @@
 # ==============================================================================
 
 # Order of preference (highest → lowest)
-PRIORITY_APPS=(
+PRIORITY_CLIENTS=(
     "64gram"
-    "kotatogram"
-    "ayugram"
-    "telegram-desktop"
+    "kotatogram kotatogram-desktop"
+    "ayugram ayugram-desktop"
+    "telegram-desktop Telegram telegram"   # NixOS ships as 'Telegram'
 )
 
-# Try to launch the first available client
-for client in "${PRIORITY_APPS[@]}"; do
-    if command -v "$client" >/dev/null 2>&1; then
-        exec "$client" "$@"
-        exit 0
-    fi
+for group in "${PRIORITY_CLIENTS[@]}"; do
+    for bin in $group; do
+        if command -v "$bin" >/dev/null 2>&1; then
+            exec "$bin" "$@"
+        fi
+    done
 done
 
-# If none found
-echo "⚠️ No supported Telegram client installed." >&2
-echo "Checked priorities: ${PRIORITY_APPS[*]}" >&2
+echo "⚠️  No supported Telegram client installed." >&2
+printf "Checked: "
+for group in "${PRIORITY_CLIENTS[@]}"; do echo -n "$group / "; done
+echo >&2
 exit 1

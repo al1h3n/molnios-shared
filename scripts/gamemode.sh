@@ -15,5 +15,6 @@ if [ "$HYPRGAMEMODE" = 1 ] ; then
 else
     hyprctl notify 1 3000 "rgb(d20f39)" " Gamemode [OFF]"
     hyprctl reload
+    sh ~/.local/share/molnios/scripts/borderline.sh
     exit 0
 fi

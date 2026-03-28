@@ -87,8 +87,17 @@ $idlewallpaper = mpvpaper-stop
 # Applications.
 $explorer = thunar
 $browser = firefox
-$musicplayer = spotify-launcher
-$coder = zeditor
+$musicplayer = $( \
+    if command -v spotify >/dev/null; then
+        echo "spotify"
+    elif command -v spotify-launcher >/dev/null; then
+        echo "spotify-launcher"
+    elif command -v flatpak >/dev/null; then
+        echo "flatpak run com.spotify.Client"
+    else
+        echo "spotify-launcher"
+    fi )
+$coder = codium
 $texteditor = $terminal nvim
 $player = mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200
 $notes = notion-app $electron
@@ -143,7 +152,7 @@ general {
 
     # Color adjustment.
     # E.g. col.active_border = rgba(FFFFFFFF) rgba(FF0055AA) rgba(FF66CCAA) 45deg
-	col.active_border =  $color1 $color2 45deg
+	# col.active_border =  $color1 $color2 45deg
     col.inactive_border = $bg_light $bg_dark # Default gray: rgba(595959aa)
 
     # Screen adjustment.
@@ -329,29 +338,26 @@ bind = $main, B, exec, $scripts/ocr-select.sh
 # 13.5. Top bar double keybinds [Q~O].
 # These're dwindle (window position and grid) keybinds.
 bind = $main shift, Q, pseudo # Do not stretch window.
-bind = $main shift, W, togglesplit # Switch window axis.
+bind = $main shift, W, layoutmsg, togglesplit # Switch window axis.
 bind = $main shift, E, exec, $texteditor
 bind = $main shift, R, exec, $shell $scripts/wallpaper.sh # Toggle wallpaper on/off
 
-# 13.6.1. Middle bar double keybinds [A~G].
-bind = $main shift, A, exec, $youtube
-bind = $main shift, S, exec, $clipman
-bind = $main shift, F, exec, $wallpaperengine
+# 13.6.1. Move windows double keybinds [A~F].
+bind = $main shift, A, swapwindow, l
+bind = $main shift, S, swapwindow, r
+bind = $main shift, D, swapwindow, u
+bind = $main shift, F, swapwindow, d
+
+# 13.6.2. Middle bar double keybinds [G~H].
 bind = $main shift, G, exec, $shell $scripts/gamemode.sh
+bind = $main shift, H, exec, $wallpaperengine
 
-# 13.6.2. Move windows double keybinds [H~L].
-bind = $main shift, H, swapwindow, l
-bind = $main shift, L, swapwindow, r
-bind = $main shift, J, swapwindow, u
-bind = $main shift, K, swapwindow, d
-
-# 13.7.  Borrom bar double keybinds [Z~M].
+# 13.7.  Borrom bar double keybinds [Z~B].
 bind = $main shift, Z, exec, $coder
-bind = $main shift, X, exec, $browser
-bind = $main shift, C, exec, $musicplayer
+bind = $main shift, X, exec, $musicplayer
+bind = $main shift, C, exec, $player
 bind = $main shift, V, exec, $blueman
 bind = $main shift, B, exec, $netman
-bind = $main shift, M, exec, $player
 
 # 13.8. Move focus with main + arrow keys
 bind = $main, left, movefocus, l
@@ -426,6 +432,7 @@ bind = , print, exec, $screenshot
 bind = $main, print, exec, $record
 bind = $main shift, print, exec, $record -a
 bind = $main ctrl, print, exec, $record -o
+bind = $main alt, print, exec, $ocr_simple
 
 # 13.18. Additional keybinds.
 bind = $main, space, exec, hyprctl switchxkblayout current next

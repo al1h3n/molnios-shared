@@ -113,7 +113,7 @@ $bg_light = rgba(FFFFFF40)
 $bg_dark  = rgba(1A1A1A90)
 
 # 2. Heart configs.
-monitor=DP-1,2560x1440@144,0x0,1.25
+monitor=DP-1,highres@highrr,0x0,1.25
 
 # 3. Autostarting.
 
@@ -313,7 +313,7 @@ bind = $main, A, exec, $notes
 bind = $main, S, exec, $browser
 bind = $main, F, fullscreen
 bind = $main, G, exec, $discord
-bind = $main, H, exec, $discord
+bind = $main, H, exec, $telegram
 bindl = $main, J, exec, playerctl previous
 bindl = $main, K, exec, playerctl play-pause
 bindl = $main, L, exec, playerctl next

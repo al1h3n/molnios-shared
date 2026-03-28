@@ -136,12 +136,12 @@ fi
 alias y="yazi"
 alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fastfetch.sh"
+alias cat="bat"
 
 alias dir="eza --icons"
 alias ls="eza --icons -la"
 alias l="eza --icons"
 alias lt="eza --icons -T -L 2"
-
 
 # Open config dirs.
 alias d="nvim $dir"

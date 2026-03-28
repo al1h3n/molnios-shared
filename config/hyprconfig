@@ -56,9 +56,8 @@ $clipmage = wl-paste --type image --watch cliphist store # Storing images.
 $clipsave = wl-clip-persist --clipboard regular # Save elements when application is closed. Requires wl-clip-persist.
 
 # 1.5.3. Polkit (permission) related.
-$permissionsid = polkit-gnome-authentication-agent-1
-$permissions = /usr/lib/polkit-gnome/$permissionsid # GNOME lightweight polkit for sudo screens.
-$hyprpermissionsid = hyprpolkitagent
+$permissions = polkit-gnome-authentication-agent-1
+$hyprpermissions = hyprpolkitagent
 
 # 1.5.4. Connectivity related.
 $network = nm-applet
@@ -118,7 +117,7 @@ monitor=DP-1,2560x1440@144,0x0,1.25
 
 # Services.
 exec-once = $network & $bluetooth
-exec-once = sh -c 'command -v hyprpolkitagent >/dev/null 2>&1 && hyprpolkitagent || $permissions'
+exec-once = systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Wallpaper, tray and other main additions.
 exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.
@@ -446,14 +445,14 @@ windowrule = no_focus on, match:class ^$, match:title ^$, match:xwayland true, m
 
 # Glass effect for permissions manager. opacity = active, inactive
 # polkit-gnome
-windowrule = dim_around on, match:class ^($permissionsid)$, match:float true
-windowrule = center on, match:class ^($permissionsid)$, match:float true
-windowrule = opacity 1 .8, match:class ^($permissionsid)$, match:float true
+windowrule = dim_around on, match:class ^($permissions)$, match:float true
+windowrule = center on, match:class ^($permissions)$, match:float true
+windowrule = opacity 1 .8, match:class ^($permissions)$, match:float true
 
 # hyprpolkitagent
-windowrule = dim_around on, match:class ^($hyprpermissionsid)$, match:float true
-windowrule = center on, match:class ^($hyprpermissionsid)$, match:float true
-windowrule = opacity 1 .8, match:class ^($hyprpermissionsid)$, match:float true
+windowrule = dim_around on, match:class ^($hyprpermissions)$, match:float true
+windowrule = center on, match:class ^($hyprpermissions)$, match:float true
+windowrule = opacity 1 .8, match:class ^($hyprpermissions)$, match:float true
 
 # Make player not opaque.
 windowrule = opacity 1 override 1 override, match:class ^(mpv)$

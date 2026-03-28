@@ -22,6 +22,7 @@
 `ln` - `ln -sfn`<br>
 `rr` - __rmproved__ (removes all provided files in list)<br>
 `f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)
+`cat` - [bat](https://github.com/sharkdp/bat)
 
 #### Custom scripts
 `sw` - [sweeper](https://github.com/Alihan1ai9595/sweeper) script. (use to clean system)<br>

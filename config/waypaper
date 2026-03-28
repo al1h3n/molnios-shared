@@ -1,6 +1,6 @@
 [Settings]
 folder = ~/.local/share/molnios/molnios-media/wallpapers
-wallpaper = ~/.local/share/molnios/molnios-media/wallpapers/video/ps.mp4
+wallpaper = ~/.local/share/molnios/molnios-media/wallpapers/static/f1.jpg
 post_command = sh ~/.local/share/molnios/scripts/borderline.sh $wallpaper $video
 number_of_columns = 5
 swww_transition_type = random

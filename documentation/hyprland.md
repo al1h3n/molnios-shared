@@ -6,7 +6,7 @@
 
 `Super + Space` - switch keyboard layout (by default US/RU).<br>
 `Super + Q/W/E/R/T/P` - terminal, __free__ window mode, file manager, run application, run command, private workspace.<br>
-`Super + A/S/D/F; J/K/L` -  notes, browser, show desktop, full screen; _previous_ song, __pause|unpause__, _next_ song.<br>
+`Super + A/S/D/F/G; J/K/L` -  notes, browser, show desktop, full screen, discord; _previous_ song, __pause|unpause__, _next_ song.<br>
 `Super + Z/X/C/V` - exit hyprland, emoji picker, close, clipboard manager.
 
 `Super + Escape` - hibernate. `Super + Shift + Escape` - lock screen (hyprlock).<br>

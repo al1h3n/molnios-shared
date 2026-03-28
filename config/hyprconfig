@@ -22,7 +22,6 @@ env = ELECTRON_OZONE_PLATFORM_HINT,auto
 env = QT_QPA_PLATFORMTHEME,qt6ct
 
 # 1.2. Flags.
-$electron = --enable-features=UseOzonePlatform --ozone-platform=wayland
 $noicons = -no-show-icons -theme-str 'listview{columns: 1;}'
 $icons = -show-icons
 
@@ -86,14 +85,18 @@ $idlewallpaper = mpvpaper-stop
 
 # Applications.
 $explorer = thunar
-$browser = firefox
-$musicplayer = $shell $scripts/spotify.sh
-$coder = codium
 $texteditor = $terminal nvim
 $player = mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200
-$notes = notion-app $electron
 $netman = nm-connection-editor
 $blueman = blueman-manager
+
+# Applications (Electron).
+$electon = $shell $scripts/electron.sh
+$browser = $electon browser
+$musicplayer = $electon spotify
+$coder = $electon coder
+$discord = $electon discord
+$notes = $electron notes
 
 # Colors. Look for elegant combinations with images or videos on paletter.online
 
@@ -308,6 +311,7 @@ bind = $main ctrl, P, movetoworkspace, +0 # Move window from special workspace t
 bind = $main, A, exec, $notes
 bind = $main, S, exec, $browser
 bind = $main, F, fullscreen
+bind = $main, G, $discord
 bindl = $main, J, exec, playerctl previous
 bindl = $main, K, exec, playerctl play-pause
 bindl = $main, L, exec, playerctl next

@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # ocr-region.sh — Capture a screen region and OCR it to a viewer window / clipboard
 #
 # Dependencies: grim, slurp, tesseract5, wl-clipboard, libnotify (optional)

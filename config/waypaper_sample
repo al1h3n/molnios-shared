@@ -1,5 +1,5 @@
 [Settings]
-folder = ~/.local/share/molnios/molnios-media/wallpapers/video
+folder = ~/.local/share/molnios/molnios-media/wallpapers
 wallpaper = ~/.local/share/molnios/molnios-media/wallpapers/video/ps.mp4
 post_command = bash ~/.local/share/molnios/scripts/borderline.sh $wallpaper
 number_of_columns = 5

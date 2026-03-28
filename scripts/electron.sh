@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # MM    MM              dd           bb                         lll  1  hh      333333
 # MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
 # MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
@@ -12,62 +10,75 @@
 # ==============================================================================
 
 ELECTRON_FLAGS=(--enable-features=UseOzonePlatform --ozone-platform=wayland)
+APP="$1"
+shift
 
-launch_app() {
-    local app="$1"
-    shift
-
-    if command -v "$app" >/dev/null 2>&1; then
-        exec "$app" "${ELECTRON_FLAGS[@]}" "$@"
+# Try to exec a binary with given args. Returns 1 if not found, never returns on success.
+try_exec() {
+    local bin="$1"; shift
+    if command -v "$bin" >/dev/null 2>&1; then
+        exec "$bin" "$@"
     fi
+    return 1
 }
 
-case "$1" in
+case "$APP" in
 
-coder|vscodium|code|cursor|zed)
-    case "$1" in
-        vscodium)       exec vscodium "${ELECTRON_FLAGS[@]}" "$@" ;;
-        code)           exec code "${ELECTRON_FLAGS[@]}" "$@" ;;      # VS Code
-        cursor)         exec cursor "${ELECTRON_FLAGS[@]}" "$@" ;;    # Cursor (VS Code fork)
-        zed)            exec zed "$@" ;;                             # Zed (Rust native, no Electron flags)
-        coder)          exec coder "${ELECTRON_FLAGS[@]}" "$@" ;;    # your generic "coder"
-    esac
-    ;;
+    # ── Editor / IDE ──────────────────────────────────────────────────────────
+    # Priority: vscodium → code → cursor → zed → coder
 
-discord|vesktop|webcord|discord-canary|discord-ptb|spotify|spotify-launcher|notion-app|notion-app-electron)
-    if command -v "$1" >/dev/null 2>&1; then
-        exec "$1" "${ELECTRON_FLAGS[@]}" "$@"
-    fi
-    ;;
+    coder)
+        try_exec vscodium "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec code     "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec cursor   "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec zed                             "$@" ||  # Native Rust, no Electron flags.
+        try_exec coder    "${ELECTRON_FLAGS[@]}" "$@" ||
+        { echo "No editor found (tried vscodium, code, cursor, zed, coder)" >&2; exit 1; }
+        ;;
 
-notes)
-    local notes_apps=(notion-app notion-app-electron obsidian)
-    for n in "${notes_apps[@]}"; do
-        if command -v "$n" >/dev/null 2>&1; then
-            exec "$n" "${ELECTRON_FLAGS[@]}" "$@"
+    # ── Music ─────────────────────────────────────────────────────────────────
+    # Priority: spotify → spotify-launcher
+
+    spotify)
+        try_exec spotify          "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec spotify-launcher "${ELECTRON_FLAGS[@]}" "$@" ||
+        { echo "No Spotify client found (tried spotify, spotify-launcher)" >&2; exit 1; }
+        ;;
+
+    # ── Communications ────────────────────────────────────────────────────────
+    # Priority: vesktop → webcord → discord → discord-canary → discord-ptb
+
+    discord)
+        try_exec vesktop        "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec webcord        "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec discord        "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec discord-canary "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec discord-ptb    "${ELECTRON_FLAGS[@]}" "$@" ||
+        { echo "No Discord client found (tried vesktop, webcord, discord, discord-canary, discord-ptb)" >&2; exit 1; }
+        ;;
+
+    # ── Browser ───────────────────────────────────────────────────────────────
+    # Priority: firefox → brave → ungoogled-chromium → chromium → google-chrome
+    # Browsers handle Wayland natively; no Electron flags needed.
+
+    browser)
+        try_exec firefox            "$@" ||
+        try_exec brave              "$@" ||
+        try_exec ungoogled-chromium "$@" ||
+        try_exec chromium           "$@" ||
+        try_exec google-chrome      "$@" ||
+        { echo "No browser found (tried firefox, brave, ungoogled-chromium, chromium, google-chrome)" >&2; exit 1; }
+        ;;
+
+    # ── Generic fallback ──────────────────────────────────────────────────────
+
+    *)
+        if command -v "$APP" >/dev/null 2>&1; then
+            exec "$APP" "${ELECTRON_FLAGS[@]}" "$@"
+        else
+            echo "Unknown argument '$APP'. Valid arguments: coder, spotify, discord, browser" >&2
+            exit 1
         fi
-    done
-    echo "No notes app found" >&2
-    exit 1
-    ;;
+        ;;
 
-browser)
-    local browsers=(firefox brave ungoogled-chromium chromium google-chrome)
-    for b in "${browsers[@]}"; do
-        if command -v "$b" >/dev/null 2>&1; then
-            exec "$b" "$@"
-        fi
-    done
-    echo "No browser found" >&2
-    exit 1
-    ;;
-
-*)
-    if command -v "$1" >/dev/null 2>&1; then
-        exec "$1" "$@"
-    else
-        echo "App '$1' not found" >&2
-        exit 1
-    fi
-    ;;
 esac

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # MM    MM              dd           bb                         lll  1  hh      333333
 # MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
 # MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
@@ -12,49 +10,23 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
-launch_telegram() {
-    local client="$1"
-    shift
+# Order of preference (highest → lowest)
+PRIORITY_APPS=(
+    "64gram"
+    "kotatogram"
+    "ayugram"
+    "telegram-desktop"
+)
+
+# Try to launch the first available client
+for client in "${PRIORITY_APPS[@]}"; do
     if command -v "$client" >/dev/null 2>&1; then
         exec "$client" "$@"
+        exit 0
     fi
-}
+done
 
-if [[ -z "$1" ]]; then
-    echo "Usage: $0 <client>" >&2
-    echo "Available: 64gram, kotatogram, ayugram, telegram" >&2
-    exit 1
-fi
-
-CLIENT="$1"
-shift
-
-case "$CLIENT" in
-    64gram)
-        # 64Gram is an unofficial Telegram Desktop variant (x64 enhanced builds) :contentReference[oaicite:1]{index=1}
-        launch_telegram 64gram "$@"
-        ;;
-
-    kotatogram)
-        # Kotatogram Desktop (fork of Telegram Desktop) :contentReference[oaicite:2]{index=2}
-        launch_telegram kotatogram "$@"
-        ;;
-
-    ayugram)
-        # AyuGram Desktop (Telegram fork with customization & privacy) :contentReference[oaicite:3]{index=3}
-        launch_telegram ayugram "$@"
-        ;;
-
-    telegram)
-        # Official Telegram Desktop
-        launch_telegram telegram-desktop "$@"
-        ;;
-
-    *)
-        echo "Unknown Telegram client: '$CLIENT'" >&2
-        exit 1
-        ;;
-esac
-
-echo "No such client installed: $CLIENT" >&2
+# If none found
+echo "⚠️ No supported Telegram client installed." >&2
+echo "Checked priorities: ${PRIORITY_APPS[*]}" >&2
 exit 1

@@ -20,7 +20,7 @@ export PATH="/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 # 0. Dependencies.
-for cmd in grep cut xargs file magick hyprctl kitty;do
+for cmd in grep cut xargs file magick hyprctl kitty ffmpeg;do
     if ! command -v $cmd &> /dev/null;then
         notify-send -u critical Borderline "Missing dependency: $cmd"
         exit 1
@@ -55,7 +55,7 @@ fi
 # 2. Extract colors.
 # If it's a video (mpvpaper), extract the first frame.
 # If it's an image, use it directly.
-IS_VIDEO=$(file --mime-type -b $WALLPAPER | grep video)
+IS_VIDEO=$(file --mime-type -b "$WALLPAPER" | grep video)
 
 if [ -n "$IS_VIDEO" ];then
     # Extract frame from video

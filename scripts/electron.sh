@@ -25,19 +25,19 @@ try_exec() {
 case "$APP" in
 
     # ── Editor / IDE ──────────────────────────────────────────────────────────
-    # Priority: vscodium → code → cursor → zed → coder
+    # Priority: vscodium/codium (NixOS) → code → cursor → coder
 
     coder)
-        try_exec vscodium "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec code     "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec cursor   "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec zed                             "$@" ||  # Native Rust, no Electron flags.
-        try_exec coder    "${ELECTRON_FLAGS[@]}" "$@" ||
-        { echo "No editor found (tried vscodium, code, cursor, zed, coder)" >&2; exit 1; }
+        try_exec vscodium "${ELECTRON_FLAGS[@]}" "$@" ||  # Arch, Debian, Alpine (AUR/deb)
+        try_exec codium   "${ELECTRON_FLAGS[@]}" "$@" ||  # NixOS binary name
+        try_exec code     "${ELECTRON_FLAGS[@]}" "$@" ||  # VS Code
+        try_exec cursor   "${ELECTRON_FLAGS[@]}" "$@" ||  # Cursor (VS Code fork)
+        try_exec coder    "${ELECTRON_FLAGS[@]}" "$@" ||  # Generic coder fallback
+        { echo "No editor found (tried vscodium, codium, code, cursor, coder)" >&2; exit 1; }
         ;;
 
     # ── Music ─────────────────────────────────────────────────────────────────
-    # Priority: spotify → spotify-launcher
+    # Priority: spotify → spotify-launcher (AUR wrapper that downloads Spotify)
 
     spotify)
         try_exec spotify          "${ELECTRON_FLAGS[@]}" "$@" ||
@@ -46,20 +46,32 @@ case "$APP" in
         ;;
 
     # ── Communications ────────────────────────────────────────────────────────
-    # Priority: vesktop → webcord → discord → discord-canary → discord-ptb
+    # Priority: vesktop (AUR) → webcord → discord
+    # discord-canary and discord-ptb are omitted — same source as discord.
 
     discord)
-        try_exec vesktop        "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec webcord        "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec discord        "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec discord-canary "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec discord-ptb    "${ELECTRON_FLAGS[@]}" "$@" ||
-        { echo "No Discord client found (tried vesktop, webcord, discord, discord-canary, discord-ptb)" >&2; exit 1; }
+        try_exec vesktop "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec webcord "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec discord "${ELECTRON_FLAGS[@]}" "$@" ||
+        { echo "No Discord client found (tried vesktop, webcord, discord)" >&2; exit 1; }
+        ;;
+
+    # ── Notes ─────────────────────────────────────────────────────────────────
+    # Priority: notion-app-electron (AUR) → notion-app → notion-enhanced → obsidian → appflowy
+    # appflowy is Flutter-based — no Electron flags.
+
+    notes)
+        try_exec notion-app-electron "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec notion-app          "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec notion-enhanced     "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec obsidian            "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec appflowy                                   "$@" ||  # Flutter, no Electron flags.
+        { echo "No notes app found (tried notion-app-electron, notion-app, notion-enhanced, obsidian, appflowy)" >&2; exit 1; }
         ;;
 
     # ── Browser ───────────────────────────────────────────────────────────────
     # Priority: firefox → brave → ungoogled-chromium → chromium → google-chrome
-    # Browsers handle Wayland natively; no Electron flags needed.
+    # Browsers handle Wayland natively — no Electron flags needed.
 
     browser)
         try_exec firefox            "$@" ||
@@ -76,7 +88,7 @@ case "$APP" in
         if command -v "$APP" >/dev/null 2>&1; then
             exec "$APP" "${ELECTRON_FLAGS[@]}" "$@"
         else
-            echo "Unknown argument '$APP'. Valid arguments: coder, spotify, discord, browser" >&2
+            echo "Unknown argument '$APP'. Valid arguments: coder, spotify, discord, notes, browser" >&2
             exit 1
         fi
         ;;

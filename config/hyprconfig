@@ -89,13 +89,14 @@ $texteditor = $terminal nvim
 $player = mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200
 $netman = nm-connection-editor
 $blueman = blueman-manager
+$telegram = $shell $scripts/telegram.sh
 
 # Applications (Electron).
-$electon = $shell $scripts/electron.sh
-$browser = $electon browser
-$musicplayer = $electon spotify
-$coder = $electon coder
-$discord = $electon discord
+$electron = $shell $scripts/electron.sh
+$browser = $electron browser
+$musicplayer = $electron spotify
+$coder = $electron coder
+$discord = $electron discord
 $notes = $electron notes
 
 # Colors. Look for elegant combinations with images or videos on paletter.online
@@ -312,6 +313,7 @@ bind = $main, A, exec, $notes
 bind = $main, S, exec, $browser
 bind = $main, F, fullscreen
 bind = $main, G, exec, $discord
+bind = $main, H, exec, $discord
 bindl = $main, J, exec, playerctl previous
 bindl = $main, K, exec, playerctl play-pause
 bindl = $main, L, exec, playerctl next

@@ -87,16 +87,7 @@ $idlewallpaper = mpvpaper-stop
 # Applications.
 $explorer = thunar
 $browser = firefox
-$musicplayer = $( \
-    if command -v spotify >/dev/null; then
-        echo "spotify"
-    elif command -v spotify-launcher >/dev/null; then
-        echo "spotify-launcher"
-    elif command -v flatpak >/dev/null; then
-        echo "flatpak run com.spotify.Client"
-    else
-        echo "spotify-launcher"
-    fi )
+$musicplayer = $shell $scripts/spotify.sh
 $coder = codium
 $texteditor = $terminal nvim
 $player = mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200

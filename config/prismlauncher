@@ -1,0 +1,19 @@
+[General]
+ApplicationTheme=dark
+AutomaticJavaDownload=false
+ConsoleFont=JetBrainsMono Nerd Font
+ConsoleMaxLines=1000
+ConsoleOverflowStop=false
+IconTheme=flat_white
+IgnoreJavaCompatibility=true
+IgnoreJavaWizard=true
+JvmArgs="-XX:+UnlockExperimentalVMOptions -XX:+AlwaysPreTouch -XX:+UseStringDeduplication -Dfml.ignorePatchDiscrepancies=true -Dfml.ignoreInvalidMinecraftCertificates=true -XX:-OmitStackTraceInFastThrow -XX:+OptimizeStringConcat -Dfml.readTimeout=180"
+MaxMemAlloc=4096
+MinMemAlloc=2048
+NumberOfConcurrentDownloads=30
+NumberOfConcurrentTasks=30
+PermGen=128
+ShowGameTimeWithoutDays=true
+StatusBarVisible=true
+UseDiscreteGpu=true
+UserAskedAboutAutomaticJavaDownload=true

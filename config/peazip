@@ -1,0 +1,71 @@
+[default archiving format]
+0
+[archive browser speed optimization: 0 no optimization 1 unused, 2,3 slow and medium optimization (3 default) 4 fast, pre-parse (with medium optimization) only if errors are detected 5 do not pre-parse archives: 4,5 may non correctly list some out of standard archives]
+4
+[default 7z compression level]
+5
+[default 7z compression method]
+LZMA2
+[default ARC compression level]
+9
+[default bzip2 compression level]
+4
+[default gz compression level]
+4
+[default zip compression level]
+5
+[default zip compression method]
+LZMA
+[show thumbnails]
+1
+[default max threads option for 7z]
+4
+[default deletion mode for delete after extraction / delete after archiving option: 0 recycle (Windows) 1 quick 2 zero 3 secure]
+1
+[non-verbose output log from 7z / p7zip, faster (especially when many small files are involved), but less informative 1=yes (default) 0=no]
+1
+[use 7z / p7zip implementation of UNRAR5 (even if RarLab's UNRAR5 plugin is installed) 1=yes (default) 0=no NOTE: overridden by Free Software compliance setting if > 0]
+1
+[sort files by type for 7z solid compression 1 = on, usually better compression (default) 0 = off, faster on NTFS filesystem]
+1
+[try to open archives containing errors]
+1
+[force extracting unsupported archive types using PeaZip]
+1
+[encryption algorithm for ZIP 0 AES 1 ZipCrypto (legacy)]
+0
+[use native drag and drop on Windows]
+1
+[default Brotli compression level]
+6
+[default Zstd compression level]
+8
+[advanced 7z / p7zip compression settings]
+0
+4
+-1
+8
+[maximize Brotli compression using larger memory --large_window=27 (may be incompatible with some Brotli extractors)]
+1
+[maximize Zstandard compression using larger memory window]
+1
+[automatically configure Custom compression to use Rar.exe as compressor, if WinRar is installed
+1
+[protect drag and drop target window during operation: 0 no protection 1 lock 2 hide 3 lock and hide]
+1
+[tasks priority]
+2
+[skip deletion of locked files without interactive confirmation]
+1
+[7z max memory usage %, 0 default]
+50
+[do not run following file types without confirmation 1 from archives 2 from filesystem 3 both 3 do not check]
+3
+[show hidden files and folders in the filesystem]
+1
+[default zpaq threads, 0 = auto, generic multithreading]
+0
+[compact mode for task window 0 no (default) 1 yes]
+1
+[keep log of tasks]
+0

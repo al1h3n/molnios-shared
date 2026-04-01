@@ -53,7 +53,8 @@ LZMA
 [7z max memory usage %, 0 default]
 50
 [do not run following file types without confirmation 1 from archives 2 from filesystem 3 both 3 do not check]
-3
+0
+sh
 [show hidden files and folders in the filesystem]
 1
 [default zpaq threads, 0 = auto, generic multithreading]

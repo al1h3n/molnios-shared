@@ -40,16 +40,9 @@ LZMA
 6
 [default Zstd compression level]
 8
-[advanced 7z / p7zip compression settings]
-0
-4
--1
-8
 [maximize Brotli compression using larger memory --large_window=27 (may be incompatible with some Brotli extractors)]
 1
 [maximize Zstandard compression using larger memory window]
-1
-[automatically configure Custom compression to use Rar.exe as compressor, if WinRar is installed
 1
 [protect drag and drop target window during operation: 0 no protection 1 lock 2 hide 3 lock and hide]
 1

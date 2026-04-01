@@ -16,10 +16,10 @@ LZMA2
 5
 [default zip compression method]
 LZMA
-[show thumbnails]
-1
-[default max threads option for 7z]
-4
+; [show thumbnails]
+; 1
+; [default max threads option for 7z]
+; 4
 [default deletion mode for delete after extraction / delete after archiving option: 0 recycle (Windows) 1 quick 2 zero 3 secure]
 1
 [non-verbose output log from 7z / p7zip, faster (especially when many small files are involved), but less informative 1=yes (default) 0=no]

@@ -143,6 +143,9 @@ alias ls="eza --icons -la"
 alias l="eza --icons"
 alias lt="eza --icons -T -L 2"
 
+alias find="fd -u"
+alias grep="rg -up"
+
 # Open config dirs.
 alias d="nvim $dir"
 alias cfg="nvim $conf"

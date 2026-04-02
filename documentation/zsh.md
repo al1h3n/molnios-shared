@@ -23,6 +23,9 @@
 `rr` - __rmproved__ (removes all provided files in list)<br>
 `f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)
 `cat` - [bat](https://github.com/sharkdp/bat)
+`man` - [tealdeer](https://github.com/tealdeer-rs/tealdeer) - run `tldr -qu` if you can't find manual.
+`grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)
+`find` / `fd` - [fd](https://github.com/sharkdp/fd)
 
 #### Custom scripts
 `sw` - [sweeper](https://github.com/Alihan1ai9595/sweeper) script. (use to clean system)<br>
@@ -48,7 +51,8 @@
 ##### Editing (nvim)
 `d` - open dotfiles root directory.<br>
 `cfg` - open config dir.<br>
-`scr` - open scripts dir.
+`scr` - open scripts dir.<br>
+`e` / `explorer` - [superfile](https://github.com/yorukot/superfile)
 
 ##### Misc
 `lh` - `ln --help`

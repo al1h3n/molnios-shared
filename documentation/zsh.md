@@ -21,11 +21,13 @@
 `sl` - `sleep`<br>
 `ln` - `ln -sfn`<br>
 `rr` - __rmproved__ (removes all provided files in list)<br>
-`f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)
-`cat` - [bat](https://github.com/sharkdp/bat)
-`man` - [tealdeer](https://github.com/tealdeer-rs/tealdeer) - run `tldr -qu` if you can't find manual.
-`grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)
-`find` / `fd` - [fd](https://github.com/sharkdp/fd)
+`f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)<br>
+`cat` - [bat](https://github.com/sharkdp/bat)<br>
+`man` - [tealdeer](https://github.com/tealdeer-rs/tealdeer) - run `tldr -qu` if you can't find manual.<br>
+`grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)<br>
+`find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
+`sakura` - cbonsai custom config.
+
 
 #### Custom scripts
 `sw` - [sweeper](https://github.com/Alihan1ai9595/sweeper) script. (use to clean system)<br>

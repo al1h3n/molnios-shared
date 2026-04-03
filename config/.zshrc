@@ -146,6 +146,8 @@ alias lt="eza --icons -T -L 2"
 alias find="fd -u"
 alias grep="rg -up"
 
+alias sakura="cbonsai -k 201,94,213,130 -l -t .1"
+
 alias e="superfile"
 alias explorer="superfile"
 

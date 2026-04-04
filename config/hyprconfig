@@ -31,7 +31,7 @@ $scripts = $dir/scripts
 $conf = $dir/config
 
 # 1.4. CLI.
-$shell = zsh
+$shell = sh
 $terminal = kitty -c $conf/kitty
 
 # 1.5. Utilities.
@@ -47,6 +47,9 @@ $youtube = yt-x -s $menuid
 $switcher = hyprswitch simple
 $gpu = $scripts/gpu.sh
 $temp = $scripts/temp.sh
+$reload = $shell $scripts/reloadus.sh
+$gamemode = $shell $scripts/gamemode.sh
+
 
 # 1.5.2. Clipboard related.
 $clipman = cliphist list | $menu -dmenu $noicons | cliphist decode | wl-copy && wtype -M ctrl -k v -m ctrl
@@ -65,6 +68,7 @@ $bluetooth = blueman-applet
 # 1.5.5. Screen sharing related.
 $screenshot = grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy # date +%F_%H-%M-%S = 2026-01-09_14-37-14
 $ocr_simple = grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tesseract stdin stdout | wl-copy
+$ocr = $shell $scripts/ocr-select.sh
 $record = $shell $scripts/record.sh
 
 # 1.5.6. Notifications.
@@ -80,7 +84,7 @@ $borders = $shell $scripts/borderline.sh
 $tray = waybar # -c $conf/mechabar/config.jsonc -s $conf/mechabar/style.css
 $tray_next = qs
 $wallpaperengine = waypaper
-$wallpaper = $wallpaperengine --restore # For wallpapers you should install swww, for videos mpvpaper-git.
+$wallpaper = $wallpaperengine --restore # For wallpapers you should install awww, for videos mpvpaper.
 $idlewallpaper = mpvpaper-stop
 
 # Applications.
@@ -325,36 +329,42 @@ bind = $main, D, togglespecialworkspace, magic
 bind = $main, D, movetoworkspace, special:magic
 bind = $main, D, togglespecialworkspace, magic
 
-# 13.4. Borrom bar keybinds [Z~M].
+# 13.4. Bottom bar keybinds [Z~M].
 bind = $main, Z, exit
 bind = $main, X, exec, $emojimenu
 bind = $main, C, killactive
 bind = $main, V, exec, $clipman
-bind = $main, B, exec, $scripts/ocr-select.sh
+bind = $main, B, exec, $ocr # ! CHECK
 
-# 13.5. Top bar double keybinds [Q~O].
+# 13.5. Top bar double SHIFT keybinds [Q~O].
 # These're dwindle (window position and grid) keybinds.
 bind = $main shift, Q, pseudo # Do not stretch window.
 bind = $main shift, W, layoutmsg, togglesplit # Switch window axis.
 bind = $main shift, E, exec, $texteditor
-bind = $main shift, R, exec, $shell $scripts/wallpaper.sh # Toggle wallpaper on/off
+bind = $main shift, R, exec, $shell $scripts/wallpaper.sh # Reload wallpaper
 
-# 13.6.1. Move windows double keybinds [A~F].
+
+# 13.6.1. Move windows double SHIFT keybinds [A~F].
 bind = $main shift, A, swapwindow, l
-bind = $main shift, S, swapwindow, r
-bind = $main shift, D, swapwindow, u
-bind = $main shift, F, swapwindow, d
+bind = $main shift, S, swapwindow, u
+bind = $main shift, D, swapwindow, d
+bind = $main shift, F, swapwindow, r
 
-# 13.6.2. Middle bar double keybinds [G~H].
-bind = $main shift, G, exec, $shell $scripts/gamemode.sh
+# 13.6.2. Middle bar double SHIFT keybinds [G~H].
+bind = $main shift, G, exec, $gamemode
 bind = $main shift, H, exec, $wallpaperengine
 
-# 13.7.  Borrom bar double keybinds [Z~B].
+# 13.7.  Bottom bar double SHIFT keybinds [Z~B].
 bind = $main shift, Z, exec, $coder
 bind = $main shift, X, exec, $musicplayer
 bind = $main shift, C, exec, $player
 bind = $main shift, V, exec, $blueman
 bind = $main shift, B, exec, $netman
+
+# 13.8. Top bar double CTRL keybinds [Q~P].
+# 13.9. Middle bar double CTRL keybinds [A~L].
+# 13.10. Bottom bar double CTRL keybinds [Z~M].
+bind = $main ctrl, Z, exec, $reload
 
 # 13.8. Move focus with main + arrow keys
 bind = $main, left, movefocus, l

@@ -1,7 +1,9 @@
-# Check if mpvpaper is running
 if pgrep -x mpvpaper > /dev/null;then
     pkill -x mpvpaper
+elif pgrep -x swww > /dev/null;then
+    pkill -x swww
+elif pgrep -x awww > /dev/null;then
+    pkill -x awww
 else
-    # If not running, restore last used wallpaper via waypaper (turn on)
     waypaper --restore
 fi

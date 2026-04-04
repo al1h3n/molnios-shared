@@ -44,6 +44,9 @@ fi
 if exists swww;then
 	swww clear-cache
 fi
+if exists awww;then
+	awww clear-cache
+fi
 
 # 1.3. Utilities.
 if exists waybar;then

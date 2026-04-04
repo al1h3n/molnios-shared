@@ -17,6 +17,7 @@
 `Super + Shift + F1/2/3/4/5/6` - __volume__ up/down/mute, mute microphone, turn __brightness__ up/down.<br>
 `Super + Ctrl + F1/2/3/4/5/6/7/8` - show volume level, time, date, brighness value, GPU/CPU/RAM load, temperature.
 
+`Super + Ctrl + Z` - reload all configurations.
 `Super + Ctrl + P` - move from private workspace.
 
 ## Default keybinds

@@ -26,19 +26,7 @@
 `man` - [tealdeer](https://github.com/tealdeer-rs/tealdeer) - run `tldr -qu` if you can't find manual.<br>
 `grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)<br>
 `find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
-`sakura` - cbonsai custom config.<br>
-
-#### `fzf` related (dynamic lists)
-`fbat` - find file and output it.<br>
-`gtrack` - find tracked files.<br>
-`hist` - view history list.<br>
-`txt` - find text in files (__VERY LAGGY__)<br>
-`journal` - all system logs.<br>
-`proc` - dynamic proccess list.<br>
-`en`- environment variables.<br>
-`a` - alias variables.<br>
-`gb`- select git branch.
-
+`sakura` - cbonsai custom config.
 
 
 #### Custom scripts
@@ -89,3 +77,6 @@ Example: `cd hyprland` will show fzf window with directories.
 #### FAQ:
 To remove folder type `zoxide remove <dir>`, `zoxide edit` will open interactive window.<br>
 To change `cd` back again to default `z/zi` remove `--cmd cd` flag in `.zshrc` file.
+
+### Apply theme:
+tide configure --auto --style=Classic --prompt_colors='True color' --classic_prompt_color=Darkest --show_time='24-hour format' --classic_prompt_separators=Angled --powerline_prompt_heads=Sharp --powerline_prompt_tails=Flat --powerline_prompt_style='Two lines, character and frame' --prompt_connection=Disconnected --powerline_right_prompt_frame=No--prompt_connection_andor_frame_color=Lightest --prompt_spacing=Compact --icons='Many icons' --transient=Yes

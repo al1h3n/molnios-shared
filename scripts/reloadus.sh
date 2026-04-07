@@ -5,11 +5,11 @@
 # MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
 #                                             yyyyy
 # Support - al1h3n(tg,ds) | Donate me - paypal.me/al1h3n
-# Reloadus v1 - based on hypreload.sh project.
+# Reloadus - based on hypreload.sh project.
 # ==============================================================================
 
 #!/bin/bash
-echo -e "\033]0;HR v1 - al1h3n\007"
+echo -e "\033]0;HR v2 - al1h3n\007"
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -54,12 +54,14 @@ if exists waybar;then
 	run waybar
 fi
 
-# 1.4. Hyprland itself.
+# 1.4. Hyprland.
 if exists hyprland;then
 	hyprctl reload&>/dev/null
-else
-	echo -e "${RED}You don't have ${YELLOW}hyprland${RED} package!${RESET}"
-	read;exit 0
+fi
+
+# 1.5. Niri.
+if exists niri;then
+	niri msg action load-config-file
 fi
 
 echo -e "\n\033[38;5;46mConfigurations were successfully reloaded.${RESET}"

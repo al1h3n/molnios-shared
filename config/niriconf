@@ -64,6 +64,8 @@ layout {
     // Check struts {}. Outer gaps.
 }
 
+// ! CHECK - can you use variables like spawn-at-startup $bluetooth, if bluetooth = blueman-applet in environment
+
 spawn-at-startup "nm-applet"
 spawn-at-startup "blueman-applet"
 // Polkit (pick one):

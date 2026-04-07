@@ -151,6 +151,29 @@ alias sakura="cbonsai -k 201,94,213,130 -l -t .1"
 alias e="superfile"
 alias explorer="superfile"
 
+fbat(){
+  local file
+  file=$(fd --hidden --follow --exclude .git . | fzf --preview 'if [ -d {} ]; then exa --tree --level=2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}') && bat --style=numbers,changes --color=always "$file"
+}
+
+gtrack(){
+  git ls-files | fzf --preview 'bat --color=always --style=numbers {}'
+}
+
+hist(){
+  eval "$(history | fzf | sed 's/^ *[0-9]* *//')"
+}
+
+txt(){
+  rg --line-number --hidden --glob '!.git' 'pattern' | fzf --preview 'bat --color=always --style=numbers --highlight-line {2} {1}'
+}
+
+alias journal="journalctl -xe | fzf"
+alias proc="ps aux|fzf"
+alias en="printenv|fzf"
+alias a="alias|fzf"
+alias gb="git branch|fzf"
+
 # Open config dirs.
 alias d="nvim $dir"
 alias cfg="nvim $conf"

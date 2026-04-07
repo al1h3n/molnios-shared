@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # MM    MM              dd           bb                         lll  1  hh      333333
 # MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
 # MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
@@ -7,8 +5,8 @@
 # MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
 #                                             yyyyy
 # Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
-# borderline v1.1 - added kitty accent colors (not fully).
-# Used to get 2 main colors of theme for Hyprland dynamically.
+# borderline v1.2 - Niri support.
+# Used to get 2 main colors of theme for Hyprland/Niri dynamically.
 # Part of the MolniOS project.
 # ==============================================================================
 
@@ -27,7 +25,26 @@ for cmd in grep cut xargs file magick hyprctl kitty ffmpeg;do
     fi
 done
 
-# 1. Get the current wallpaper path.
+# 1. Detect running compositors.
+HYPRLAND_RUNNING=false
+NIRI_RUNNING=false
+
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ] && command -v hyprctl &>/dev/null; then
+    hyprctl version &>/dev/null && HYPRLAND_RUNNING=true
+fi
+
+# Niri socket lives at $XDG_RUNTIME_DIR/niri/socket.
+# niri msg will exit non-zero if the socket is absent.
+if command -v niri &>/dev/null && niri msg version &>/dev/null 2>&1; then
+    NIRI_RUNNING=true
+fi
+
+if ! $HYPRLAND_RUNNING && ! $NIRI_RUNNING; then
+    notify-send -u critical Borderline "No supported compositor found (Hyprland or Niri)."
+    exit 1
+fi
+
+# 2. Get the current wallpaper path.
 # Waypaper updates its config file before running the post-command.
 CONFIG_FILE=~/.config/waypaper/config.ini
 WALLPAPER=$(grep "^wallpaper = " "$CONFIG_FILE" | cut -d= -f2- | xargs)
@@ -52,7 +69,7 @@ if [ ! -f "$WALLPAPER" ];then
     exit 1
 fi
 
-# 2. Extract colors.
+# 3. Extract colors.
 # If it's a video (mpvpaper), extract the first frame.
 # If it's an image, use it directly.
 IS_VIDEO=$(file --mime-type -b "$WALLPAPER" | grep video)
@@ -67,7 +84,7 @@ else
     CMD="magick \"$WALLPAPER\""
 fi
 
-# 3. Get dominant colors using ImageMagick.
+# 4. Get dominant colors using ImageMagick.
 # -resize -> Speed up processing.
 # -colors 2 -> Quantize to 2 dominant colors.
 # format "%c" -> Output histogram count.
@@ -83,9 +100,41 @@ if [ -z "$color2" ]; then
     color2=$color1
 fi
 
-# 4. Update Hyprland borders.
-# We convert HEX RGB to HEX RGBA.
-hyprctl keyword general:col.active_border "rgba(${color1:1}ff) rgba(${color2:1}ff) 45deg"
+# 5. Apply borders per compositor.
+
+# 5.1. Hyprland.
+if $HYPRLAND_RUNNING; then
+    hyprctl keyword general:col.active_border "rgba(${color1:1}FF) rgba(${color2:1}FF) 45deg"
+fi
+
+# 5.2. Niri.
+# Strategy: sed-replace the active-color / inactive-color lines inside the
+# focus-ring block in the niri config, then reload the config.
+# Expects lines of the form (with any leading whitespace):
+#   active-color   "#RRGGBB"
+#   inactive-color "#RRGGBB"
+# Lines must exist in the config already; borderline will not insert them.
+# Niri doesn't support dynamic border animations.
+if $NIRI_RUNNING; then
+    NIRI_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"
+
+    if [ ! -f "$NIRI_CONFIG" ]; then
+        notify-send -u critical Borderline "Niri config not found: $NIRI_CONFIG"
+    else
+        niri_c1="${color1}FF"
+        niri_c2="${color2}FF"
+        sed -i \
+            -E "s|^(\s*)(active-color\|active-gradient)\s+.*|\1active-gradient from=\"${niri_c1}\" to=\"${niri_c2}\" angle=45|" \
+            "$NIRI_CONFIG"
+            
+        # Keep inactive-color behavior intact
+        sed -i \
+            -E "s|^(\s*inactive-color\s+)\"#[0-9A-Fa-f]{6,8}\"|\1\"${niri_c2}\"|" \
+            "$NIRI_CONFIG"
+        niri msg action reload-config
+    fi
+fi
+
 
 # 5. Update Kitty terminal elements. (seems not to work properly).
 KITTY_TEMP="/tmp/kitty_borderline_theme.conf"
@@ -108,9 +157,13 @@ EOF
 shopt -s nullglob
 sockets=(borderline-*)
 
-# If no sockets found, we are done (Hyprland is already updated)
+
+# If no sockets found, we are done (already updated)
 if [ ${#sockets[@]} -eq 0 ]; then
-    notify-send -u low "Borderline" "Theme applied (Hyprland only - No Kitty open)"
+    _compositors=""
+    $HYPRLAND_RUNNING && _compositors="Hyprland"
+    $NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
+    notify-send -u low "Borderline" "Theme applied via ${_compositors} (no Kitty open)\n$color1 / $color2"
     exit 0
 fi
 
@@ -122,4 +175,8 @@ for socket in "${sockets[@]}"; do
     fi
 done
 
-notify-send -u low "Borderline" "Theme applied ($color1 / $color2)"
+
+_compositors=""
+$HYPRLAND_RUNNING && _compositors="Hyprland"
+$NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
+notify-send -u low "Borderline" "Theme applied via ${_compositors}\n$color1 / $color2"

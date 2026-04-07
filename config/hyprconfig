@@ -1,6 +1,5 @@
 # ==========================================================
-# hyprconfig al1h3n edition - v1.0.11
-# Changed: windowrule syntax: integer to boolean.
+# hyprconfig - made for MolniOS
 # ==========================================================
 
 # 0. Including files.

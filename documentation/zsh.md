@@ -34,7 +34,7 @@
 `hist` - view history list.<br>
 `txt` - find text in files (__VERY LAGGY__)<br>
 `journal` - all system logs.<br>
-`proc` - dynamic proccess list.<br>
+`proc` - proccess list; if enter is hit, process will be terminated.<br>
 `en`- environment variables.<br>
 `a` - alias variables.<br>
 `gb`- select git branch.

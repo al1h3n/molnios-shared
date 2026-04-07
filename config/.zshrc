@@ -169,7 +169,7 @@ txt(){
 }
 
 alias journal="journalctl -xe | fzf"
-alias proc="ps aux|fzf"
+alias proc="ps aux | fzf --bind 'enter:execute(kill -9 {2})+abort'"
 alias en="printenv|fzf"
 alias a="alias|fzf"
 alias gb="git branch|fzf"

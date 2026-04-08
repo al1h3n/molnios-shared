@@ -5,8 +5,7 @@
 # MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
 #                                             yyyyy
 # Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
-# beeper v1 - first release.
-# Create a notification.
+# beeper - create a notification.
 # Part of the MolniOS project.
 # ==============================================================================
 

@@ -1,6 +1,5 @@
 # ==========================================================
-# GPU usage script v1
-# Changed: first release.
+# GPU usage script
 # Part of the MolniOS project.
 # ==========================================================
 

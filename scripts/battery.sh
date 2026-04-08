@@ -5,8 +5,7 @@
 # MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
 #                                             yyyyy
 # Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
-# Battery widget v1 - first release.
-# Part of the molniux project.
+# Battery widget - Part of the molniux project.
 # ==============================================================================
 
 # Adjust BAT0 to BAT1 if needed (check /sys/class/power_supply/)

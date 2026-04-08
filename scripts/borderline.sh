@@ -10,8 +10,6 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
-notify-send "Borderline debug" "ARG=$1"
-
 if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi
@@ -80,18 +78,19 @@ if [ -n "$IS_VIDEO" ];then
     # Extract frame from video
     # -vframes 1: get 1 frame
     # -f image2pipe: pipe output to magick
-    CMD="ffmpeg -i \"$WALLPAPER\" -y -vframes 1 -f image2pipe -v quiet - | magick -"
+    TMPFRAME=$(mktemp /tmp/borderline_XXXXXX.png)
+    ffmpeg -i "$WALLPAPER" -y -vframes 1 -v quiet "$TMPFRAME"
+    MAGICK_SOURCE="$TMPFRAME"
 else
     # Standard image
-    CMD="magick \"$WALLPAPER\""
+    MAGICK_SOURCE="$WALLPAPER"
 fi
 
 # 4. Get dominant colors using ImageMagick.
 # -resize -> Speed up processing.
 # -colors 2 -> Quantize to 2 dominant colors.
-# format "%c" -> Output histogram count.
-hex_colors=$(eval "$CMD -resize 160x90! +dither -colors 2 -define histogram:unique-colors=true histogram:info:-" | \
-sed -n 's/.*\(#[0-9A-Fa-f]\{6\}\).*/\1/p' | head -n 2)
+hex_colors=$(magick "$MAGICK_SOURCE" -resize 160x90! +dither -colors 2 -unique-colors txt:- 2>/dev/null | \
+    grep -oE '#[0-9A-Fa-f]{6}' | head -n 2)
 
 # Read into variables.
 color1=$(echo "$hex_colors" | sed -n '1p')

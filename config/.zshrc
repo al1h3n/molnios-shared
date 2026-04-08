@@ -203,7 +203,7 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
 
 # 7. Theme config.
-source $conf/.p10k.zsh
+source $conf/p10k.zsh
 
 # 8. ZSH settings.
 

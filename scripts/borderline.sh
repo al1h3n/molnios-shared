@@ -10,6 +10,8 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
+notify-send "Borderline debug" "ARG=$1"
+
 if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi

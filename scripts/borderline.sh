@@ -88,7 +88,7 @@ fi
 # -resize -> Speed up processing.
 # -colors 2 -> Quantize to 2 dominant colors.
 # format "%c" -> Output histogram count.
-hex_colors=$(eval "$CMD -resize 160x90! +dither -colors 2 -define histogram:unique-colors=true -format '%c\n' histogram:info:" | \
+hex_colors=$(eval "$CMD -resize 160x90! +dither -colors 2 -define histogram:unique-colors=true histogram:info:-" | \
 sed -n 's/.*\(#[0-9A-Fa-f]\{6\}\).*/\1/p' | head -n 2)
 
 # Read into variables.
@@ -155,7 +155,7 @@ EOF
 
 # Enable nullglob to safely handle missing sockets
 shopt -s nullglob
-sockets=(borderline-*)
+sockets=("$XDG_RUNTIME_DIR"/kitty/borderline-*)
 
 
 # If no sockets found, we are done (already updated)

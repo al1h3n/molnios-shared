@@ -266,6 +266,14 @@ master {
 misc {
     force_default_wallpaper = 1
     disable_hyprland_logo = 1
+    disable_splash_rendering = 1
+
+    # Swallow - when app is launched from terminal, it's temporary closed.
+    enable_swallow = true
+    swallow_regex = ^(Alactritty|kitty|footclient|firefox)$
+
+    # Variable frame rate
+    vfr = true
 }
 debug {
     disable_logs = true

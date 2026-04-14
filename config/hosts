@@ -1,5 +1,5 @@
 # Spotify
-# 127.0.0.1 spclient.wg.spotify.com # might block the entire Spotify app from working too
+# 127.0.0.1 spclient.wg.spotify.com # For lyrics in songs
 127.0.0.1 media-match.com
 127.0.0.1 adclick.g.doublecklick.net
 127.0.0.1 www.googleadservices.com

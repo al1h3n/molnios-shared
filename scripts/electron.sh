@@ -40,8 +40,15 @@ case "$APP" in
     # Priority: spotify → spotify-launcher (AUR wrapper that downloads Spotify)
 
     spotify)
-        try_exec spotify          "${ELECTRON_FLAGS[@]}" "$@" ||
-        try_exec spotify-launcher "${ELECTRON_FLAGS[@]}" "$@" ||
+        SPOTIFY_FLAGS=(
+            --enable-features=VaapiVideoDecoder,VaapiVideoEncoder
+            --use-gl=egl
+            --ignore-gpu-blocklist
+            --enable-gpu-rasterization
+            --enable-zero-copy
+        )
+        try_exec spotify          "${ELECTRON_FLAGS[@]}" "${SPOTIFY_FLAGS[@]}" "$@" ||
+        try_exec spotify-launcher "${ELECTRON_FLAGS[@]}" "${SPOTIFY_FLAGS[@]}" "$@" ||
         { echo "No Spotify client found (tried spotify, spotify-launcher)" >&2; exit 1; }
         ;;
 

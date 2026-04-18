@@ -184,8 +184,8 @@ decoration {
         passes = 2
         new_optimizations = 1
         vibrancy = .25
-        ignore_opacity = true
-        xray = false # Set to true if you want a "see-through" skeletal look.
+        ignore_opacity = 1
+        xray = 0 # Set to true if you want a "see-through" skeletal look.
     }
 }
 
@@ -269,7 +269,7 @@ misc {
     disable_splash_rendering = 1
 
     # Swallow - when app is launched from terminal, it's temporary closed.
-    enable_swallow = true
+    enable_swallow = 1
     swallow_regex = ^(Alactritty|kitty|footclient|firefox)$
 
     # Variable frame rate
@@ -471,9 +471,9 @@ windowrule = center 1, match:class ^($permissions)$, match:float 1
 windowrule = opacity 1 .8, match:class ^($permissions)$, match:float 1
 
 # hyprpolkitagent
-windowrule = dim_around 1, match:class ^($hyprpermissions)$, match:float true
-windowrule = center 1, match:class ^($hyprpermissions)$, match:float true
-windowrule = opacity 1 .8, match:class ^($hyprpermissions)$, match:float true
+windowrule = dim_around 1, match:class ^($hyprpermissions)$, match:float 1
+windowrule = center 1, match:class ^($hyprpermissions)$, match:float 1
+windowrule = opacity 1 .8, match:class ^($hyprpermissions)$, match:float 1
 
 # Waybar.
 windowrule = no_focus 1, match:class ^(waybar)$, match:title ^(waybar)$

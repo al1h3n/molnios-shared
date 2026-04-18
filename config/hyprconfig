@@ -185,7 +185,7 @@ decoration {
         new_optimizations = 1
         vibrancy = .25
         ignore_opacity = 1
-        xray = 0 # Set to true if you want a "see-through" skeletal look.
+        xray = 0 # Set to "1" if you want a "see-through" skeletal look.
     }
 }
 
@@ -273,14 +273,14 @@ misc {
     swallow_regex = ^(Alactritty|kitty|footclient|firefox)$
 
     # Variable frame rate
-    vfr = true
+    vfr = 1
 }
 debug {
-    disable_logs = true
-    enable_stdout_logs = false
+    disable_logs = 1
+    enable_stdout_logs = 0
 }
 ecosystem {
-    no_update_news = true
+    no_update_news = 1
 }
 
 # 11. Keyboard + mouse.
@@ -296,7 +296,7 @@ input {
 
     # Touchpad - laptops.
     touchpad {
-        natural_scroll = true # Swiping up moves up and vice versa.
+        natural_scroll = 1 # Swiping up moves up and vice versa.
     }
 }
 
@@ -462,7 +462,7 @@ bind = $main shift, escape, exec, $lock
 windowrule = suppress_event maximize, match:class .*
 
 # Fix some dragging issues with XWayland.
-windowrule = no_focus 1, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
+windowrule = no_focus 1, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0
 
 # Glass effect for permissions manager. opacity = active, inactive
 # polkit-gnome

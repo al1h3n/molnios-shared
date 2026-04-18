@@ -475,6 +475,9 @@ windowrule = dim_around on, match:class ^($hyprpermissions)$, match:float true
 windowrule = center on, match:class ^($hyprpermissions)$, match:float true
 windowrule = opacity 1 .8, match:class ^($hyprpermissions)$, match:float true
 
+# Waybar.
+windowrule = no_focus 1, match:class ^(waybar)$, match:title ^(waybar)$
+
 # Make player not opaque.
 windowrule = opacity 1 override 1 override, match:class ^(mpv)$
 

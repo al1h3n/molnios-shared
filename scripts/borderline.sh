@@ -10,12 +10,31 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
+# Existing arguments:
+# -c    
+
 if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi
 [ -f ~/.nix-profile/etc/profile.d/nix.sh ] && . ~/.nix-profile/etc/profile.d/nix.sh
 export PATH="/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Arguments handling.
+while getopts "r:c" opt;do
+  case $opt in
+  	r)
+      reload
+      ;;
+    c)
+      change $@
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG">&2
+      exit 1
+      ;;
+  esac
+done
 
 # 0. Dependencies.
 for cmd in grep cut xargs file magick hyprctl kitty ffmpeg;do

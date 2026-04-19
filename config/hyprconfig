@@ -349,7 +349,7 @@ bind = $main, B, exec, $ocr # ! CHECK
 bind = $main shift, Q, pseudo # Do not stretch window.
 bind = $main shift, W, layoutmsg, togglesplit # Switch window axis.
 bind = $main shift, E, exec, $texteditor
-bind = $main shift, R, exec, $shell $scripts/wallpaper.sh # Reload wallpaper
+bind = $main shift, R, exec, $shell $scripts/wallpaper.sh -r # Reload wallpaper
 
 
 # 13.6.1. Move windows double SHIFT keybinds [A~F].

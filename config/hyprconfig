@@ -19,6 +19,7 @@ env = ELECTRON_OZONE_PLATFORM_HINT,auto
 
 # 1.1.3. Theming for qt6.
 env = QT_QPA_PLATFORMTHEME,qt6ct
+env = QT_QPA_PLATFORM,wayland # Mostly for Krita.
 
 # 1.2. Flags.
 $noicons = -no-show-icons -theme-str 'listview{columns: 1;}'

@@ -389,7 +389,7 @@ label {
     color = $white
     font_size = 23
     font_family = SF Pro Display
-    position = -8%, 1.65%
+    position = -8%, 1.55%
     halign = right
     valign = bottom
     zindex = 2
@@ -402,7 +402,7 @@ label {
     color = $white
     font_size = 22
     font_family = SF Pro Display
-    position = -6%, 1.75%
+    position = -6%, 1.65%
     halign = right
     valign = bottom
     zindex = 2
@@ -415,7 +415,7 @@ label {
     color = $white
     font_size = 23
     font_family = SF Pro Display
-    position = -4%, 1.65%
+    position = -4%, 1.55%
     halign = right
     valign = bottom
     zindex = 2
@@ -428,7 +428,7 @@ label {
     color = $white
     font_size = 22
     font_family = SF Pro Display
-    position = -1.5%, 1.8%
+    position = -1.5%, 1.7%
     halign = right
     valign = bottom
     zindex = 2

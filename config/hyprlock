@@ -61,7 +61,7 @@ input-field {
     dots_size = .2
     dots_color = $black_transparent
     dots_spacing = .35
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     outer_color = $white_transparent_extra
     inner_color = $glass
     font_color = $white
@@ -83,7 +83,7 @@ label {
     text = <span> </span>
     color = $white_transparent_extra
     font_size = 30
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     position = 2, -5%
     valign = top
 
@@ -98,7 +98,7 @@ label {
     text = cmd[update:100] echo $(date +"%A, %B %d")
     color = $white_transparent # Change this if not visible.
     font_size = 40
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     position = 0, -10%
     valign = top
 
@@ -113,7 +113,7 @@ label {
     text = cmd[update:100] echo $(date +"%-I:%M")
     color = $white_transparent # Change this if not visible.
     font_size = 250
-    font_family = SF Pro Display Ultra-Bold
+    font_family = SF Pro Heavy
     position = 0, -11%
     valign = top
 
@@ -129,7 +129,7 @@ label {
     text = cmd[update:100] echo "$(whoami)"
     color = $white
     font_size = 20
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     position = 0, -12%
 
     shadow_passes = 3
@@ -143,7 +143,7 @@ label {
     text = <span> </span>
     color = $white_transparent
     font_size = 80
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     position = .6%, -6.75%
 
     shadow_passes = 3
@@ -209,7 +209,7 @@ label {
     text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --player)"
     color = rgba(216, 222, 233, 0.70)
     font_size = 13
-    font_family = SF Pro Display Bold
+    font_family = SF Pro Bold
     position = 0, 16.625%
     valign = bottom
     zindex = 2
@@ -222,7 +222,7 @@ label {
     text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --title)"
     color = rgba(216, 222, 233, 0.70)
     font_size = 14
-    font_family = SF Pro Display Heavy
+    font_family = SF Pro Heavy
     position = 46.25%, 12%
     text_align = left
     halign = left
@@ -235,7 +235,7 @@ label {
     text = cmd[update:100] echo "󰠃  $(sh ~/.local/share/molnios/scripts/hyprsong.sh --artist)"
     color = rgba(216, 222, 233, 0.70)
     font_size = 12
-    font_family = SF Pro Display
+    font_family = SF Pro
     text_align = left
     position = 46.25%, 10.75%
     halign = left
@@ -250,7 +250,7 @@ label {
     text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --position)"
     color = rgba(216, 222, 233, 0.70)
     font_size = 10
-    font_family = SF Pro Display Medium
+    font_family = SF Pro Medium
     position = -5.6%, 6.8%
     valign = bottom
 }
@@ -260,7 +260,7 @@ label {
     text = cmd[update:100] sh ~/.local/share/molnios/scripts/hyprsong.sh --progress-bar
     color = rgba(216, 222, 233, 0.70)
     font_size = 14
-    font_family = SF Pro Display Medium
+    font_family = SF Pro Medium
     position = 0, 6.6%
     valign = bottom
 }
@@ -270,7 +270,7 @@ label {
     text = cmd[update:100] echo "$(sh ~/.local/share/molnios/scripts/hyprsong.sh --length)"
     color = rgba(216, 222, 233, 0.70)
     font_size = 10
-    font_family = SF Pro Display Medium
+    font_family = SF Pro Medium
     position = 5.6%, 6.8%
     valign = bottom
 }
@@ -330,7 +330,7 @@ label {
     text_align = right
     color = $foreground
     font_size = 24
-    font_family = SF Pro Display Semi-Bold
+    font_family = SF Pro Semibold
     position = 1%, -1.125%
     halign = left
     valign = top
@@ -342,7 +342,7 @@ label {
     text_align = right
     color = $foreground
     font_size = 24
-    font_family = SF Pro Display Semi-Bold
+    font_family = SF Pro Semibold
     position = -1%, -1.125%
     halign = right
     valign = top
@@ -388,7 +388,7 @@ label {
     text = <span>󰈆 </span>
     color = $white
     font_size = 23
-    font_family = SF Pro Display
+    font_family = SF Pro
     position = -8%, 1.55%
     halign = right
     valign = bottom
@@ -401,7 +401,7 @@ label {
     text = <span> </span>
     color = $white
     font_size = 22
-    font_family = SF Pro Display
+    font_family = SF Pro
     position = -6%, 1.65%
     halign = right
     valign = bottom
@@ -414,7 +414,7 @@ label {
     text = <span> </span>
     color = $white
     font_size = 23
-    font_family = SF Pro Display
+    font_family = SF Pro
     position = -4%, 1.55%
     halign = right
     valign = bottom
@@ -427,7 +427,7 @@ label {
     text = <span> </span>
     color = $white
     font_size = 22
-    font_family = SF Pro Display
+    font_family = SF Pro
     position = -1.5%, 1.7%
     halign = right
     valign = bottom

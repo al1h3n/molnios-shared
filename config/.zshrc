@@ -193,8 +193,8 @@ alias n="sh $mecha/network.sh "
 alias b="sh $mecha/bluetooth.sh"
 alias bu="sh $mecha/backlight.sh up 5"
 alias bd="sh $mecha/backlight.sh down 5"
-alias vu="sh $mecha/volume.sh raise 5"
-alias vd="sh $mecha/volume.sh lower 5"
+alias vu="sh $mecha/volume.sh output raise 5"
+alias vd="sh $mecha/volume.sh output lower 5"
 
 # 6. ZSH highlight colors.
 typeset -A ZSH_HIGHLIGHT_STYLES

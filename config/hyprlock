@@ -3,8 +3,7 @@
 # Changed: first release.
 # ==========================================================
 
-# Path - ~/.config/hypr/hyprlock
-# Launch by "hyprlock -q"
+# Launch by "hyprlock -q -c CONFIG_DIR"
 
 # THE GLOW EFFECT
 # shadow_passes = 3       # 3 or 4 creates a nice soft glow
@@ -47,10 +46,10 @@ animations {
 # 2. Background image/color.
 background {
     color = $background
-    path = ~/.local/share/molnios/molnios-media/wallpapers/static/tahoe.jpg # Change to "color = $background" or "path = screenshot".
-    blur_passes = 2
+    path = ~/.local/share/molnios/molnios-media/wallpapers/static/Joker.jpg # Change to "color = $background" or "path = screenshot".
+    blur_passes = 0
     blur_size = 2
-    brightness = .75
+    brightness = .8
     vibrancy = .2
     vibrancy_darkness = .1
 }
@@ -67,7 +66,7 @@ input-field {
     font_color = $white
     fade_on_empty = false
     check_color = $checking_color
-    fail_text = Insanity is doing the <b>exact same</b> thing <b>over</b> and <b>over</b> again and expecting different results - wrong attempts ($ATTEMPTS).
+    fail_text = Wrong attempts ($ATTEMPTS).
     placeholder_text = Open sesame..
     position = 0, -17.5%
 
@@ -113,14 +112,9 @@ label {
     text = cmd[update:100] echo $(date +"%-I:%M")
     color = $white_transparent # Change this if not visible.
     font_size = 250
-    font_family = SF Pro Heavy
+    font_family = SF Pro Ultra-Heavy
     position = 0, -11%
     valign = top
-
-    shadow_passes = 3
-    shadow_size = 10
-    shadow_color = $shadow
-    shadow_boost = .8
 }
 
 

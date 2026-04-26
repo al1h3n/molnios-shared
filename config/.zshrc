@@ -187,11 +187,14 @@ man() {
 alias lh="ln --help"
 
 # Mechabar - not my scripts.
-mecha=$scripts/mechabar/scripts
+mecha=$scripts/mechabar
 alias p="sh $mecha/power-menu.sh"
-alias uu="sh $mecha/system-update.sh"
 alias n="sh $mecha/network.sh "
 alias b="sh $mecha/bluetooth.sh"
+alias bu="sh $mecha/backlight.sh up 5"
+alias bd="sh $mecha/backlight.sh down 5"
+alias vu="sh $mecha/volume.sh raise 5"
+alias vd="sh $mecha/volume.sh lower 5"
 
 # 6. ZSH highlight colors.
 typeset -A ZSH_HIGHLIGHT_STYLES

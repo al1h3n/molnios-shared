@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 #
 # Scan, select, pair, and connect to Bluetooth devices
-# Passing "off" powers off Bluetooth
 #
-# Requires bluez-utils (bluetoothctl) and fzf
+# Requirements:
+# - bluetoothctl (bluez-utils)
+# - fzf
+# - notify-send (libnotify)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    August 19, 2025
@@ -67,9 +69,11 @@ get_devices() {
 		printf "\rScanning for devices... (%d/%d)" $i $TIMEOUT
 		printf "\n%bPress [q] to stop%b\n" "$FG_RED" "$FG_RESET"
 
-		num=$(bluetoothctl devices | grep -c "^Device")
+		num=$(bluetoothctl devices | grep -c "Device")
 		printf "\nDevices: %d" "$num"
-		printf "\e[3F" # Move cursor 3 lines up
+
+		# move cursor 3 lines up
+		printf "\e[3F"
 
 		read -rsn 1 -t 1
 		if [[ $REPLY == [Qq] ]]; then
@@ -142,20 +146,17 @@ pair_and_connect() {
 }
 
 main() {
-	if [[ $1 == off ]]; then
-		bluetoothctl power off
-		notify-send 'Bluetooth Off' -i 'network-bluetooth-inactive' \
-			-h string:x-canonical-private-synchronous:bluetooth
-		return 0
-	fi
+	# make cursor invisible
+	printf "\e[?25l"
 
-	printf "\e[?25l" # Make cursor invisible
 	power_on
 	get_devices
 
-	printf "\e[?25h" # Make cursor visible
+	# make cursor visible
+	printf "\e[?25h"
+
 	select_device
 	pair_and_connect
 }
 
-main "$@"
+main

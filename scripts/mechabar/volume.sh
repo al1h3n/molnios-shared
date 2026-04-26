@@ -2,7 +2,9 @@
 #
 # Adjust default device volume and send a notification with the current level
 #
-# Requires libpulse (pactl)
+# Requirements:
+# - pactl (libpulse)
+# - notify-send (libnotify)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    September 07, 2025
@@ -157,12 +159,8 @@ main() {
 	esac
 
 	case $ACTION in
-		mute)
-			set_state
-			;;
-		raise | lower)
-			set_volume
-			;;
+		mute)          set_state ;;
+		raise | lower) set_volume ;;
 		*)
 			usage
 			return 1

@@ -2,7 +2,9 @@
 #
 # Adjust screen brightness and send a notification with the current level
 #
-# Requires brightnessctl
+# Requirements:
+# - brightnessctl
+# - notify-send (libnotify)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    August 28, 2025

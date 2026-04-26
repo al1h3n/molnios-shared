@@ -37,6 +37,11 @@
       "outputColor": "yellow"
     },
     {
+      "type": "os",
+      "keyColor": "light_blue",
+      "format": "{name} {version}"
+    },
+    {
       "type": "kernel",
       "keyIcon": ""
     },
@@ -47,6 +52,8 @@
     {
       "type": "packages",
       "keyIcon": "󰏖",
+      "key": "Pkgs",
+      "keyColor": "dim_magenta",
       "combined": false
     },
     {
@@ -71,7 +78,9 @@
     },
     {
       "type": "memory",
-      "keyIcon": ""
+      "keyIcon": "",
+      "key": "RAM",
+      "keyColor": "dim_green"
     },
     {
       "type": "swap",
@@ -81,11 +90,13 @@
       "type": "disk",
       "keyIcon": "",
       "folders": "",
+      "keyColor": "dim_yellow",
       "useAvailable": true
     },
     {
       "type": "localip",
       "keyIcon": "󰩟",
+      "key": "IP",
       "compact": true
     },
     {

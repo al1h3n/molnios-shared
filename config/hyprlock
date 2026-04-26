@@ -3,7 +3,8 @@
 # Changed: first release.
 # ==========================================================
 
-# Launch by "hyprlock -q -c CONFIG_DIR"
+# Path - ~/.config/hypr/hyprlock
+# Launch by "hyprlock -q"
 
 # THE GLOW EFFECT
 # shadow_passes = 3       # 3 or 4 creates a nice soft glow

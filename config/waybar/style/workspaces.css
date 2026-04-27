@@ -1,0 +1,44 @@
+#workspaces {
+    margin: 5px;
+    padding: 6px 5px;
+    border-radius: 999px;
+    background: linear-gradient(to bottom, #272f39, @black);
+}
+
+#workspaces button {
+    padding: 0px 5px;
+    margin: 0px 3px;
+    border-radius: 16px;
+    color: #cdd6f4;
+    background-color: #2f354a;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.empty { opacity: 0.4; }
+
+#workspaces button.active {
+    color: #2f354a;
+    background-color: #cdd6f4;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+    transition: all 0.3s ease-in-out;
+    /*opacity: 1.0;*/
+}
+
+#workspaces button.urgent {
+    background-color: #cdd6f4;
+    color: #2f354a;
+    padding: 0 0 0 5px;
+    border-radius: 16px;
+    min-width: 40px;
+    background-size: 300% 300%;
+}
+
+#workspaces button:hover {
+    background-color: #cdd6f4;
+    color: #2f354a;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+}

@@ -59,7 +59,7 @@ language - current layout
         "separate-outputs": true
     },
 
-    "hyprland/workspaces": {
+    "hyprland/workspaces#aqua": {
         "format": "{icon}",
         "format-icons": {
           // "default": "",
@@ -71,15 +71,15 @@ language - current layout
         },
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1",
-        "tooltip-format": "Workspace {name}\n{windows}",
-        "format-window-separator": "\n",
-        "window-rewrite-default": "  ",
-        "window-rewrite": {
-            "title<.*youtube.*>": "  ",
-            "class<firefox>": "",
-            "class<vscodium>": "  ",
-            "class<discord>": "",
-            "class<foot>": "  "
-        }
+        "tooltip-format": "Workspace {name}\n{windows}"
+    },
+
+    "hyprland/workspaces#main": {
+        "persistent-workspaces": {
+          "*": [ 1, 2, 3, 4, 5 ]
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "tooltip-format": "Workspace {name}\n{windows}"
     }
 }

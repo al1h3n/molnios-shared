@@ -1,0 +1,17 @@
+#workspaces {
+    background: linear-gradient(to right, @prismarine, @aqua);
+    border-radius: 999px;
+    padding: 0 3px;
+    margin: 4px 2px;
+}
+#workspaces button.empty { opacity: 0.4; }
+#workspaces button {
+	border-radius: 999px;
+	padding-left: 7px;
+    padding-right: 10px;
+    border-color: @null;
+}
+#workspaces button:hover {
+	background-color: @null;
+	color: @sand;
+}

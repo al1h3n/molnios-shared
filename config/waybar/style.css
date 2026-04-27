@@ -1,7 +1,7 @@
 @import "theme.css";
+@import "style/workspaces.css";
 
 /* Main style */
-
 * {
     border: none;
     border-radius: 15px;
@@ -24,7 +24,7 @@ window#waybar {
 } */
 
 tooltip {
-    background-color: @mantle;
+    background-color: @main-bg;
     border: 1px solid @surface1;
     border-radius: 12px;
     color: @text;
@@ -40,29 +40,19 @@ tooltip label {
     font-size: 130%;
     margin-left: 10px;
 }
+#clock { color: @rosewater; }
+#custom-weather { color: @sky }
+#window { color: @light-red; }
 
 /* M-Modules */
-#workspaces {
-    background: linear-gradient(to right, #006d6d, #0066cc);
-    border-radius: 999px;
-    padding: 0 3px;
-    margin: 4px 2px;
-}
-button {
-	border-radius: 999px;
-	padding-left: 7px;
-    padding-right: 10px;
-    border-color: @null;
-}
-button:hover {
-	background-color: rgba(0,0,0,0);
-	color: #bba070;
-}
 
 /* R-Modules */
-#battery {
-    background: @dark_green;
-}
+#bluetooth { color: @light-blue; }
+#pulseaudio.output { color: @peach; }
+#pulseaudio.input { color: @yellow; }
+#network { color: @sapphire; }
+#language { color: @mauve; }
+#battery { background: @light_green; }
 #custom-notification {
     font-size: 130%;
     margin-right: 15px;
@@ -81,8 +71,8 @@ button:hover {
 #language,
 #pulseaudio,
 #custom-notification {
-    background: linear-gradient(to bottom, #272f39, #000000);
-    border-color: #000000;
+    background: linear-gradient(to bottom, #272f39, @black);
+    border-color: @black;
     border-radius: 999px;
     padding: 1px 12px;
     margin: 4px 2px;

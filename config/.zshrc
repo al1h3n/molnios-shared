@@ -139,6 +139,7 @@ fi
 alias y="yazi"
 alias yt="yt-x -p mpv --preview"
 alias fas="sh $scripts/fetch.sh -f"
+alias ca="cava -p $conf/cava"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias cat="bat"
 

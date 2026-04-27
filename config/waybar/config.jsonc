@@ -11,23 +11,23 @@
 {
 	"include": [
 		// L-Modules.
-		"~/.local/share/molnios/config/waybar/modules/menu.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/clock.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/weather.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
+		"~/waybar/waybar/modules/menu.jsonc",
+		"~/waybar/waybar/modules/clock.jsonc",
+		"~/waybar/waybar/modules/weather.jsonc",
+		"~/waybar/waybar/modules/media.jsonc",
 
 		// M-Modules.
-		"~/.local/share/molnios/config/waybar/modules/window-manager.jsonc",
+		"~/waybar/waybar/modules/window-manager.jsonc",
 
 
 		// R-Modules.
-		"~/.local/share/molnios/config/waybar/modules/tray.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/volume.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/network.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/language.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"
+		"~/waybar/waybar/modules/tray.jsonc",
+		"~/waybar/waybar/modules/volume.jsonc",
+		"~/waybar/waybar/modules/network.jsonc",
+		"~/waybar/waybar/modules/language.jsonc",
+		"~/waybar/waybar/modules/brightness.jsonc",
+		"~/waybar/waybar/modules/battery.jsonc",
+		"~/waybar/waybar/modules/notification.jsonc"
 	],
 
 	// Modules.
@@ -40,13 +40,13 @@
 		"mpris"
 	],
 	"modules-center": [
-		"hyprland/workspaces"
+		"hyprland/workspaces#main"
 	],
 	"modules-right": [
 		"tray",
 		"group/pulseaudio",
 		"network",
-		"bluetooth",
+		// "bluetooth",
 		"hyprland/language",
 		"backlight",
 		"battery",
@@ -54,7 +54,7 @@
 	],
 
 	// Waybar options.
-	"spacing": 0,
+	"spacing": 3,
 	"name": "molni-waybar",
 	"mode": "dock",
 	"layer": "top",

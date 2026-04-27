@@ -1,6 +1,7 @@
 {
 	"custom/menu": {
         "exec": "sh ~/.local/share/molnios/scripts/distro.sh",
+		"format": "{} ",
 		"on-click": "sh ~/.local/share/molnios/scripts/menu/menu.sh -t 'Power Menu' -i 'Shutdown,Reboot,Suspend,Logout' -e handle_power.sh",
 		"tooltip-format": "  MolniOS - Main menu"
 	}

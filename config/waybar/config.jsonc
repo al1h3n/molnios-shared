@@ -1,0 +1,62 @@
+/*
+ ░██╗░░░░░░░██╗░█████╗░██╗░░░██╗██████╗░░█████╗░██████╗░
+ ░██║░░██╗░░██║██╔══██╗╚██╗░██╔╝██╔══██╗██╔══██╗██╔══██╗
+ ░╚██╗████╗██╔╝███████║░╚████╔╝░██████╦╝███████║██████╔╝
+ ░░████╔═████║░██╔══██║░░╚██╔╝░░██╔══██╗██╔══██║██╔══██╗
+ ░░╚██╔╝░╚██╔╝░██║░░██║░░░██║░░░██████╦╝██║░░██║██║░░██║
+ ░░░╚═╝░░░╚═╝░░╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝
+ al1h3n edition.
+ */
+
+{
+	"include": [
+		// L-Modules.
+		"~/.local/share/molnios/config/waybar/modules/menu.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/clock.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/weather.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
+
+		// M-Modules.
+		"~/.local/share/molnios/config/waybar/modules/window-manager.jsonc",
+
+
+		// R-Modules.
+		"~/.local/share/molnios/config/waybar/modules/tray.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/volume.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/network.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/language.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"
+	],
+
+	// Modules.
+
+	"modules-left": [
+		"custom/menu",
+		"clock#macos",
+		"custom/weather",
+		"hyprland/window",
+		"mpris"
+	],
+	"modules-center": [
+		"hyprland/workspaces"
+	],
+	"modules-right": [
+		"tray",
+		"group/pulseaudio",
+		"network",
+		"bluetooth",
+		"hyprland/language",
+		"backlight",
+		"battery",
+		"custom/notification"
+	],
+
+	// Waybar options.
+	"spacing": 0,
+	"name": "molni-waybar",
+	"mode": "dock",
+	"layer": "top",
+	"reload_style_on_change": true // Only works with .CSS
+}

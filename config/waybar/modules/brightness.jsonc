@@ -1,0 +1,10 @@
+{
+	"backlight": {
+		"format": "{icon} {percent}%",
+		"format-icons": [
+			"", "", "", "", "", "", "", "", ""
+		],
+		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/backlight.sh up",
+		"on-scroll-down": "sh ~/.local/share/molnios/scripts/mechabar/backlight.sh down"
+	}
+}

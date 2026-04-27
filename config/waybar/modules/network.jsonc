@@ -1,0 +1,26 @@
+{
+    "network": {
+        "interval": 5,
+        "format-ethernet": "󰈀 Ethernet",
+        "format-wifi": "{icon} {signalStrength}%",
+        "format-disconnected": "󰤭 Disconnected",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "tooltip-format-ethernet": "󰈀 {ifname}\n{ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}",
+        "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n{ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "kitty -c $L_PATH/config/kitty -e ~/.local/share/molnios/scripts/mechabar/network.sh",
+        "on-click-right": "sh ~/.local/share/molnios/scripts/toggle-network.sh"
+    },
+
+    "bluetooth": {
+        "format": "󰂯",
+        "format-connected": "󰂱 {num_connections}",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "tooltip-format": "Bluetooth\n{controller_alias}",
+        "tooltip-format-connected": "{controller_alias}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "  {device_alias}",
+        "on-click": "kitty -c $L_PATH/config/kitty -e ~/.local/share/molnios/scripts/mechabar/bluetooth.sh"
+    }
+}

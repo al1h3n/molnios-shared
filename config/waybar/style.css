@@ -1,0 +1,89 @@
+@import "theme.css";
+
+/* Main style */
+
+* {
+    border: none;
+    border-radius: 15px;
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    font-size: 102%;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: @null;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+}
+
+/* window#waybar > box {
+    border-radius: 999px;
+    background-color: alpha(@base, .85);
+    border: 1px solid alpha(@surface1, .5);
+} */
+
+tooltip {
+    background-color: @mantle;
+    border: 1px solid @surface1;
+    border-radius: 12px;
+    color: @text;
+    padding: 6px 10px;
+}
+
+tooltip label {
+    color: @text;
+}
+
+/* L-Modules */
+#custom-menu {
+    font-size: 130%;
+    margin-left: 10px;
+}
+
+/* M-Modules */
+#workspaces {
+    background: linear-gradient(to right, #006d6d, #0066cc);
+    border-radius: 999px;
+    padding: 0 3px;
+    margin: 4px 2px;
+}
+button {
+	border-radius: 999px;
+	padding-left: 7px;
+    padding-right: 10px;
+    border-color: @null;
+}
+button:hover {
+	background-color: rgba(0,0,0,0);
+	color: #bba070;
+}
+
+/* R-Modules */
+#battery {
+    background: @dark_green;
+}
+#custom-notification {
+    font-size: 130%;
+    margin-right: 15px;
+}
+
+/* Group style */
+#clock,
+#custom-weather,
+#window,
+#mpris,
+#tray,
+#network,
+#bluetooth,
+#backlight,
+#battery,
+#language,
+#pulseaudio,
+#custom-notification {
+    background: linear-gradient(to bottom, #272f39, #000000);
+    border-color: #000000;
+    border-radius: 999px;
+    padding: 1px 12px;
+    margin: 4px 2px;
+}

@@ -33,6 +33,9 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+# Set compinit dump to another place.
+ZSH_COMPDUMP=~/.cache/zsh/zcompdump
+
 # 2. Plugin manager.
 if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ];then
   # NixOS / MaconlyOS - ZINIT_HOME set by home-manager in zsh.nix.

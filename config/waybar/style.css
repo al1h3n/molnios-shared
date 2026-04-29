@@ -1,15 +1,33 @@
 @import "theme.css";
 @import "style/workspaces.css";
 
+/* Group style */
+#clock,
+#custom-weather,
+#window,
+#mpris,
+#tray,
+#network,
+#bluetooth,
+#backlight,
+#battery,
+#language,
+#pulseaudio,
+#custom-notification {
+    background: linear-gradient(to bottom, #272f39, @black);
+    border-color: @black;
+    border-radius: 999px;
+    padding: 1px 12px;
+    margin: 4px 2px;
+}
+
 /* Main style */
 * {
     border: none;
     border-radius: 15px;
-    font-family: "JetBrainsMono Nerd Font";
+    font-family: "SF Pro"; /* JetBrainsMono Nerd Font */
     font-weight: bold;
-    font-size: 102%;
-    min-height: 0;
-}
+    font-size: 102%;}
 
 window#waybar {
     background-color: @null;
@@ -56,24 +74,5 @@ tooltip label {
 #custom-notification {
     font-size: 130%;
     margin-right: 15px;
-}
-
-/* Group style */
-#clock,
-#custom-weather,
-#window,
-#mpris,
-#tray,
-#network,
-#bluetooth,
-#backlight,
-#battery,
-#language,
-#pulseaudio,
-#custom-notification {
-    background: linear-gradient(to bottom, #272f39, @black);
-    border-color: @black;
-    border-radius: 999px;
-    padding: 1px 12px;
-    margin: 4px 2px;
+    padding: 0px 30px;
 }

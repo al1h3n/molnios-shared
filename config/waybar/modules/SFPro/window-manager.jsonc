@@ -1,0 +1,85 @@
+/*
+window - current window title.
+workspaces - your current opened workspaces.
+language - current layout
+*/
+
+{
+    "hyprland/window": {
+        "max-length": 25,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "󰈹  $1",
+            "(.*) - VSCodium": "󰨞  $1",
+            "(.*) - Notion": "  $1",
+            "nvim(.*)": "  $1",
+            "Minecraft(.*)": "󰍳 $1",
+            "Prism Launcher(.*)": "󰍳 $1",
+            "(.*)OBS(.*)": "  $1",
+            "(.*)Spotify(.*)": "  Spotify",
+            "(.*)qBittorrent(.*)": "qBittorrent $1",
+            "Telegram(.*)": "  $1",
+            "(.*)Discord(.*)": "   $1",
+            "(.*)Steam(.*)": "  $1",
+            "(.*) - Thunar": "   $1",
+            "(.*)LocalSend(.*)": "  $1",
+            "sh": "󰆍 ",
+            "bash": "󰆍 ",
+            "zsh": "󰆍 ",
+            "(.*)yazi(.*)": "  $1",
+            "(.*)superfile(.*)": "  $1",
+            "": "MolniOS"
+        },
+        "separate-outputs": true
+    },
+
+    "niri/window": {
+        "max-length": 25,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "󰈹  $1",
+            "(.*) - VSCodium": "󰨞  $1",
+            "(.*) - Notion": "  $1",
+            "nvim(.*)": "  $1",
+            "Minecraft(.*)": "󰍳 $1",
+            "Prism Launcher(.*)": "󰍳 $1",
+            "(.*)OBS(.*)": "  $1",
+            "(.*)Spotify(.*)": "  Spotify",
+            "(.*)qBittorrent(.*)": "qBittorrent $1",
+            "Telegram(.*)": "  $1",
+            "(.*)Discord(.*)": "   $1",
+            "(.*)Steam(.*)": "  $1",
+            "(.*) - Thunar": "   $1",
+            "(.*)LocalSend(.*)": "  $1",
+            "sh": "󰆍 ",
+            "bash": "󰆍 ",
+            "zsh": "󰆍 ",
+            "(.*)yazi(.*)": "  $1",
+            "(.*)superfile(.*)": "  $1",
+            "": "MolniOS"
+        },
+        "separate-outputs": true
+    },
+
+    "hyprland/workspaces#aqua": {
+        "format": "{icon}",
+        "format-icons": {
+          // "default": "",
+          "default": "",
+          "active": "" 
+        },
+        "persistent-workspaces": {
+          "*": [ 1, 2, 3 ]
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "tooltip-format": "Workspace {name}\n{windows}"
+    },
+
+    "hyprland/workspaces#main": {
+        "persistent-workspaces": {
+          "*": [ 1, 2, 3, 4, 5 ]
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "tooltip-format": "Workspace {name}\n{windows}"
+    }
+}

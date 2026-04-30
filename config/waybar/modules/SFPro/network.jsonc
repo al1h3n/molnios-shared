@@ -2,8 +2,8 @@
     "network": {
         "interval": 5,
         "format-ethernet": "󰈀  Ethernet",
-        "format-wifi": "{icon} {signalStrength}%",
-        "format-disconnected": "󰤭 Disconnected",
+        "format-wifi": "{icon}  {signalStrength}%",
+        "format-disconnected": "󰤭  Disconnected",
         "format-linked": "󰈀  {ifname} (No IP)",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "tooltip-format-ethernet": "󰈀  {ifname}\n{ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}",

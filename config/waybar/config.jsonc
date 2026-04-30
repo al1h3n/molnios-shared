@@ -11,23 +11,23 @@
 {
 	"include": [
 		// L-Modules.
-		"~/waybar/waybar/modules/SFPro/menu.jsonc",
-		"~/waybar/waybar/modules/SFPro/clock.jsonc",
-		"~/waybar/waybar/modules/weather.jsonc",
-		"~/waybar/waybar/modules/media.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/menu.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/clock.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/weather.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
 
 		// M-Modules.
-		"~/waybar/waybar/modules/SFPro/window-manager.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/window-manager.jsonc",
 
 
 		// R-Modules.
-		"~/waybar/waybar/modules/tray.jsonc",
-		"~/waybar/waybar/modules/SFPro/volume.jsonc",
-		"~/waybar/waybar/modules/SFPro/network.jsonc",
-		"~/waybar/waybar/modules/SFPro/language.jsonc",
-		"~/waybar/waybar/modules/brightness.jsonc",
-		"~/waybar/waybar/modules/battery.jsonc",
-		"~/waybar/waybar/modules/notification.jsonc"
+		"~/.local/share/molnios/config/waybar/modules/tray.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/volume.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/network.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/language.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"
 	],
 
 	// Modules.

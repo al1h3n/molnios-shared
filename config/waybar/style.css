@@ -61,6 +61,7 @@ tooltip label {
 #clock { color: @rosewater; }
 #custom-weather { color: @sky }
 #window { color: @light-red; }
+#mpris { color: @teal; }
 
 /* M-Modules */
 

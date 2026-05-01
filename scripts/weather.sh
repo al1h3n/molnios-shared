@@ -99,19 +99,19 @@ LOC_LABEL="${LOCATION:-$(hostname)}"
 TOOLTIP="$(cat <<EOF
 ${DESC}  ·  ${LOC_LABEL}
 
-🌡  Temperature : ${TEMP_C}°C  |  ${TEMP_F}°F  |  ${TEMP_K}
-🤔 Feels like  : ${FEEL}
-💧 Humidity    : ${HUMID}%
-💨 Wind        : ${WIND} km/h
-👁  Visibility  : ${VISIB} km
-🔵 Pressure    : ${PRESS} hPa
-☀️  UV Index    : ${UV}
+🌡 Temperature: ${TEMP_C}°C  |  ${TEMP_F}°F  |  ${TEMP_K}
+🤔 Feels like : ${FEEL}
+💧 Humidity   : ${HUMID}%
+💨 Wind       : ${WIND} km/h
+👁 Visibility : ${VISIB} km
+🔵 Pressure   : ${PRESS} hPa
+☀️ UV Index   : ${UV}
 
-🌅 Sunrise     : ${SUNRISE}
-🌇 Sunset      : ${SUNSET}
+🌅 Sunrise: ${SUNRISE}
+🌇 Sunset: ${SUNSET}
 
-📅 Tomorrow    : ${TMRW_DESC}
-   High / Low  : ${TMRW_MAX_C}°C / ${TMRW_MIN_C}°C
+📅 Tomorrow: ${TMRW_DESC}
+High / Low : ${TMRW_MAX_C}°C / ${TMRW_MIN_C}°C
 EOF
 )"
 

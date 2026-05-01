@@ -83,7 +83,6 @@ alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
 
 # Helpful
-alias text="nvim -y"
 alias s="sudo"
 alias k="killall"
 alias q="zsh"
@@ -109,6 +108,12 @@ rr(){ # rm-improved
     echo "\nCancelled."
   fi
 }
+
+alias vq="warp-cli disconnect"
+alias vw="warp-cli status"
+alias ve="warp-cli connect"
+alias vr="warp-cli registration delete"
+alias vt="warp-cli registration new"
 
 # github.com/Alihan1ai9595/sweeper
 # Custom scripts for paths in Molniux.

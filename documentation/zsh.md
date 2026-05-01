@@ -11,7 +11,6 @@
 `c` - `clear` shortcut.<br>
 `cl` - just move everything above.
 
-`text` - `nvim -y` (neovim for newbies instead of nano or micro)<br>
 `s` - `sudo`<br>
 `k`- `killall` (kill program)<br>
 `q` - `zsh` (shell)<br>
@@ -28,6 +27,12 @@
 `grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)<br>
 `find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
 `sakura` - cbonsai custom config.<br>
+
+`vq` - `warp-cli disconnect`<br>
+`vw` - `warp-cli status`<br>
+`ve`- `warp-cli connect`<br>
+`vr` - `warp-cli registration delete`<br>
+`vt` - `warp-cli registration new`<br>
 
 #### `fzf` related (dynamic lists)
 `fbat` - find file and output it.<br>

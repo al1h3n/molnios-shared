@@ -6,8 +6,8 @@
         "format-disconnected": "󰤭  Disconnected",
         "format-linked": "󰈀  {ifname} (No IP)",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-        "tooltip-format-ethernet": "󰈀  {ifname}\n{ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}",
-        "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n{ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}",
+        "tooltip-format-ethernet": "󰈀  {ifname}\n{ipaddr}/{cidr}\n⬇ {bandwidthDownBytes} ⬆ {bandwidthUpBytes}",
+        "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n{ipaddr}/{cidr}\n⬇ {bandwidthDownBytes} ⬆ {bandwidthUpBytes}",
         "tooltip-format-disconnected": "Disconnected",
         "on-click": "kitty -c $L_PATH/config/kitty -e ~/.local/share/molnios/scripts/mechabar/network.sh",
         "on-click-right": "sh ~/.local/share/molnios/scripts/toggle-network.sh"

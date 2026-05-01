@@ -173,6 +173,12 @@ txt(){
   rg --line-number --hidden --glob '!.git' 'pattern' | fzf --preview 'bat --color=always --style=numbers --highlight-line {2} {1}'
 }
 
+we() {
+  local city="${*:-}"
+  city="${city// /+}"
+  curl "wttr.in/${city}?format=3"
+}
+
 alias journal="journalctl -xe | fzf"
 alias proc="ps aux | fzf --bind 'enter:execute(kill -9 {2})+abort'"
 alias en="printenv|fzf"

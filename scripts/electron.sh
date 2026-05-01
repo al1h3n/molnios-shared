@@ -25,7 +25,7 @@ try_exec() {
 case "$APP" in
 
     # ── Editor / IDE ──────────────────────────────────────────────────────────
-    # Priority: vscodium/codium (NixOS) → code → cursor → coder
+    # Priority: vscodium/codium → code → cursor → coder
 
     coder)
         try_exec vscodium "${ELECTRON_FLAGS[@]}" "$@" ||  # Arch, Debian, Alpine (AUR/deb)
@@ -53,10 +53,11 @@ case "$APP" in
         ;;
 
     # ── Communications ────────────────────────────────────────────────────────
-    # Priority: vesktop (AUR) → webcord → discord
+    # Priority: equicord → vesktop → webcord → discord
     # discord-canary and discord-ptb are omitted — same source as discord.
 
     discord)
+        try_exec equicord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec vesktop "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec webcord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec discord "${ELECTRON_FLAGS[@]}" "$@" ||

@@ -61,17 +61,17 @@ to_kelvin() { echo "$1" | awk '{printf "%.2f", $1 + 273.15}'; }
 weather_icon() {
   local code=$1
   case $code in
-    113)                                           echo "☀️"  ;;
-    116)                                           echo "⛅"  ;;
-    119|122)                                       echo "☁️"  ;;
-    143|248|260)                                   echo "🌫️" ;;
-    176|263|266|293|296)                           echo "🌦️" ;;
-    179|227|230)                                   echo "❄️"  ;;
+    113)                                           echo "󰖨 "  ;;
+    116)                                           echo " "  ;;
+    119|122)                                       echo "󰅟 "  ;;
+    143|248|260)                                   echo "󰖑 " ;;
+    176|263|266|293|296)                           echo " " ;;
+    179|227|230)                                   echo " "  ;;
     182|185|281|284|311|314|317|350|377| \
-      299|302|305|308)                             echo "🌧️" ;;
-    200|386|389|392|395)                           echo "⛈️" ;;
-    323|326|329|332|335|338|368|371|374)           echo "🌨️" ;;
-    *)                                             echo "🌡️" ;;
+      299|302|305|308)                             echo " " ;;
+    200|386|389|392|395)                           echo "󰖓 " ;;
+    323|326|329|332|335|338|368|371|374)           echo " " ;;
+    *)                                             echo "󱣶 " ;;
   esac
 }
 
@@ -99,18 +99,18 @@ LOC_LABEL="${LOCATION:-$(hostname)}"
 TOOLTIP="$(cat <<EOF
 ${DESC}  ·  ${LOC_LABEL}
 
-🌡 Temperature: ${TEMP_C}°C  |  ${TEMP_F}°F  |  ${TEMP_K}
-🤔 Feels like : ${FEEL}
-💧 Humidity   : ${HUMID}%
-💨 Wind       : ${WIND} km/h
-👁 Visibility : ${VISIB} km
-🔵 Pressure   : ${PRESS} hPa
-☀️ UV Index   : ${UV}
+ Temperature: ${TEMP_C}°C  |  ${TEMP_F}°F  |  ${TEMP_K}
+ Feels like : ${FEEL}
+󰖌 Humidity   : ${HUMID}%
+ Wind       : ${WIND} km/h
+󰈈 Visibility : ${VISIB} km
+󰄠 Pressure   : ${PRESS} hPa
+󱩷 UV Index   : ${UV}
 
-🌅 Sunrise: ${SUNRISE}
-🌇 Sunset: ${SUNSET}
+󰖜 Sunrise: ${SUNRISE}
+󰖛 Sunset: ${SUNSET}
 
-📅 Tomorrow: ${TMRW_DESC}
+ Tomorrow: ${TMRW_DESC}
 High / Low : ${TMRW_MAX_C}°C / ${TMRW_MIN_C}°C
 EOF
 )"

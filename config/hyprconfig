@@ -249,8 +249,8 @@ animations {
 # 7. Smart gaps. You may comment it.
 workspace = w[tv1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrule = border_size 0, rounding 0, match:float = 0, match:workspace = w[tv1]
-windowrule = border_size 0, rounding 0, match:float = 0, match:workspace = f[1]
+windowrule = match:float = 0, border_size 0, rounding 0, match:workspace = w[tv1]
+windowrule = match:float = 0, border_size 0, rounding 0, match:workspace = f[1]
 
 # 8. dwindles (window arrangements).
 dwindle {

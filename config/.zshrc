@@ -198,9 +198,9 @@ myip() {
 
   echo -e "
   󰩟 IP: $WHEREAMI_IP
-   Location:    $location
+   Location: $location
    Coordinates: $WHEREAMI_LAT,$WHEREAMI_LON
-   ISP:         $WHEREAMI_ISP
+   ISP (your provider): $WHEREAMI_ISP
 "
 }
 

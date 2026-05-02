@@ -13,7 +13,7 @@
 		// L-Modules.
 		"~/.local/share/molnios/config/waybar/modules/SFPro/menu.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/clock.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/weather.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/weather.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
 
 		// M-Modules.

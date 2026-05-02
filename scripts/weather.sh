@@ -6,12 +6,12 @@
 #   -c              show temperature in °C (default)
 #   -f              show temperature in °F
 #   -k              show temperature in °K
-#   -p <n>          spaces between every icon and its text (default: 1, SF Pro needs 2)
+#   -p <n>          spaces between every icon and its text (default: 2, SF Pro needs 3)
 
 LOCATION="${WEATHER_LOCATION:-}"
 SHOW_ICON=false
 UNIT="C"
-ICON_PAD=1
+ICON_PAD=2
 
 while getopts "l:icfkp:" opt; do
   case $opt in

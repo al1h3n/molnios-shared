@@ -184,6 +184,27 @@ we() {
   curl "wttr.in/${city}?format=3"
 }
 
+myip() {
+  local script="${WHEREAMI_SCRIPT:-$scripts/whereami.sh}"
+
+  local WHEREAMI_IP WHEREAMI_CITY WHEREAMI_REGION WHEREAMI_COUNTRY WHEREAMI_LAT WHEREAMI_LON WHEREAMI_ISP
+  eval "$("$script" --export)" || return 1
+
+  # Build location string — omit region if empty or identical to city
+  local location="$WHEREAMI_CITY"
+  [[ -n "$WHEREAMI_REGION" && "$WHEREAMI_REGION" != "$WHEREAMI_CITY" ]] \
+    && location+=", $WHEREAMI_REGION"
+  location+=", $WHEREAMI_COUNTRY"
+
+  echo -e "
+  󰩟 IP: $WHEREAMI_IP
+   Location:    $location
+   Coordinates: $WHEREAMI_LAT,$WHEREAMI_LON
+   ISP:         $WHEREAMI_ISP
+"
+}
+
+
 alias journal="journalctl -xe | fzf"
 alias proc="ps aux | fzf --bind 'enter:execute(kill -9 {2})+abort'"
 alias en="printenv|fzf"

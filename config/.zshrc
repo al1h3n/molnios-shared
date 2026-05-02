@@ -188,7 +188,7 @@ myip() {
   local script="${WHEREAMI_SCRIPT:-$scripts/whereami.sh}"
 
   local WHEREAMI_IP WHEREAMI_CITY WHEREAMI_REGION WHEREAMI_COUNTRY WHEREAMI_LAT WHEREAMI_LON WHEREAMI_ISP
-  eval "$("$script" --export)" || return 1
+  eval "$(sh $script --export)" || return 1
 
   # Build location string — omit region if empty or identical to city
   local location="$WHEREAMI_CITY"

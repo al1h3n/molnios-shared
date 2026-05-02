@@ -39,6 +39,7 @@
     {
       "type": "os",
       "keyColor": "light_blue",
+      "keyIcon": "",
       "format": "{name} {version}"
     },
     {

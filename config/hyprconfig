@@ -511,3 +511,6 @@ layerrule = ignore_alpha 0, blur 1, animation slide right, match:namespace swayn
 
 # 15.2. Glass effect for launcher.
 layerrule = ignore_alpha 0, blur 1, animation slide bottom, match:namespace rofi
+
+# 15.3 Glass effect for window switcher.
+layerrule = ignore_alpha 0.5, blur 1, animation slide bottom, match:namespace snappy-switcher

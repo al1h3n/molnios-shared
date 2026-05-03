@@ -5,6 +5,7 @@
 #### Media
 `PrintScreen` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__.<br>
 `Super + PrintScreen` - __record__ screen.<br>
+`Super + Insert` - make screenshot and copy it to clipboard (no saving).<br>
 
 #### Media: advanced
 `Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).

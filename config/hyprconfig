@@ -374,13 +374,19 @@ bind = $main shift, B, exec, $netman
 # 13.10. Bottom bar double CTRL keybinds [Z~M].
 bind = $main ctrl, Z, exec, $reload
 
-# 13.8. Move focus with main + arrow keys
+# 13.11. Top bar double ALT keybinds [Q~P].
+# 13.12. Middle bar double ALT keybinds [A~L].
+# 13.13. Bottom bar double ALT keybinds [Z~M].
+bind = $main alt, Z, exec, pkill -SIGUSR1 ie-r
+bind = $main alt, X, exec, pkill -SIGUSR2 ie-r
+
+# 13.14. Move focus with main + arrow keys.
 bind = $main, left, movefocus, l
 bind = $main, right, movefocus, r
 bind = $main, up, movefocus, u
 bind = $main, down, movefocus, d
 
-# 13.9. Switch workspaces with main + [0-9]
+# 13.15. Switch workspaces with main + [0-9].
 bind = $main, 1, workspace, 1
 bind = $main, 2, workspace, 2
 bind = $main, 3, workspace, 3
@@ -392,7 +398,7 @@ bind = $main, 8, workspace, 8
 bind = $main, 9, workspace, 9
 bind = $main, 0, workspace, 10
 
-# 13.10. Move active window to a workspace with main + SHIFT + [0-9]
+# 13.16. Move active window to a workspace with main + SHIFT + [0-9].
 bind = $main shift, 1, movetoworkspace, 1
 bind = $main shift, 2, movetoworkspace, 2
 bind = $main shift, 3, movetoworkspace, 3
@@ -404,15 +410,15 @@ bind = $main shift, 8, movetoworkspace, 8
 bind = $main shift, 9, movetoworkspace, 9
 bind = $main shift, 0, movetoworkspace, 10
 
-# 13.11. Scroll through existing workspaces with main + scroll.
+# 13.17. Scroll through existing workspaces with main + scroll.
 bind = $main, mouse_down, workspace, e+1
 bind = $main, mouse_up, workspace, e-1
 
-# 13.12. Move/resize windows with main + LMB/RMB and dragging.
+# 13.18. Move/resize windows with main + LMB/RMB and dragging.
 bindm = $main, mouse:272, movewindow
 bindm = $main, mouse:273, resizewindow
 
-# 13.13. Laptop multimedia keys for volume and LCD brightness.
+# 13.19. Laptop multimedia keys for volume and LCD brightness.
 bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
 bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
@@ -420,7 +426,7 @@ bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindel = ,XF86MonBrightnessUp, exec, $brightness 10%+
 bindel = ,XF86MonBrightnessDown, exec, $brightness 10%-
 
-# 13.14. For desktop keyboards.
+# 13.20. For desktop keyboards.
 bindel = $main shift, F1, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-
 bindel = $main shift, F2, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
 bindel = $main shift, F3, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
@@ -428,7 +434,7 @@ bindel = $main shift, F4, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindel = $main shift, F5, exec, brightnessctl s 10%-
 bindel = $main shift, F6, exec, brightnessctl s 10%+
 
-# 13.15. Information keybinds.
+# 13.21. Information keybinds.
 bindel = $main ctrl, F1, exec, notify-send "Current volume" "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) "%" ($3 ? " " $3 : "")}')"
 bindel = $main ctrl, F2, exec, notify-send "Current time" "$(date +%H:%M:%S)"
 bindel = $main ctrl, F3, exec, notify-send "Current date" "$(date +%d.%m.%Y)"
@@ -438,18 +444,18 @@ bindel = $main ctrl, F6, exec, notify-send "CPU utilization value" "$(top -bn1 |
 bindel = $main ctrl, F7, exec, notify-send "RAM usage value" "$(free | awk '/Mem:/ {printf("%.0f%%", $3/$2 * 100)}')"
 bindel = $main ctrl, F8, exec, notify-send "Temperature" "$(sh $temp)"
 
-# 13.16. Zoom.
+# 13.22. Zoom.
 bind = $main shift, up, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor -j | jq '.float * 2.5')
 bind = $main shift, down, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor -j | jq '(.float * .25) | if . < 1 then 1 else . end')
 
-# 13.17. Screen sharing binds.
+# 13.23. Screen sharing binds.
 bind = , print, exec, $screenshot
 bind = $main, print, exec, $record
 bind = $main shift, print, exec, $record -a
 bind = $main ctrl, print, exec, $record -o
 bind = $main alt, print, exec, $ocr_simple
 
-# 13.18. Additional keybinds.
+# 13.24. Additional keybinds.
 bind = $main, space, exec, hyprctl switchxkblayout current next
 bind = alt, tab, exec, $switcher
 bind = alt shift, tab, exec, $switchmenu
@@ -479,8 +485,15 @@ windowrule = opacity 1 .8, match:class ^($hyprpermissions)$, match:float 1
 # Waybar.
 windowrule = no_focus 1, match:class ^(waybar)$, match:title ^(waybar)$
 
-# Make player not opaque.
-windowrule = opacity 1 override 1 override, match:class ^(mpv)$
+# Make player opaque.
+windowrule = opacity 1 override, match:class ^(mpv)$
+# windowrule = opacity 1 override 1 override, match:class ^(mpv)$
+
+# Make browsers opaque.
+windowrule = opacity 1 override, match:class ^(zen|librewolf|firefox|brave|chrome)$
+
+# Blur for wlogout.
+layerrule = blur 1, animation fade, match:namespace logout_dialog
 
 # 15. Effect rules (layerrules).
 # Blur might be not satisfying when another app is opened.

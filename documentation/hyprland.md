@@ -107,6 +107,9 @@
 `Super + Ctrl + F7` → Show RAM usage.<br>
 `Super + Ctrl + F8` → Show temperature.<br>
 
+#### Eyedropper and everything related to colors
+`Super + Alt + Z` - open eyedropper.<br>
+`Super + Alt + X` - open eyedropper's hostory.<br>
 
 #### Other
 `Super + Ctrl + Z` - reload all configurations.<br>

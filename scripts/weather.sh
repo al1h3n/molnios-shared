@@ -132,7 +132,6 @@ ${TI_RISE_1} ${TMRW_SUNRISE}
 ${TI_SET_1} ${TMRW_SUNSET}
 EOF
 )"
-
-TOOLTIP_JSON=$(echo "$TOOLTIP" | jq -Rsa .)
+TOOLTIP_JSON=$(jq -Rn --arg t "$TOOLTIP" '$t | sub("\n$"; "")')
 
 echo "{\"text\":\"${TEXT}\",\"tooltip\":${TOOLTIP_JSON},\"class\":\"weather\"}"

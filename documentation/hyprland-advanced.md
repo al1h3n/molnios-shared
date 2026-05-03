@@ -1,6 +1,6 @@
 # _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ hyprland keybinds:
 `Caps Lock` = control.<br>
-`Alt + Tab` - window switcher, `Alt + Shift + Tab` - window menu switcher (advanced).<br>
+`Alt [Shift] + Tab` - next and previous window switch , `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
 
 #### Media
 `PrintScreen` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__.<br>

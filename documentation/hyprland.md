@@ -13,8 +13,8 @@
 `Super` - `Windows` / `Command` key on your keyboard.<br>
 `Super + Space` - switch keyboard layout (by default US/RU, you can change it in config).<br>
 `Caps Lock` = control.<br>
-`Alt + Tab` - window switcher<br>
-`Alt + Shift + Tab` - window switcher (application menu).<br>
+`Alt + Tab` / `Alt + Shift + Tab` - window switcher<br>
+`Alt + Ctrl + Tab` - window switcher (application menu).<br>
 
 #### Media
 `Print` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__.<br>

@@ -50,6 +50,7 @@ $gpu = $scripts/gpu.sh
 $temp = $scripts/temp.sh
 $reload = $shell $scripts/reloadus.sh
 $gamemode = $shell $scripts/gamemode.sh
+$eyedropper = ie-r
 
 
 # 1.5.2. Clipboard related.
@@ -130,7 +131,7 @@ monitor=DP-1,highres@highrr,0x0,1.25
 exec-once = $network & $bluetooth
 exec-once = systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Wallpaper, tray and other main additions.
-exec-once = $tray & $notify & $switcherdaemon & $wallpaper && $idlewallpaper && $borders
+exec-once = $tray & $notify & $switcherdaemon & $eyedropper & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.
 exec-once = $cliptext & $clipmage & $clipsave
 
@@ -380,8 +381,8 @@ bind = $main ctrl, Z, exec, $reload
 # 13.11. Top bar double ALT keybinds [Q~P].
 # 13.12. Middle bar double ALT keybinds [A~L].
 # 13.13. Bottom bar double ALT keybinds [Z~M].
-bind = $main alt, Z, exec, pkill -SIGUSR1 ie-r
-bind = $main alt, X, exec, pkill -SIGUSR2 ie-r
+bind = $main alt, Z, exec, pkill -SIGUSR1 $eyedropper
+bind = $main alt, X, exec, pkill -SIGUSR2 $eyedropper
 
 # 13.14. Move focus with main + arrow keys.
 bind = $main, left, movefocus, l

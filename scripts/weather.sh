@@ -51,9 +51,11 @@ CODE=$(echo "$DATA"   | jq -r '.current_condition[0].weatherCode')
 SUNRISE=$(echo "$DATA" | jq -r '.weather[0].astronomy[0].sunrise')
 SUNSET=$(echo "$DATA"  | jq -r '.weather[0].astronomy[0].sunset')
 
+TMRW_DESC=$(echo "$DATA"  | jq -r '.weather[1].hourly[4].weatherDesc[0].value')
 TMRW_MAX_C=$(echo "$DATA" | jq -r '.weather[1].maxtempC')
 TMRW_MIN_C=$(echo "$DATA" | jq -r '.weather[1].mintempC')
-TMRW_DESC=$(echo "$DATA"  | jq -r '.weather[1].hourly[4].weatherDesc[0].value')
+TMRW_SUNRISE=$(echo "$DATA" | jq -r '.weather[1].astronomy[0].sunrise')
+TMRW_SUNSET=$(echo "$DATA"  | jq -r '.weather[1].astronomy[0].sunset')
 
 capitalize() { echo "$1" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2)); print}'; }
 CITY_RAW=$(echo "$DATA"    | jq -r '.nearest_area[0].areaName[0].value')
@@ -110,6 +112,9 @@ TI_SET="󰖛${SEP}Sunset:"
 TI_TMRW="${SEP}Tomorrow:"
 TI_HL="${SEP}High/Low:"
 
+TI_RISE_1="󰖜${SEP}Sunrise tomorrow:"
+TI_SET_1="󰖛${SEP}Sunset tomorrow:"
+
 TOOLTIP="$(cat <<EOF
 ${DESC} - ${LOC_LABEL:-$(hostname)}
 ${TI_TEMP} ${TEMP_C}°C | ${TEMP_F}°F | ${TEMP_K}
@@ -123,6 +128,8 @@ ${TI_RISE} ${SUNRISE}
 ${TI_SET} ${SUNSET}
 ${TI_TMRW} ${TMRW_DESC}
 ${TI_HL} ${TMRW_MAX_C}°C | ${TMRW_MIN_C}°C
+${TI_RISE_1} ${TMRW_SUNRISE}
+${TI_SET_1} ${TMRW_SUNSET}
 EOF
 )"
 

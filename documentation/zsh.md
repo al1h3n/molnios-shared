@@ -20,7 +20,7 @@
 `sl` - `sleep`<br>
 `ln` - `ln -sfn`<br>
 `rr` - __rmproved__ (removes all provided files in list)<br>
-`we` - current weather, uses [wttr.in](https://github.com/chubin/wttr.in) data. Uses current location when no arguments are given.<br>
+`we` - current weather, uses [wttr.in](https://github.com/chubin/wttr.in) data. Use city/region name as an argument (any case). Uses current location when no arguments are given.<br>
 `myip` - current location, country, coordinates and public IP.<br>
 `f` - [Pay Respects](https://github.com/iffse/pay-respects) (write after you made an error to fix it)<br>
 `cat` - [bat](https://github.com/sharkdp/bat)<br>

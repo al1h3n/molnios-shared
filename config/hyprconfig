@@ -130,7 +130,7 @@ monitor=DP-1,highres@highrr,0x0,1.25
 exec-once = $network & $bluetooth
 exec-once = systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Wallpaper, tray and other main additions.
-exec-once = $tray & $notify & $wallpaper && $idlewallpaper && $borders && $switcherdaemon
+exec-once = $tray & $notify & $switcherdaemon & $wallpaper && $idlewallpaper && $borders
 # Clipboard managers.
 exec-once = $cliptext & $clipmage & $clipsave
 

@@ -1,5 +1,6 @@
 # ==========================================================
-# hyprconfig - made for MolniOS
+# hyprconfig (monolithic conf edition) - made for MolniOS.
+# From 0.55.0 hyprland will use .lua configuration.
 # ==========================================================
 
 # 0. Including files.
@@ -513,4 +514,4 @@ layerrule = ignore_alpha 0, blur 1, animation slide right, match:namespace swayn
 layerrule = ignore_alpha 0, blur 1, animation slide bottom, match:namespace rofi
 
 # 15.3 Glass effect for window switcher.
-layerrule = ignore_alpha 0.5, blur 1, animation slide bottom, match:namespace snappy-switcher
+layerrule = ignore_alpha 0, blur 1, animation slide bottom, match:namespace snappy-switcher

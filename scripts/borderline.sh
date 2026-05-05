@@ -10,6 +10,10 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
+# Clear previous cached wallpapers.
+TMPFRAME=$(mktemp /tmp/borderline_XXXXXX.png)
+trap 'rm -f "$TMPFRAME"' EXIT
+
 if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi

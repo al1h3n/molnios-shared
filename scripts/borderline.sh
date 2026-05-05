@@ -10,9 +10,6 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
-# Existing arguments:
-# -c    
-
 if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi

@@ -132,7 +132,7 @@ if [ "$(uname)" != "Darwin" ];then
   }
   alias lock="hyprlock -q -c $conf/hyprlock"
   alias menu="rofi -config $conf/rofi -show drun &>/dev/null"
-  alias wb="waybar"
+  alias wb="waybar -c $conf/waybar/config.jsonc -s $conf/waybar/style.css"
   alias lan="nmtui"
   alias ns="notify-send"
 
@@ -146,9 +146,10 @@ fi
 
 alias y="yazi"
 alias yt="yt-x -p mpv --preview"
-alias fas="sh $scripts/fetch.sh -f"
-alias ca="cava -p $conf/cava"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
+alias fas="sh $scripts/fetch.sh -f"
+alias fast="sh $scripts/fetch.sh -m "
+alias ca="cava -p $conf/cava"
 alias cat="bat"
 
 alias dir="eza --icons"
@@ -156,8 +157,8 @@ alias ls="eza --icons -la"
 alias l="eza --icons"
 alias lt="eza --icons -T -L 2"
 
-alias find="fd -u"
-alias grep="rg -up"
+# alias find="fd -u"
+# alias grep="rg -up"
 
 alias sakura="cbonsai -k 201,94,213,130 -l -t .1"
 

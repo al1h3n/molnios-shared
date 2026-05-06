@@ -1,18 +1,9 @@
 // ==========================================================
-// config.rasi al1h3n edition - v1.0.1
-// Changed: removed icons, improven text visibility.
+// Rofi configuration space edition - v1.0.1
 // ==========================================================
 
 // Reloads automatically. Path - ~/.config/rofi/config.rasi
-// Ctrl+Tab automatically switches modes.
 // To reset type "rofi -dump-config > ~/.config/rofi/config.rasi"
-
-// Control + BackSpace - remove word. Control + Enter - custom command/program.
-// Control + Up/Down - search history.
-// Control + Q/W/E - left text position, clear line, right text position.
-// Control + A/S - remove text on left/right side.
-// Control + Tab, Alt + 1~0 - switch types. Alt + "." - move text if too big.
-// Type "-x" to exclude part of a word.
 
 // Note that not all the colors are configurable (e.g. in gradients), so you need to change images, corners, color palette or shape by youself.
 
@@ -25,7 +16,7 @@ configuration {
   font: "JetBrains Mono Nerd Font 15";
   fixed-num-lines: false; // Not fixed height.
   icon-theme: "MacTahoe";
-  window-format: "{w}  {c}  {t}"; // In window section.
+  window-format: "{w}{c}  {t}"; // In window section.
   window-thumbnail: true;
   show-icons: false;
 

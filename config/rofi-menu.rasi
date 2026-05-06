@@ -1,0 +1,192 @@
+// ==========================================================
+// Rofi configuration menu edition - v1.0.1
+// ==========================================================
+
+// Note that not all the colors are configurable (e.g. in gradients), so you need to change images, corners, color palette or shape by youself.
+
+configuration {
+  // 0. Variables.
+  terminal: "kitty";
+
+  // 1. Looks.
+  font: "JetBrains Mono Nerd Font 15";
+  fixed-num-lines: false; // Not fixed height.
+  icon-theme: "MacTahoe";
+  window-thumbnail: true;
+  show-icons: false;
+
+  // 2. Backend.
+  case-smart: true;
+  hover-select: true;
+  auto-select: true; // Remove if you getting bothered.
+  normalize-match: true;
+  timeout{action: "kb-cancel"; delay: 60;}
+
+  // 2.1. Sorting.
+  sort: true;
+  sorting-method: "fzf";
+  matching: "fuzzy";
+
+  // 3. SFX.
+  // on-selection-changed: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh tap"; // Moving up & down.
+  // on-mode-changed: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh tab"; // Ctrl+Tab.
+  // on-entry-accepted: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh enter"; // Enter.
+  // on-menu-error: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh error"; // Wrong prompt.
+  // on-menu-canceled: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh exit"; // Escape.
+  // drun-show-actions: false; // Might be frustrating.
+
+  // 4. Keybinds.
+  kb-remove-word-forward: "Alt+BackSpace";
+
+  kb-move-front: "Control+q";
+  kb-clear-line: "Control+w";
+  kb-move-end: "Control+e";
+
+  kb-remove-to-eol: "Control+a";
+  kb-remove-to-sol: "Control+s";
+}
+
+// 5. Design.
+* {
+  // Predefining colors.
+  white: #FFFFFF;
+  grey: #6C7086;
+  red: #FF0000;
+
+  bg-col:  #1E1E2E80;
+  bg-col-light: #1E1E24;
+}
+
+window {
+  // Rofi window.
+
+  // Size.
+  width: 20%;
+  height: 32%;
+
+  // Additional attributes (pivot and etc).
+  padding: 0;
+
+  // Visuals.
+  transparency: "real";
+  border: 2;
+  border-color: @white;
+  border-radius: 20;
+  background-color: #25262799;
+}
+
+mainbox {
+  // Rofi window with context.
+  // padding: 0 15 0 15; // Custom space between context & borders. Header/left/bottom/right.
+
+  // Additional attributes (pivot and etc).
+  children: [inputbar, listview]; // Search bar, context.
+
+  // Visuals.
+  background-color: transparent; // Required for transparent context beyond window.
+}
+
+
+
+inputbar {
+  // Search bar.
+
+  // Additional attributes (pivot and etc).
+  padding: 0; // Proper space from borders.
+  margin: 3% 5 5 0; // Space between search bar & elements.
+  children: [entry];
+
+  // Visuals.
+  border-radius: 5;
+}
+
+entry {
+  // Prompt (search text).
+
+  // Additional attributes (pivot and etc).
+  padding: 0 20;
+
+  // Visuals.
+  text-color: @white;
+  placeholder-color: #FFFFFF80;
+  placeholder: "What does the creator desire?";
+  // Remove to add Google like search bar.
+  border-color: @white;
+  border-radius: 20;
+}
+
+listview {
+  // Result column.
+
+  // Additional attributes (pivot and etc).
+  padding: 0;
+  margin: 10 20; // Vertical, horizontal.
+
+  // Visuals.
+  columns: 1;
+  lines: 6;
+  border: 0; // "- - -" line.
+  spacing: 8;
+}
+
+scrollbar {
+  // Visuals.
+  handle-color: #564E58;
+  background-color: transparent;
+
+  // Size and shape.
+  handle-width: 5; // Thickness.
+  margin: 0 0 0 3; // Space between list and scrollbar.
+  border-radius:20;
+}
+
+element {
+  // Context itself.
+
+  // Additional attributes (pivot and etc).
+  padding: 8;
+
+  // Visuals.
+  border-radius: 10;
+}
+
+element-icon {
+  // Visuals.
+  size: 2.5%;
+  margin: 0 10 0 0;
+}
+
+element-text {
+  vertical-align: 0.5;
+}
+
+element selected.normal {
+  background-color: #904E55;
+  text-color: #CCF5AC;
+}
+
+element selected.active {
+  background-color: #904E55;
+  text-color: #BFB48F;
+}
+
+element selected.urgent {
+  background-color: #904E55;
+  text-color: #BFB48F;
+}
+
+element normal.normal, element alternate.normal {
+  background-color: #564E58;
+  text-color: @white;
+}
+
+textbox {
+  // Text inside error message.
+  text-color: @white;
+}
+
+error-message {
+  // Error window.
+  padding: 25;
+  background-color: @red;
+}

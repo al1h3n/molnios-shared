@@ -136,6 +136,9 @@ if [ "$(uname)" != "Darwin" ];then
   alias lan="nmtui"
   alias ns="notify-send"
 
+  alias m="sh $scripts/menu/launch-menu.sh"
+  alias my="sh $scripts/menu/launch-menu.sh -y"
+
   alias r="sh $scripts/reloadus.sh" # Reload hyprland.
   function bt(){ nohup blueman-manager & }
 fi

@@ -184,7 +184,7 @@ if [ ${#sockets[@]} -eq 0 ]; then
     _compositors=""
     $HYPRLAND_RUNNING && _compositors="Hyprland"
     $NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
-    notify-send -u low "Borderline" "Theme applied via ${_compositors} (no Kitty open)\n$color1 / $color2"
+    notify-send -h int:transient:1 "Borderline" "Theme applied via ${_compositors} (no Kitty open)\n$color1 / $color2"
     exit 0
 fi
 
@@ -200,4 +200,4 @@ done
 _compositors=""
 $HYPRLAND_RUNNING && _compositors="Hyprland"
 $NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
-notify-send -u low "Borderline" "Theme applied via ${_compositors}\n$color1 / $color2"
+notify-send -h int:transient:1 "Borderline" "Theme applied via ${_compositors}\n$color1 / $color2"

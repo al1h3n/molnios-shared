@@ -41,7 +41,7 @@ exists(){
 # Notification helper
 notify(){
     if exists notify-send;then
-        notify-send -u low MolniOS "$1"
+        notify-send -h int:transient:1 MolniOS "$1"
     fi
 }
 

@@ -440,14 +440,14 @@ bindel = $main shift, F5, exec, brightnessctl s 10%-
 bindel = $main shift, F6, exec, brightnessctl s 10%+
 
 # 13.21. Information keybinds.
-bindel = $main ctrl, F1, exec, notify-send "Current volume" "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) "%" ($3 ? " " $3 : "")}')"
-bindel = $main ctrl, F2, exec, notify-send "Current time" "$(date +%H:%M:%S)"
-bindel = $main ctrl, F3, exec, notify-send "Current date" "$(date +%d.%m.%Y)"
-bindel = $main ctrl, F4, exec, notify-send "Brightness value" "$(brightnessctl -m | awk -F, '{print $4}')"
-bindel = $main ctrl, F5, exec, notify-send "GPU utilization value" "$(sh $gpu)"
-bindel = $main ctrl, F6, exec, notify-send "CPU utilization value" "$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{printf("%.0f%%", 100 - $1)}')"
-bindel = $main ctrl, F7, exec, notify-send "RAM usage value" "$(free | awk '/Mem:/ {printf("%.0f%%", $3/$2 * 100)}')"
-bindel = $main ctrl, F8, exec, notify-send "Temperature" "$(sh $temp)"
+bindel = $main ctrl, F1, exec, notify-send -h int:transient:1 "Current volume" "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) "%" ($3 ? " " $3 : "")}')"
+bindel = $main ctrl, F2, exec, notify-send -h int:transient:1 "Current time" "$(date +%H:%M:%S)"
+bindel = $main ctrl, F3, exec, notify-send -h int:transient:1 "Current date" "$(date +%d.%m.%Y)"
+bindel = $main ctrl, F4, exec, notify-send -h int:transient:1 "Brightness value" "$(brightnessctl -m | awk -F, '{print $4}')"
+bindel = $main ctrl, F5, exec, notify-send -h int:transient:1 "GPU utilization value" "$(sh $gpu)"
+bindel = $main ctrl, F6, exec, notify-send -h int:transient:1 "CPU utilization value" "$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{printf("%.0f%%", 100 - $1)}')"
+bindel = $main ctrl, F7, exec, notify-send -h int:transient:1 "RAM usage value" "$(free | awk '/Mem:/ {printf("%.0f%%", $3/$2 * 100)}')"
+bindel = $main ctrl, F8, exec, notify-send -h int:transient:1 "Temperature" "$(sh $temp)"
 
 # 13.22. Zoom.
 bind = $main shift, up, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor -j | jq '.float * 2.5')

@@ -32,7 +32,7 @@ SEP="$(printf '%*s' "$ICON_PAD" '')"
 DATA=$(curl -sf "wttr.in/${LOCATION}?format=j1" 2>/dev/null)
 
 if [[ -z "$DATA" ]]; then
-  echo '{"text":"󰖚 N/A","tooltip":"Weather unavailable (offline)","class":"offline"}'
+  echo '{"text":"󰖚'$SEP'N/A","tooltip":"Weather unavailable (offline)","class":"offline"}'
   exit 0
 fi
 

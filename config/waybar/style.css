@@ -72,7 +72,7 @@ tooltip label {
 #pulseaudio.input { color: @yellow; }
 #network { color: @sapphire; }
 #language { color: @mauve; }
-#custom-vpn { color: @rosewater; }
+#custom-vpn { color: @rose; }
 #battery { background: @light_green; }
 #custom-notification {
     font-size: 130%;

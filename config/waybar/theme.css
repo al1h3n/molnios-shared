@@ -16,9 +16,9 @@
 @define-color blue-rgba rgba(0, 0, 255, .5);
 
 /* Catppuccin - Mocha */
-@define-color base    #1e1e2e;
-@define-color mantle  #181825;
-@define-color crust   #11111b;
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
 @define-color surface0 #313244;
 @define-color surface1 #45475a;
 @define-color surface2 #585b70;
@@ -31,17 +31,19 @@
 @define-color light-blue #89b4fa;
 @define-color lavender #b4befe;
 @define-color sapphire #74c7ec;
-@define-color sky     #89dceb;
-@define-color teal    #94e2d5;
-@define-color green   #a6e3a1;
-@define-color yellow  #f9e2af;
-@define-color peach   #fab387;
-@define-color maroon  #eba0ac;
+@define-color sky #89dceb;
+@define-color teal #94e2d5;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color peach #fab387;
+@define-color maroon #eba0ac;
 @define-color light-red #f38ba8;
-@define-color mauve   #cba6f7;
-@define-color pink    #f5c2e7;
+@define-color mauve #cba6f7;
+@define-color pink #f5c2e7;
 @define-color flamingo #f2cdcd;
 @define-color rosewater #f5e0dc;
+
+@define-color rose #D81159;
 
 /* Main colors */
 

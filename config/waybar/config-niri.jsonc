@@ -10,6 +10,8 @@
 
 {
 	"include": [
+		// Change to JetBrainsNerd if neccessary.
+
 		// L-Modules.
 		"~/.local/share/molnios/config/waybar/modules/SFPro/menu.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/clock.jsonc",
@@ -25,6 +27,7 @@
 		"~/.local/share/molnios/config/waybar/modules/SFPro/volume.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/network.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/language.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/SFPro/vpn.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"
@@ -48,6 +51,7 @@
 		"network",
 		// "bluetooth",
 		"niri/language",
+		"custom/vpn#warp",
 		"backlight",
 		"battery",
 		"custom/notification"

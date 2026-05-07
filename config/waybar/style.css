@@ -12,6 +12,7 @@
 #backlight,
 #battery,
 #language,
+#custom-vpn,
 #pulseaudio,
 #custom-notification {
     background: linear-gradient(to bottom, #272f39, @black);
@@ -71,6 +72,7 @@ tooltip label {
 #pulseaudio.input { color: @yellow; }
 #network { color: @sapphire; }
 #language { color: @mauve; }
+#custom-vpn { color: @rosewater; }
 #battery { background: @light_green; }
 #custom-notification {
     font-size: 130%;

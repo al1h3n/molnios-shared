@@ -1,0 +1,9 @@
+{
+    "custom/vpn#warp": {
+        "interval": 300,
+        "exec": "sh ~/.local/share/molnios/scripts/whereami.sh -C",
+        "format": "󰖂  {}",
+        "tooltip-format": "sh ~/.local/share/molnios/scripts/whereami.sh",
+        "on-click": "xdg-open https:whatismyipaddress.com"
+    }
+}

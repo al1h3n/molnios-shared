@@ -114,12 +114,12 @@ fi
 
 if $SHOW_ALL; then
   labeled "󰩟" "IP" "$IP"
-  labeled "󰏠" "City" "$CITY"
-  labeled "󰦉" "Region" "$REGION"
-  labeled "󰐇" "Country" "$COUNTRY"
-  labeled "󰓾" "Latitude" "$LAT"
+  labeled "" "City" "$CITY"
+  labeled "" "Region" "$REGION"
+  labeled "" "Country" "$COUNTRY"
+  labeled "󰽗" "Latitude" "$LAT"
   labeled "󰓾" "Longitude" "$LON"
-  labeled "󰛳" "ISP" "$ORG"
+  labeled "󰒒" "ISP" "$ORG"
 else
   $SHOW_IP      && echo "$IP"
   $SHOW_CITY    && echo "$CITY"

@@ -131,7 +131,7 @@ if [ "$(uname)" != "Darwin" ];then
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
   alias lock="hyprlock -q -c $conf/hyprlock"
-  alias menu="rofi -config $conf/rofi -show drun &>/dev/null"
+  alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wb="waybar -c $conf/waybar/config.jsonc -s $conf/waybar/style.css"
   alias lan="nmtui"
   alias ns="notify-send"
@@ -149,7 +149,7 @@ alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"
 alias fast="sh $scripts/fetch.sh -m "
-alias ca="cava -p $conf/cava"
+alias ca="cava -p $conf/cava.ini"
 alias cat="bat"
 
 alias dir="eza --icons"

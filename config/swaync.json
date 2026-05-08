@@ -1,4 +1,5 @@
 {
+  "font": "SFPro Bold",
   "cssPriority": "user",
   "fit-to-screen": false,
   "positionX": "right",
@@ -17,41 +18,26 @@
 
   "timeout": 8,
   "timeout-low": 2,
-  "timeout-critical": 0,
   "notification-2fa-action": true,
   "notification-inline-replies": true,
 
   "keyboard-shortcuts": true,
-  "notification-grouping": true,
 
-  "transition-time": 1,
-  "hide-on-clear": false,
-  "hide-on-action": true,
-  "text-empty": "No Notifications",
-  "script-fail-notify": true,
-  "scripts": {
-    "example-script": {
-      "exec": "echo 'Do something...'",
-      "urgency": "Normal"
-    },
-    "example-action-script": {
-      "exec": "echo 'Do something actionable!'",
-      "urgency": "Normal",
-      "run-on": "action"
-    }
-  },
+  "text-empty": "Nothing to see here",
   "notification-visibility": {
-    "example-name": {
-      "state": "muted",
-      "urgency": "Low",
-      "app-name": "Spotify"
-    }
+    // "example": {
+    //   "state": "muted",
+    //   "urgency": "Low",
+    //   "app-name": "Spotify"
+    // }
   },
   "widgets": [
     "inhibitors",
     "title",
     "dnd",
-    "notifications"
+    "notifications",
+    "mpris",
+    "buttons-grid"
   ],
   "widget-config": {
     "notifications": {
@@ -59,32 +45,27 @@
     },
     "inhibitors": {
       "text": "Inhibitors",
-      "button-text": "Clear All",
+      "button-text": "Clear",
       "clear-all-button": true
     },
     "title": {
-      "text": "Notifications",
+      "text": "MolniOS center",
       "clear-all-button": true,
-      "button-text": "Clear All"
+      "button-text": "Clear"
     },
     "dnd": {
-      "text": "Do Not Disturb"
-    },
-    "label": {
-      "max-lines": 5,
-      "text": "Label Text"
+      "text": "DND mode:"
     },
     "mpris": {
-      "blacklist": [],
-      "autohide": false,
-      "show-album-art": "always",
-      "loop-carousel": false
+      "blacklist": ["firefox", "spotify"],
+      "autohide": true,
+      "show-album-art": "always"
     },
     "buttons-grid": {
       "buttons-per-row": 7,
       "actions": [
         {
-          "label": "直",
+          "label": " 󰤨 ",
           "type": "toggle",
           "active": true,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",

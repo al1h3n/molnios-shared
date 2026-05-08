@@ -114,6 +114,7 @@
 
 #### Other
 `Super + Ctrl + Z` - reload all configurations.<br>
+`Super + Ctrl + X` - open main menu.<br>
 `Super + Ctrl + P` - move from private workspace.<br>
 
 ### Out-of-box keybinds (hyprland basics)

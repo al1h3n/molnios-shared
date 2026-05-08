@@ -27,7 +27,7 @@
 
 `Super + Alt + Z/X` - open eyedropper, open eyedropper history.
 
-`Super + Ctrl + Z` - reload all configurations.<br>
+`Super + Ctrl + Z/X` - reload all configurations, open main menu.<br>
 `Super + Ctrl + P` - move from private workspace.
 
 ## Out-of-box keybinds (hyprland basics)

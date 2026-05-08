@@ -64,8 +64,16 @@ power_logout(){
     loginctl terminate-session $XDG_SESSION_ID
 }
 
-systemctl(){
-    systemctl $1
+power_suspend(){
+    systemctl suspend
+}
+
+power_hibernate(){
+    systemctl hibernate
+}
+
+power_sleep(){
+    systemctl sleep
 }
 
 # CONNECTION OPTIONS ACTIONS
@@ -319,7 +327,7 @@ hypr_toggle_xwayland(){
 software_update(){
     notify "Starting system update..."
     
-    if command -v kitty &>/dev/null; then
+    if exists kitty; then
         kitty --class floating -e bash -c "
             echo 'Starting system update...'
             if command -v nixos-rebuild &>/dev/null; then
@@ -355,9 +363,9 @@ register_menu "power" \
     "⏻ Shutdown" "cmd:power_shutdown" \
     " Reboot" "cmd:power_reboot" \
     "󰈆 Logout" "cmd:power_logout" \
-    "󰤄 Suspend" "cmd:systemctl" \
-    " Hibernate" "cmd:systemctl" \
-    "󰨣 Hybrid Sleep" "cmd:systemctl"
+    "󰤄 Suspend" "cmd:power_suspend" \
+    " Hibernate" "cmd:power_hibernate" \
+    "󰨣 Hybrid Sleep" "cmd:power_sleep"
 
 # Connection Menu
 register_menu "connection" \

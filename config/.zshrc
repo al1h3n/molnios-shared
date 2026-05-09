@@ -218,9 +218,10 @@ alias a="alias|fzf"
 alias gb="git branch|fzf"
 
 # Open config dirs.
-alias d="nvim $dir"
-alias cfg="nvim $conf"
-alias scr="nvim $scripts"
+alias nv="nvim"
+alias d="$nv $dir"
+alias cfg="$nv $conf"
+alias scr="$nv $scripts"
 
 # Help.
 man() {

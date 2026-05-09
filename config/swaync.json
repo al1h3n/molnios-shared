@@ -91,6 +91,21 @@
           "active": false,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && warp-cli connect || warp-cli disconnect'",
           "update-command": "sh -c 'warp-cli status | grep -q \"Connected\" && echo true || echo false'"
+        },
+        {
+          "label": " Shazam",
+          "type": "command",
+          "command": "sh -c 'notify-send \"🎵 Shazam\" \"Listening for 5 seconds...\"; tmpf=$(mktemp /tmp/shazam_XXXXXX.wav); mon=$(pactl list sources short | grep -m1 monitor | cut -f2); parec --device=\"$mon\" --file-format=wav \"$tmpf\" & PREC=$!; sleep 5; kill $PREC 2>/dev/null; wait $PREC 2>/dev/null; result=$(songrec audio-file-to-recognized-song \"$tmpf\" 2>&1 | head -1); rm -f \"$tmpf\"; notify-send \"🎵 Shazam\" \"${result:-Song not recognized}\"'"
+        },
+        {
+          "label": " Terminal",
+          "type": "command",
+          "command": "sh -c 'if command -v kitty >/dev/null 2>&1; then kitty; elif command -v wezterm >/dev/null 2>&1; then wezterm; fi'"
+        },
+        {
+          "label": "󰍃 Logout",
+          "type": "command",
+          "command": "wlogout"
         }
       ]
     }

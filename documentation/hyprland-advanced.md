@@ -3,12 +3,12 @@
 `Alt [Shift] + Tab` - next and previous window switch , `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
 
 #### Media
-`PrintScreen` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__.<br>
+`PrintScreen` - make _screenshot_ and launch manager.<br>
 `Super + PrintScreen` - __record__ screen.<br>
-`Super + Insert` - make screenshot and copy it to clipboard (no saving).<br>
+`Super + Insert` - OCR - copy text (no UI).<br>
 
 #### Media: advanced
-`Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).
+`Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).<br>
 
 #### Top keybinds (Q~P) - running system applications and switching window mode
 `Super + Space` - switch keyboard layout (by default US/RU).<br>

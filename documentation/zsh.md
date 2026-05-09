@@ -29,6 +29,10 @@
 `find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
 `sakura` - cbonsai custom config.<br>
 
+`wifi` - write on/off to switch Wi-Fi.<br>
+`blue` - write on/off to switch Bluetooth.<br>
+`et` - write on/off to switch Ethernet.<br>
+
 `vq` - `warp-cli disconnect`<br>
 `vw` - `warp-cli status`<br>
 `ve`- `warp-cli connect`<br>

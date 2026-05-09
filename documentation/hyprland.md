@@ -17,9 +17,9 @@
 `Alt + Ctrl + Tab` - window switcher (application menu).<br>
 
 #### Media
-`Print` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__.<br>
+`Print` - make _screenshot_ and launch manager.<br>
 `Super + Print` - __record__ screen.<br>
-`Super + Insert` - make screenshot and copy it to clipboard (no saving).<br>
+`Super + Insert` - OCR (no UI).<br>
 
 #### Screen capture & advanced tools
 `Super + Shift + Print` → Record with audio<br>

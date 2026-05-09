@@ -1,0 +1,19 @@
+# superfile - al1h3n edition.
+
+# 1. Theme and visuals.
+theme = 'gruvbox' # gruvbox tokyonight
+transparent_background = true
+nerdfont = true
+
+# 2. Extra tools.
+metadata = true # Requires exiftool.
+zoxide_support = true
+editor = "nvim"
+dir_editor = "thunar"
+code_previewer = 'bat'
+
+# 3. Functionality
+debug = false
+ignore_missing_fields = true
+default_sort_type = 3 # 1 - size, 2 - date, 3 - type.
+file_preview_width = 0

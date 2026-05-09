@@ -32,6 +32,7 @@
 `Super + E` → File manager<br>
 `Super + R` → Application launcher<br>
 `Super + T` → Command runner<br>
+`Super + Y` → Run virtual manager<br>
 `Super + P` → Private workspace<br>
 
 #### App shortcuts

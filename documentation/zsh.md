@@ -62,7 +62,7 @@
 `fa` - shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (video).<br>
 `fas` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
 `fast` - shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (write path to show your own video).<br>
-`wb` - starts [waybar](https://github.com/Alexays/Waybar) with custom configuration.<br>
+`wh` / `wn` - starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>
 `dir` | `ls` | `l` - colorful [ls](https://github.com/eza-community/eza) command. `lt` - tree view [ls](https://github.com/eza-community/eza) command with icons.
 
 ##### Connection
@@ -73,7 +73,7 @@
 `d` - open dotfiles root directory.<br>
 `cfg` - open config dir.<br>
 `scr` - open scripts dir.<br>
-`e` / `explorer` - [superfile](https://github.com/yorukot/superfile)
+`e` - [superfile](https://github.com/yorukot/superfile)
 
 ##### Misc
 `lh` - `ln --help`

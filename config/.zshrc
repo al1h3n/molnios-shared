@@ -130,9 +130,10 @@ if [ "$(uname)" != "Darwin" ];then
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
-  alias lock="hyprlock -q -c $conf/hyprlock"
+  alias lock="hyprlock -q -c $conf/hyprlock.conf"
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
-  alias wb="waybar -c $conf/waybar/config.jsonc -s $conf/waybar/style.css"
+  alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
+  alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
   alias lan="nmtui"
   alias ns="notify-send"
 
@@ -144,7 +145,7 @@ if [ "$(uname)" != "Darwin" ];then
 fi
 
 
-alias y="yazi"
+alias yaz="yazi"
 alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"
@@ -161,9 +162,7 @@ alias lt="eza --icons -T -L 2"
 # alias grep="rg -up"
 
 alias sakura="cbonsai -k 201,94,213,130 -l -t .1"
-
-alias e="superfile"
-alias explorer="superfile"
+alias e="superfile -c $conf/superfile.toml"
 
 fbat(){
   local file
@@ -247,7 +246,7 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
 
 # 7. Theme config.
-source $conf/.p10k.zsh
+source $conf/p10k.zsh
 
 # 8. ZSH settings.
 

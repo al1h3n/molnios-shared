@@ -7,16 +7,30 @@
 #   -f              show temperature in °F
 #   -k              show temperature in °K
 #   -p <n>          spaces between every icon and its text (default: 2, SF Pro needs 3)
+# Plain-text output (hyprlock):
+#   <ICON>  29°C
+#   Feels like: <ICON>  +27°C
+#
+# JSON output (Waybar, -j):
+#   {"text":"…","tooltip":"…","class":"weather"}
+#
+# Waybar config example:
+#   "exec": "sh weather.sh -j -i -l almaty -p 3"
+#
+# Hyprlock config example:
+#   text = cmd[update:300] echo "$(sh weather.sh -i -l almaty -p 3)"
 
 LOCATION="${WEATHER_LOCATION:-}"
 SHOW_ICON=false
+JSON_MODE=false
 UNIT="C"
 ICON_PAD=2
 
-while getopts "l:icfkp:" opt; do
+while getopts "l:ijcfkp:" opt; do
   case $opt in
     l) LOCATION="$OPTARG" ;;
     i) SHOW_ICON=true ;;
+    j) =true ;;
     c) UNIT="C" ;;
     f) UNIT="F" ;;
     k) UNIT="K" ;;
@@ -32,7 +46,12 @@ SEP="$(printf '%*s' "$ICON_PAD" '')"
 DATA=$(curl -sf "wttr.in/${LOCATION}?format=j1" 2>/dev/null)
 
 if [[ -z "$DATA" ]]; then
-  echo '{"text":"󰖚'$SEP'N/A","tooltip":"Weather unavailable (offline)","class":"offline"}'
+  if [[ "$JSON_MODE" == true ]]; then
+    echo '{"text":"󰖚'$SEP'N/A","tooltip":"Weather unavailable (offline)","class":"offline"}'
+  else
+    echo "󰖚${SEP}N/A"
+    echo "Weather is unavailable (offline)"
+  fi
   exit 0
 fi
 
@@ -92,11 +111,17 @@ case $UNIT in
   *) TEMP="${TEMP_C}°C"; FEEL="${FEEL_C}°C" ;;
 esac
 
+ICON=$(weather_icon "$CODE")
+
 if [[ "$SHOW_ICON" == true ]]; then
-  ICON=$(weather_icon "$CODE")
   TEXT="${ICON}${SEP}${TEMP}"
 else
   TEXT="${TEMP}"
+fi
+
+if [[ "$JSON_MODE" == false ]]; then
+  printf "Feels like: %s" "$TEXT"
+  exit 0
 fi
 
 # Icons with separator.

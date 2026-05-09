@@ -28,6 +28,7 @@
 `grep` / `rg` - [ripgrep](https://github.com/sharkdp/bat)<br>
 `find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
 `sakura` - cbonsai custom config.<br>
+`sakurastatic` - same but without animations.<br>
 
 `wifi` - write on/off to switch Wi-Fi.<br>
 `blue` - write on/off to switch Bluetooth.<br>

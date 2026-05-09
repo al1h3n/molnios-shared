@@ -133,7 +133,7 @@ if [ "$(uname)" != "Darwin" ];then
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
-  alias lock="hyprlock -q -c $conf/hyprlock.conf"
+  alias lock="hyprlock -qc $conf/hyprlock.conf"
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
@@ -160,17 +160,18 @@ alias cat="bat"
 alias dir="eza --icons"
 alias ls="eza --icons -la"
 alias l="eza --icons"
-alias lt="eza --icons -T -L 2"
+alias lt="eza --icons -TL 2"
 
 # alias find="fd -u"
 # alias grep="rg -up"
 
-alias sakura="cbonsai -k 201,94,213,130 -l -t .1"
+alias sakura="cbonsai -k 201,94,213,130 -lt .1"
+alias sakurastatic="cbonsai -k 201,94,213,130 -t .1"
 alias e="superfile -c $conf/superfile.toml"
 
 fbat(){
   local file
-  file=$(fd --hidden --follow --exclude .git . | fzf --preview 'if [ -d {} ]; then exa --tree --level=2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}') && bat --style=numbers,changes --color=always "$file"
+  file=$(fd -HLE .git . | fzf --preview 'if [ -d {} ]; then eza -TL 2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}') && bat --style=numbers,changes --color=always "$file"
 }
 
 gtrack(){
@@ -181,14 +182,14 @@ hist(){
   eval "$(history | fzf | sed 's/^ *[0-9]* *//')"
 }
 
-txt(){
-  rg --line-number --hidden --glob '!.git' 'pattern' | fzf --preview 'bat --color=always --style=numbers --highlight-line {2} {1}'
+txt() {
+  rg -.Sng '!.git' -g '!node_modules' "$1" | fzf --ansi -d : --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2'
 }
 
 we() {
   local city="${*:-}"
   city="${city// /+}"
-  curl "wttr.in/${city}?format=3"
+  curl wttr.in/${city}?format=3
 }
 
 myip() {

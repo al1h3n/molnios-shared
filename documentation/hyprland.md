@@ -26,6 +26,9 @@
 `Super + Ctrl + Print ` → Alternative recording mode (OBS)<br>
 `Super + Alt + Print`   → OCR (extract text from image)<br>
 
+#### Action menu
+`Super + End` → Open power menu (wlogout).<br>
+
 #### Apps & workspace shortcuts
 `Super + Q` → Terminal<br>
 `Super + W` → Free window mode<br>

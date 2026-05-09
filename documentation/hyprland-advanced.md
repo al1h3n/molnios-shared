@@ -10,6 +10,9 @@
 #### Media: advanced
 `Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).<br>
 
+#### Menus
+`Super + End` - [wlogout](https://github.com/ArtsyMacaw/wlogout) action menu.<br>
+
 #### Top keybinds (Q~P) - running system applications and switching window mode
 `Super + Space` - switch keyboard layout (by default US/RU).<br>
 

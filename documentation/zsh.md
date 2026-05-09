@@ -55,6 +55,7 @@
 `ml` - [molnios](https://codeberg.org/al1h3n/install) script. (installation/updating system)<br>
 `pa` - path script. (use to shorten paths of configurations).<br>
 `m` / `my` - open main menu with Rofi/YAD.<br>
+`am` - action wlogout menu.<br>
 `rec` - _recording_ script (record your screen).<br>
 `r` - reloadus script. (reload __configuration__ and applications).<br>
 

@@ -147,6 +147,7 @@ if [ "$(uname)" != "Darwin" ];then
   function bt(){ nohup blueman-manager & }
 fi
 
+alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
 
 alias yaz="yazi"
 alias yt="yt-x -p mpv --preview"

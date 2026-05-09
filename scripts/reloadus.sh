@@ -50,19 +50,21 @@ fi
 
 # 1.3. Utilities.
 if exists waybar;then
-	kp waybar
-	run waybar
+	WAY=$L_PATH/config/waybar
+	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
+		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style/css
+	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
+		run waybar -c $WAY/config-niri.jsonc -s $WAY/style/css
+	fi
 fi
 
-# 1.4. Hyprland.
-if exists hyprland;then
+# 1.4 Hyprland/Niri.
+if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
 	hyprctl reload&>/dev/null
+elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
+	niri msg action load-config-file&>/dev/null
 fi
 
-# 1.5. Niri.
-if exists niri;then
-	niri msg action load-config-file
-fi
 
 echo -e "\n\033[38;5;46mConfigurations were successfully reloaded.${RESET}"
 

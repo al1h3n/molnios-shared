@@ -133,7 +133,7 @@ if [ "$(uname)" != "Darwin" ];then
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
-  alias lock="hyprlock -qc $conf/hyprlock.conf"
+  alias lock="hyprlock -q -c $conf/hyprlock.conf" # Doesn't support -qc
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
@@ -252,7 +252,7 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
 
 # 7. Theme config.
-source $conf/p10k.zsh
+source $conf/.p10k.zsh
 
 # 8. ZSH settings.
 

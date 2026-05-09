@@ -30,7 +30,7 @@ while getopts "l:ijcfkp:" opt; do
   case $opt in
     l) LOCATION="$OPTARG" ;;
     i) SHOW_ICON=true ;;
-    j) =true ;;
+    j) JSON_MODE=true ;;
     c) UNIT="C" ;;
     f) UNIT="F" ;;
     k) UNIT="K" ;;

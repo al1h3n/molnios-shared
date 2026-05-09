@@ -318,11 +318,6 @@ hypr_toggle_shadows(){
     notify "Shadows: $([ $new_value -eq 1 ] && echo 'enabled' || echo 'disabled')"
 }
 
-hypr_toggle_xwayland(){
-    notify "XWayland toggle requires config file edit and reload"
-}
-
-
 # SOFTWARE UPDATE ACTION
 software_update(){
     notify "Starting system update..."
@@ -423,7 +418,6 @@ register_menu "hyprland" \
     " Decorations" "menu:hyprland_decorations" \
     "󰿉 Animations" "menu:hyprland_animations" \
     "󰍹 Display" "menu:hyprland_display" \
-    " XWayland" "menu:hyprland_xwayland" \
     " Misc" "menu:hyprland_misc"
 
 # Hyprland General
@@ -453,12 +447,6 @@ register_menu "hyprland_display" \
     "Hyprland Display" \
     "Display settings:" \
     " Info" "cmd:notify 'Use hyprctl monitors for display info'"
-
-# Hyprland XWayland
-register_menu "hyprland_xwayland" \
-    "Hyprland XWayland" \
-    "XWayland settings:" \
-    " Toggle XWayland" "cmd:hypr_toggle_xwayland"
 
 # Hyprland Misc
 register_menu "hyprland_misc" \

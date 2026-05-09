@@ -44,3 +44,6 @@
 
 ## Laptop keybinds
 Laptop multimedia keys for volume and LCD brightness are included.
+
+#### Facts
+- You can't change XWayland state in `hyprctl`.

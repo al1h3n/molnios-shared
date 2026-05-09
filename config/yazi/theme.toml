@@ -1,0 +1,4 @@
+# ya pkg add x/y
+[flavor]
+dark = "gruvbox-dark"
+# gruvbox-dark, kanagawa 

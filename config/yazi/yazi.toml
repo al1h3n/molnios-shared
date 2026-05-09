@@ -1,0 +1,30 @@
+[mgr]
+sort_by        = "size" # extension
+linemode       = "size"
+show_hidden    = true
+
+[preview]
+wrap            = "yes"
+cache_dir       = "/tmp/yazi"
+image_filter    = "lanczos3"
+image_quality   = 60
+
+[open]
+rules = [
+	{ url = "*/", use = [ "open", "reveal" ] }, # Folder
+]
+
+[tasks]
+file_workers     = 10
+plugin_workers   = 10
+fetch_workers    = 10
+preload_workers  = 10
+process_workers  = 10
+image_alloc      = 268435456 # 256MB
+image_bound      = [ 5000, 5000 ]
+
+[input]
+cursor_blink = true
+
+[confirm]
+trash_title 	= "Remove {n} selected file{s}?"

@@ -246,15 +246,20 @@ alias bd="sh $mecha/backlight.sh down 5"
 alias vu="sh $mecha/volume.sh output raise 5"
 alias vd="sh $mecha/volume.sh output lower 5"
 
-# 6. ZSH highlight colors.
+# 6. ZSH highlight colors — Gruvbox theme. (requires 24-bit terminal)
 typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold' # Not found command.
-ZSH_HIGHLIGHT_STYLES[command]='fg=green' # Known command.
-ZSH_HIGHLIGHT_STYLES[path]='fg=yellow' # Directory or file.
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=cyan' # A zsh built-in command.
-ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan' # Alias (dedicated command)
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#fb4934,bold'        # bright red   — not found
+ZSH_HIGHLIGHT_STYLES[command]='fg=#b8bb26'                   # bright green — known command
+ZSH_HIGHLIGHT_STYLES[path]='fg=#fabd2f'                      # bright yellow — file/dir
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#8ec07c'                   # bright aqua  — zsh built-in
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#fe8019'                     # bright orange — alias
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#83a598'    # bright blue  — 'string'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#d3869b'    # bright purple — "string"
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#928374'                   # gray   — # comments
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=#fabd2f,bold'             # yellow — wildcards like *
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=#fe8019'               # orange — >, >>
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=#fb4934'          # red    — ;, |, &&
+ZSH_HIGHLIGHT_STYLES[arg0]='fg=#b8bb26'                      # green  — first word of command
 
 # 7. Theme config.
 source $conf/.p10k.zsh

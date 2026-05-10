@@ -3,14 +3,33 @@ The syntax is kinda like `nvim`.<br>
 `<C-a>` = `Ctrl+A`.<br>
 
 ### Navigating
+`F1 ~` - help window with all keybinds.<br>
+`ESC` - escape from any window.<br>
 Navigate with arrows `hjkl`.<br>
 `Back/forward` - `HL`.<br>
 To move cursor further use `Pg Up/Down`.<br>
 `gg`|`G` - top | bottom.<br>
-`f` - filter files (regular search).<br>
+`f` - filter files (regular search, don't forget to clean it).<br>
+`/ ?` - create find request. Use `n N` to navigate.<br>
+
+### Sorting `,`
+`a` - alphabetically.<br>
+`m` - by modified time.<br>
+`e` - by extension.<br>
+`s` - by size.<br>
+
+### Goto `g`
+`d` - `~/Downloads`<br>
+`h` - `~`<br>
+`c` - `~/.config`<br>
+
+### Tabs
+`t` - create a tab. Navigate via numbers or `[]`.<br>
+`Ctrl+C` - close a tab.<br>
+`{}` - switch tabs with nearest one.<br>
 
 ### Modes
-`v` `V` - select/unselect mode (VISUAL).
+`v` `V` - select/unselect mode (VISUAL).<br>
 
 ### Selection
 `Space` - select or unselect a file.<br>

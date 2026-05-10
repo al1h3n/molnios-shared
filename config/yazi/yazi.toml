@@ -1,5 +1,5 @@
 [mgr]
-sort_by        = "extension" # size
+sort_by        = "size" # extension
 linemode       = "size" # Can't show folder sizes if sort_by!=size
 show_hidden    = true
 

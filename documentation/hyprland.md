@@ -67,7 +67,7 @@
 #### Window management & workspace controls
 `Super + Shift + Q` → Do not stretch window (pseudo / no resize behavior).<br>
 `Super + Shift + W` → Switch window layout axis.<br>
-`Super + Shift + E` → Open text editor (neovim btw).<br>
+`Super + Shift + E` → yazi (explorer CLI).<br>
 `Super + Shift + R` → Reload wallpaper (supports awww, mpvpaper & waypaper).<br>
 `Super + Shift + P` → Move window to private workspace.<br>
 
@@ -116,10 +116,13 @@
 `Super + Alt + Z` - open eyedropper.<br>
 `Super + Alt + X` - open eyedropper's hostory.<br>
 
-#### Other
+#### Ctrl keybinds
 `Super + Ctrl + Z` - reload all configurations.<br>
-`Super + Ctrl + X` - open main menu.<br>
 `Super + Ctrl + P` - move from private workspace.<br>
+
+### Other
+`Super + grave` - Open text editor (`neovim` btw).
+`Super + Shift + grave` - Main menu.
 
 ### Out-of-box keybinds (hyprland basics)
 `Super + x, where x is 0~9` - move to workspaces.<br>

@@ -22,7 +22,7 @@
 `Super + Z/X/C/V/B` - exit hyprland, emoji picker, close, clipboard manager, OCR advanced (with language selection).
 
 `Super + Escape` - hibernate. `Super + Shift + Escape` - lock screen (hyprlock).<br>
-`Super + Shift + Q/W/E/R/P` - __do not stretch window__, __switch__ window axis, text editor, reload wallpaper, move to private workspace.<br>
+`Super + Shift + Q/W/E/R/P` - __do not stretch window__, __switch__ window axis, yazi, reload wallpaper, move to private workspace.<br>
 `Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper _engine_, gamemode. <br>
 `Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
 `Super + Shift + F1/2/3/4/5/6` - __volume__ up/down/mute, mute microphone, turn __brightness__ up/down.<br>
@@ -30,8 +30,12 @@
 
 `Super + Alt + Z/X` - open eyedropper, open eyedropper history.
 
-`Super + Ctrl + Z/X` - reload all configurations, open main menu.<br>
+`Super + Ctrl + Z/X` - reload all configurations.<br>
 `Super + Ctrl + P` - move from private workspace.
+
+## Other keybinds
+`Super + grave` - editor (nvim).
+`Super + Shift + grave` - main menu.
 
 ## Out-of-box keybinds (hyprland basics)
 `Super + x, x[0-9]` - workspaces. `Super + Shift + x, x[0-9]` - move window to particular one.<br>

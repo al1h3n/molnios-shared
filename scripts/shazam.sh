@@ -44,5 +44,5 @@ print(title + ' — ' + sub if title else '')
 " 2>/dev/null)
 
 rm -f $tmpf
-notify ${result:-"Song wasn't recognized"}
-echo ${result:-"Song wasn't recognized"}
+notify "${result:-"Song wasn't recognized"}"
+echo "${result:-"Song wasn't recognized"}"

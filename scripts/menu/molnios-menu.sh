@@ -65,13 +65,11 @@ shell_show_input() {
     local title="$1"
     local prompt="$2"
     local default="$3"
-    
-    debug "shell_show_input: title=$title, prompt=$prompt, default=$default"
-    
-    # Create a temporary script for input
+
     local input_script="$STATE_DIR/input_dialog.sh"
     local output_file="$STATE_DIR/input_result.txt"
-    
+
+    # Write the interactive script with full color support
     cat > "$input_script" << 'SHELL_INPUT_EOF'
 #!/usr/bin/env bash
 title="$1"
@@ -79,55 +77,66 @@ prompt="$2"
 default="$3"
 output_file="$4"
 
-echo "========================================="
-echo "$title"
-echo "========================================="
+BLUE="\033[34m"
+CYAN="\033[36m"
+YELLOW="\033[33m"
+GREEN="\033[32m"
+BOLD="\033[1m"
+DIM="\033[2m"
+RESET="\033[0m"
+
+# Pad title to fixed width for the box
+box_width=44
+title_len=${#title}
+pad=$(( (box_width - title_len) / 2 ))
+padded=$(printf "%*s%s" "$pad" "" "$title")
+
 echo ""
-echo "$prompt"
+echo -e "${BLUE}${BOLD}┌──────────────────────────────────────────────┐${RESET}"
+printf "${BLUE}${BOLD}│${RESET}  ${BOLD}%-44s${RESET}${BLUE}${BOLD}  │${RESET}\n" "$title"
+echo -e "${BLUE}${BOLD}└──────────────────────────────────────────────┘${RESET}"
+echo ""
+
+# Print prompt lines; indent every line, color non-blank lines cyan
+while IFS= read -r line;do
+    if [[ -n "$line" ]];then
+        echo -e "  ${DIM}${line}${RESET}"
+    else
+        echo
+    fi
+done <<< "$prompt"
+
 echo ""
 if [[ -n "$default" ]]; then
-    echo "Current value: $default"
+    echo -e "  ${DIM}Current:${RESET} ${YELLOW}${default}${RESET}"
     echo ""
 fi
-read -p "Enter new value: " -e -i "$default" user_input
-echo "$user_input" > "$output_file"
+read -r -p "$(echo -e "  ${GREEN}❯${RESET} ")" -e -i "$default" user_input
+printf '%s' "$user_input" > "$output_file"
 SHELL_INPUT_EOF
-    
+
     chmod +x "$input_script"
-    
-    # Clear previous output
     rm -f "$output_file"
-    
-    # Detect available terminal emulator
+
     local term_cmd=""
-    if command -v kitty &>/dev/null; then
-        term_cmd="kitty --class floating -e"
-    elif command -v wezterm &>/dev/null; then
-        term_cmd="wezterm start --"
-    elif command -v alacritty &>/dev/null; then
-        term_cmd="alacritty -e"
-    elif command -v xterm &>/dev/null; then
-        term_cmd="xterm -e"
-    else
-        # Fallback to basic shell input without terminal
-        bash "$input_script" "$title" "$prompt" "$default" "$output_file"
-        if [[ -f "$output_file" ]]; then
-            cat "$output_file"
-        fi
-        return
+    if command -v kitty    &>/dev/null; then term_cmd="kitty --class floating -e"
+    elif command -v wezterm  &>/dev/null; then term_cmd="wezterm start --"
+    elif command -v alacritty &>/dev/null; then term_cmd="alacritty -e"
+    elif command -v ghostty  &>/dev/null; then term_cmd="ghostty -e"
+    elif command -v xterm   &>/dev/null; then term_cmd="xterm -e"
     fi
-    
-    # Run in terminal and wait for completion
-    $term_cmd bash "$input_script" "$title" "$prompt" "$default" "$output_file"
-    
-    # Wait a moment for file to be written
-    sleep 0.2
-    
-    # Read and return the result
+
+    if [[ -z "$term_cmd" ]]; then
+        bash "$input_script" "$title" "$prompt" "$default" "$output_file"
+    else
+        $term_cmd bash "$input_script" "$title" "$prompt" "$default" "$output_file"
+        sleep .2
+    fi
+
     if [[ -f "$output_file" ]]; then
         cat "$output_file"
     else
-        echo ""
+        echo
     fi
 }
 

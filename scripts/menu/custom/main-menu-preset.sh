@@ -1,11 +1,6 @@
 # MolniOS Main Menu Preset
 # This file defines the main menu structure and all submenus
 
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
 # CONFIGURATION
 # Icon spacing configuration (number of spaces after icons)
 ICON_SPACING="${ICON_SPACING:-1}"  # Default: 1 space
@@ -92,7 +87,7 @@ connection_wifi(){
     if exists nmtui;then
         if exists kitty;then
             kitty --class floating -e nmtui
-        elif exists kitty;then
+        elif exists wezterm;then
             wezterm start -- nmtui
         else
             xterm -e nmtui
@@ -398,6 +393,35 @@ GUMEOF
     fi
 }
 
+hypr_get_monitor_scale(){
+    local monitor=$1
+    if exists jq;then
+        hyprctl monitors -j 2>/dev/null \
+            | jq -r --arg m "$monitor" '.[] | select(.name==$m) | .scale'
+    else
+        hyprctl monitors 2>/dev/null \
+            | awk -v mon="$monitor" '
+                /^Monitor/{found=($2==mon)}
+                found && /scale:/{print $2; exit}
+              '
+    fi
+}
+
+# Get current resolution for a specific monitor (WxH)
+hypr_get_monitor_resolution(){
+    local monitor=$1
+    if exists jq;then
+        hyprctl monitors -j 2>/dev/null \
+            | jq -r --arg m "$monitor" '.[] | select(.name==$m) | "\(.width)x\(.height)"'
+    else
+        hyprctl monitors 2>/dev/null \
+            | awk -v mon="$monitor" '
+                /^Monitor/{found=($2==mon)}
+                found && /[0-9]+x[0-9]+/{print $1; exit}
+              '
+    fi
+}
+
 # DISPLAY SETTINGS — RESOLUTION
 # ============================================================================
 # Accepted input values:
@@ -407,39 +431,59 @@ GUMEOF
 #  W H         → same as WxH (space-separated is normalised to x)
 # ============================================================================
 hypr_set_resolution(){
-    local monitor
-    monitor=$(hypr_select_monitor)
+    local monitor=$(hypr_select_monitor)
     [[ -z "$monitor" ]] && return
 
-    local prompt=$'Enter resolution:\n  WxH or W H  (e.g. 2560x1440  or  2560 1440)\n  0           restore from config file\n -1           highres@highrr (highest the monitor supports)'
+    local current_res current_scale
+    current_res=$(hypr_get_monitor_resolution "$monitor")
+    current_scale=$(hypr_get_monitor_scale "$monitor")
+    [[ -z "$current_scale" ]] && current_scale="1"
+
+    local prompt
+    prompt="Enter resolution:
+  WxH or W H  (e.g. 2560x1440  or  2560 1440)
+  0           restore from config file
+ -1           highres@highrr (keeps current scale: ${current_scale})
+
+Current: ${current_res:-unknown}, scale: ${current_scale}"
 
     local new_res=$(show_input "Resolution — $monitor" "$prompt" "")
     [[ -z "$new_res" ]] && return
 
-    # Strip leading/trailing whitespace
-    new_res="${new_res#"${new_res%%[![:space:]]*}"}"
-    new_res="${new_res%"${new_res##*[![:space:]]}"}"
+    # Strip control chars and whitespace
+    new_res=$(printf '%s' $new_res | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-    case "$new_res" in
+    case $new_res in
         "0")
             hyprctl reload
             notify "Monitor config restored from config file"
             ;;
         "-1")
-            hyprctl keyword monitor "$monitor,highres@highrr,0x0,1"
-            notify "$monitor → highres@highrr  |  scale=1"
+            hyprctl keyword monitor "$monitor,highres@highrr,0x0,$current_scale"
+            notify "$monitor → highres@highrr, scale=$current_scale"
             ;;
         *)
             # Normalise "2560 1440" → "2560x1440"
             new_res="${new_res// /x}"
-            # Collapse multiple x (safety)
-            # Validate WxH format
             if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]]; then
                 notify_error "Invalid format. Use WxH (e.g. 2560x1440)"
                 return
             fi
-            hyprctl keyword monitor "$monitor,${new_res}@highrr,0x0,1"
-            notify "$monitor → ${new_res}@highrr  |  scale=1"
+
+            # Try @highrr first; some resolutions don't have a high-refresh mode
+            # so we silently fall back to letting hyprland pick the refresh rate.
+            local result
+            result=$(hyprctl keyword monitor "$monitor,${new_res}@highrr,0x0,$current_scale" 2>&1)
+            if echo "$result" | grep -qi "invalid"; then
+                result=$(hyprctl keyword monitor "$monitor,${new_res},0x0,$current_scale" 2>&1)
+                if echo "$result" | grep -qi "invalid"; then
+                    notify_error "Could not set resolution: ${new_res} on $monitor"
+                    return
+                fi
+                notify "$monitor → ${new_res} (no high-rr mode), scale=$current_scale"
+            else
+                notify "$monitor → ${new_res}@highrr, scale=$current_scale"
+            fi
             ;;
     esac
 }
@@ -448,14 +492,23 @@ hypr_set_scale(){
     local monitor=$(hypr_select_monitor)
     [[ -z "$monitor" ]] && return
 
-    local prompt=$'Enter scale factor:\nExamples: 1, 1.25, 2, 3.5\n0 - Restore from config file.'
+    # Real per-monitor scale, not the broken getoption path
+    local current_scale
+    current_scale=$(hypr_get_monitor_scale "$monitor")
+    [[ -z "$current_scale" ]] && current_scale="1"
 
-    local new_scale=$(show_input "Scale — $monitor" "$prompt" "1")
+    local prompt="Enter scale factor:
+Examples: 1, 1.6, 2, 3.5
+0 - Restore from config file."
+
+    local new_scale
+    new_scale=$(show_input "Scale — $monitor" "$prompt" "$current_scale")
     [[ -z "$new_scale" ]] && return
 
-    # Strip whitespace
-    new_scale="${new_scale#"${new_scale%%[![:space:]]*}"}"
-    new_scale="${new_scale%"${new_scale##*[![:space:]]}"}"
+    # Strip control chars
+    new_scale=$(printf '%s' "$new_scale" \
+        | tr -d '\r\n' \
+        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
     case "$new_scale" in
         "0")
@@ -463,9 +516,8 @@ hypr_set_scale(){
             notify "Monitor config restored from config file"
             ;;
         *)
-            # Accept integers and decimals; reject anything else
             if [[ ! "$new_scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
-                notify "Invalid scale. Use a decimal number (e.g. 1.25)"
+                notify_error "Invalid scale. Use a decimal number (e.g. 1.25)"
                 return
             fi
             hyprctl keyword monitor "$monitor,preferred@highrr,0x0,$new_scale"

@@ -126,6 +126,7 @@ alias pa="sh $bin/path.sh"
 alias u="sh $bin/molnios.sh -u"
 
 alias rec="sh $scripts/record.sh"
+alias mu="sh $scripts/shazam.sh 1"
 
 
 # Related to hyprconfig.

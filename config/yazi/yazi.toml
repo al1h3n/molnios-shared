@@ -5,7 +5,6 @@ show_hidden    = true
 
 [preview]
 wrap            = "yes"
-cache_dir       = "/tmp/yazi"
 image_filter    = "lanczos3"
 image_quality   = 60
 

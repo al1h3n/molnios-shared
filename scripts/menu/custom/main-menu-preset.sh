@@ -1,6 +1,11 @@
 # MolniOS Main Menu Preset
 # This file defines the main menu structure and all submenus
 
+GREEN="\e[32m"
+YELLOW="\e[33m"
+RED="\e[31m"
+RESET="\e[0m"
+
 # CONFIGURATION
 # Icon spacing configuration (number of spaces after icons)
 ICON_SPACING="${ICON_SPACING:-1}"  # Default: 1 space
@@ -41,7 +46,13 @@ exists(){
 # Notification helper
 notify(){
     if exists notify-send;then
-        notify-send -h int:transient:1 MolniOS "$1"
+        notify-send -h int:transient:1 "MolniOS Manager" "$1"
+    fi
+}
+
+notify_error(){
+    if exists notify-send;then
+        notify-send -h int:transient:1 -u critical "MolniOS Manager" "$1"
     fi
 }
 
@@ -87,7 +98,7 @@ connection_wifi(){
             xterm -e nmtui
         fi
     else
-        notify "nmtui not found"
+        notify_error "nmtui not found"
     fi
 }
 
@@ -95,7 +106,7 @@ connection_nm_applet(){
     if exists nm-connection-editor;then
         nm-connection-editor &
     else
-        notify "Network Manager not found"
+        notify_error "Network Manager not found"
     fi
 }
 
@@ -105,7 +116,7 @@ connection_bluetooth(){
     elif exists blueberry;then
         blueberry &
     else
-        notify "Bluetooth manager not found"
+        notify_error "Bluetooth manager not found"
     fi
 }
 
@@ -135,12 +146,12 @@ theme_apply(){
     fi
     
     # Apply to hyprland borders
-    if exists hyprctl; then
+    if exists hyprctl;then
         hyprctl reload
     fi
     
     # Apply to kitty
-    if [[ -f "$HOME/.config/kitty/kitty.conf" ]]; then
+    if [[ -f "$HOME/.config/kitty/kitty.conf" ]];then
         killall -SIGUSR1 kitty 2>/dev/null || true
     fi
     
@@ -150,7 +161,7 @@ theme_apply(){
 theme_random(){
     local themes
     mapfile -t themes < <(theme_list_themes)
-    if [[ ${#themes[@]} -gt 0 ]]; then
+    if [[ ${#themes[@]} -gt 0 ]];then
         local random_theme="${themes[$RANDOM % ${#themes[@]}]}"
         theme_apply "$random_theme"
     fi
@@ -158,14 +169,14 @@ theme_random(){
 
 wallpaper_list_static(){
     local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
-    if [[ -d "$wallpaper_dir" ]]; then
+    if [[ -d "$wallpaper_dir" ]];then
         find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) -printf "%f\n" | sort
     fi
 }
 
 wallpaper_list_video(){
     local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
-    if [[ -d "$wallpaper_dir" ]]; then
+    if [[ -d "$wallpaper_dir" ]];then
         find "$wallpaper_dir" -type f \( -iname "*.mp4" -o -iname "*.webm" -o -iname "*.gif" \) -printf "%f\n" | sort
     fi
 }
@@ -176,13 +187,13 @@ wallpaper_apply(){
     
     if exists waypaper;then
         waypaper --wallpaper "$wallpaper_path"
-    elif exists hyprctl; then
+    elif exists hyprctl;then
         hyprctl hyprpaper preload "$wallpaper_path"
         hyprctl hyprpaper wallpaper ",$wallpaper_path"
-    elif exists swaybg; then
+    elif exists swaybg;then
         killall swaybg 2>/dev/null || true
         swaybg -i "$wallpaper_path" &
-    elif exists feh; then
+    elif exists feh;then
         feh --bg-fill "$wallpaper_path"
     fi
     
@@ -192,7 +203,7 @@ wallpaper_apply(){
 wallpaper_random(){
     local wallpapers
     mapfile -t wallpapers < <(wallpaper_list_static)
-    if [[ ${#wallpapers[@]} -gt 0 ]]; then
+    if [[ ${#wallpapers[@]} -gt 0 ]];then
         local random_wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
         wallpaper_apply "$L_PATH/molnios-media/wallpapers/static/$random_wp"
     fi
@@ -201,24 +212,7 @@ wallpaper_random(){
 
 # COMPOSITOR SETTINGS ACTIONS
 compositor_reload(){
-    notify "Reloading configurations..."
-    
-    # Reload Hyprland
-    if exists hyprctl; then
-        hyprctl reload
-    fi
-    
-    # Reload Niri
-    if exists niri && pgrep -x niri;then
-        niri msg action reload-config
-    fi
-    
-    # Reload waybar
-    if pgrep -x waybar; then
-        killall -SIGUSR2 waybar
-    fi
-    
-    notify "Configurations reloaded"
+    sh $L_PATH/scripts/reloadus.sh
 }
 
 # Hyprland settings helpers
@@ -232,12 +226,12 @@ hypr_get_setting(){
     value=$(echo "$output" | grep "int:" | sed -n 's/.*int: \([0-9-]*\).*/\1/p')
     
     # If no int found, try float
-    if [[ -z "$value" ]]; then
+    if [[ -z "$value" ]];then
         value=$(echo "$output" | grep "float:" | sed -n 's/.*float: \([0-9.-]*\).*/\1/p')
     fi
     
     # If still no value, return 0
-    if [[ -z "$value" ]]; then
+    if [[ -z "$value" ]];then
         echo "0"
     else
         echo "$value"
@@ -255,7 +249,7 @@ hypr_adjust_gaps_in(){
     current=$(hypr_get_setting "general:gaps_in")
     local new_value
     new_value=$(show_input "Gaps In" "Enter gaps in value:" "$current")
-    if [[ -n "$new_value" ]]; then
+    if [[ -n "$new_value" ]];then
         hypr_set_setting "general:gaps_in" "$new_value"
         notify "Gaps in set to: $new_value"
     fi
@@ -266,7 +260,7 @@ hypr_adjust_gaps_out(){
     current=$(hypr_get_setting "general:gaps_out")
     local new_value
     new_value=$(show_input "Gaps Out" "Enter gaps out value:" "$current")
-    if [[ -n "$new_value" ]]; then
+    if [[ -n "$new_value" ]];then
         hypr_set_setting "general:gaps_out" "$new_value"
         notify "Gaps out set to: $new_value"
     fi
@@ -277,7 +271,7 @@ hypr_adjust_border_size(){
     current=$(hypr_get_setting "general:border_size")
     local new_value
     new_value=$(show_input "Border Size" "Enter border size:" "$current")
-    if [[ -n "$new_value" ]]; then
+    if [[ -n "$new_value" ]];then
         hypr_set_setting "general:border_size" "$new_value"
         notify "Border size set to: $new_value"
     fi
@@ -288,7 +282,7 @@ hypr_adjust_rounding(){
     current=$(hypr_get_setting "decoration:rounding")
     local new_value
     new_value=$(show_input "Rounding" "Enter rounding value:" "$current")
-    if [[ -n "$new_value" ]]; then
+    if [[ -n "$new_value" ]];then
         hypr_set_setting "decoration:rounding" "$new_value"
         notify "Rounding set to: $new_value"
     fi
@@ -318,14 +312,176 @@ hypr_toggle_shadows(){
     notify "Shadows: $([ $new_value -eq 1 ] && echo 'enabled' || echo 'disabled')"
 }
 
+# Monitor helpers (beckend).
+_hypr_display_term_cmd(){
+    if exists kitty;then echo "kitty --class floating -e";return;fi
+    if exists wezterm;then echo "wezterm start --";return;fi
+    if exists alacritty;then echo "alacritty -e";return;fi
+    if exists ghostty;then echo "ghostty -e";return;fi
+    echo
+}
+
+hypr_get_monitors(){
+    if exists jq;then
+        hyprctl monitors -j 2>/dev/null | jq -r '.[].name'
+    else
+        # Text format: "Monitor eDP-1 (ID 0):"
+        hyprctl monitors 2>/dev/null | awk '/^Monitor/{print $2}'
+    fi
+}
+
+# Interactive monitor picker.
+#   - Single monitor  → returned immediately, no UI shown
+#   - Multiple monitors + gum available → gum choose in a terminal window
+#   - Multiple monitors, no gum          → falls back to the framework's show_menu
+# Prints the selected monitor name, or empty string on cancel.
+hypr_select_monitor(){
+    local monitors=()
+    mapfile -t monitors < <(hypr_get_monitors)
+
+    if [[ ${#monitors[@]} -eq 0 ]];then
+        notify_error "No monitors detected by hyprctl"
+        return 1
+    fi
+
+    # Single monitor — no need to ask
+    if [[ ${#monitors[@]} -eq 1 ]];then
+        echo "${monitors[0]}"
+        return 0
+    fi
+
+    if exists gum;then
+        local list_file="/tmp/molnios-mon-list-$$"
+        local out_file="/tmp/molnios-mon-out-$$"
+        local sel_script="/tmp/molnios-mon-sel-$$.sh"
+
+        printf '%s\n' "${monitors[@]}" > "$list_file"
+
+        # Build the gum script (list_file / out_file expanded now; $selected escaped)
+        cat > "$sel_script" << GUMEOF
+echo "================================="
+echo "  Select Monitor"
+echo "================================="
+selected=\$(gum choose --header "Available monitors:" < "$list_file")
+echo "\$selected" > "$out_file"
+GUMEOF
+        chmod +x "$sel_script"
+
+        local term_cmd=$(_hypr_display_term_cmd)
+
+        if [[ -n "$term_cmd" ]];then
+            $term_cmd bash "$sel_script"
+            sleep 0.3
+        else
+            # No terminal found — run inline (will work if already in a tty)
+            sh "$sel_script"
+        fi
+
+        local result
+        if [[ -f "$out_file" ]]; then
+            result=$(cat "$out_file")
+            rm -f "$out_file"
+        fi
+        rm -f "$list_file" "$sel_script"
+
+        echo "$result"
+        return 0
+    fi
+
+    # Fallback: framework show_menu
+    local idx
+    idx=$(show_menu "Select Monitor" "Choose a monitor:" "${monitors[@]}")
+    if [[ -n "$idx" ]] && [[ "$idx" =~ ^[0-9]+$ ]]; then
+        echo "${monitors[$idx]}"
+    else
+        echo
+    fi
+}
+
+# DISPLAY SETTINGS — RESOLUTION
+# ============================================================================
+# Accepted input values:
+#   0          → hyprctl reload  (restore config-file settings)
+#  -1          → <monitor>,highres@highrr,0x0,1
+#  WxH         → <monitor>,WxH@highrr,0x0,1   (scale stays at 1)
+#  W H         → same as WxH (space-separated is normalised to x)
+# ============================================================================
+hypr_set_resolution(){
+    local monitor
+    monitor=$(hypr_select_monitor)
+    [[ -z "$monitor" ]] && return
+
+    local prompt=$'Enter resolution:\n  WxH or W H  (e.g. 2560x1440  or  2560 1440)\n  0           restore from config file\n -1           highres@highrr (highest the monitor supports)'
+
+    local new_res=$(show_input "Resolution — $monitor" "$prompt" "")
+    [[ -z "$new_res" ]] && return
+
+    # Strip leading/trailing whitespace
+    new_res="${new_res#"${new_res%%[![:space:]]*}"}"
+    new_res="${new_res%"${new_res##*[![:space:]]}"}"
+
+    case "$new_res" in
+        "0")
+            hyprctl reload
+            notify "Monitor config restored from config file"
+            ;;
+        "-1")
+            hyprctl keyword monitor "$monitor,highres@highrr,0x0,1"
+            notify "$monitor → highres@highrr  |  scale=1"
+            ;;
+        *)
+            # Normalise "2560 1440" → "2560x1440"
+            new_res="${new_res// /x}"
+            # Collapse multiple x (safety)
+            # Validate WxH format
+            if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]]; then
+                notify_error "Invalid format. Use WxH (e.g. 2560x1440)"
+                return
+            fi
+            hyprctl keyword monitor "$monitor,${new_res}@highrr,0x0,1"
+            notify "$monitor → ${new_res}@highrr  |  scale=1"
+            ;;
+    esac
+}
+
+hypr_set_scale(){
+    local monitor=$(hypr_select_monitor)
+    [[ -z "$monitor" ]] && return
+
+    local prompt=$'Enter scale factor:\nExamples: 1, 1.25, 2, 3.5\n0 - Restore from config file.'
+
+    local new_scale=$(show_input "Scale — $monitor" "$prompt" "1")
+    [[ -z "$new_scale" ]] && return
+
+    # Strip whitespace
+    new_scale="${new_scale#"${new_scale%%[![:space:]]*}"}"
+    new_scale="${new_scale%"${new_scale##*[![:space:]]}"}"
+
+    case "$new_scale" in
+        "0")
+            hyprctl reload
+            notify "Monitor config restored from config file"
+            ;;
+        *)
+            # Accept integers and decimals; reject anything else
+            if [[ ! "$new_scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+                notify "Invalid scale. Use a decimal number (e.g. 1.25)"
+                return
+            fi
+            hyprctl keyword monitor "$monitor,preferred@highrr,0x0,$new_scale"
+            notify "$monitor → preferred@highrr, scale=$new_scale"
+            ;;
+    esac
+}
+
 # SOFTWARE UPDATE ACTION
 software_update(){
     notify "Starting system update..."
     
-    if exists kitty; then
+    if exists kitty;then
         kitty --class floating -e bash -c "
             echo 'Starting system update...'
-            if command -v nixos-rebuild &>/dev/null; then
+            if command -v nixos-rebuild &>/dev/null;then
                 sudo sh molnios.sh
             fi
             sudo sh sweeper
@@ -445,8 +601,9 @@ register_menu "hyprland_animations" \
 # Hyprland Display
 register_menu "hyprland_display" \
     "Hyprland Display" \
-    "Display settings:" \
-    " Info" "cmd:notify 'Use hyprctl monitors for display info'"
+    "Select display setting:" \
+    "󰹑 Resolution" "cmd:hypr_set_resolution" \
+    "󰑒 Scale" "cmd:hypr_set_scale"
 
 # Hyprland Misc
 register_menu "hyprland_misc" \

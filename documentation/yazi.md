@@ -7,6 +7,7 @@ Navigate with arrows `hjkl`.<br>
 `Back/forward` - `HL`.<br>
 To move cursor further use `Pg Up/Down`.<br>
 `gg`|`G` - top | bottom.<br>
+`f` - filter files (regular search).<br>
 
 ### Modes
 `v` `V` - select/unselect mode (VISUAL).

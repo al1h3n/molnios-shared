@@ -95,7 +95,7 @@
         {
           "label": " Shazam",
           "type": "command",
-          "command": "sh -c 'notify-send \"🎵 Shazam\" \"Listening for 5 seconds...\"; tmpf=$(mktemp /tmp/shazam_XXXXXX.wav); mon=$(pactl list sources short | grep -m1 monitor | cut -f2); parec --device=\"$mon\" --file-format=wav \"$tmpf\" & PREC=$!; sleep 5; kill $PREC 2>/dev/null; wait $PREC 2>/dev/null; result=$(songrec audio-file-to-recognized-song \"$tmpf\" 2>&1 | head -1); rm -f \"$tmpf\"; notify-send \"🎵 Shazam\" \"${result:-Song not recognized}\"'"
+          "command": "sh -c 'notify-send \" Shazam\" \"Listening for 5 seconds...\"; tmpf=$(mktemp /tmp/shazam_XXXXXX.wav); mon=\"$(pactl get-default-sink).monitor\"; parec --device=\"$mon\" --file-format=wav \"$tmpf\" & PREC=$!; sleep 5; kill $PREC 2>/dev/null; wait $PREC 2>/dev/null; result=$(songrec audio-file-to-recognized-song \"$tmpf\" 2>/dev/null | python3 -c \"import sys,json; d=json.load(sys.stdin); t=d.get(\\\"track\\\",{}); print(t.get(\\\"title\\\",\\\"\\\")+\\\" — \\\"+t.get(\\\"subtitle\\\",\\\"\\\"))\" 2>/dev/null); rm -f \"$tmpf\"; notify-send \" Shazam\" \"${result:-Song not recognized}\"'"
         },
         {
           "label": " Terminal",
@@ -105,7 +105,7 @@
         {
           "label": "󰍃 Logout",
           "type": "command",
-          "command": "wlogout"
+          "command": "wlogout -nl $L_PATH/config/wlogout/layout -C $L_PATH/config/wlogout/wlogout.css"
         }
       ]
     }

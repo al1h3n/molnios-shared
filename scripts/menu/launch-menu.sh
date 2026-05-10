@@ -10,7 +10,7 @@ PRESET_FILE="$SCRIPT_DIR/custom/main-menu-preset.sh"
 # Default backend (auto-detect)
 BACKEND="auto"
 DEBUG=0
-ROFI_CONFIG=""
+# ROFI_CONFIG=/home/al1h3n/repo/molnios-shared/config/rofi-menu.rasi
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do

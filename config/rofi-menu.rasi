@@ -61,8 +61,8 @@ window {
   // Rofi window.
 
   // Size.
-  width: 20%;
-  height: 32%;
+  width: 30%;
+  height: 35%;
 
   // Additional attributes (pivot and etc).
   padding: 0;

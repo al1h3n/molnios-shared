@@ -219,6 +219,49 @@ wallpaper_random_video(){
     fi
 }
 
+wallpaper_menu_static(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_static)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No static wallpapers were found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Static Wallpapers" "Select a wallpaper:" "${labels[@]}")
+
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    wallpaper_apply "${paths[$idx]}"
+    notify "Wallpaper set: ${labels[$idx]}"
+}
+
+wallpaper_menu_video(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_video)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No video wallpapers were found"
+        return
+    fi
+
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Video Wallpapers" "Select a video wallpaper:" "${labels[@]}")
+
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    wallpaper_apply "${paths[$idx]}"
+    notify "Video wallpaper set: ${labels[$idx]}"
+}
+
 
 # COMPOSITOR SETTINGS ACTIONS
 compositor_reload(){
@@ -612,20 +655,10 @@ register_menu "theme_select" \
 register_menu "wallpaper_select" \
     "Select Wallpaper" \
     "Choose wallpaper type:" \
-    " Static Images" "menu:wallpaper_static" \
-    "󰈫 Video Wallpapers" "menu:wallpaper_video" \
+    " Static Images" "cmd:wallpaper_menu_static" \
+    "󰈫 Video Wallpapers" "cmd:wallpaper_menu_video" \
     " Random Static" "cmd:wallpaper_random" \
     " Random Video" "cmd:wallpaper_random_video"
-
-register_menu "wallpaper_static" \
-    "Static Wallpapers" \
-    "Select a wallpaper:" \
-    "No wallpapers found" "cmd:notify 'No wallpapers found'"
-
-register_menu "wallpaper_video" \
-    "Video Wallpapers" \
-    "Select a video wallpaper:" \
-    "No video wallpapers found" "cmd:notify 'No video wallpapers found'"
 
 # Compositor Settings Menu
 register_menu "compositor" \

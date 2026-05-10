@@ -25,8 +25,8 @@ language - current layout
             "sh": "󰆍 $1",
             "bash": "󰆍 $1",
             "zsh": "󰆍 $1",
-            "(.*)yazi(.*)": " $1",
-            "(.*)superfile(.*)": " $1",
+            "Yazi(.*)": " $1",
+            "superfile(.*)": " Superfile $1",
             "": "MolniOS"
         },
         "separate-outputs": true
@@ -52,8 +52,8 @@ language - current layout
             "sh": "󰆍 $1",
             "bash": "󰆍 $1",
             "zsh": "󰆍 $1",
-            "(.*)yazi(.*)": " $1",
-            "(.*)superfile(.*)": " $1",
+            "Yazi(.*)": " $1",
+            "superfile(.*)": " Superfile $1",
             "": "MolniOS"
         },
         "separate-outputs": true

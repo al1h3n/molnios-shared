@@ -94,6 +94,8 @@ alias ln="ln -sfn"
 alias wifi="nmcli radio wifi"
 alias blue="bluetoothctl power"
 alias et="nmcli networking"
+alias k="kitty -c $conf/kitty.conf"
+alias kitty="kitty -c $conf/kitty.conf"
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
   if [ $# -eq 0 ];then

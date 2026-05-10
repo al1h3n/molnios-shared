@@ -9,7 +9,8 @@
 
 #### Helpful
 `c` - `clear` shortcut.<br>
-`cl` - just move everything above.
+`cl` - just move everything above.<br>
+`ki` / `kitty` - kitty with custom config.<br>
 
 `s` - `sudo`<br>
 `k`- `killall` (kill program)<br>

@@ -6,10 +6,7 @@
 
 set -euo pipefail
 
-# ============================================================================
-# GLOBAL VARIABLES
-# ============================================================================
-
+# 1. Global variables.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MENU_STACK=()
 DEBUG_MODE=0
@@ -21,46 +18,37 @@ ROFI_CONFIG=""
 STATE_DIR="/tmp/molnios-menu-$$"
 mkdir -p "$STATE_DIR"
 
-# ============================================================================
-# DEBUG FUNCTIONS
-# ============================================================================
-
+# 2. Debug functions.
 debug() {
-    if [[ $DEBUG_MODE -eq 1 ]]; then
+    if [[ $DEBUG_MODE -eq 1 ]];then
         echo "[DEBUG] $*" >&2
     fi
 }
 
 debug_var() {
-    if [[ $DEBUG_MODE -eq 1 ]]; then
+    if [[ $DEBUG_MODE -eq 1 ]];then
         local var_name="$1"
         echo "[DEBUG] $var_name = ${!var_name}" >&2
     fi
 }
 
-# ============================================================================
-# BACKEND DETECTION
-# ============================================================================
-
+# 3. Detection of backends: ROFI & YAD.
 detect_backend() {
-    if [[ "$BACKEND" != "auto" ]]; then
+    if [[ "$BACKEND" != "auto" ]];then
         echo "$BACKEND"
         return
     fi
     
-    if command -v rofi &>/dev/null; then
+    if command -v rofi &>/dev/null;then
         echo "rofi"
-    elif command -v yad &>/dev/null; then
+    elif command -v yad &>/dev/null;then
         echo "yad"
     else
         echo "none"
     fi
 }
 
-# ============================================================================
-# SHELL INPUT BACKEND (for dynamic value input)
-# ============================================================================
-
+# 4. Shell window renderer.
 shell_show_input() {
     local title="$1"
     local prompt="$2"
@@ -77,41 +65,47 @@ prompt="$2"
 default="$3"
 output_file="$4"
 
-BLUE="\033[34m"
-CYAN="\033[36m"
-YELLOW="\033[33m"
-GREEN="\033[32m"
+# Gruvbox Dark – true color
+GRV_BG="\033[48;2;40;40;40m"         # bg  #282828
+GRV_RESET="\033[0m"
 BOLD="\033[1m"
 DIM="\033[2m"
-RESET="\033[0m"
 
-# Pad title to fixed width for the box
+# Foreground palette
+FG="\033[38;2;235;219;178m"           # fg     #ebdbb2  – title text
+YELLOW="\033[38;2;250;189;47m"        # yellow #fabd2f  – frame / borders
+AQUA="\033[38;2;142;192;124m"         # aqua   #8ec07c  – prompt lines
+ORANGE="\033[38;2;254;128;25m"        # orange #fe8019  – current value
+GREEN="\033[38;2;184;187;38m"         # green  #b8bb26  – input caret
+GRAY="\033[38;2;146;131;116m"         # gray   #928374  – "Current:" label
+
 box_width=44
-title_len=${#title}
-pad=$(( (box_width - title_len) / 2 ))
-padded=$(printf "%*s%s" "$pad" "" "$title")
 
+# ── title box ────────────────────────────────────────────────────────────────
 echo ""
-echo -e "${BLUE}${BOLD}┌──────────────────────────────────────────────┐${RESET}"
-printf "${BLUE}${BOLD}│${RESET}  ${BOLD}%-44s${RESET}${BLUE}${BOLD}  │${RESET}\n" "$title"
-echo -e "${BLUE}${BOLD}└──────────────────────────────────────────────┘${RESET}"
+echo -e "${YELLOW}${BOLD}┌──────────────────────────────────────────────┐${GRV_RESET}"
+printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}  │${GRV_RESET}\n" "$title"
+echo -e "${YELLOW}${BOLD}└──────────────────────────────────────────────┘${GRV_RESET}"
 echo ""
 
-# Print prompt lines; indent every line, color non-blank lines cyan
-while IFS= read -r line;do
-    if [[ -n "$line" ]];then
-        echo -e "  ${DIM}${line}${RESET}"
+# ── prompt lines ─────────────────────────────────────────────────────────────
+while IFS= read -r line; do
+    if [[ -n "$line" ]]; then
+        echo -e "  ${AQUA}${DIM}${line}${GRV_RESET}"
     else
         echo
     fi
 done <<< "$prompt"
 
+# ── current value ─────────────────────────────────────────────────────────────
 echo ""
 if [[ -n "$default" ]]; then
-    echo -e "  ${DIM}Current:${RESET} ${YELLOW}${default}${RESET}"
+    echo -e "  ${GRAY}Current:${GRV_RESET}  ${ORANGE}${BOLD}${default}${GRV_RESET}"
     echo ""
 fi
-read -r -p "$(echo -e "  ${GREEN}❯${RESET} ")" -e -i "$default" user_input
+
+# ── input caret ───────────────────────────────────────────────────────────────
+read -r -p "$(echo -e "  ${GREEN}${BOLD}❯${GRV_RESET} ")" -e -i "$default" user_input
 printf '%s' "$user_input" > "$output_file"
 SHELL_INPUT_EOF
 
@@ -119,31 +113,28 @@ SHELL_INPUT_EOF
     rm -f "$output_file"
 
     local term_cmd=""
-    if command -v kitty    &>/dev/null; then term_cmd="kitty --class floating -e"
-    elif command -v wezterm  &>/dev/null; then term_cmd="wezterm start --"
-    elif command -v alacritty &>/dev/null; then term_cmd="alacritty -e"
-    elif command -v ghostty  &>/dev/null; then term_cmd="ghostty -e"
-    elif command -v xterm   &>/dev/null; then term_cmd="xterm -e"
+    if command -v kitty&>/dev/null;then term_cmd="kitty -c $L_PATH/config/kitty.conf --class floating -e"
+    elif command -v wezterm&>/dev/null;then term_cmd="wezterm start --"
+    elif command -v alacritty&>/dev/null;then term_cmd="alacritty -e"
+    elif command -v ghostty&>/dev/null;then term_cmd="ghostty -e"
+    elif command -v xterm&>/dev/null;then term_cmd="xterm -e"
     fi
 
-    if [[ -z "$term_cmd" ]]; then
+    if [[ -z "$term_cmd" ]];then
         bash "$input_script" "$title" "$prompt" "$default" "$output_file"
     else
         $term_cmd bash "$input_script" "$title" "$prompt" "$default" "$output_file"
         sleep .2
     fi
 
-    if [[ -f "$output_file" ]]; then
+    if [[ -f "$output_file" ]];then
         cat "$output_file"
     else
         echo
     fi
 }
 
-# ============================================================================
-# ROFI BACKEND
-# ============================================================================
-
+# 5. rofi backend.
 rofi_show_menu() {
     local title="$1"
     local prompt="$2"
@@ -154,15 +145,15 @@ rofi_show_menu() {
     debug "rofi_show_menu: options count=${#options[@]}"
     
     local rofi_config=""
-    if [[ -n "$ROFI_CONFIG" ]]; then
+    if [[ -n "$ROFI_CONFIG" ]];then
         # Use custom config if specified
-        if [[ -f "$ROFI_CONFIG" ]]; then
+        if [[ -f "$ROFI_CONFIG" ]];then
             rofi_config="-config $ROFI_CONFIG"
             debug "Using custom rofi config: $ROFI_CONFIG"
         else
             debug "WARNING: Custom rofi config not found: $ROFI_CONFIG"
         fi
-    elif [[ -f $L_PATH/config/rofi-menu.rasi ]]; then
+    elif [[ -f $L_PATH/config/rofi-menu.rasi ]];then
         # Use default menu config
         rofi_config="-config $L_PATH/config/rofi-menu.rasi"
         debug "Using default rofi config: $L_PATH/config/rofi-menu.rasi"
@@ -192,10 +183,7 @@ rofi_show_input() {
     shell_show_input "$title" "$prompt" "$default"
 }
 
-# ============================================================================
-# YAD BACKEND
-# ============================================================================
-
+# 6. YAD backend.
 yad_show_menu() {
     local title="$1"
     local prompt="$2"
@@ -205,14 +193,14 @@ yad_show_menu() {
     debug "yad_show_menu: title='$title', prompt='$prompt'"
     debug "yad_show_menu: options count=${#options[@]}"
     
-    if [[ $DEBUG_MODE -eq 1 ]]; then
-        for i in "${!options[@]}"; do
+    if [[ $DEBUG_MODE -eq 1 ]];then
+        for i in "${!options[@]}";do
             debug "  YAD Option $i: ${options[$i]}"
         done
     fi
     
     local yad_list=""
-    for i in "${!options[@]}"; do
+    for i in "${!options[@]}";do
         yad_list+="$i\n${options[$i]}\n"
     done
     
@@ -254,10 +242,7 @@ yad_show_input() {
         --button="OK:0" 2>/dev/null || echo ""
 }
 
-# ============================================================================
-# UNIFIED MENU INTERFACE
-# ============================================================================
-
+# 7. Menu interface.
 show_menu() {
     local title="$1"
     local prompt="$2"
@@ -318,14 +303,14 @@ push_menu() {
 }
 
 pop_menu() {
-    if [[ ${#MENU_STACK[@]} -gt 0 ]]; then
+    if [[ ${#MENU_STACK[@]} -gt 0 ]];then
         unset 'MENU_STACK[-1]'
         debug "pop_menu: (stack size: ${#MENU_STACK[@]})"
     fi
 }
 
 get_current_menu() {
-    if [[ ${#MENU_STACK[@]} -gt 0 ]]; then
+    if [[ ${#MENU_STACK[@]} -gt 0 ]];then
         echo "${MENU_STACK[-1]}"
     else
         echo ""
@@ -380,7 +365,7 @@ register_menu() {
     local options=()
     local actions=()
     
-    while [[ $# -gt 0 ]]; do
+    while [[ $# -gt 0 ]];do
         options+=("$1")
         actions+=("$2")
         shift 2
@@ -396,10 +381,10 @@ register_menu() {
     IFS="$old_ifs"
     
     debug "register_menu: $menu_id with ${#options[@]} options"
-    if [[ $DEBUG_MODE -eq 1 ]]; then
+    if [[ $DEBUG_MODE -eq 1 ]];then
         debug "  Title: $title"
         debug "  Prompt: $prompt"
-        for i in "${!options[@]}"; do
+        for i in "${!options[@]}";do
             debug "  Registering option $i: '${options[$i]}' -> '${actions[$i]}'"
         done
     fi
@@ -410,7 +395,7 @@ show_menu_by_id() {
     
     debug "show_menu_by_id: $menu_id"
     
-    if [[ -z "${MENU_TITLES[$menu_id]:-}" ]]; then
+    if [[ -z "${MENU_TITLES[$menu_id]:-}" ]];then
         debug "Menu not found: $menu_id"
         return 1
     fi
@@ -438,14 +423,14 @@ show_menu_by_id() {
     IFS="$old_ifs"
     
     debug "Parsed ${#options[@]} options and ${#actions[@]} actions"
-    if [[ $DEBUG_MODE -eq 1 ]]; then
-        for i in "${!options[@]}"; do
+    if [[ $DEBUG_MODE -eq 1 ]];then
+        for i in "${!options[@]}";do
             debug "  Option $i: '${options[$i]}' -> '${actions[$i]}'"
         done
     fi
     
     # Verify arrays have same length
-    if [[ ${#options[@]} -ne ${#actions[@]} ]]; then
+    if [[ ${#options[@]} -ne ${#actions[@]} ]];then
         debug "ERROR: Options and actions arrays have different lengths!"
         debug "  Options: ${#options[@]}, Actions: ${#actions[@]}"
         pop_menu
@@ -453,19 +438,19 @@ show_menu_by_id() {
     fi
     
     # Add back button if not root menu
-    if [[ ${#MENU_STACK[@]} -gt 1 ]]; then
+    if [[ ${#MENU_STACK[@]} -gt 1 ]];then
         options=("← Back" "${options[@]}")
         actions=("back" "${actions[@]}")
         debug "Added back button (stack size: ${#MENU_STACK[@]})"
     fi
     
-    while true; do
+    while true;do
         local selection
         selection=$(show_menu "$title" "$prompt" "${options[@]}")
         
         debug "Selection: $selection"
         
-        if [[ -z "$selection" ]]; then
+        if [[ -z "$selection" ]];then
             # User cancelled
             pop_menu
             return 0
@@ -473,7 +458,7 @@ show_menu_by_id() {
         
         local action="${actions[$selection]}"
         
-        if [[ "$action" == "back" ]]; then
+        if [[ "$action" == "back" ]];then
             pop_menu
             return 0
         fi
@@ -515,7 +500,7 @@ load_preset() {
     
     debug "load_preset: $preset_file"
     
-    if [[ ! -f "$preset_file" ]]; then
+    if [[ ! -f "$preset_file" ]];then
         echo "ERROR: Preset file not found: $preset_file" >&2
         exit 1
     fi
@@ -557,7 +542,7 @@ EOF
 main() {
     local preset_file=""
     
-    while [[ $# -gt 0 ]]; do
+    while [[ $# -gt 0 ]];do
         case "$1" in
             -p|--preset)
                 preset_file="$2"
@@ -587,7 +572,7 @@ main() {
         esac
     done
     
-    if [[ -z "$preset_file" ]]; then
+    if [[ -z "$preset_file" ]];then
         echo "ERROR: No preset file specified" >&2
         show_help
         exit 1
@@ -602,7 +587,7 @@ main() {
     local detected_backend
     detected_backend=$(detect_backend)
     
-    if [[ "$detected_backend" == "none" ]]; then
+    if [[ "$detected_backend" == "none" ]];then
         echo "ERROR: No supported backend found. Please install rofi or yad." >&2
         exit 1
     fi
@@ -620,6 +605,6 @@ main() {
 }
 
 # Run main if executed directly
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]];then
     main "$@"
 fi

@@ -79,11 +79,11 @@
           "update-command": "sh -c '[[ $(nmcli networking connectivity) != \"none\" ]] && echo true || echo false'"
         },
         {
-          "label": "󰓅 Boost",
+          "label": "󱧥 Battery saver",
           "type": "toggle",
           "active": false,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo tlp ac || sudo tlp bat'",
-          "update-command": "sh -c 'tlp-stat -s | grep -q \"Mode.*=.*AC\" && echo true || echo false'"
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo tlp power-saver || sudo tlp ac'",
+          "update-command": "sh -c 'tlp-stat -s | grep -q \"State.*= AC\" && echo true || echo false'"
         },
         {
           "label": "󰖂 VPN",

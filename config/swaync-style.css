@@ -99,9 +99,14 @@ notificationwindow, blankwindow, blankwindow {
 }
 
 .notification-row .notification-background .notification.critical {
-  /* Critical Priority Notification */
+  background: #ff0000; /* Red background */
+  border: 2px solid #ffffff; /* White border */
 }
 
+/* Optional: Change the text color inside critical notifications */
+.notification.critical label {
+    color: white;
+}
 .notification-row .notification-background .notification .notification-default-action {
   /* The large action that also displays the notification summary and body */
   padding: 4px;

@@ -165,14 +165,14 @@ theme_random(){
 wallpaper_list_static(){
     local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
     if [[ -d "$wallpaper_dir" ]];then
-        find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) -printf "%f\n" | sort
+        find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) | sort
     fi
 }
 
 wallpaper_list_video(){
     local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
     if [[ -d "$wallpaper_dir" ]];then
-        find "$wallpaper_dir" -type f \( -iname "*.mp4" -o -iname "*.webm" -o -iname "*.gif" \) -printf "%f\n" | sort
+        find "$wallpaper_dir" -type f \( -iname "*.mp4" -o -iname "*.webm" -o -iname "*.gif" \) | sort
     fi
 }
 
@@ -200,7 +200,22 @@ wallpaper_random(){
     mapfile -t wallpapers < <(wallpaper_list_static)
     if [[ ${#wallpapers[@]} -gt 0 ]];then
         local random_wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
-        wallpaper_apply "$L_PATH/molnios-media/wallpapers/static/$random_wp"
+        wallpaper_apply "$random_wp"
+        notify "Random wallpaper: $(basename "$random_wp") ($(basename "$(dirname "$random_wp")"))"
+    else
+        notify_error "No static wallpapers found"
+    fi
+}
+
+wallpaper_random_video(){
+    local wallpapers
+    mapfile -t wallpapers < <(wallpaper_list_video)
+    if [[ ${#wallpapers[@]} -gt 0 ]];then
+        local random_wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
+        wallpaper_apply "$random_wp"
+        notify "Random video wallpaper: $(basename "$random_wp") ($(basename "$(dirname "$random_wp")"))"
+    else
+        notify_error "No video wallpapers found"
     fi
 }
 
@@ -598,7 +613,9 @@ register_menu "wallpaper_select" \
     "Select Wallpaper" \
     "Choose wallpaper type:" \
     " Static Images" "menu:wallpaper_static" \
-    "󰈫 Video Wallpapers" "menu:wallpaper_video"
+    "󰈫 Video Wallpapers" "menu:wallpaper_video" \
+    " Random Static" "cmd:wallpaper_random" \
+    " Random Video" "cmd:wallpaper_random_video"
 
 register_menu "wallpaper_static" \
     "Static Wallpapers" \

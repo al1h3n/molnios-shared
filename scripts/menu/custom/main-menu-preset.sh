@@ -162,7 +162,155 @@ theme_random(){
     fi
 }
 
-# pywal + borderline.
+# wallust backend.
+
+# Core: run wallust then borderline.
+# $1 = image path for wallust (extracted frame if video)
+# $2 = original file for borderline (may be video)
+_wallust_apply(){
+    local wal_src=$1
+    local borderline_src=$2
+
+    if ! exists wallust;then
+        notify_error "wallust not found"
+        return 1
+    fi
+
+    wallust run "$wal_src"
+
+    local bscript=$L_PATH/scripts/borderline.sh
+    if [[ -f "$bscript" ]];then
+        sh "$bscript" "$borderline_src"
+    else
+        notify_error "borderline.sh not found at $bscript"
+    fi
+}
+
+# ── colors only (no wallpaper change) ────────────────────────────────────────
+
+wallust_colors_static(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_static)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No static images found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Wallust — Pick Source Image" "Select image for color generation:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    _wallust_apply "${paths[$idx]}" "${paths[$idx]}"
+    notify "Wallust colors applied from: ${labels[$idx]}"
+}
+
+wallust_colors_video(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_video)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No video files found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Wallust — Pick Source Video" "Select video for color generation:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local wp="${paths[$idx]}"
+    local frame
+    frame=$(_pywal_extract_frame "$wp")   # reuse — same ffmpeg logic
+    _wallust_apply "$frame" "$wp"
+    rm -f "$frame"
+    notify "Wallust colors applied from: ${labels[$idx]}"
+}
+
+# ── wallpaper change + wallust ────────────────────────────────────────────────
+
+wallpaper_random_static_wallust(){
+    local wallpapers
+    mapfile -t wallpapers < <(wallpaper_list_static)
+    if [[ ${#wallpapers[@]} -eq 0 ]];then
+        notify_error "No static wallpapers found"
+        return
+    fi
+    local wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
+    wallpaper_apply "$wp"
+    _wallust_apply "$wp" "$wp"
+    notify "Random static (wallust): $(basename "$wp")"
+}
+
+wallpaper_random_video_wallust(){
+    local wallpapers
+    mapfile -t wallpapers < <(wallpaper_list_video)
+    if [[ ${#wallpapers[@]} -eq 0 ]];then
+        notify_error "No video wallpapers found"
+        return
+    fi
+    local wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
+    wallpaper_apply "$wp"
+    local frame
+    frame=$(_pywal_extract_frame "$wp")
+    _wallust_apply "$frame" "$wp"
+    rm -f "$frame"
+    notify "Random video (wallust): $(basename "$wp")"
+}
+
+wallpaper_menu_static_wallust(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_static)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No static wallpapers found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Static Wallpapers + Wallust" "Select a wallpaper:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local wp="${paths[$idx]}"
+    wallpaper_apply "$wp"
+    _wallust_apply "$wp" "$wp"
+    notify "Wallpaper set (wallust): ${labels[$idx]}"
+}
+
+wallpaper_menu_video_wallust(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_video)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No video wallpapers found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx
+    idx=$(show_menu "Video Wallpapers + Wallust" "Select a video wallpaper:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local wp="${paths[$idx]}"
+    wallpaper_apply "$wp"
+    local frame
+    frame=$(_pywal_extract_frame "$wp")
+    _wallust_apply "$frame" "$wp"
+    rm -f "$frame"
+    notify "Video wallpaper set (wallust): ${labels[$idx]}"
+}
+
+# pywal16 (pywal) backend.
 
 # Extract first video frame for pywal (480x270 gives enough palette diversity).
 _pywal_extract_frame(){
@@ -751,8 +899,13 @@ register_menu "themes" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
     " Random Wallpaper" "cmd:wallpaper_random" \
-    "󰸉 Random Wallpaper (Pywal)" "cmd:wallpaper_random_static_pywal" \
-    " Random Video (Pywal)"     "cmd:wallpaper_random_video_pywal"
+    " Terminal theme" "menu:wallust_colors"
+
+register_menu "wallust_colors" \
+    "Terminal Colors" \
+    "Pick a source image to generate colors from:" \
+    " From Static Image" "cmd:wallust_colors_static" \
+    "󰈫 From Video Frame"  "cmd:wallust_colors_video"
 
 # Theme Selection (placeholder - will be dynamically populated)
 register_menu "theme_select" \
@@ -760,16 +913,36 @@ register_menu "theme_select" \
     "Choose a theme:" \
     "Default" "cmd:theme_apply default"
 
-# Wallpaper Selection (placeholder)
 register_menu "wallpaper_select" \
     "Select Wallpaper" \
-    "Choose wallpaper type:" \
-    " Static Images" "cmd:wallpaper_menu_static" \
+    "Choose color backend:" \
+    "Regular"  "menu:wallpaper_regular" \
+    "Pywal"    "menu:wallpaper_pywal" \
+    "Wallust"  "menu:wallpaper_wallust"
+
+register_menu "wallpaper_regular" \
+    "Regular Wallpaper" \
+    "Set wallpaper without color theming:" \
+    " Static Images"  "cmd:wallpaper_menu_static" \
     "󰈫 Video Wallpapers" "cmd:wallpaper_menu_video" \
-    " Static Images (pywal)" "cmd:wallpaper_menu_static_pywal" \
-    "󰈫 Video Wallpapers (pywal)" "cmd:wallpaper_menu_video_pywal" \
-    " Random Static" "cmd:wallpaper_random" \
-    " Random Video" "cmd:wallpaper_random_video"
+    " Random Static"  "cmd:wallpaper_random" \
+    " Random Video"   "cmd:wallpaper_random_video"
+
+register_menu "wallpaper_pywal" \
+    "Wallpaper + Pywal" \
+    "Set wallpaper and generate pywal theme:" \
+    " Static Images"       "cmd:wallpaper_menu_static_pywal" \
+    "󰈫 Video Wallpapers"   "cmd:wallpaper_menu_video_pywal" \
+    " Random Static"       "cmd:wallpaper_random_static_pywal" \
+    " Random Video"        "cmd:wallpaper_random_video_pywal"
+
+register_menu "wallpaper_wallust" \
+    "Wallpaper + Wallust" \
+    "Set wallpaper and generate pywal theme:" \
+    " Static Images"       "cmd:wallpaper_menu_static_wallust" \
+    "󰈫 Video Wallpapers"   "cmd:wallpaper_menu_video_wallust" \
+    " Random Static"       "cmd:wallpaper_random_static_wallust" \
+    " Random Video"        "cmd:wallpaper_random_video_wallust"
 
 # Compositor Settings Menu
 register_menu "compositor" \

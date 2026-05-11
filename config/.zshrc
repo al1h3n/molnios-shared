@@ -116,9 +116,10 @@ rr(){ # rm-improved
 }
 
 wa(){
-# Change wallpaper with theme (pywal).
+# Change wallpaper with theme (wallust/pywall).
 # Works only with images.
-wal --recursive -i $1
+# wal --recursive -i $1
+wallust wal --recursive -i $1
 local wallpaper=$(cat ~/.cache/wal/wal)
 sh $scripts/borderline.sh "$wallpaper"
 }

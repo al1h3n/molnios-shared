@@ -1,0 +1,6 @@
+[
+    {
+        "key": "alt+u",
+        "command": "git.pushTo"
+    }
+]

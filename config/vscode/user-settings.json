@@ -1,0 +1,167 @@
+// VSCode configuration - al1h3n edition v1.
+// To apply type ">json" "User settings".
+
+{
+    // Custom extensions and themes.
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+
+    // File related.
+    "files.autoSave": "onWindowChange",
+
+    // Security.
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "security.workspace.trust.enabled": false,
+
+    // git
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.ignoreRebaseWarning": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "git.openRepositoryInParentFolders": "always",
+    "git.postCommitCommand": "push", // Auto push after commit.
+
+    // Editor
+    // "editor.occurrencesHighlight": "off", // Might be useful.
+    // "editor.selectionHighlight": false,  // Same.
+    "editor.wordWrap": "on", // Long lines.
+    "editor.formatOnSave": false, // Removes \n.
+    "editor.minimap.enabled": false, // You might enable it.
+    "editor.minimap.scale": 2,
+
+    "editor.largeFileOptimizations": true,
+    // "editor.hover.enabled": "off", // Disables hints.
+    // "editor.lightbulb.enabled": "off",
+    // "editor.parameterHints.enabled": false,
+    "editor.accessibilitySupport": "off",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.codeLens": false,
+    "editor.guides.bracketPairs": "active",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    },
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontLigatures": "'calt', 'liga', 'ss02', 'ss07', 'ss08', 'ss09', 'ss13', 'ss14', 'zero'",
+    "editor.fontSize": 16,
+    "editor.gotoLocation.multipleDeclarations": "goto",
+    "editor.gotoLocation.multipleImplementations": "goto",
+    "editor.gotoLocation.multipleDefinitions": "goto",
+    "editor.gotoLocation.multipleReferences": "goto",
+    "editor.gotoLocation.multipleTypeDefinitions": "goto",
+    "editor.linkedEditing": true,
+    "editor.suggestSelection": "first",
+    "editor.stickyScroll.enabled": false,
+    "editor.tabSize": 2,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "comment", // Like that.
+                    "constant.language", // true, null, undefined.
+                    "keyword.control", // if, for, else, while.
+                    "keyword.operator.expression", // typeof
+                    "keyword.other",
+                    "keyword.operator.new", // new
+                    "variable.language", // this, self.
+                    "entity.other.attribute-name", // className, id.
+                    "storage" // class, function, let, const.
+                ],
+                "settings": {
+                    "fontStyle": "italic" // Make all that italic.
+                }
+            },
+            {
+                "scope": [
+                    "storage.type.function.arrow"
+                ],
+                "settings": {
+                    "fontStyle": ""
+                }
+            }
+        ]
+    },
+
+    // Ignore files.
+    "files.exclude": {
+        "**/node_modules": true,
+        "**package-lock.json": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        }
+    },
+
+    // Syntax.
+    "emmet.triggerExpansionOnTab": true,
+    /*
+    FROM:
+    ul>li*3
+    TO (with Tab):
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    */
+
+    // Explorer
+    "explorer.compactFolders": false,
+    "explorer.openEditors.visible": 0,
+    "explorer.sortOrder": "type",
+
+    // Extensions.
+    "extensions.ignoreRecommendations": true,
+
+    // Files.
+    "files.hotExit": "onExitAndWindowClose", // You might want to remove it.
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+
+    // Visuals.
+    "breadcrumbs.enabled": false,
+
+    // Search.
+    "search.showLineNumbers": true,
+
+    // Terminal.
+    "terminal.integrated.fontSize": 14, // Default is 14.
+    "terminal.integrated.persistentSessionReviveProcess": "never",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell-1": {
+        "icon": "terminal-powershell",
+        "source": "PowerShell",
+        "args": ["-nol -nop -mta"]
+        },
+        "PowerShell-7": {
+        "icon": "terminal-powershell",
+        "source": "PowerShell",
+        "args": ["-nologo -noprofile -mta"]
+        },
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.gpuAcceleration": "on",
+
+    // Window.
+    "window.zoomLevel": 0.5, // UI scale.
+
+    // Workbench.
+    // "workbench.statusBar.visible": false, // Bad sometimes.
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.restoreViewState": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.localHistory.enabled": false,
+    "workbench.sideBar.location": "right",
+    "workbench.startupEditor": "none",
+    "workbench.tips.enabled": false,
+    "workbench.tree.indent": 20,
+
+    // Zen
+    "zenMode.centerLayout": false,
+    "zenMode.fullScreen": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.restore": true
+}

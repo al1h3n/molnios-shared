@@ -187,6 +187,7 @@ _wallust_apply(){
 }
 
 # ── colors only (no wallpaper change) ────────────────────────────────────────
+# Doesn't seem to work.
 
 wallust_colors_static(){
     local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
@@ -898,14 +899,14 @@ register_menu "themes" \
     " Select Theme" "menu:theme_select" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
-    " Random Wallpaper" "cmd:wallpaper_random" \
-    " Terminal theme" "menu:wallust_colors"
+    " Random Wallpaper" "cmd:wallpaper_random"
+    # " Terminal theme" "menu:wallust_colors"
 
-register_menu "wallust_colors" \
-    "Terminal Colors" \
-    "Pick a source image to generate colors from:" \
-    " From Static Image" "cmd:wallust_colors_static" \
-    "󰈫 From Video Frame"  "cmd:wallust_colors_video"
+# register_menu "wallust_colors" \
+#     "Terminal Colors" \
+#     "Pick a source image to generate colors from:" \
+#     " From Static Image" "cmd:wallust_colors_static" \
+#     "󰈫 From Video Frame"  "cmd:wallust_colors_video"
 
 # Theme Selection (placeholder - will be dynamically populated)
 register_menu "theme_select" \
@@ -917,7 +918,7 @@ register_menu "wallpaper_select" \
     "Select Wallpaper" \
     "Choose color backend:" \
     "Regular"  "menu:wallpaper_regular" \
-    "Pywal"    "menu:wallpaper_pywal" \
+    "Pywal (+terminal)"    "menu:wallpaper_pywal" \
     "Wallust"  "menu:wallpaper_wallust"
 
 register_menu "wallpaper_regular" \

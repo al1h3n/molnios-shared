@@ -116,12 +116,17 @@ rr(){ # rm-improved
 }
 
 wa(){
-# Change wallpaper with theme (wallust/pywall).
+# Change wallpaper with theme (pywall).
 # Works only with images.
-# wal --recursive -i $1
-wallust wal --recursive -i $1
+wal --recursive -i $1
+
 local wallpaper=$(cat ~/.cache/wal/wal)
 sh $scripts/borderline.sh "$wallpaper"
+}
+
+co(){
+# Change terminal color scheme. Doesn't support recursive (only file).
+wallust run $1
 }
 
 alias vq="warp-cli disconnect"

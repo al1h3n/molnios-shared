@@ -32,6 +32,9 @@
 `sakura` - cbonsai custom config.<br>
 `sakurastatic` - same but without animations.<br>
 
+`co` - change terminal color scheme via [wallust](https://codeberg.org/explosion-mental/wallust).<br>
+`wa` - set custom wallpaper and change terminal color scheme via [pywal16](https://github.com/eylles/pywal16).<br>
+
 `wifi` - write on/off to switch Wi-Fi.<br>
 `blue` - write on/off to switch Bluetooth.<br>
 `et` - write on/off to switch Ethernet.<br>

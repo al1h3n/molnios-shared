@@ -1,6 +1,11 @@
+// Place your key bindings in this file to override the defaults.
 [
     {
-        "key": "alt+u",
+        "key": "alt+q",
+        "command": "workbench.action.openRecent"
+    },
+    {
+        "key": "alt+w",
         "command": "git.pushTo"
-    }
+    },
 ]

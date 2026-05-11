@@ -10,22 +10,22 @@ ICON_SPACING_FALLBACK="${ICON_SPACING_FALLBACK:-1}"  # Fallback: 1 space
 add_icon_spacing(){
     local text="$1"
     local spacing_count="${ICON_SPACING:-$ICON_SPACING_FALLBACK}"
-    
+
     # Check if text starts with an emoji/icon (Unicode character)
     if [[ "$text" =~ ^[^[:ascii:]] ]];then
         # Extract icon and rest of text
         local icon="${text:0:2}"  # Most emojis are 2 bytes in UTF-8
         local rest="${text:2}"
-        
+
         # Remove existing spaces after icon
         rest="${rest#"${rest%%[![:space:]]*}"}"
-        
+
         # Add configured spacing
         local spaces=""
-        for ((i=0; i<spacing_count; i++)); do
+        for ((i=0; i<spacing_count; i++));do
             spaces+=" "
         done
-        
+
         echo "${icon}${spaces}${rest}"
     else
         echo "$text"
@@ -129,27 +129,27 @@ theme_list_themes(){
 theme_apply(){
     local theme_name="$1"
     notify "Applying theme: $theme_name"
-    
+
     # Apply to GTK
     if [[ -f "$HOME/.config/gtk-3.0/settings.ini" ]];then
         sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$theme_name/" "$HOME/.config/gtk-3.0/settings.ini"
     fi
-    
+
     # Apply to waybar
     if exists killall && pgrep -x waybar;then
         killall -SIGUSR2 waybar
     fi
-    
+
     # Apply to hyprland borders
     if exists hyprctl;then
         hyprctl reload
     fi
-    
+
     # Apply to kitty
     if [[ -f "$HOME/.config/kitty/kitty.conf" ]];then
         killall -SIGUSR1 kitty 2>/dev/null || true
     fi
-    
+
     notify "Theme applied: $theme_name"
 }
 
@@ -160,6 +160,113 @@ theme_random(){
         local random_theme="${themes[$RANDOM % ${#themes[@]}]}"
         theme_apply "$random_theme"
     fi
+}
+
+# pywal + borderline.
+
+# Extract first video frame for pywal (480x270 gives enough palette diversity).
+_pywal_extract_frame(){
+    local video=$1
+    local tmp=$(mktemp /tmp/molnios_wal_XXXXXX.png)
+    ffmpeg -i "$video" -y -vframes 1 -vf scale=480:270 -v quiet "$tmp"2>/dev/null
+    echo $tmp
+}
+
+# Core: run pywal then borderline.
+# $1 = path passed to wal -i  (image or extracted frame)
+# $2 = path passed to borderline (original file — may be video)
+_pywal_apply(){
+    local wal_src=$1
+    local borderline_src=$2
+
+    if ! exists wal;then
+        notify_error "pywal (wal) not found"
+        return 1
+    fi
+
+    wal --recursive -i "$wal_src"
+
+    # borderline reads the wallpaper from waypaper config by default,
+    # but we pass the path explicitly so it works regardless.
+    local bscript=$L_PATH/scripts/borderline.sh
+    if [[ -f "$bscript" ]];then
+        sh $bscript $borderline_src
+    else
+        notify_error "borderline.sh not found at $bscript"
+    fi
+}
+
+wallpaper_random_static_pywal(){
+    local wallpapers
+    mapfile -t wallpapers < <(wallpaper_list_static)
+    if [[ ${#wallpapers[@]} -eq 0 ]];then
+        notify_error "No static wallpapers found"
+        return
+    fi
+    local wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
+    wallpaper_apply $wp
+    _pywal_apply $wp $wp
+    notify "Random static (pywal): $(basename "$wp")"
+}
+
+wallpaper_random_video_pywal(){
+    local wallpapers
+    mapfile -t wallpapers < <(wallpaper_list_video)
+    if [[ ${#wallpapers[@]} -eq 0 ]];then
+        notify_error "No video wallpapers found"
+        return
+    fi
+    local wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
+    wallpaper_apply "$wp"
+    local frame
+    frame=$(_pywal_extract_frame "$wp")
+    _pywal_apply "$frame" "$wp"
+    rm -f "$frame"
+    notify "Random video (pywal): $(basename "$wp")"
+}
+
+wallpaper_menu_static_pywal(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_static)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No static wallpapers found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx=$(show_menu "Static Wallpapers + Pywal" "Select a wallpaper:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local wp="${paths[$idx]}"
+    wallpaper_apply $wp
+    _pywal_apply $wp $wp
+    notify "Wallpaper set (pywal): ${labels[$idx]}"
+}
+
+wallpaper_menu_video_pywal(){
+    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local -a paths labels
+    mapfile -t paths < <(wallpaper_list_video)
+    if [[ ${#paths[@]} -eq 0 ]];then
+        notify_error "No video wallpapers found"
+        return
+    fi
+    for p in "${paths[@]}";do
+        labels+=("${p#"$wallpaper_dir/"}")
+    done
+
+    local idx=$(show_menu "Video Wallpapers + Pywal" "Select a video wallpaper:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local wp="${paths[$idx]}"
+    wallpaper_apply $wp
+    local frame=$(_pywal_extract_frame "$wp")
+    _pywal_apply $frame $wp
+    rm -f $frame
+    notify "Video wallpaper set (pywal): ${labels[$idx]}"
 }
 
 wallpaper_list_static(){
@@ -179,7 +286,7 @@ wallpaper_list_video(){
 wallpaper_apply(){
     local wallpaper_path="$1"
     notify "Applying wallpaper..."
-    
+
     if exists waypaper;then
         waypaper --wallpaper "$wallpaper_path"
     elif exists hyprctl;then
@@ -191,7 +298,7 @@ wallpaper_apply(){
     elif exists feh;then
         feh --bg-fill "$wallpaper_path"
     fi
-    
+
     notify "Wallpaper applied"
 }
 
@@ -273,16 +380,16 @@ hypr_get_setting(){
     local setting="$1"
     local output
     output=$(hyprctl getoption "$setting" 2>/dev/null)
-    
+
     # Try to extract int value
     local value
     value=$(echo "$output" | grep "int:" | sed -n 's/.*int: \([0-9-]*\).*/\1/p')
-    
+
     # If no int found, try float
     if [[ -z "$value" ]];then
         value=$(echo "$output" | grep "float:" | sed -n 's/.*float: \([0-9.-]*\).*/\1/p')
     fi
-    
+
     # If still no value, return 0
     if [[ -z "$value" ]];then
         echo "0"
@@ -431,7 +538,7 @@ GUMEOF
         fi
 
         local result
-        if [[ -f "$out_file" ]]; then
+        if [[ -f "$out_file" ]];then
             result=$(cat "$out_file")
             rm -f "$out_file"
         fi
@@ -444,7 +551,7 @@ GUMEOF
     # Fallback: framework show_menu
     local idx
     idx=$(show_menu "Select Monitor" "Choose a monitor:" "${monitors[@]}")
-    if [[ -n "$idx" ]] && [[ "$idx" =~ ^[0-9]+$ ]]; then
+    if [[ -n "$idx" ]] && [[ "$idx" =~ ^[0-9]+$ ]];then
         echo "${monitors[$idx]}"
     else
         echo
@@ -523,7 +630,7 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
         *)
             # Normalise "2560 1440" → "2560x1440"
             new_res="${new_res// /x}"
-            if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]]; then
+            if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]];then
                 notify_error "Invalid format. Use WxH (e.g. 2560x1440)"
                 return
             fi
@@ -532,9 +639,9 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
             # so we silently fall back to letting hyprland pick the refresh rate.
             local result
             result=$(hyprctl keyword monitor "$monitor,${new_res}@highrr,0x0,$current_scale" 2>&1)
-            if echo "$result" | grep -qi "invalid"; then
+            if echo "$result" | grep -qi "invalid";then
                 result=$(hyprctl keyword monitor "$monitor,${new_res},0x0,$current_scale" 2>&1)
-                if echo "$result" | grep -qi "invalid"; then
+                if echo "$result" | grep -qi "invalid";then
                     notify_error "Could not set resolution: ${new_res} on $monitor"
                     return
                 fi
@@ -574,7 +681,7 @@ Examples: 1, 1.6, 2, 3.5
             notify "Monitor config restored from config file"
             ;;
         *)
-            if [[ ! "$new_scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+            if [[ ! "$new_scale" =~ ^[0-9]+(\.[0-9]+)?$ ]];then
                 notify_error "Invalid scale. Use a decimal number (e.g. 1.25)"
                 return
             fi
@@ -587,7 +694,7 @@ Examples: 1, 1.6, 2, 3.5
 # SOFTWARE UPDATE ACTION
 software_update(){
     notify "Starting system update..."
-    
+
     if exists kitty;then
         kitty --class floating -e bash -c "
             echo 'Starting system update...'
@@ -643,7 +750,9 @@ register_menu "themes" \
     " Select Theme" "menu:theme_select" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
-    " Random Wallpaper" "cmd:wallpaper_random"
+    " Random Wallpaper" "cmd:wallpaper_random" \
+    "󰸉 Random Wallpaper (Pywal)" "cmd:wallpaper_random_static_pywal" \
+    " Random Video (Pywal)"     "cmd:wallpaper_random_video_pywal"
 
 # Theme Selection (placeholder - will be dynamically populated)
 register_menu "theme_select" \
@@ -657,6 +766,8 @@ register_menu "wallpaper_select" \
     "Choose wallpaper type:" \
     " Static Images" "cmd:wallpaper_menu_static" \
     "󰈫 Video Wallpapers" "cmd:wallpaper_menu_video" \
+    " Static Images (pywal)" "cmd:wallpaper_menu_static_pywal" \
+    "󰈫 Video Wallpapers (pywal)" "cmd:wallpaper_menu_video_pywal" \
     " Random Static" "cmd:wallpaper_random" \
     " Random Video" "cmd:wallpaper_random_video"
 

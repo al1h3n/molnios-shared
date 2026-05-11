@@ -115,6 +115,14 @@ rr(){ # rm-improved
   fi
 }
 
+wa(){
+# Change wallpaper with theme (pywal).
+# Works only with images.
+wal --recursive -i $1
+local wallpaper=$(cat ~/.cache/wal/wal)
+sh $scripts/borderline.sh "$wallpaper"
+}
+
 alias vq="warp-cli disconnect"
 alias vw="warp-cli status"
 alias ve="warp-cli connect"
@@ -160,7 +168,7 @@ alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/inv
 alias fas="sh $scripts/fetch.sh -f"
 alias fast="sh $scripts/fetch.sh -m "
 alias ca="cava -p $conf/cava.ini"
-alias cat="bat"
+alias cat="bat -p"
 
 alias dir="eza --icons"
 alias ls="eza --icons -la"

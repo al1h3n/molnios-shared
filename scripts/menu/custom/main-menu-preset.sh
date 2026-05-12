@@ -434,7 +434,7 @@ wallpaper_list_video(){
 
 wallpaper_apply(){
     local wallpaper_path="$1"
-    notify "Applying wallpaper..."
+    # notify "Applying wallpaper..."
 
     if exists waypaper;then
         waypaper --wallpaper "$wallpaper_path"
@@ -448,7 +448,7 @@ wallpaper_apply(){
         feh --bg-fill "$wallpaper_path"
     fi
 
-    notify "Wallpaper applied"
+    # notify "Wallpaper applied"
 }
 
 wallpaper_random(){
@@ -899,14 +899,14 @@ register_menu "themes" \
     " Select Theme" "menu:theme_select" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
-    " Random Wallpaper" "cmd:wallpaper_random"
-    # " Terminal theme" "menu:wallust_colors"
+    " Random Wallpaper" "cmd:wallpaper_random" \
+    " Terminal theme" "menu:wallust_colors"
 
-# register_menu "wallust_colors" \
-#     "Terminal Colors" \
-#     "Pick a source image to generate colors from:" \
-#     " From Static Image" "cmd:wallust_colors_static" \
-#     "󰈫 From Video Frame"  "cmd:wallust_colors_video"
+register_menu "wallust_colors" \
+    "Terminal Colors" \
+    "Pick a source image to generate colors from:" \
+    " From Static Image" "cmd:wallust_colors_static" \
+    "󰈫 From Video Frame"  "cmd:wallust_colors_video"
 
 # Theme Selection (placeholder - will be dynamically populated)
 register_menu "theme_select" \

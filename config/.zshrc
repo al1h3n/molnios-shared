@@ -168,7 +168,7 @@ fi
 
 alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
 
-alias yaz="yazi --clear-cache"
+alias y="yazi --clear-cache"
 alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"

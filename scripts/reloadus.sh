@@ -18,7 +18,7 @@ RESET="\e[0m"
 echo -e "\e[38;2;51;204;254mReload\e[38;2;0;255;153mus \e[38;2;11;206;217mby\033[0m \033[38;5;171mal1h3n${RESET}"
 
 exists(){
-	command -v $1&>/dev/null
+	command -v $@&>/dev/null
 }
 
 kp(){ # Kill process
@@ -28,7 +28,7 @@ kp(){ # Kill process
 }
 
 run(){
-	nohup $1&>/dev/null &
+	$1&>/dev/null &
 }
 
 # 1.1. Dependencies.
@@ -52,9 +52,9 @@ fi
 if exists waybar;then
 	WAY=$L_PATH/config/waybar
 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
-		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
+		run "waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css"
 	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
-		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
+		run "waybar -c $WAY/config-niri.jsonc -s $WAY/style.css"
 	fi
 fi
 

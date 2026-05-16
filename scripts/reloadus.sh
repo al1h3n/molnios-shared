@@ -50,6 +50,7 @@ fi
 
 # 1.3. Utilities.
 if exists waybar;then
+	kp waybar
 	WAY=$L_PATH/config/waybar
 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
 		run "waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css"

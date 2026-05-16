@@ -8,11 +8,11 @@ exists(){
 ipinfo.io has rate limit.
 Check if VPN exists and reset IP adress (change for your needs).
 '
-if exists warp-cli;then
-    warp-cli disconnect&>/dev/null
-    warp-cli connect&>/dev/null
-    sleep 4
-fi
+# if exists warp-cli;then
+#     warp-cli disconnect&>/dev/null
+#     warp-cli connect&>/dev/null
+#     sleep 4
+# fi
 
 SCRIPT=$L_PATH/scripts/whereami.sh
 SPACING=${1:-2}

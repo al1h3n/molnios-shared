@@ -1,6 +1,6 @@
 {
     "custom/vpn#warp": {
-        "interval": 300,
+        "interval": 999,
         "return-type": "json",
         "format": "{}",
         "exec": "sh $L_PATH/config/waybar/scripts/vpn-setup.sh",

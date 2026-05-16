@@ -52,9 +52,9 @@ fi
 if exists waybar;then
 	WAY=$L_PATH/config/waybar
 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
-		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style/css
+		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
 	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
-		run waybar -c $WAY/config-niri.jsonc -s $WAY/style/css
+		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
 	fi
 fi
 

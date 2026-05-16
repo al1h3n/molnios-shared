@@ -26,7 +26,7 @@ local binds = {
 
     -- SHIFT row — window management.
     { M.." + SHIFT + Q", hl.dsp.window.pseudo() },
-    { M.." + SHIFT + W", hl.dsp.layout("togglesplit") },
+    { M.." + SHIFT + W", "hyprctl dispatch layoutmsg togglesplit" },
     { M.." + SHIFT + E", explorercli },
     { M.." + SHIFT + R", shell .. scripts .. "/wallpaper.sh -r" },
     -- SHIFT row — swap windows.

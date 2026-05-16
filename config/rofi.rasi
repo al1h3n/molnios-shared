@@ -13,7 +13,7 @@ configuration {
   terminal: "kitty";
 
   // 1. Looks.
-  font: "JetBrains Mono Nerd Font 15";
+  font: "JetBrains Mono Nerd Font Propo 15";
   fixed-num-lines: false; // Not fixed height.
   icon-theme: "MacTahoe";
   window-format: "{w}{c}  {t}"; // In window section.
@@ -60,7 +60,7 @@ configuration {
   on-menu-error: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh error"; // Wrong prompt.
   on-menu-canceled: "sh ~/.local/share/molnios/scripts/rofi/minecraft.sh exit"; // Escape.
   drun-show-actions: false; // Might be frustrating.
-  
+
 
 
   // 4. Keybinds.

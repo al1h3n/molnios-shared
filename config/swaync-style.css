@@ -41,6 +41,11 @@
 @define-color aqua_faded_gruvbox   #427b58;
 @define-color orange_faded_gruvbox #af3a03;
 
+* {
+  font-family: "SF Pro", sans-serif;
+  font-weight: bold;
+}
+
 :root {
   --cc-bg: rgba(0,0,0,0.8);
   --noti-border-color: rgba(255, 255, 255, .15);

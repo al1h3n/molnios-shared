@@ -844,10 +844,23 @@ Examples: 1, 1.6, 2, 3.5
 software_update(){
     notify "Starting system update..."
 
-    if exists kitty;then
-        kitty --class floating -e bash -c "
+    local term_cmd=""
+    if exists wezterm; then
+        term_cmd="wezterm start --"
+    elif exists kitty; then
+        term_cmd="kitty --class floating -e"
+    elif exists ghostty; then
+        term_cmd="ghostty -e"
+    elif exists alacritty; then
+        term_cmd="alacritty -e"
+    elif exists xterm; then
+        term_cmd="xterm -e"
+    fi
+
+    if [[ -n "$term_cmd" ]]; then
+        $term_cmd bash -c "
             echo 'Starting system update...'
-            if command -v nixos-rebuild &>/dev/null;then
+            if command -v nixos-rebuild &>/dev/null; then
                 sudo sh molnios.sh
             fi
             sudo sh sweeper
@@ -855,7 +868,7 @@ software_update(){
             read
         "
     else
-        notify "Terminal not found"
+        notify_error "No terminal emulator found"
     fi
 }
 

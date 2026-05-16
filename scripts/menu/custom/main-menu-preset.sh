@@ -765,7 +765,7 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
     [[ -z "$new_res" ]] && return
 
     # Strip control chars and whitespace
-    new_res=$(printf '%s' $new_res | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    new_res=$(printf '%s' "$new_res" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
     case $new_res in
         "0")
@@ -918,7 +918,7 @@ register_menu "wallpaper_select" \
     "Select Wallpaper" \
     "Choose color backend:" \
     "Regular"  "menu:wallpaper_regular" \
-    "Pywal (+terminal)"    "menu:wallpaper_pywal" \
+    "Pywal"    "menu:wallpaper_pywal" \
     "Wallust"  "menu:wallpaper_wallust"
 
 register_menu "wallpaper_regular" \

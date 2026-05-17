@@ -83,7 +83,7 @@ hl.layer_rule({
     match = { namespace = "swaync-control-center" },
     ignore_alpha = 0,
     blur = true,
-    animation = "slide right"
+    animation = "slide top" -- right
 })
 
 -- Rofi
@@ -91,7 +91,7 @@ hl.layer_rule({
     match = { namespace = "rofi" },
     ignore_alpha = 0,
     blur = true,
-    animation = "slide bottom"
+    animation = "popin" -- slide bottom
 })
 
 -- Snappy-switcher (hyprland only).
@@ -99,7 +99,7 @@ hl.layer_rule({
     match = { namespace = "snappy-switcher" },
     ignore_alpha = 0,
     blur = true,
-    animation = "slide bottom"
+    animation = "popin"
 })
 
 -- Wlogout

@@ -71,18 +71,23 @@ end
 
 -- 2. Define animations
 local animations = {
-    { leaf = "windowsIn",   enabled = true, speed = 7,  bezier = "window", style = "popin" },
+    -- Less speed, faster it is.
+    -- Windows: popin, slide, gnomed. popin/slide are good.
+    { leaf = "windowsIn",   enabled = true, speed = 7,  bezier = "window", style = "slide" },
     { leaf = "windowsOut",  enabled = true, speed = 5,  bezier = "window", style = "popin" },
     { leaf = "windowsMove", enabled = true, speed = 6,  bezier = "window", style = "slide" },
+
+    -- Windows: popin, slide, fade.
     { leaf = "layersIn",    enabled = true, speed = 5,  bezier = "notify", style = "popin" },
     { leaf = "layersOut",   enabled = true, speed = 3,  bezier = "easeInOutQuad", style = "popin" },
+
     { leaf = "fadeIn",      enabled = true, speed = 10, bezier = "window" },
     { leaf = "fadeOut",     enabled = true, speed = 10, bezier = "window" },
     { leaf = "fadeSwitch",  enabled = true, speed = 10, bezier = "window" },
     { leaf = "fadeShadow",  enabled = true, speed = 10, bezier = "default" },
     { leaf = "fadeDim",     enabled = true, speed = 10, bezier = "default" },
     { leaf = "fadeLayers",  enabled = true, speed = 10, bezier = "default" },
-    { leaf = "workspaces",  enabled = true, speed = 7,  bezier = "workspace", style = "slidefadevert" },
+    { leaf = "workspaces",  enabled = true, speed = 6,  bezier = "workspace", style = "slidefadevert" },
     { leaf = "border",      enabled = true, speed = 1,  bezier = "liner" },
     { leaf = "borderangle", enabled = true, speed = 20, bezier = "easeInOutQuad", style = "loop" },
 }

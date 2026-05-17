@@ -62,6 +62,7 @@ local beziers = {
     window         = {0.13, 0.99, 0.29, 1.08},
     workspace      = {0.1, 1.2, 0.5, 1},
     quick          = {0.15, 0, 0.1, 1},
+    liquid         = {0.34, 1.6, 0.4, 0.95}
 }
 
 for name, points in pairs(beziers) do

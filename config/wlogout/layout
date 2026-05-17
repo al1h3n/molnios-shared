@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "loginctl lock-session",
+    "action" : "hyprlock -q -c $L_PATH/config/hyprlock.conf",
     "text" : "Lock",
     "keybind" : "l"
 }

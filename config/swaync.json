@@ -25,12 +25,11 @@
 
   "text-empty": "Nothing to see here",
   "widgets": [
+    "buttons-grid",
     "inhibitors",
-    "title",
     "dnd",
     "notifications",
-    "mpris",
-    "buttons-grid"
+    "mpris"
   ],
   "widget-config": {
     "notifications": {
@@ -46,9 +45,6 @@
       "clear-all-button": true,
       "button-text": "Clear"
     },
-    "dnd": {
-      "text": "DND mode:"
-    },
     "mpris": {
       "blacklist": ["firefox", "spotify"],
       "autohide": true,
@@ -58,52 +54,52 @@
       "buttons-per-row": 5,
       "actions": [
         {
-          "label": "󰤨 Wi-Fi",
+          "label": "󰤨",
           "type": "toggle",
           "active": true,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
           "update-command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
         },
         {
-          "label": "󰂯 Bluetooth",
+          "label": "󰂯",
           "type": "toggle",
           "active": true,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo bluetooth on || sudo bluetooth off'",
-          "update-command": "sh -c 'sudo tlp-stat -r | grep -A 2 -i \"bluetooth\" | grep -q \"status.*=.*on\" && echo true || echo false'"
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && bluetooth on || bluetooth off'",
+          "update-command": "sh -c 'rfkill list bluetooth | grep -q \"Soft blocked: no\" && echo true || echo false'"
         },
         {
-          "label": "󰈀 Ethernet",
+          "label": "󰈀",
           "type": "toggle",
           "active": true,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli networking on || nmcli networking off'",
           "update-command": "sh -c '[[ $(nmcli networking connectivity) != \"none\" ]] && echo true || echo false'"
         },
         {
-          "label": "󱧥 Power saver",
+          "label": "󱧥",
           "type": "toggle",
           "active": false,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo tlp power-saver || sudo tlp ac'",
           "update-command": "sh -c 'tlp-stat -s | grep -q \"State.*= AC\" && echo true || echo false'"
         },
         {
-          "label": "󰖂 VPN",
+          "label": "󰖂",
           "type": "toggle",
           "active": false,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && warp-cli connect || warp-cli disconnect'",
           "update-command": "sh -c 'warp-cli status | grep -q \"Connected\" && echo true || echo false'"
         },
         {
-          "label": " Shazam",
+          "label": "",
           "type": "command",
           "command": "sh $L_PATH/scripts/shazam.sh"
         },
         {
-          "label": " Terminal",
+          "label": "",
           "type": "command",
           "command": "sh -c 'if command -v kitty >/dev/null 2>&1; then kitty -c $L_PATH/config/kitty.conf; elif command -v wezterm >/dev/null 2>&1; then wezterm; fi'"
         },
         {
-          "label": "󰍃 Logout",
+          "label": "󰍃",
           "type": "command",
           "command": "wlogout -nl $L_PATH/config/wlogout/layout -C $L_PATH/config/wlogout/wlogout.css"
         }

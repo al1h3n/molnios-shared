@@ -13,43 +13,41 @@ _G.blue  = rgb("0000FF")
 hl.config({
     -- Design.
     general = {
-        gaps_in  = 4,
+        gaps_in = 4,
         gaps_out = 5,
         border_size = 2,
         col = {
             inactive_border = { colors = { BG_LIGHT, BG_DARK } },
         },
         resize_on_border = true,
-        allow_tearing    = true,
-        layout           = "dwindle",
+        allow_tearing = true,
+        layout = "dwindle",
     },
 
     -- Effects.
     decoration = {
-        rounding       = 10,
-        rounding_power = 3,
-        active_opacity   = 1,
-        inactive_opacity = .85,
+        rounding = 10,
+        rounding_power = 5,
+        active_opacity = 1,
+        inactive_opacity = .9,
 
         shadow = {
-            enabled      = true,
-            range        = 20,
+            range        = 25,
             render_power = 3,
             color        = BG_DARK,
         },
 
         blur = {
-            enabled           = true,
-            size              = 2,
-            passes            = 2,
+            size = 10, -- 2
+            passes = 3,
             new_optimizations = true,
-            vibrancy          = .25,
-            ignore_opacity    = true,
-            xray              = false,
+            vibrancy = .2,
+            contrast = .8,
+            noise = .01,
+            ignore_opacity = true,
+            xray = false,
         },
     },
-
-    animations = { enabled = true },
 })
 
 local beziers = {

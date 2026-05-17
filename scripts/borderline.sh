@@ -125,7 +125,7 @@ fi
 
 # 5.1. Hyprland.
 if $HYPRLAND_RUNNING; then
-    hyprctl keyword general:col.active_border "rgba(${color1:1}FF) rgba(${color2:1}FF) 45deg"
+    hyprctl eval "general:col.active_border = rgba(${color1:1}FF) rgba(${color2:1}FF) 45deg"
 fi
 
 # 5.2. Niri.
@@ -147,7 +147,7 @@ if $NIRI_RUNNING; then
         sed -i \
             -E "s|^(\s*)(active-color\|active-gradient)\s+.*|\1active-gradient from=\"${niri_c1}\" to=\"${niri_c2}\" angle=45|" \
             "$NIRI_CONFIG"
-            
+
         # Keep inactive-color behavior intact
         sed -i \
             -E "s|^(\s*inactive-color\s+)\"#[0-9A-Fa-f]{6,8}\"|\1\"${niri_c2}\"|" \

@@ -43,7 +43,7 @@
 
 * {
   font-family: "SF Pro", sans-serif;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 :root {
@@ -310,13 +310,11 @@
 .widget-mpris .widget-mpris-player .mpris-overlay button:hover {
   /* The media player buttons (play, pause, next, etc...) */
   background: var(--noti-bg-hover);
+  background-color: @bg4_gruvbox;
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
-  border-radius: var(--border-radius);
-  box-shadow: var(--mpris-album-art-shadow);
-  -gtk-icon-size: var(--mpris-album-art-icon-size);
-}
+  border-radius: 27px;
 
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
   font-weight: bold;

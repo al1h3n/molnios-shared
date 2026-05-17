@@ -26,4 +26,5 @@ require("theme")        -- Look, feel, animations, layouts
 require("binds")        -- Keybindings
 require("rules")        -- Window and Layer rules
 require("input")        -- Keyboard settings
+require("misc")         -- Other settings
 -- You can use require("folder.luafile") too.

@@ -51,7 +51,7 @@
 		"network",
 		// "bluetooth",
 		"niri/language",
-		"custom/vpn#warp",
+		// "custom/vpn#warp",
 		"backlight",
 		"battery",
 		"custom/notification"

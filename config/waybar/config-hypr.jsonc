@@ -43,7 +43,8 @@
 		"mpris"
 	],
 	"modules-center": [
-		"hyprland/workspaces#main"
+		"hyprland/workspaces#main",
+		"hyprland/submap"
 	],
 	"modules-right": [
 		"tray",

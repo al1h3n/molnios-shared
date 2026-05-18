@@ -71,6 +71,7 @@ language - current layout
         "persistent-workspaces": {
           "*": [ 1, 2, 3 ]
         },
+        "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e+1' })\"",
         "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e-1' })\"",
         "tooltip-format": "Workspace {name}\n{windows}"
@@ -80,6 +81,7 @@ language - current layout
         "persistent-workspaces": {
           "*": [ 1, 2, 3, 4, 5 ]
         },
+        "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e+1' })\"",
         "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e-1' })\"",
         "tooltip-format": "Workspace {name}\n{windows}"
@@ -95,6 +97,7 @@ language - current layout
         "persistent-workspaces": {
           "*": [ 1, 2, 3 ]
         },
+        "on-click": "activate",
         "on-scroll-up": "niri msg action focus-workspace-up",
         "on-scroll-down": "niri msg action focus-workspace-down",
         "tooltip-format": "Workspace {name}\n{windows}"
@@ -104,6 +107,7 @@ language - current layout
         "persistent-workspaces": {
           "*": [ 1, 2, 3, 4, 5 ]
         },
+        "on-click": "activate",
         "on-scroll-up": "niri msg action focus-workspace-up",
         "on-scroll-down": "niri msg action focus-workspace-down",
         "tooltip-format": "Workspace {name}\n{windows}"

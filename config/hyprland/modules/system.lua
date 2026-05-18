@@ -36,6 +36,6 @@ hl.on("hyprland.start", function()
 end)
 
 hl.config({
-    general = { allow_tearing = true, }
-    debug = { vfr = 1, }
+    general = { allow_tearing = true },
+    debug = { vfr = 1 },
 })

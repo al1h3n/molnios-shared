@@ -125,8 +125,9 @@ fi
 
 # 5.1. Hyprland.
 if $HYPRLAND_RUNNING;then
-    local c1="rgba(${color1:1}FF)"
-    local c2="rgba(${color2:1}FF)"
+    c1="rgba(${color1:1}FF)"
+    c2="rgba(${color2:1}FF)"
+    echo "$c1 and $c2"
     hyprctl eval "hl.config({ general = { col = { active_border = { colors = { '$c1', '$c2' }, angle = 45 } } } })"
 fi
 

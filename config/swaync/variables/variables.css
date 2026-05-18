@@ -1,0 +1,8 @@
+/* Custom variables used throughout configuration. */
+:root {
+  --rounding-notification: 22px;
+  --notification-color-critical: #9d0006B3;
+  --reply-color: #24A1DE;
+  --accent-color: #34C759;
+  --accent-color-transparent: #34C759;
+}

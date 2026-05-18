@@ -1,11 +1,6 @@
-/*
-https://github.com/fk2731/FixiBar/blob/main/config/.config/swaync/style.css
-*/
-
 :root {
-  --cc-bg: rgba(40,40,40,0.8);
-  --noti-border-color: rgba(255, 255, 255, .15);
-  --noti-bg: 48,48,48;
+  --cc-bg: #78787880;
+  --noti-bg: #6e6e6e;
   --noti-bg-alpha: 0.3;
   --noti-bg-focus: #8282824D;
   --noti-close-bg: #4e4e4e;
@@ -20,10 +15,25 @@ https://github.com/fk2731/FixiBar/blob/main/config/.config/swaync/style.css
     0 0 0 1px #0000004D,
     0 1px 3px 1px #000000B3,
     0 2px 6px 2px #0000004D;
-  --font-size-body: 16px;
-  --font-size-summary: 17px;
+  --font-size-body: 15px;
+  --font-size-summary: 16px;
   --font-size-time: 14px;
   --font-size-icon: 1.6rem;
+
+  /* Deprecated variables */
+  --hover-tranistion: background 0.15s ease-in-out;
+  --group-collapse-tranistion: opacity 400ms ease-in-out;
+  --hover-transition: var(--hover-tranistion);
+  --group-collapse-transition: var(--group-collapse-tranistion);
+
+  --mpris-album-art-overlay: #0000008C;
+  --mpris-button-hover: #00000080;
+  --mpris-album-art-icon-size: 96px;
+  --mpris-album-art-shadow: 0px 0px 10px #000000BF;
+
+  --3d-shadow:
+    inset 0 1px 2px #FFFFFF26,
+    0 2px 4px #00000066;
 }
 
 /* Fallback for older CSS themes */
@@ -572,13 +582,10 @@ blankwindow {
 .widget-volume highlight,
 .widget-backlight highlight {
   margin: 0;
-  background-color: blue;
+  background-color: white;
 }
 
-.notification:hover {
-  transform: scale(1.06);
-}
-
-.notification-row:hover {
-  transform: scale(1.005);
+.widget-volume label,
+.widget-backlight label {
+  font-size: var(--font-size-icon);
 }

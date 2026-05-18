@@ -1,0 +1,4 @@
+:root {
+  --notification-center-color: @bg4_gruvbox;
+  --notification-center-color-hovered: @gray_gruvbox;
+}

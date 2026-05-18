@@ -1,11 +1,17 @@
 /* Original config - https://github.com/ErikReider/SwayNotificationCenter/blob/main/data/style/style.scss */
 
 @import "colors/dark.css";
+/* @import "colors/light.css"; */
+
+@import "variables/variables.css";
 @import "colors/gruvbox.css";
 
 @import "elements/body.css";
+@import "elements/buttons.css";
 @import "elements/center.css";
+@import "elements/dnd.css";
 @import "elements/mpris.css";
+@import "elements/title.css";
 
 * {
   font-family: "SF Pro", sans-serif;
@@ -32,48 +38,12 @@
   --border-radius: 16px;
   --notification-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3),
     0 1px 3px 1px rgba(0, 0, 0, 0.7), 0 2px 6px 2px rgba(0, 0, 0, 0.3);
-    --font-size-summary: 17px;
-    --font-size-body: 16px;
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
-  /* The optional notification progress bar */
-  margin-top: 100px;
-  /* background-color: chartreuse; */
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .body-image {
-  /* The "extra" optional bottom notification image */
-  margin-top: 4px;
-  background-color: white;
-  -gtk-icon-filter: none;
-  background-color: aqua;
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-entry {
-  background: var(--noti-bg-darker);
-  color: var(--text-color);
-  caret-color: var(--text-color);
-  border: blueviolet;
-  border-radius: var(--border-radius);
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button {
-  margin-left: 4px;
-  background: rgba(var(--noti-bg), var(--noti-bg-alpha));
-  border: var(--border);
-  border-radius: var(--border-radius);
-  color: var(--text-color);
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button:hover {
-  background-color: #24A1DE;
+  --font-size-summary: 17px;
+  --font-size-body: 16px;
 }
 
 .notification-row .notification-background .notification .notification-alt-actions {
   background: none;
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
   padding: 4px;
 }
 
@@ -81,11 +51,6 @@
   /* The alternative actions below the default action */
   margin: 4px;
   padding: 0;
-}
-
-.notification-row .notification-background .notification .notification-action > button {
-  border-radius: var(--border-radius);
-  color: var(--text-color);
 }
 
 .notification-group {
@@ -98,44 +63,16 @@
   background: var(--noti-bg-focus);
 }
 
-/* Irritating section. */
-.notification-group.low {
-  background-color: transparent;
-}
-.notification-group.normal {
-  background-color: transparent;
-}
-.notification-group.critical {
-  background-color: transparent;
-}
-
 .notification-group .notification-group-close-button .close-button {
   margin: 12px 20px;
 }
 
-/* Irritating text when opening groups of notifications. */
-.notification-group .notification-group-headers .notification-group-icon {
-  color: transparent;
-}
-.notification-group .notification-group-headers .notification-group-header {
-  color: transparent;
-}
-
-.notification-group .notification-group-buttons {
-  background-color: transparent;
-}
-
-.notification-group.collapsed { /* THAT ONE IRRITATING BACKGROUND. */
-  background-color: transparent;
-  background: none;
-}
-
 /* Notification color in NC. */
 .notification-group.collapsed .notification-row:not(:only-child) .notification {
-  background-color: @bg4_gruvbox;
+  background-color: var(--notification-center-color);
 }
 .notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
-  background-color: @gray_gruvbox;
+  background-color: var(--notification-center-color-hovered);
 }
 
 .control-center {
@@ -163,201 +100,14 @@
 /*** Widgets ***/
 .widget {
   margin: 8px;
-  padding: 8px;
+  padding: 6px;
   border-radius: var(--border-radius);
-}
-
-/* Title widget */
-.widget-title > label {
-  margin-right: 8px;
-  font-size: 1.5rem;
-}
-
-.widget-title > button {
-  margin-left: 8px;
-  border-radius: var(--border-radius);
-}
-
-.widget-dnd {
-  font-weight: bold;
-}
-
-.widget-dnd switch {
-  border-radius: 12px;
-}
-
-.widget-dnd switch:checked {
-  background-color: #34C759;
-}
-
-.widget-dnd switch slider {
-  background-color: rgba(255, 255, 255, .8);
-}
-
-.widget-dnd switch slider:hover {
-  transform: scale(1.4);
-}
-
-/* Mpris widget */
-:root {
-  --mpris-button-hover: rgba(255,255,255,.3);
-  --mpris-album-art-icon-size: 80px;
-  --mpris-album-art-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
-}
-
-.widget-mpris {
-  padding: 0;
-  /* The parent to all players */
-}
-
-.widget-mpris .widget-mpris-player {
-  margin: 16px 20px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--mpris-album-art-shadow);
-}
-
-.widget-mpris .widget-mpris-player .mpris-background {
-  filter: blur(8px);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
-  border-radius: 24px;
-}
-
-/* Song title. */
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
-  font-weight: bold;
-  font-size: 1.25rem;
-}
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
-  font-size: 1.1rem;
-}
-
-/* Mpris action buttons. */
-.widget-mpris .widget-mpris-player .mpris-overlay > box > button:hover {
-  background-color: var(--mpris-button-hover);
-}
-.widget-mpris .widget-mpris-player .mpris-overlay>box>button {
-  box-shadow: var(--3d-shadow);
-  transition: all 0.26s ease;
-}
-.widget-mpris .widget-mpris-player .mpris-overlay>box>button:hover {
-  transform: translateY(-2px);
-  transform: scale(1.06);
 }
 
 /* Buttons widget - Liquid Glass style */
 .widget-buttons-grid {
-  padding: 3px;
-}
-
-.widget-buttons-grid flowboxchild {
-  /* Force the cell itself to be square */
-  min-width: 60px;
-  min-height: 60px;
-  padding: 0px;
-  margin: 3px 3px;
-  background-color: transparent;
-}
-
-.widget-buttons-grid flowboxchild > button {
-  /* Liquid Glass base styling */
-  min-width: 40px;
-  min-height: 40px;
-  font-weight: normal;
-  padding: 10px 0px;
-
-  background: rgba(255, 255, 255, .08);
-  -gtk-icon-style: requested;
-
-  /* Glass border with subtle highlight */
-  border: 1px solid rgba(255, 255, 255, .15);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1) inset,
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    0 1px 2px rgba(255, 255, 255, 0.1) inset;
-
-  /* Text/icon styling */
-  color: rgba(255, 255, 255, .85);
-  font-size: 22px;
-  transition:
-    background 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-    border-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-    transform 0.48s cubic-bezier(0.34, 1.6, 0.4, 0.95),
-    color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.widget-buttons-grid flowboxchild > button > label {
-  margin: 0;
   padding: 0;
 }
-
-.widget-buttons-grid flowboxchild > button:hover {
-  /* Interactive glass - hover state */
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1) inset,
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    0 1px 3px rgba(255, 255, 255, 0.15) inset;
-  color: rgba(255, 255, 255, 0.95);
-  transition: var(--hover-tranistion);
-  transform: scale(1.02);
-}
-
-.widget-buttons-grid flowboxchild > button:active {
-  /* Interactive glass - pressed state */
-  transform: scale(0.96);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.15) inset,
-    0 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-.widget-buttons-grid flowboxchild > button.toggle:checked {
-  /* Active toggle - semantic tint (blue for active state) */
-  background: rgba(0, 122, 255, 0.25);
-  border-color: rgba(0, 122, 255, 0.4);
-  color: rgba(255, 255, 255, 1.0);
-  box-shadow:
-    0 0 0 1px rgba(0, 122, 255, 0.2) inset,
-    0 2px 8px rgba(0, 122, 255, 0.3),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset,
-    0 0 16px rgba(0, 122, 255, 0.15);
-}
-
-.widget-buttons-grid flowboxchild > button.toggle:checked:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 229, 255, 0.45) 0%,   /* Neon Aqua Tint */
-    rgba(0, 102, 255, 0.35) 45%,  /* Electric Blue */
-    rgba(10, 30, 90, 0.55) 100%   /* Deep Abyssal Blue Base */
-  );
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.02);
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
-  /* Fixes base GTK 4 CSS setting a filter of opacity 50% for some odd reason */
-  filter: none;
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
-  /* Notification time-ago */
-  font-size: var(--cc-bg);
-  font-weight: normal;
-  background: transparent;
-  color: var(--text-color-disabled);
-  text-shadow: none;
-}
-
-.notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
-  /* The optional notification progress bar */
-  margin: 0px 4px;
-  margin-bottom: 6px;
-}
-
-/*asdf*/
 
 
 .notification-row .notification-background .notification .notification-action {
@@ -385,10 +135,4 @@
   margin: 12px 20px;
 }
 
-.notification-group .notification-group-buttons,
-.notification-group .notification-group-headers {
-  /* Buttons in expanded menu*/
-  margin: 0 16px;
-  color: var(--text-color);
-  border-radius: var(--border-radius);
-}
+@import "elements/test.css";

@@ -5,17 +5,40 @@
 }
 
 .notification-row .notification-background .notification {
-  /* The actual notification */
-  border-radius: 22px;
+  /* The actual notification. */
+  border-radius: var(--rounding-notification);
 }
 
 .notification-row .notification-background .notification.critical {
-  background: #9d0006B3; /* 60% opacity. */
+  background: var(--notification-color-critical); /* 60% opacity. */
 }
 
 .notification {
   margin: 1px 4px;
-  padding: 0px 10px;
+  /* padding: 0px 10px; */
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button:hover {
+  background-color: var(--reply-color);
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-entry {
+  /* Replying text. */
+  background: var(--noti-bg-darker);
+  color: var(--text-color);
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button {
+  /* Reply button. */
+  margin-left: 4px;
+  background: rgba(var(--noti-bg), var(--noti-bg-alpha));
+}
+
+.notification-row .notification-background .notification .notification-action > button {
+  /* Buttons like "Mark as read". */
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  background-color: var(--accent-color-transparent);
 }
 
 /* Irritating but kills "Reply" button. */
@@ -26,3 +49,11 @@
 .notification:hover {
   transform: scale(1.06);
 }
+
+.notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
+  /* The optional notification progress bar */
+  margin: 0px 4px;
+  margin-bottom: 6px;
+}
+
+/* Do these even exist? */

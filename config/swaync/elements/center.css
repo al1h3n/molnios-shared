@@ -12,8 +12,43 @@
   background-color: var(--noti-bg-hover);
 }
 
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  /* Notification time-ago */
+  font-size: var(--cc-bg);
+  font-weight: normal;
+  background: transparent;
+  color: var(--text-color-disabled);
+  text-shadow: none;
+}
+
+.notification-group .notification-group-buttons,
+.notification-group .notification-group-headers {
+  /* Buttons in expanded menu*/
+  margin: 0 16px;
+  color: var(--text-color);
+}
+
 /* Removing irritating stuff. */
 .control-center .control-center-list {
   /* List of notifications */
   background: transparent;
+}
+.notification-group.low {
+  background-color: transparent;
+}
+.notification-group.normal {
+  background-color: transparent;
+}
+.notification-group.critical {
+  background-color: transparent;
+}
+.notification-group .notification-group-headers .notification-group-icon {
+  /* Irritating text when opening groups of notifications. */
+  color: transparent;
+}
+.notification-group .notification-group-headers .notification-group-header {
+  color: transparent;
+}
+.notification-group.collapsed { /* THAT ONE IRRITATING BACKGROUND. */
+  background-color: transparent;
 }

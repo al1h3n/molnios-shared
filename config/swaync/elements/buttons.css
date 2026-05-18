@@ -1,0 +1,4 @@
+.widget-buttons-grid flowboxchild > button > label {
+  margin: 0;
+  padding: 0;
+}

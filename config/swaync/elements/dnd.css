@@ -1,0 +1,20 @@
+/* Do not disturb widget. */
+.widget-dnd {
+  font-weight: bold;
+}
+
+.widget-dnd switch {
+  border-radius: 12px;
+}
+
+.widget-dnd switch:checked {
+  background-color: var(--accent-color);
+}
+
+.widget-dnd switch slider {
+  background-color: rgba(255, 255, 255, .8);
+}
+
+.widget-dnd switch slider:hover {
+  transform: scale(1.4);
+}

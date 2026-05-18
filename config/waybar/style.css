@@ -15,7 +15,7 @@
 #custom-vpn,
 #pulseaudio,
 #custom-notification {
-    background: linear-gradient(to bottom, #272f39, @black);
+    background: linear-gradient(to bottom, @bg1, @bg2);
     border-color: @black;
     border-radius: 999px;
     padding: 1px 12px;

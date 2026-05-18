@@ -1,0 +1,28 @@
+.close-button {
+  /* The notification Close Button */
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.notification-row .notification-background .notification {
+  /* The actual notification */
+  border-radius: 22px;
+}
+
+.notification-row .notification-background .notification.critical {
+  background: #9d0006B3; /* 60% opacity. */
+}
+
+.notification {
+  margin: 1px 4px;
+  padding: 0px 10px;
+}
+
+/* Irritating but kills "Reply" button. */
+.close-button {
+  margin: 100px;
+}
+
+.notification:hover {
+  transform: scale(1.06);
+}

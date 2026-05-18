@@ -1,45 +1,11 @@
 /* Original config - https://github.com/ErikReider/SwayNotificationCenter/blob/main/data/style/style.scss */
 
-@define-color bg0_h_gruvbox #1d2021;
-@define-color bg0_gruvbox   #282828;
-@define-color bg0_s_gruvbox #32302f;
+@import "colors/dark.css";
+@import "colors/gruvbox.css";
 
-@define-color bg1_gruvbox   #3c3836;
-@define-color bg2_gruvbox   #504945;
-@define-color bg3_gruvbox   #665c54;
-@define-color bg4_gruvbox   #7c6f64;
-
-@define-color gray_gruvbox  #928374;
-
-@define-color fg0_gruvbox   #fbf1c7;
-@define-color fg1_gruvbox   #ebdbb2;
-@define-color fg2_gruvbox   #d5c4a1;
-@define-color fg3_gruvbox   #bdae93;
-@define-color fg4_gruvbox   #a89984;
-
-@define-color red_gruvbox    #cc241d;
-@define-color green_gruvbox  #98971a;
-@define-color yellow_gruvbox #d79921;
-@define-color blue_gruvbox   #458588;
-@define-color purple_gruvbox #b16286;
-@define-color aqua_gruvbox   #689d6a;
-@define-color orange_gruvbox #d65d0e;
-
-@define-color red_bright_gruvbox    #fb4934;
-@define-color green_bright_gruvbox  #b8bb26;
-@define-color yellow_bright_gruvbox #fabd2f;
-@define-color blue_bright_gruvbox   #83a598;
-@define-color purple_bright_gruvbox #d3869b;
-@define-color aqua_bright_gruvbox   #8ec07c;
-@define-color orange_bright_gruvbox #fe8019;
-
-@define-color red_faded_gruvbox    #9d0006;
-@define-color green_faded_gruvbox  #79740e;
-@define-color yellow_faded_gruvbox #b57614;
-@define-color blue_faded_gruvbox   #076678;
-@define-color purple_faded_gruvbox #8f3f71;
-@define-color aqua_faded_gruvbox   #427b58;
-@define-color orange_faded_gruvbox #af3a03;
+@import "elements/body.css";
+@import "elements/center.css";
+@import "elements/mpris.css";
 
 * {
   font-family: "SF Pro", sans-serif;
@@ -47,10 +13,9 @@
 }
 
 :root {
-  --cc-bg: rgba(0,0,0,0.8);
+  --cc-bg: rgba(20,20,20,0.8);
   --noti-border-color: rgba(255, 255, 255, .15);
   --noti-bg: 48,48,48;
-  --noti-bg-color: red;
   --noti-bg-alpha: .33;
   --noti-bg-hover: rgba(29, 32, 33, .3);
   --noti-bg-focus: rgba(68, 68, 68, .6);
@@ -71,41 +36,9 @@
     --font-size-body: 16px;
 }
 
-.close-button {
-  /* The notification Close Button */
-  min-width: 24px;
-  min-height: 24px;
-}
-
-.notification-row .notification-background .notification {
-  /* The actual notification */
-  border-radius: 22px;
-}
-
-.notification-row .notification-background .notification.critical {
-  background: #9d0006B3; /* 60% opacity. */
-}
-
-.notification {
-  margin: 1px 4px;
-}
-
-/* Irritating but kills "Reply" button. */
-/* .close-button {
-  margin: 100px;
-} */
-
-.notification:hover {
-  transform: scale(1.06);
-}
-
-.notification-row:hover {
-  transform: scale(1.005);
-}
-
 .notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
   /* The optional notification progress bar */
-  margin-top: 4px;
+  margin-top: 100px;
   /* background-color: chartreuse; */
 }
 
@@ -217,25 +150,6 @@
   opacity: .1;
 }
 
-.control-center .control-center-list {
-  /* List of notifications */
-  background: transparent;
-}
-
-.control-center .control-center-list .notification {
-  box-shadow: var(--notification-shadow);
-}
-
-.control-center .control-center-list .notification .notification-default-action,
-.control-center .control-center-list .notification .notification-action {
-  transition: var(--group-collapse-tranistion), var(--hover-tranistion);
-}
-
-.control-center .control-center-list .notification .notification-default-action:hover,
-.control-center .control-center-list .notification .notification-action:hover {
-  background-color: var(--noti-bg-hover);
-}
-
 
 
 .floating-notifications {
@@ -286,8 +200,8 @@
 
 /* Mpris widget */
 :root {
-  --mpris-button-hover: rgba(0, 0, 0, 0.5);
-  --mpris-album-art-icon-size: 96px;
+  --mpris-button-hover: rgba(255,255,255,.3);
+  --mpris-album-art-icon-size: 80px;
   --mpris-album-art-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
 }
 
@@ -303,46 +217,33 @@
 }
 
 .widget-mpris .widget-mpris-player .mpris-background {
-  filter: blur(10px);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay {
-  padding: 16px;
-  background-color: var(--mpris-album-art-overlay);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay button:hover {
-  /* The media player buttons (play, pause, next, etc...) */
-  background: var(--noti-bg-hover);
-  background-color: @bg4_gruvbox;
+  filter: blur(8px);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
-  border-radius: 27px;
+  border-radius: 24px;
 }
+
+/* Song title. */
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
   font-weight: bold;
   font-size: 1.25rem;
 }
-
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
   font-size: 1.1rem;
 }
 
-.widget-mpris .widget-mpris-player .mpris-overlay > box > button {
-  /* Change player control buttons */
-}
-
+/* Mpris action buttons. */
 .widget-mpris .widget-mpris-player .mpris-overlay > box > button:hover {
   background-color: var(--mpris-button-hover);
 }
-
-.widget-mpris > box > button {
-  /* Change player side buttons */
+.widget-mpris .widget-mpris-player .mpris-overlay>box>button {
+  box-shadow: var(--3d-shadow);
+  transition: all 0.26s ease;
 }
-
-.widget-mpris > box > button:disabled {
-  /* Change player side buttons insensitive */
+.widget-mpris .widget-mpris-player .mpris-overlay>box>button:hover {
+  transform: translateY(-2px);
+  transform: scale(1.06);
 }
 
 /* Buttons widget - Liquid Glass style */
@@ -434,4 +335,60 @@
   );
   border-color: rgba(255, 255, 255, 0.5);
   transform: scale(1.02);
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
+  /* Fixes base GTK 4 CSS setting a filter of opacity 50% for some odd reason */
+  filter: none;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  /* Notification time-ago */
+  font-size: var(--cc-bg);
+  font-weight: normal;
+  background: transparent;
+  color: var(--text-color-disabled);
+  text-shadow: none;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
+  /* The optional notification progress bar */
+  margin: 0px 4px;
+  margin-bottom: 6px;
+}
+
+/*asdf*/
+
+
+.notification-row .notification-background .notification .notification-action {
+  /* The alternative actions below the default action */
+  margin: 4px;
+  padding: 0;
+}
+
+.notification-row .notification-background .notification .notification-action>button {
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+}
+
+.notification-group {
+  /* Styling only for Grouped Notifications */
+  transition: opacity .2s ease-in-out;
+  /* The groups close button */
+}
+
+.notification-group:focus {
+  background: none;
+}
+
+.notification-group .notification-group-close-button .close-button {
+  margin: 12px 20px;
+}
+
+.notification-group .notification-group-buttons,
+.notification-group .notification-group-headers {
+  /* Buttons in expanded menu*/
+  margin: 0 16px;
+  color: var(--text-color);
+  border-radius: var(--border-radius);
 }

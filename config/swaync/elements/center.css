@@ -1,0 +1,19 @@
+.notification-row:hover {
+  transform: scale(1.005);
+}
+
+.control-center .control-center-list .notification {
+  box-shadow: var(--notification-shadow);
+}
+
+.control-center .control-center-list .notification .notification-default-action:hover,
+.control-center .control-center-list .notification .notification-action:hover {
+  /* Hovering background in center. */
+  background-color: var(--noti-bg-hover);
+}
+
+/* Removing irritating stuff. */
+.control-center .control-center-list {
+  /* List of notifications */
+  background: transparent;
+}

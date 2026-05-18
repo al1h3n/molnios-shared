@@ -52,7 +52,7 @@ _G.network = "nm-applet"
 _G.bluetooth = "blueman-applet"
 _G.bar = "waybar -c " .. conf .. "/waybar/config-hypr.jsonc -s " .. conf .. "/waybar/style.css"
 _G.qbar = "qs"
-_G.notify = "swaync -c " .. conf .. "/swaync.json -s " .. conf .. "/swaync-style.css"
+_G.notify = "swaync -c " .. conf .. "swaync/swaync.json -s " .. conf .. "swaync/swaync-style.css"
 _G.lock = "hyprlock -q -c " .. conf .. "/hyprlock.conf"
 
 _G.wallpaperengine = "waypaper"

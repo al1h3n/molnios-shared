@@ -1,0 +1,40 @@
+@define-color bg0_h_gruvbox #1d2021;
+@define-color bg0_gruvbox   #282828;
+@define-color bg0_s_gruvbox #32302f;
+
+@define-color bg1_gruvbox   #3c3836;
+@define-color bg2_gruvbox   #504945;
+@define-color bg3_gruvbox   #665c54;
+@define-color bg4_gruvbox   #7c6f64;
+
+@define-color gray_gruvbox  #928374;
+
+@define-color fg0_gruvbox   #fbf1c7;
+@define-color fg1_gruvbox   #ebdbb2;
+@define-color fg2_gruvbox   #d5c4a1;
+@define-color fg3_gruvbox   #bdae93;
+@define-color fg4_gruvbox   #a89984;
+
+@define-color red_gruvbox    #cc241d;
+@define-color green_gruvbox  #98971a;
+@define-color yellow_gruvbox #d79921;
+@define-color blue_gruvbox   #458588;
+@define-color purple_gruvbox #b16286;
+@define-color aqua_gruvbox   #689d6a;
+@define-color orange_gruvbox #d65d0e;
+
+@define-color red_bright_gruvbox    #fb4934;
+@define-color green_bright_gruvbox  #b8bb26;
+@define-color yellow_bright_gruvbox #fabd2f;
+@define-color blue_bright_gruvbox   #83a598;
+@define-color purple_bright_gruvbox #d3869b;
+@define-color aqua_bright_gruvbox   #8ec07c;
+@define-color orange_bright_gruvbox #fe8019;
+
+@define-color red_faded_gruvbox    #9d0006;
+@define-color green_faded_gruvbox  #79740e;
+@define-color yellow_faded_gruvbox #b57614;
+@define-color blue_faded_gruvbox   #076678;
+@define-color purple_faded_gruvbox #8f3f71;
+@define-color aqua_faded_gruvbox   #427b58;
+@define-color orange_faded_gruvbox #af3a03;

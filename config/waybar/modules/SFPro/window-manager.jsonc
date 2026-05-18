@@ -9,19 +9,20 @@ language - current layout
         "max-length": 25,
         "rewrite": {
             "(.*) — Mozilla Firefox": "󰈹  $1",
+            "(.*) - VSCode": "󰨞  $1",
             "(.*) - VSCodium": "󰨞  $1",
             "(.*) - Notion": "  $1",
             "nvim(.*)": "  $1",
             "Minecraft(.*)": "󰍳 $1",
             "Prism Launcher(.*)": "󰍳 $1",
-            "(.*)OBS(.*)": "  $1",
-            "(.*)Spotify(.*)": "  Spotify",
-            "(.*)qBittorrent(.*)": "qBittorrent $1",
+            "OBS(.*)": "  $1",
+            "Spotify(.*)": "  Spotify",
+            "qBittorrent(.*)": "qBittorrent $1",
             "Telegram(.*)": "  $1",
             "(.*)Discord(.*)": "   $1",
             "Steam(.*)": "  Steam $1",
             "(.*) - Thunar": "   $1",
-            "(.*)LocalSend(.*)": "  $1",
+            "LocalSend(.*)": "  $1",
             "sh": "󰆍 ",
             "bash": "󰆍 ",
             "zsh": "󰆍 ",
@@ -36,19 +37,20 @@ language - current layout
         "max-length": 25,
         "rewrite": {
             "(.*) — Mozilla Firefox": "󰈹  $1",
+            "(.*) - VSCode": "󰨞  $1",
             "(.*) - VSCodium": "󰨞  $1",
             "(.*) - Notion": "  $1",
             "nvim(.*)": "  $1",
             "Minecraft(.*)": "󰍳 $1",
             "Prism Launcher(.*)": "󰍳 $1",
-            "(.*)OBS(.*)": "  $1",
-            "(.*)Spotify(.*)": "  Spotify",
-            "(.*)qBittorrent(.*)": "qBittorrent $1",
+            "OBS(.*)": "  $1",
+            "Spotify(.*)": "  Spotify",
+            "qBittorrent(.*)": "qBittorrent $1",
             "Telegram(.*)": "  $1",
             "(.*)Discord(.*)": "   $1",
             "Steam(.*)": "  Steam $1",
             "(.*) - Thunar": "   $1",
-            "(.*)LocalSend(.*)": "  $1",
+            "LocalSend(.*)": "  $1",
             "sh": "󰆍 ",
             "bash": "󰆍 ",
             "zsh": "󰆍 ",
@@ -64,13 +66,13 @@ language - current layout
         "format-icons": {
           // "default": "",
           "default": "",
-          "active": "" 
+          "active": ""
         },
         "persistent-workspaces": {
           "*": [ 1, 2, 3 ]
         },
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e+1' })\"",
+        "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e-1' })\"",
         "tooltip-format": "Workspace {name}\n{windows}"
     },
 
@@ -78,8 +80,32 @@ language - current layout
         "persistent-workspaces": {
           "*": [ 1, 2, 3, 4, 5 ]
         },
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e+1' })\"",
+        "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'e-1' })\"",
+        "tooltip-format": "Workspace {name}\n{windows}"
+    },
+
+    "niri/workspaces#aqua": {
+        "format": "{icon}",
+        "format-icons": {
+          // "default": "",
+          "default": "",
+          "active": ""
+        },
+        "persistent-workspaces": {
+          "*": [ 1, 2, 3 ]
+        },
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down",
+        "tooltip-format": "Workspace {name}\n{windows}"
+    },
+
+    "niri/workspaces#main": {
+        "persistent-workspaces": {
+          "*": [ 1, 2, 3, 4, 5 ]
+        },
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down",
         "tooltip-format": "Workspace {name}\n{windows}"
     }
 }

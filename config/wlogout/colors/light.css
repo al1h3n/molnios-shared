@@ -1,0 +1,4 @@
+@define-color fg #282828;
+@define-color bg rgba(255,255,255,.2);
+@define-color bg_button rgba(220,220,220,.8);
+@define-color bg_button_hover #292929;

@@ -1,19 +1,23 @@
+@import "colors/dark.css";
+
 window {
-    /* font-family: SF Pro; */
+    font-family: SF Pro;
+    font-weight: bold;
     font-size: 16pt;
-    background-color: rgba(0,0,0,.5);
+    background-color: @bg;
 }
 button {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 20%;
-    background-color: #202020;
+    background-color: @bg_button;
     animation: gradient_f 20s ease-in infinite;
     transition: all .1s ease-in;
     box-shadow: 0 0 10px 2px transparent;
     border: none;
     border-radius: 36px;
     margin: 10px;
+    color: @fg;
 }
 
 button:active,
@@ -21,9 +25,10 @@ button:focus,
 button:hover {
     background-size: 40%;
     box-shadow: 0 0 10px 3px rgba(0,0,0,.4);
-    background-color: #39393A;
+    background-color: @bg_button_hover;
     color: transparent;
-    transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.5s ease-in;
+    transition: all 0.3s cubic-bezier(.34, 1.6, .4, .95), box-shadow .5s ease-in;
+    outline-style: none; /* Important */
 }
 
 #shutdown {background-image: image(url("../../images/wlogout/power.png"));}

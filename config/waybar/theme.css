@@ -64,6 +64,12 @@
 
 /* Modules colors */
 
+/* Main body */
+@define-color bg1 #272f39;
+@define-color bg2 @black;
+/* @define-color bg1 #FBF5DF;
+@define-color bg2 #FFFADA; */
+
 /* Battery */
 @define-color light_green #a6e3a1;
 @define-color dark_green #06402B;

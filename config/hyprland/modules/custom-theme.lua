@@ -1,4 +1,5 @@
 -- hyprtheme color al1h3n edition.
+-- Adjust for your needs.
 
 -- Fallback theme.
 _G.COLOR1 = "rgb(FFFFFF)"

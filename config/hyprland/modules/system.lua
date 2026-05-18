@@ -1,4 +1,4 @@
--- System settings (environment variables, monitors and autostart).
+-- Monitor settings, general (tearing), debug (vfr), and autostarts.
 
 -- Monitors
 hl.monitor({
@@ -34,3 +34,8 @@ hl.on("hyprland.start", function()
     -- Additional programs
     hl.exec_cmd("faillock --reset")
 end)
+
+hl.config({
+    general = { allow_tearing = true, }
+    debug = { vfr = 1, }
+})

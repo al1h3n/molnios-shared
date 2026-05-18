@@ -1,9 +1,7 @@
 -- $conf/hyprland/rules.lua
+-- Window rules and layer rules.
 
--- =====================================
 -- Window rules.
--- =====================================
-
 -- Ignore maximize requests from all apps.
 hl.window_rule({
     match = { class = ".*" },
@@ -62,10 +60,7 @@ hl.window_rule({
 })
 
 
--- =====================================
 -- Layer rules.
--- =====================================
-
 -- Notifications
 hl.layer_rule({
     match = { namespace = "notifications" },

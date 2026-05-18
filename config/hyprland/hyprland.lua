@@ -18,13 +18,20 @@ _G.conf_mono = conf .. "/hyprland-monolithic"
 _G.conf_lua = conf .. "/hyprland"
 
 -- 4. Load your modules sequentially.
-require("custom-theme") -- Custom colors & cursors
-require("variables")    -- Global paths and command definitions
-require("env")          -- Env vars
-require("system")       -- Monitors, autostart
-require("theme")        -- Look, feel, animations, layouts
-require("binds")        -- Keybindings
-require("rules")        -- Window and Layer rules
-require("input")        -- Keyboard settings
-require("misc")         -- Other settings
 -- You can use require("folder.luafile") too.
+
+-- Mandatory for work.
+require("custom-theme")
+require("env")
+require("variables")
+
+-- Other modules.
+require("animations")
+require("binds")
+require("input")
+require("layout")
+require("misc")
+require("rules")
+require("system")
+require("theme")
+require("visual")

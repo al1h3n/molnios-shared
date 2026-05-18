@@ -124,8 +124,10 @@ fi
 # 5. Apply borders per compositor.
 
 # 5.1. Hyprland.
-if $HYPRLAND_RUNNING; then
-    hyprctl eval "general:col.active_border = rgba(${color1:1}FF) rgba(${color2:1}FF) 45deg"
+if $HYPRLAND_RUNNING;then
+    local c1="rgba(${color1:1}FF)"
+    local c2="rgba(${color2:1}FF)"
+    hyprctl eval "hl.config({ general = { col = { active_border = { colors = { '$c1', '$c2' }, angle = 45 } } } })"
 fi
 
 # 5.2. Niri.

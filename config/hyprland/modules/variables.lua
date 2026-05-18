@@ -1,6 +1,5 @@
--- $conf/hyprland/variables.lua
-
--- Dynamically check for NixOS (evaluated once at launch)
+-- Global paths and command definitions.
+-- Dynamically check for NixOS (evaluated once at launch).
 local os_release = io.open("/etc/os-release", "r")
 local is_nixos = os_release and os_release:read("*a"):match("ID=nixos")
 if os_release then os_release:close() end

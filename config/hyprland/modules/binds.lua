@@ -1,4 +1,4 @@
--- Keybinds.
+-- Leader key and keybinds.
 local M    = "SUPER"
 local exec = hl.dsp.exec_cmd
 

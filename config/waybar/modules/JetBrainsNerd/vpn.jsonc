@@ -1,9 +1,0 @@
-{
-    "custom/vpn#warp": {
-        "interval": 999,
-        "return-type": "json",
-        "format": "{}",
-        "exec": "sh $L_PATH/config/waybar/scripts/vpn-setup.sh 1",
-        "on-click": "xdg-open https:whatismyipaddress.com"
-    }
-}

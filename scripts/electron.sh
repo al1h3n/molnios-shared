@@ -9,6 +9,8 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
+# Change priorities for your needs.
+
 ELECTRON_FLAGS=(--enable-features=UseOzonePlatform --ozone-platform=wayland)
 APP="$1"
 shift
@@ -53,15 +55,16 @@ case "$APP" in
         ;;
 
     # ── Communications ────────────────────────────────────────────────────────
-    # Priority: equicord → vesktop → webcord → discord
+    # Priority: goofcord → equicord → vesktop → webcord → discord
     # discord-canary and discord-ptb are omitted — same source as discord.
 
     discord)
+        try_exec goofcord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec equicord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec vesktop "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec webcord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec discord "${ELECTRON_FLAGS[@]}" "$@" ||
-        { echo "No Discord client found (tried vesktop, webcord, discord)" >&2; exit 1; }
+        { echo "No Discord client found (tried goofcord, equicord, vesktop, webcord, discord)" >&2; exit 1; }
         ;;
 
     # ── Notes ─────────────────────────────────────────────────────────────────

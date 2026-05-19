@@ -24,7 +24,7 @@ LOCATION="${WEATHER_LOCATION:-}"
 SHOW_ICON=false
 JSON_MODE=false
 UNIT="C"
-ICON_PAD=2
+ICON_PAD=1
 
 while getopts "l:ijcfkp:" opt; do
   case $opt in

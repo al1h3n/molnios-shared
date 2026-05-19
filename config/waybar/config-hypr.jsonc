@@ -19,15 +19,14 @@
 		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
 
 		// M-Modules.
-		"~/.local/share/molnios/config/waybar/modules/JetBrainsNerd/window-manager.jsonc",
-
+		"~/.local/share/molnios/config/waybar/modules/window-manager.jsonc",
 
 		// R-Modules.
 		"~/.local/share/molnios/config/waybar/modules/tray.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/JetBrainsNerd/volume.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/JetBrainsNerd/network.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/JetBrainsNerd/language.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/JetBrainsNerd/vpn.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/vpn.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"

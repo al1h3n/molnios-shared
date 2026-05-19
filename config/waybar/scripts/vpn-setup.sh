@@ -15,7 +15,7 @@ Check if VPN exists and reset IP adress (change for your needs).
 # fi
 
 SCRIPT=$L_PATH/scripts/whereami.sh
-SPACING=${1:-2}
+SPACING=${1:-1}
 PAD=$(printf '%*s' "$SPACING" '')
 
 TEXT=$(sh $SCRIPT -C)

@@ -15,19 +15,18 @@
 		// L-Modules.
 		"~/.local/share/molnios/config/waybar/modules/menu.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/clock.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/SFPro/weather.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/weather.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
 
 		// M-Modules.
 		"~/.local/share/molnios/config/waybar/modules/window-manager.jsonc",
-
 
 		// R-Modules.
 		"~/.local/share/molnios/config/waybar/modules/tray.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/volume.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/network.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/language.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/SFPro/vpn.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/vpn.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/brightness.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/battery.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/notification.jsonc"

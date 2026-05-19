@@ -95,6 +95,7 @@ alias wifi="nmcli radio wifi"
 alias blue="bluetoothctl power"
 alias et="nmcli networking"
 alias k="kitty -c $conf/kitty.conf"
+alias ze="zellij"
 alias kitty="kitty -c $conf/kitty.conf"
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
@@ -190,19 +191,19 @@ alias e="superfile -c $conf/superfile.toml"
 
 fbat(){
   local file
-  file=$(fd -HLE .git . | fzf --preview 'if [ -d {} ]; then eza -TL 2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}') && bat --style=numbers,changes --color=always "$file"
+  file=$(fd -HLE .git . | fzf --ghost "Enter a file path" --preview 'if [ -d {} ]; then eza -TL 2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}') && bat --style=numbers,changes --color=always "$file"
 }
 
 gtrack(){
-  git ls-files | fzf --preview 'bat --color=always --style=numbers {}'
+  git ls-files | fzf --ghost "These are tracked files by git" --preview 'bat --color=always --style=numbers {}'
 }
 
 hist(){
-  eval "$(history | fzf | sed 's/^ *[0-9]* *//')"
+  eval "$(history | fzf --ghost "Search your history" | sed 's/^ *[0-9]* *//')"
 }
 
 txt() {
-  rg -.Sng '!.git' -g '!node_modules' "$1" | fzf --ansi -d : --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2'
+  rg -.Sng '!.git' -g '!node_modules' "$1" | fzf --ghost "Type context of desired file" --ansi -d : --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2' | bat
 }
 
 we() {
@@ -232,11 +233,11 @@ myip() {
 }
 
 
-alias journal="journalctl -xe | fzf"
-alias proc="ps aux | fzf --bind 'enter:execute(kill -9 {2})+abort'"
-alias en="printenv|fzf"
-alias a="alias|fzf"
-alias gb="git branch|fzf"
+alias journal="journalctl -xe | fzf --ghost 'These are logs of currently running services'"
+alias proc="ps aux | fzf --ghost 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"
+alias en="printenv|fzf --ghost 'These are environment variables on your PC'"
+alias a="alias|fzf --ghost 'These are existing alias in your shell'"
+alias gb="git branch|fzf --ghost 'These are branches in your git repo'"
 
 # Open config dirs.
 alias nv="nvim"

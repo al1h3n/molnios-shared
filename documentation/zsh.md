@@ -11,6 +11,7 @@
 `c` - `clear` shortcut.<br>
 `cl` - just move everything above.<br>
 `ki` / `kitty` - kitty with custom config.<br>
+`ze` - `zellij` shortcut.<br>
 
 `s` - `sudo`<br>
 `k`- `killall` (kill program)<br>

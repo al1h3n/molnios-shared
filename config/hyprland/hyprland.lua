@@ -4,8 +4,8 @@
 
 -- 1. Resolve your $L_PATH and $conf variables dynamically
 local home = os.getenv("HOME")
-local l_path = os.getenv("L_PATH") or (home .. "/.local/share/molnios/")
-local conf = l_path .. "config/"
+local l_path = os.getenv("L_PATH") or (home .. "/.local/share/molnios")
+local conf = l_path .. "/config/"
 
 -- 2. Tell Lua to look for modules in $conf/hyprland/modules
 package.path = package.path .. ";" .. conf .. "hyprland/modules/?.lua"

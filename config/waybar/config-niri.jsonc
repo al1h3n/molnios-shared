@@ -10,16 +10,16 @@
 
 {
 	"include": [
-		// Change to JetBrainsNerd if neccessary.
+		// Change to JetBrainsNerd | SFPro if neccessary.
 
 		// L-Modules.
-		"~/.local/share/molnios/config/waybar/modules/SFPro/menu.jsonc",
-		"~/.local/share/molnios/config/waybar/modules/SFPro/clock.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/menu.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/clock.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/SFPro/weather.jsonc",
 		"~/.local/share/molnios/config/waybar/modules/media.jsonc",
 
 		// M-Modules.
-		"~/.local/share/molnios/config/waybar/modules/SFPro/window-manager.jsonc",
+		"~/.local/share/molnios/config/waybar/modules/window-manager.jsonc",
 
 
 		// R-Modules.

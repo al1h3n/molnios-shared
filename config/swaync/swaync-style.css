@@ -6,12 +6,14 @@
 @import "variables/variables.css";
 @import "colors/gruvbox.css";
 
+@import "elements/backlight.css";
 @import "elements/body.css";
 @import "elements/buttons.css";
 @import "elements/center.css";
 @import "elements/dnd.css";
 @import "elements/mpris.css";
 @import "elements/title.css";
+@import "elements/volume.css";
 @import "elements/widgets.css";
 
 * {

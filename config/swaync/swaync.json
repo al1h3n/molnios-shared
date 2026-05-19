@@ -26,6 +26,8 @@
   "text-empty": "Nothing to see here",
   "widgets": [
     "buttons-grid",
+    "backlight",
+    "volume",
     "inhibitors",
     "dnd",
     "notifications",
@@ -49,6 +51,15 @@
       "blacklist": ["firefox", "spotify"],
       "autohide": true,
       "show-album-art": "always"
+    },
+    "backlight": {
+      "label": "󰃟",
+      "slider": true,
+      "min": 10
+    },
+    "volume": {
+      "label": "",
+      "slider": true
     },
     "buttons-grid": {
       "buttons-per-row": 5,

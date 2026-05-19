@@ -84,7 +84,8 @@ alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
 
 # Helpful
-alias s="sudo"
+alias s="doas"
+alias sud="su -c $@"
 alias k="killall"
 alias q="zsh"
 alias po="poweroff"
@@ -95,7 +96,7 @@ alias wifi="nmcli radio wifi"
 alias blue="bluetoothctl power"
 alias et="nmcli networking"
 alias k="kitty -c $conf/kitty.conf"
-alias ze="zellij"
+alias ze="zellij -c $conf/zellij/config.kdl"
 alias kitty="kitty -c $conf/kitty.conf"
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command

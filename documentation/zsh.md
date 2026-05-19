@@ -13,7 +13,8 @@
 `ki` / `kitty` - kitty with custom config.<br>
 `ze` - `zellij` shortcut.<br>
 
-`s` - `sudo`<br>
+`s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
+`sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
 `k`- `killall` (kill program)<br>
 `q` - `zsh` (shell)<br>
 `po` - `poweroff` (shutdown PC)<br>

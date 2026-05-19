@@ -16,8 +16,8 @@ BLUE="\x1B[36m"
 RESET="\e[0m"
 
 if [ $EUID -ne 0 ];then
-    echo -e "${YELLOW}Elevation needed. Restarting with sudo..${RESET}"
-    exec sudo sh $0 $@
+    echo -e "${YELLOW}Elevation needed. Restarting with doas..${RESET}"
+    exec doas sh $0 $@
 fi
 
 title(){
@@ -35,7 +35,7 @@ mnt(){
     if [[ $dev != /dev/* ]];then
         dev=/dev/$dev
     fi
-    
+
     if s mount --mkdir $dev $pth;then
         echo -e "${GREEN}✔ Device $dev mounted to $pth${RESET}"
     else

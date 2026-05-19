@@ -62,6 +62,7 @@
   /* The alternative actions below the default action */
   margin: 4px;
   padding: 0;
+  background-color: blue;
 }
 
 .notification-row .notification-background .notification .notification-action>button {

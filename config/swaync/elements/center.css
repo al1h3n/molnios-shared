@@ -1,5 +1,25 @@
+.control-center {
+  /* The Control Center which contains the old notifications + widgets */
+  background: var(--cc-bg);
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+}
+
+/* Notification color in NC. */
+.notification-group.collapsed .notification-row:not(:only-child) .notification {
+  background-color: var(--notification-center-color);
+}
+.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
+  background-color: var(--notification-center-color-hovered);
+}
+
 .notification-row:hover {
   transform: scale(1.005);
+}
+
+.notification-group .notification-group-close-button .close-button {
+  /* Close button for notifications' groups. */
+  margin: 12px 23px;
 }
 
 .control-center .control-center-list .notification {
@@ -10,6 +30,16 @@
 .control-center .control-center-list .notification .notification-action:hover {
   /* Hovering background in center. */
   background-color: var(--noti-bg-hover);
+}
+
+.notification-group {
+  /* Styling only for Grouped Notifications */
+  transition: opacity 200ms ease-in-out;
+  /* The groups close button */
+}
+
+.notification-group:focus {
+  background: var(--noti-bg-focus);
 }
 
 .notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
@@ -35,6 +65,9 @@
 }
 
 /* Removing irritating stuff. */
+.notification-group:focus {
+  background: none;
+}
 .control-center .control-center-list {
   /* List of notifications */
   background: transparent;

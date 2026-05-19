@@ -1,4 +1,16 @@
 :root {
-  --notification-center-color: @bg4_gruvbox;
-  --notification-center-color-hovered: @gray_gruvbox;
+  --notification-center-color: @fg3_gruvbox;
+  --notification-center-color-hovered: @fg1_gruvbox;
+  --button-color: rgba(0, 0, 0, .15);
+
+  /* Default variables. */
+  --cc-bg: rgba(255,255,255,.95);
+  --noti-border-color: rgba(0,0,0,.15);
+  --noti-bg: 255,255,255;
+  --noti-bg-alpha: .9;
+  --noti-bg-hover: rgba(235, 235, 235, 1);
+  --noti-bg-focus: rgba(200, 200, 200, .6);
+  --noti-close-bg: rgb(94, 94, 94);
+  --text-color: rgb(28,28,28);
+  --text-color-disabled: rgb(60,60,60);
 }

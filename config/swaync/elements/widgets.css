@@ -1,0 +1,11 @@
+/* Widgets. */
+.widget {
+  margin: 8px;
+  padding: 6px;
+  border-radius: var(--border-radius);
+}
+
+/* Buttons widget - Liquid Glass style */
+.widget-buttons-grid {
+  padding: 0;
+}

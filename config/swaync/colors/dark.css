@@ -1,4 +1,16 @@
 :root {
   --notification-center-color: #282828;
   --notification-center-color-hovered: #353535;
+  --button-color: rgba(255, 255, 255, .08);
+
+  /* Default variables. */
+  --cc-bg: rgba(20,20,20,0.8);
+  --noti-border-color: rgba(255, 255, 255, .15);
+  --noti-bg: 48,48,48;
+  --noti-bg-alpha: .33;
+  --noti-bg-hover: rgba(29, 32, 33, .3);
+  --noti-bg-focus: rgba(68, 68, 68, .6);
+  --noti-close-bg: rgb(94, 94, 94);
+  --text-color: rgb(255, 255, 255);
+  --text-color-disabled: rgb(150, 150, 150);
 }

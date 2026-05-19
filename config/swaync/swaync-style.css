@@ -12,22 +12,13 @@
 @import "elements/dnd.css";
 @import "elements/mpris.css";
 @import "elements/title.css";
+@import "elements/widgets.css";
 
 * {
   font-family: "SF Pro", sans-serif;
-  /* font-weight: bold; */
 }
 
 :root {
-  --cc-bg: rgba(20,20,20,0.8);
-  --noti-border-color: rgba(255, 255, 255, .15);
-  --noti-bg: 48,48,48;
-  --noti-bg-alpha: .33;
-  --noti-bg-hover: rgba(29, 32, 33, .3);
-  --noti-bg-focus: rgba(68, 68, 68, .6);
-  --noti-close-bg: rgb(94, 94, 94);
-  --text-color: rgb(255, 255, 255);
-  --text-color-disabled: rgb(150, 150, 150);
   --hover-tranistion:
     background .38s cubic-bezier(0.25, 1, 0.4, 1),
     transform .48s cubic-bezier(0.34, 1.6, 0.4, 0.95),
@@ -41,75 +32,3 @@
   --font-size-summary: 17px;
   --font-size-body: 16px;
 }
-
-.notification-row .notification-background .notification .notification-alt-actions {
-  background: none;
-  padding: 4px;
-}
-
-.notification-row .notification-background .notification .notification-action {
-  /* The alternative actions below the default action */
-  margin: 4px;
-  padding: 0;
-}
-
-.notification-group {
-  /* Styling only for Grouped Notifications */
-  transition: opacity 200ms ease-in-out;
-  /* The groups close button */
-}
-
-.notification-group:focus {
-  background: var(--noti-bg-focus);
-}
-
-.notification-group .notification-group-close-button .close-button {
-  margin: 12px 20px;
-}
-
-/* Notification color in NC. */
-.notification-group.collapsed .notification-row:not(:only-child) .notification {
-  background-color: var(--notification-center-color);
-}
-.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
-  background-color: var(--notification-center-color-hovered);
-}
-
-.control-center {
-  /* The Control Center which contains the old notifications + widgets */
-  background: var(--cc-bg);
-  color: var(--text-color);
-  border-radius: var(--border-radius);
-}
-
-
-/*** Widgets ***/
-.widget {
-  margin: 8px;
-  padding: 6px;
-  border-radius: var(--border-radius);
-}
-
-/* Buttons widget - Liquid Glass style */
-.widget-buttons-grid {
-  padding: 0;
-}
-
-
-
-
-.notification-group {
-  /* Styling only for Grouped Notifications */
-  transition: opacity .2s ease-in-out;
-  /* The groups close button */
-}
-
-.notification-group:focus {
-  background: none;
-}
-
-.notification-group .notification-group-close-button .close-button {
-  margin: 12px 20px;
-}
-
-@import "elements/test.css";

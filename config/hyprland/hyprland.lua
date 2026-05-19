@@ -8,7 +8,7 @@ local l_path = os.getenv("L_PATH") or (home .. "/.local/share/molnios/")
 local conf = l_path .. "config/"
 
 -- 2. Tell Lua to look for modules in $conf/hyprland/modules
-package.path = package.path .. ";" .. conf .. "/hyprland/modules/?.lua"
+package.path = package.path .. ";" .. conf .. "hyprland/modules/?.lua"
 
 -- 3. Expose global variables for other
 _G.dir = l_path

@@ -21,14 +21,14 @@ local binds = {
     { M.." + B", ocr },
     -- Grave / end.
     { M.." + grave",       editor },
-    { M.." + SHIFT + grave", shell .. scripts .. "/menu/launch-menu.sh" },
+    { M.." + SHIFT + grave", shell .. scripts .. "menu/launch-menu.sh" },
     { M.." + end",         actionmenu },
 
     -- SHIFT row — window management.
     { M.." + SHIFT + Q", hl.dsp.window.pseudo() },
     { M.." + SHIFT + W", "hyprctl dispatch layoutmsg togglesplit" },
     { M.." + SHIFT + E", explorercli },
-    { M.." + SHIFT + R", shell .. scripts .. "/wallpaper.sh -r" },
+    { M.." + SHIFT + R", shell .. scripts .. "wallpaper.sh -r" },
     -- SHIFT row — swap windows.
     { M.." + SHIFT + A", hl.dsp.window.swap({ direction = "left"  }) },
     { M.." + SHIFT + S", hl.dsp.window.swap({ direction = "up"    }) },

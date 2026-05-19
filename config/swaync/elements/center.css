@@ -28,6 +28,12 @@
   color: var(--text-color);
 }
 
+.control-center .control-center-list-placeholder {
+  /* The placeholder when there are no notifications. */
+  /* No notifications */
+  opacity: .2;
+}
+
 /* Removing irritating stuff. */
 .control-center .control-center-list {
   /* List of notifications */

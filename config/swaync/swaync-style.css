@@ -82,20 +82,6 @@
   border-radius: var(--border-radius);
 }
 
-.control-center .control-center-list-placeholder {
-  /* The placeholder when there are no notifications. */
-  opacity: .1;
-}
-
-
-
-.floating-notifications {
-  background: transparent;
-}
-
-.floating-notifications .notification {
-  box-shadow: none;
-}
 
 /*** Widgets ***/
 .widget {
@@ -110,16 +96,7 @@
 }
 
 
-.notification-row .notification-background .notification .notification-action {
-  /* The alternative actions below the default action */
-  margin: 4px;
-  padding: 0;
-}
 
-.notification-row .notification-background .notification .notification-action>button {
-  border-radius: var(--border-radius);
-  color: var(--text-color);
-}
 
 .notification-group {
   /* Styling only for Grouped Notifications */

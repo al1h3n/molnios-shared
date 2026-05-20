@@ -3,7 +3,7 @@
 # Used powerlevel10k theme.
 # ==========================================================
 
-# 0. Pre-installing.
+# Temp files will be saved in ~/.cache/zsh, ~/.zsh_history
 
 # Must be called .zshrc
 # Insert in ~/.zshenv
@@ -12,7 +12,7 @@
 # Set default shell.
 # chsh -s $(which zsh)
 
-# 1. Pre-definitions.
+# 0. Variables.
 EDITOR=nvim
 sharel=~/.local/share
 bin=/usr/local/bin
@@ -23,8 +23,8 @@ conf=$dir/config
 
 # ZSH history.
 HISTSIZE=5000
-HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
+HISTFILE=~/.zsh_history
 HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
@@ -34,10 +34,7 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# Set compinit dump to another place.
-ZSH_COMPDUMP=~/.cache/zsh/zcompdump
-
-# 2. Plugin manager.
+# 1. Plugin manager.
 if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ];then
   # NixOS / MaconlyOS - ZINIT_HOME set by home-manager in zsh.nix.
   source $ZINIT_HOME/zinit.zsh
@@ -51,7 +48,7 @@ else
   source $ZINIT_HOME/zinit.zsh
 fi
 
-# 3. Plugins via zinit.
+# 2. Plugins via zinit.
 
 # Theme - load first, instantly.
 zinit ice depth=1
@@ -68,13 +65,14 @@ zinit light Aloxaf/fzf-tab # zinit light marlonrichert/zsh-autocomplete
 # zinit ice wait lucid
 
 # Auto-completion from OhMyZsh. Like gst - aliased to git status.
-zinit snippet OMZP::git
+zinit snippet OMZP::git # Imports custom commands.
 zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
 
 # 4. Completions init.
-autoload -Uz compinit
-compinit
+autoload -Uz
+mkdir -p ~/.cache/zsh/zcompdump
+compinit -d ~/.cache/zsh/zcompdump
 zinit cdreplay -q
 
 # 5. Functions and custom commands.
@@ -85,17 +83,14 @@ alias cl='printf "\e[H\e[22J"'
 
 # Helpful
 alias s="doas"
-alias sud="su -c $@"
+alias sud="su -c"
 alias k="killall"
+alias pk="pkill"
 alias q="zsh"
-alias po="poweroff"
 alias re="reboot"
 alias sl="sleep"
 alias ln="ln -sfn"
-alias wifi="nmcli radio wifi"
-alias blue="bluetoothctl power"
-alias et="nmcli networking"
-alias k="kitty -c $conf/kitty.conf"
+alias ki="kitty -c $conf/kitty.conf"
 alias ze="zellij -c $conf/zellij/config.kdl"
 alias kitty="kitty -c $conf/kitty.conf"
 rr(){ # rm-improved
@@ -117,40 +112,27 @@ rr(){ # rm-improved
   fi
 }
 
-wa(){
-# Change wallpaper with theme (pywall).
-# Works only with images.
-wal --recursive -i $1
-
-local wallpaper=$(cat ~/.cache/wal/wal)
-sh $scripts/borderline.sh "$wallpaper"
-}
-
-co(){
-# Change terminal color scheme. Doesn't support recursive (only file).
-wallust run $1
-}
-
 alias vq="warp-cli disconnect"
 alias vw="warp-cli status"
 alias ve="warp-cli connect"
 alias vr="warp-cli registration delete"
 alias vt="warp-cli registration new"
 
-# github.com/Alihan1ai9595/sweeper
-# Custom scripts for paths in Molniux.
 alias sw="sh $bin/sweeper.sh"
-alias pa="sh $bin/path.sh"
-alias u="sh $bin/molnios.sh -u"
 
-alias rec="sh $scripts/record.sh"
-alias mu="sh $scripts/shazam.sh 1"
-alias shazam="sh $scripts/shazam.sh 1"
-
+if [ -f /etc/arch-release ];then
+  zinit snippet OMZP::archlinux
+fi
 
 # Related to hyprconfig.
 if [ "$(uname)" != "Darwin" ];then
-  zinit snippet OMZP::archlinux
+  alias po="poweroff"
+  alias wifi="nmcli radio wifi"
+  alias blue="bluetoothctl power"
+  alias et="nmcli networking"
+  alias lan="nmtui"
+  function bt(){ nohup blueman-manager & }
+
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
@@ -158,17 +140,49 @@ if [ "$(uname)" != "Darwin" ];then
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
-  alias lan="nmtui"
   alias ns="notify-send"
 
   alias m="sh $scripts/menu/launch-menu.sh"
   alias my="sh $scripts/menu/launch-menu.sh -y"
+  alias r="sh $scripts/reloadus.sh"
 
-  alias r="sh $scripts/reloadus.sh" # Reload hyprland.
-  function bt(){ nohup blueman-manager & }
+  alias journal="journalctl -xe | fzf --ghost 'These are logs of currently running services'"
+  alias proc="ps aux | fzf --ghost 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"
+
+  alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
+
+  wa(){
+  # Change wallpaper with theme (pywall).
+  # Works only with images.
+  wal --recursive -i $1
+  local wallpaper=$(cat ~/.cache/wal/wal)
+  sh $scripts/borderline.sh "$wallpaper"
+  }
+
+  co(){
+  # Change terminal color scheme. Doesn't support recursive (only file).
+  wallust run $1
+  }
+
+  alias pa="sh $bin/path.sh"
+  alias u="sh $bin/molnios.sh -u"
+  alias rec="sh $scripts/record.sh"
+  alias mu="sh $scripts/shazam.sh 1"
+  alias shazam="sh $scripts/shazam.sh 1"
+
+  # Mechabar - not my scripts.
+  mecha=$scripts/mechabar
+  alias p="sh $mecha/power-menu.sh"
+  alias n="sh $mecha/network.sh "
+  alias b="sh $mecha/bluetooth.sh"
+  alias bu="sh $mecha/backlight.sh up 5"
+  alias bd="sh $mecha/backlight.sh down 5"
+  alias vu="sh $mecha/volume.sh output raise 5"
+  alias vd="sh $mecha/volume.sh output lower 5"
+else
+  alias po="shutdown -h now"
+  alias blue="blueutil --power" # brew install blueutil
 fi
-
-alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
 
 alias y="yazi --clear-cache"
 alias yt="yt-x -p mpv --preview"
@@ -233,9 +247,6 @@ myip() {
 "
 }
 
-
-alias journal="journalctl -xe | fzf --ghost 'These are logs of currently running services'"
-alias proc="ps aux | fzf --ghost 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"
 alias en="printenv|fzf --ghost 'These are environment variables on your PC'"
 alias a="alias|fzf --ghost 'These are existing alias in your shell'"
 alias gb="git branch|fzf --ghost 'These are branches in your git repo'"
@@ -251,16 +262,6 @@ man() {
   tldr "$@" 2>/dev/null || command man "$@"
 }
 alias lh="ln --help"
-
-# Mechabar - not my scripts.
-mecha=$scripts/mechabar
-alias p="sh $mecha/power-menu.sh"
-alias n="sh $mecha/network.sh "
-alias b="sh $mecha/bluetooth.sh"
-alias bu="sh $mecha/backlight.sh up 5"
-alias bd="sh $mecha/backlight.sh down 5"
-alias vu="sh $mecha/volume.sh output raise 5"
-alias vd="sh $mecha/volume.sh output lower 5"
 
 # 6. ZSH highlight colors — Gruvbox theme. (requires 24-bit terminal)
 typeset -A ZSH_HIGHLIGHT_STYLES

@@ -16,6 +16,7 @@
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
 `k`- `killall` (kill program)<br>
+`pk`- `pkill` (kill program)<br>
 `q` - `zsh` (shell)<br>
 `po` - `poweroff` (shutdown PC)<br>
 `re` - `reboot`<br>
@@ -98,7 +99,20 @@
 `n` - network manager.
 `b` - bluetooth manager.
 
-### Navigating (extreme speed).
+#### Custom git commands
+`gbg` - `git status`<br>
+`ga` - `git add`<br>
+`gc` - `git commit -v` (opens editor where you type your commit).<br>
+`gcmsg` - `git commit -m` (type your own text).<br>
+`gp` - `git push`<br>
+
+`gra` - `git remote add`<br>
+`grset` - `git remote set-url`<br>
+`grrm` - `git remote remove`<br>
+`grmv` - `git remote rename`<br>
+
+
+### Navigating (extreme speed)
 1. Train zoxide alrorithm by moving into directories as always (it'll check your activity).
 2. Type `cd folder1 folder2` to find nearest folder to your path.<br>
 It will work like this: you wrote 95 times `~/.config/hyprland/custom/img`, next `cd hyprland img` will switch you to the directory!

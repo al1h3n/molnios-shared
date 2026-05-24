@@ -11,7 +11,7 @@ local envs = {
     ELECTRON_OZONE_PLATFORM_HINT = "auto",
     -- Qt.
     QT_QPA_PLATFORMTHEME = "qt6ct",
-    QT_QPA_PLATFORM = "wayland", -- Use Wayland if available, if not X11.
+    QT_QPA_PLATFORM = "wayland;xcb", -- Use Wayland if available, if not X11.
     QT_AUTO_SCREEN_SCALE_FACTOR = 1, -- Auto scaling.
     -- Cursor.
     HYPRCURSOR_SIZE = "29",

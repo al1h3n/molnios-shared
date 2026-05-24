@@ -12,6 +12,7 @@
 `cl` - just move everything above.<br>
 `ki` / `kitty` - kitty with custom config.<br>
 `ze` - `zellij` shortcut.<br>
+`duf` - `duf` custom shortcut.<br>
 
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
@@ -72,6 +73,7 @@
 `lock` = `hyprlock -q -c $conf/hyprlock` - enables lock screen.<br>
 `menu` = `rofi -config $conf/rofi -show drun &>/dev/null` - starts application selection menu.<br>
 `y` - starts terminal file manager ([yazi](https://github.com/sxyazi/yazi))<br>
+`e` - alternative - [superfile](https://github.com/yorukot/superfile)<br>
 `yt` - browse [youtube](https://github.com/Benexl/yt-x) from your terminal. (watch, download videos and not only)<br>
 `fa` - shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (video).<br>
 `fas` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
@@ -88,7 +90,6 @@
 `d` - open dotfiles root directory.<br>
 `cfg` - open config dir.<br>
 `scr` - open scripts dir.<br>
-`e` - [superfile](https://github.com/yorukot/superfile)
 
 ##### Misc
 `lh` - `ln --help`

@@ -9,8 +9,13 @@
 # Insert in ~/.zshenv
 # export ZDOTDIR=/al1h3n/config
 
+# .zshenv is used for non interactive actions, .zshrc only when user opens terminal interactively.
+
 # Set default shell.
 # chsh -s $(which zsh)
+
+# Autostart.
+pokemon-colorscripts -r
 
 # 0. Variables.
 EDITOR=nvim
@@ -83,6 +88,7 @@ alias cl='printf "\e[H\e[22J"'
 
 # Helpful
 alias s="doas"
+alias duf="duf --only local"
 alias sud="su -c"
 alias k="killall"
 alias pk="pkill"
@@ -255,9 +261,9 @@ alias gb="git branch|fzf --ghost 'These are branches in your git repo'"
 
 # Open config dirs.
 alias nv="nvim"
-alias d="$nv $dir"
-alias cfg="$nv $conf"
-alias scr="$nv $scripts"
+alias d="$y $dir"
+alias cfg="$y $conf"
+alias scr="$y $scripts"
 
 # Help.
 man() {

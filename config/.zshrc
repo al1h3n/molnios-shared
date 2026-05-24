@@ -122,6 +122,8 @@ alias sw="sh $bin/sweeper.sh"
 
 if [ -f /etc/arch-release ];then
   zinit snippet OMZP::archlinux
+  alias pr="yay --noconfirm -Runs $(yay -Qdtq)"
+  alias pu="yay --noconfirm" # Can be changed to paru or just pacman.
 fi
 
 # Related to hyprconfig.

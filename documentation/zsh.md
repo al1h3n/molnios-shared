@@ -99,6 +99,10 @@
 `n` - network manager.
 `b` - bluetooth manager.
 
+#### Arch Linux
+`pr` - remove orphaned packages (via `yay`).<br>
+`pu` - update all packages (via `yay`).<br>
+
 #### Custom git commands
 `gbg` - `git status`<br>
 `ga` - `git add`<br>

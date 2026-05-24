@@ -9,5 +9,8 @@ hl.config({
       disable_logs = 1,
       enable_stdout_logs = 0,
     },
-    ecosystem = { no_update_news = 1 },
+    ecosystem = {
+      no_update_news = 1,
+      no_donation_nag = 1,
+    },
 })

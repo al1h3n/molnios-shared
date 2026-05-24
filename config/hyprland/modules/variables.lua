@@ -35,7 +35,7 @@ _G.gamemode = shell .. scripts .. "gamemode.sh"
 _G.eyedropper = "ie-r"
 _G.actionmenu = "wlogout -nl " .. conf .. "wlogout/layout -C " .. conf .. "wlogout/wlogout.css"
 
-_G.clipman = "cliphist list | " .. menu .. " -dmenu " .. noicons .. " | cliphist decode | wl-copy && wtype -M ctrl -k v -m ctrl"
+_G.clipman = shell .. scripts .. "clipboard-images.sh"
 _G.cliptext = "wl-paste --type text --watch cliphist store"
 _G.clipmage = "wl-paste --type image --watch cliphist store"
 _G.clipsave = "wl-clip-persist --clipboard regular"

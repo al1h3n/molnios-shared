@@ -70,7 +70,7 @@ zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
 
 # 4. Completions init.
-autoload -Uz
+autoload -Uz compinit
 mkdir -p ~/.cache/zsh/zcompdump
 compinit -d ~/.cache/zsh/zcompdump
 zinit cdreplay -q

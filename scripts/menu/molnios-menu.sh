@@ -38,7 +38,7 @@ detect_backend() {
         echo "$BACKEND"
         return
     fi
-    
+
     if command -v rofi &>/dev/null;then
         echo "rofi"
     elif command -v yad &>/dev/null;then
@@ -84,7 +84,7 @@ box_width=44
 # ── title box ────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${YELLOW}${BOLD}┌──────────────────────────────────────────────┐${GRV_RESET}"
-printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}  │${GRV_RESET}\n" "$title"
+printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}│${GRV_RESET}\n" "$title"
 echo -e "${YELLOW}${BOLD}└──────────────────────────────────────────────┘${GRV_RESET}"
 echo ""
 
@@ -140,10 +140,10 @@ rofi_show_menu() {
     local prompt="$2"
     shift 2
     local options=("$@")
-    
+
     debug "rofi_show_menu: title=$title, prompt=$prompt"
     debug "rofi_show_menu: options count=${#options[@]}"
-    
+
     local rofi_config=""
     if [[ -n "$ROFI_CONFIG" ]];then
         # Use custom config if specified
@@ -161,7 +161,7 @@ rofi_show_menu() {
         rofi_config="-config ~/.config/rofi/config.rasi"
         debug "Using default rofi config: ~/.config/rofi/config.rasi"
     fi
-    
+
     printf '%s\n' "${options[@]}" | rofi \
         -dmenu \
         -i \
@@ -176,9 +176,9 @@ rofi_show_input() {
     local title="$1"
     local prompt="$2"
     local default="$3"
-    
+
     debug "rofi_show_input: title=$title, prompt=$prompt, default=$default"
-    
+
     # Use shell input window for better input support
     shell_show_input "$title" "$prompt" "$default"
 }
@@ -189,23 +189,23 @@ yad_show_menu() {
     local prompt="$2"
     shift 2
     local options=("$@")
-    
+
     debug "yad_show_menu: title='$title', prompt='$prompt'"
     debug "yad_show_menu: options count=${#options[@]}"
-    
+
     if [[ $DEBUG_MODE -eq 1 ]];then
         for i in "${!options[@]}";do
             debug "  YAD Option $i: ${options[$i]}"
         done
     fi
-    
+
     local yad_list=""
     for i in "${!options[@]}";do
         yad_list+="$i\n${options[$i]}\n"
     done
-    
+
     debug "yad_show_menu: Calling yad with title='$title'"
-    
+
     local result
     result=$(echo -e "$yad_list" | yad \
         --list \
@@ -220,7 +220,7 @@ yad_show_menu() {
         --center \
         --button="Cancel:1" \
         --button="Select:0" 2>/dev/null | cut -d'|' -f1 || echo "")
-    
+
     echo "$result"
 }
 
@@ -228,9 +228,9 @@ yad_show_input() {
     local title="$1"
     local prompt="$2"
     local default="$3"
-    
+
     debug "yad_show_input: title=$title, prompt=$prompt, default=$default"
-    
+
     yad \
         --entry \
         --title="$title" \
@@ -248,12 +248,12 @@ show_menu() {
     local prompt="$2"
     shift 2
     local options=("$@")
-    
+
     local backend
     backend=$(detect_backend)
-    
+
     debug "show_menu: backend=$backend"
-    
+
     case "$backend" in
         rofi)
             rofi_show_menu "$title" "$prompt" "${options[@]}"
@@ -272,12 +272,12 @@ show_input() {
     local title="$1"
     local prompt="$2"
     local default="${3:-}"
-    
+
     local backend
     backend=$(detect_backend)
-    
+
     debug "show_input: backend=$backend"
-    
+
     case "$backend" in
         rofi)
             rofi_show_input "$title" "$prompt" "$default"
@@ -325,9 +325,9 @@ execute_action() {
     local action="$1"
     shift
     local args=("$@")
-    
+
     debug "execute_action: $action ${args[*]}"
-    
+
     case "$action" in
         cmd)
             eval "${args[@]}"
@@ -358,19 +358,19 @@ register_menu() {
     local title="$2"
     local prompt="$3"
     shift 3
-    
+
     MENU_TITLES["$menu_id"]="$title"
     MENU_PROMPTS["$menu_id"]="$prompt"
-    
+
     local options=()
     local actions=()
-    
+
     while [[ $# -gt 0 ]];do
         options+=("$1")
         actions+=("$2")
         shift 2
     done
-    
+
     # Use a unique delimiter that won't appear in menu text
     # Using ASCII Record Separator (0x1E) instead of Unit Separator
     local delimiter=$'\x1E'
@@ -379,7 +379,7 @@ register_menu() {
     MENU_OPTIONS["$menu_id"]="${options[*]}"
     MENU_ACTIONS["$menu_id"]="${actions[*]}"
     IFS="$old_ifs"
-    
+
     debug "register_menu: $menu_id with ${#options[@]} options"
     if [[ $DEBUG_MODE -eq 1 ]];then
         debug "  Title: $title"
@@ -392,43 +392,43 @@ register_menu() {
 
 show_menu_by_id() {
     local menu_id="$1"
-    
+
     debug "show_menu_by_id: $menu_id"
-    
+
     if [[ -z "${MENU_TITLES[$menu_id]:-}" ]];then
         debug "Menu not found: $menu_id"
         return 1
     fi
-    
+
     push_menu "$menu_id"
-    
+
     local title="${MENU_TITLES[$menu_id]}"
     local prompt="${MENU_PROMPTS[$menu_id]}"
-    
+
     debug "Menu title: $title"
     debug "Menu prompt: $prompt"
     debug "Raw options string: ${MENU_OPTIONS[$menu_id]}"
     debug "Raw actions string: ${MENU_ACTIONS[$menu_id]}"
-    
+
     # Parse options and actions using unique delimiter
     local -a options
     local -a actions
     local delimiter=$'\x1E'  # ASCII Record Separator (changed from Unit Separator)
-    
+
     # Use mapfile for more reliable parsing
     local old_ifs="$IFS"
     IFS="$delimiter"
     read -ra options <<< "${MENU_OPTIONS[$menu_id]}"
     read -ra actions <<< "${MENU_ACTIONS[$menu_id]}"
     IFS="$old_ifs"
-    
+
     debug "Parsed ${#options[@]} options and ${#actions[@]} actions"
     if [[ $DEBUG_MODE -eq 1 ]];then
         for i in "${!options[@]}";do
             debug "  Option $i: '${options[$i]}' -> '${actions[$i]}'"
         done
     fi
-    
+
     # Verify arrays have same length
     if [[ ${#options[@]} -ne ${#actions[@]} ]];then
         debug "ERROR: Options and actions arrays have different lengths!"
@@ -436,37 +436,37 @@ show_menu_by_id() {
         pop_menu
         return 1
     fi
-    
+
     # Add back button if not root menu
     if [[ ${#MENU_STACK[@]} -gt 1 ]];then
         options=("← Back" "${options[@]}")
         actions=("back" "${actions[@]}")
         debug "Added back button (stack size: ${#MENU_STACK[@]})"
     fi
-    
+
     while true;do
         local selection
         selection=$(show_menu "$title" "$prompt" "${options[@]}")
-        
+
         debug "Selection: $selection"
-        
+
         if [[ -z "$selection" ]];then
             # User cancelled
             pop_menu
             return 0
         fi
-        
+
         local action="${actions[$selection]}"
-        
+
         if [[ "$action" == "back" ]];then
             pop_menu
             return 0
         fi
-        
+
         # Parse and execute action
         local action_type="${action%%:*}"
         local action_data="${action#*:}"
-        
+
         case "$action_type" in
             menu)
                 show_menu_by_id "$action_data"
@@ -497,14 +497,14 @@ show_menu_by_id() {
 
 load_preset() {
     local preset_file="$1"
-    
+
     debug "load_preset: $preset_file"
-    
+
     if [[ ! -f "$preset_file" ]];then
         echo "ERROR: Preset file not found: $preset_file" >&2
         exit 1
     fi
-    
+
     source "$preset_file"
 }
 
@@ -541,7 +541,7 @@ EOF
 
 main() {
     local preset_file=""
-    
+
     while [[ $# -gt 0 ]];do
         case "$1" in
             -p|--preset)
@@ -571,35 +571,35 @@ main() {
                 ;;
         esac
     done
-    
+
     if [[ -z "$preset_file" ]];then
         echo "ERROR: No preset file specified" >&2
         show_help
         exit 1
     fi
-    
+
     debug "Starting MolniOS Menu System"
     debug_var "BACKEND"
     debug_var "DEBUG_MODE"
     debug_var "preset_file"
-    
+
     # Check backend availability
     local detected_backend
     detected_backend=$(detect_backend)
-    
+
     if [[ "$detected_backend" == "none" ]];then
         echo "ERROR: No supported backend found. Please install rofi or yad." >&2
         exit 1
     fi
-    
+
     debug "Detected backend: $detected_backend"
-    
+
     # Load preset
     load_preset "$preset_file"
-    
+
     # Start main menu
     show_menu_by_id "main"
-    
+
     # Cleanup
     rm -rf "$STATE_DIR"
 }

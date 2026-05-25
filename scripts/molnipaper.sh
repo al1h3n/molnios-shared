@@ -200,7 +200,7 @@ _save_state(){
     local seq_file="$1"
     local state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/molnios"
     mkdir -p "$state_dir"
-    echo "$seq_file" > "$state_dir/termcolors-last"
+    echo "$seq_file" > "$state_dir/colors"
 }
 
 run_wallust(){

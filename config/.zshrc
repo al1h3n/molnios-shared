@@ -18,7 +18,7 @@
 pokemon-colorscripts -r
 
 # Terminal colors.
-_tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/termcolors-last"
+_tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/colors"
 if [[ -f "$_tc_state" ]];then
     (cat "$(cat "$_tc_state")" 2>/dev/null &)
 fi

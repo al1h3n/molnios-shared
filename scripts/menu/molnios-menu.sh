@@ -84,7 +84,7 @@ box_width=44
 # ── title box ────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${YELLOW}${BOLD}┌──────────────────────────────────────────────┐${GRV_RESET}"
-printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}│${GRV_RESET}\n" "$title"
+printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}  │${GRV_RESET}\n" "$title"
 echo -e "${YELLOW}${BOLD}└──────────────────────────────────────────────┘${GRV_RESET}"
 echo ""
 

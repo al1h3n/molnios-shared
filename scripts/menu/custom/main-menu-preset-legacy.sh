@@ -1,6 +1,6 @@
 # MolniOS Main Menu Preset
 # This file defines the main menu structure and all submenus
-# Version 1.1 (updates for new lua syntax of hyprland)
+# Version 1.0 (for hyprland older than 0.51)
 
 # CONFIGURATION
 # Icon spacing configuration (number of spaces after icons)
@@ -177,7 +177,7 @@ _wallust_apply(){
         return 1
     fi
 
-    wallust run -I background "$wal_src"
+    wallust run "$wal_src"
 
     local bscript=$L_PATH/scripts/borderline.sh
     if [[ -f "$bscript" ]];then
@@ -549,63 +549,77 @@ hypr_get_setting(){
 }
 
 hypr_set_setting(){
-    hyprctl eval $@
+    local setting="$1"
+    local value="$2"
+    hyprctl keyword "$setting" "$value"
 }
 
 hypr_adjust_gaps_in(){
-    local current=$(hypr_get_setting "general:gaps_in")
-    local new_value=$(show_input "Gaps In" "Enter gaps in value:" "$current")
-    [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ general = { gaps_in = $new_value } })"
-    notify "Gaps in set to: $new_value"
+    local current
+    current=$(hypr_get_setting "general:gaps_in")
+    local new_value
+    new_value=$(show_input "Gaps In" "Enter gaps in value:" "$current")
+    if [[ -n "$new_value" ]];then
+        hypr_set_setting "general:gaps_in" "$new_value"
+        notify "Gaps in set to: $new_value"
+    fi
 }
 
 hypr_adjust_gaps_out(){
-    local current=$(hypr_get_setting "general:gaps_out")
-    local new_value=$(show_input "Gaps Out" "Enter gaps out value:" "$current")
-    [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ general = { gaps_out = $new_value } })"
-    notify "Gaps out set to: $new_value"
+    local current
+    current=$(hypr_get_setting "general:gaps_out")
+    local new_value
+    new_value=$(show_input "Gaps Out" "Enter gaps out value:" "$current")
+    if [[ -n "$new_value" ]];then
+        hypr_set_setting "general:gaps_out" "$new_value"
+        notify "Gaps out set to: $new_value"
+    fi
 }
 
 hypr_adjust_border_size(){
-    local current=$(hypr_get_setting "general:border_size")
-    local new_value=$(show_input "Border Size" "Enter border size:" "$current")
-    [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ general = { border_size = $new_value } })"
-    notify "Border size set to: $new_value"
+    local current
+    current=$(hypr_get_setting "general:border_size")
+    local new_value
+    new_value=$(show_input "Border Size" "Enter border size:" "$current")
+    if [[ -n "$new_value" ]];then
+        hypr_set_setting "general:border_size" "$new_value"
+        notify "Border size set to: $new_value"
+    fi
 }
 
 hypr_adjust_rounding(){
-    local current=$(hypr_get_setting "decoration:rounding")
-    local new_value=$(show_input "Rounding" "Enter rounding value:" "$current")
-    [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ decoration = { rounding = $new_value } })"
-    notify "Rounding set to: $new_value"
+    local current
+    current=$(hypr_get_setting "decoration:rounding")
+    local new_value
+    new_value=$(show_input "Rounding" "Enter rounding value:" "$current")
+    if [[ -n "$new_value" ]];then
+        hypr_set_setting "decoration:rounding" "$new_value"
+        notify "Rounding set to: $new_value"
+    fi
 }
 
 hypr_toggle_animations(){
-    local current=$(hypr_get_setting "animations:enabled")
+    local current
+    current=$(hypr_get_setting "animations:enabled")
     local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ animations = { enabled = $lua_bool } })"
-    notify "Animations: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    hypr_set_setting "animations:enabled" "$new_value"
+    notify "Animations: $([ $new_value -eq 1 ] && echo 'enabled' || echo 'disabled')"
 }
 
 hypr_toggle_blur(){
-    local current=$(hypr_get_setting "decoration:blur:enabled")
+    local current
+    current=$(hypr_get_setting "decoration:blur:enabled")
     local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ decoration = { blur = { enabled = $lua_bool } } })"
-    notify "Blur: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    hypr_set_setting "decoration:blur:enabled" "$new_value"
+    notify "Blur: $([ $new_value -eq 1 ] && echo 'enabled' || echo 'disabled')"
 }
 
 hypr_toggle_shadows(){
-    local current=$(hypr_get_setting "decoration:shadow:enabled")
+    local current
+    current=$(hypr_get_setting "decoration:drop_shadow")
     local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ decoration = { shadow = { enabled = $lua_bool } } })"
-    notify "Shadows: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    hypr_set_setting "decoration:drop_shadow" "$new_value"
+    notify "Shadows: $([ $new_value -eq 1 ] && echo 'enabled' || echo 'disabled')"
 }
 
 # Monitor helpers (beckend).
@@ -760,7 +774,7 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
             notify "Monitor config restored from config file"
             ;;
         "-1")
-            hypr_set_setting "hl.monitor({ output = '$monitor', mode = 'highres@highrr', position = '0x0', scale = $current_scale })"
+            hyprctl keyword monitor "$monitor,highres@highrr,0x0,$current_scale"
             notify "$monitor → highres@highrr, scale=$current_scale"
             ;;
         *)
@@ -774,9 +788,9 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
             # Try @highrr first; some resolutions don't have a high-refresh mode
             # so we silently fall back to letting hyprland pick the refresh rate.
             local result
-            result=$(hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${new_res}@highrr', position = '0x0', scale = $current_scale })" 2>&1)
+            result=$(hyprctl keyword monitor "$monitor,${new_res}@highrr,0x0,$current_scale" 2>&1)
             if echo "$result" | grep -qi "invalid";then
-                result=$(hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${new_res}', position = '0x0', scale = $current_scale })" 2>&1)
+                result=$(hyprctl keyword monitor "$monitor,${new_res},0x0,$current_scale" 2>&1)
                 if echo "$result" | grep -qi "invalid";then
                     notify_error "Could not set resolution: ${new_res} on $monitor"
                     return
@@ -821,7 +835,7 @@ Examples: 1, 1.6, 2, 3.5
                 notify_error "Invalid scale. Use a decimal number (e.g. 1.25)"
                 return
             fi
-            hypr_set_setting "hl.monitor({ output = '$monitor', mode = 'preferred@highrr', position = '0x0', scale = $new_scale })"
+            hyprctl keyword monitor "$monitor,preferred@highrr,0x0,$new_scale"
             notify "$monitor → preferred@highrr, scale=$new_scale"
             ;;
     esac

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# termcolors.sh - Dynamic terminal color theming for MolniOS
+# molnipaper.sh - Dynamic terminal color theming for MolniOS
 # Part of the MolniOS project.
 # ==============================================================================
 # Called by waypaper as a post_command, or directly from the terminal.
 #
 # USAGE
-#   termcolors.sh [FLAGS] <wallpaper> [video]
+#   molnipaper.sh [FLAGS] <wallpaper> [video]
 #
 # FLAGS
 #   -w, --wallust          Use wallust as color backend  (default if neither given)
@@ -17,19 +17,19 @@
 #
 # EXAMPLES
 #   # waypaper post_command (reads config as default when no backend flag given):
-#   post_command = sh ~/.local/share/molnios/scripts/termcolors.sh $wallpaper $video
+#   post_command = sh ~/.local/share/molnios/scripts/molnipaper.sh $wallpaper $video
 #
 #   # Explicit waypaper post_command (ignores config, wallust + borderline):
-#   post_command = sh ~/.local/share/molnios/scripts/termcolors.sh -w $wallpaper $video
+#   post_command = sh ~/.local/share/molnios/scripts/molnipaper.sh -w $wallpaper $video
 #
 #   # Terminal: pywal only, no borderline, static image:
-#   termcolors.sh -p -nb /path/to/wall.jpg
+#   molnipaper.sh -p -nb /path/to/wall.jpg
 #
 #   # Terminal: wallust + borderline, video file:
-#   termcolors.sh -w /path/to/wallpapers/loop.mp4
+#   molnipaper.sh -w /path/to/wallpapers/loop.mp4
 #
 # CONFIG (used only when no -w/-p flag is passed)
-#   ~/.config/molnios/termcolors.conf
+#   ~/.config/molnios/molnipaper.conf
 #     BACKEND=wallust   # wallust | pywal | none
 #     BORDERLINE=yes    # yes | no
 # ==============================================================================
@@ -43,7 +43,7 @@ L_PATH="$(dirname "$SCRIPT_DIR")"   # ~/.local/share/molnios
 
 # ── Load NixOS / home-manager environment if needed ──────────────────────────
 
-if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ]; then
+if [ -f /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh ];then
     . /etc/profiles/per-user/"$(whoami)"/etc/profile.d/hm-session-vars.sh
 fi
 [ -f ~/.nix-profile/etc/profile.d/nix.sh ] && \
@@ -55,24 +55,24 @@ export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
 _notify(){
     command -v notify-send &>/dev/null && \
-        notify-send -h int:transient:1 "termcolors" "$1"
+        notify-send -h int:transient:1 "molnipaper" "$1"
 }
 
 _notify_err(){
     command -v notify-send &>/dev/null && \
-        notify-send -h int:transient:1 -u critical "termcolors" "$1"
+        notify-send -h int:transient:1 -u critical "molnipaper" "$1"
 }
 
 _die(){
     local msg="$1"
-    echo "termcolors: error: $msg" >&2
+    echo "molnipaper: error: $msg" >&2
     _notify_err "$msg"
     exit 1
 }
 
 _usage(){
     grep '^#' "$0" | grep -v '#!/' | sed 's/^# \{0,1\}//' | \
-        sed -n '/^termcolors\.sh/,/^CONFIG/p'
+        sed -n '/^molnipaper\.sh/,/^CONFIG/p'
     exit 0
 }
 
@@ -85,7 +85,7 @@ BACKEND_FLAG_GIVEN=false
 WALLPAPER=""
 VIDEO=""
 
-while [[ $# -gt 0 ]]; do
+while [[ $# -gt 0 ]];do
     case "$1" in
         -w|--wallust)
             FLAG_WALLUST=true
@@ -109,9 +109,9 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             # Positional: first non-flag = wallpaper, second = video
-            if [[ -z "$WALLPAPER" ]]; then
+            if [[ -z "$WALLPAPER" ]];then
                 WALLPAPER="$1"
-            elif [[ -z "$VIDEO" ]]; then
+            elif [[ -z "$VIDEO" ]];then
                 VIDEO="$1"
             else
                 _die "Unexpected extra argument: '$1'"
@@ -123,7 +123,7 @@ done
 
 # ── Mutually exclusive backend check ─────────────────────────────────────────
 
-if $FLAG_WALLUST && $FLAG_PYWAL; then
+if $FLAG_WALLUST && $FLAG_PYWAL;then
     _die "--wallust (-w) and --pywal (-p) are mutually exclusive. Pick one."
 fi
 
@@ -132,9 +132,9 @@ fi
 BACKEND="wallust"       # hard default
 RUN_BORDERLINE=true     # hard default
 
-if ! $BACKEND_FLAG_GIVEN; then
-    CONF_FILE=$L_PATH/config/termcolors.conf
-    if [[ -f "$CONF_FILE" ]]; then
+if ! $BACKEND_FLAG_GIVEN;then
+    CONF_FILE=$L_PATH/config/molnipaper.conf
+    if [[ -f "$CONF_FILE" ]];then
         _read(){ grep -E "^[[:space:]]*${1}[[:space:]]*=" "$CONF_FILE" \
                  | tail -n1 | cut -d= -f2- \
                  | sed "s/^[[:space:]\"']*//;s/[[:space:]\"']*$//"; }
@@ -154,14 +154,14 @@ $FLAG_NO_BORDERLINE && RUN_BORDERLINE=false
 
 # ── Validate source file ──────────────────────────────────────────────────────
 
-if [[ -n "$VIDEO" && -f "$VIDEO" ]]; then
+if [[ -n "$VIDEO" && -f "$VIDEO" ]];then
     SOURCE_FILE="$VIDEO"
     IS_VIDEO=true
-elif [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]]; then
+elif [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]];then
     SOURCE_FILE="$WALLPAPER"
     # Auto-detect video by mime type
     if command -v file &>/dev/null && \
-       file --mime-type -b "$SOURCE_FILE" 2>/dev/null | grep -q "^video/"; then
+       file --mime-type -b "$SOURCE_FILE" 2>/dev/null | grep -q "^video/";then
         IS_VIDEO=true
     else
         IS_VIDEO=false
@@ -184,12 +184,31 @@ _extract_frame(){
 
 # ── Backend runners ───────────────────────────────────────────────────────────
 
+_broadcast_sequences(){
+    local seq_file="$1"
+    [[ -f "$seq_file" ]] || return 0
+    local pts_dir="/dev/pts"
+    [[ -d "$pts_dir" ]] || return 0
+    for pts in "$pts_dir"/[0-9]*;do
+        [[ -w "$pts" ]] || continue
+        [[ "$(stat -c '%u' "$pts" 2>/dev/null)" == "$(id -u)" ]] || continue
+        cat "$seq_file" > "$pts" 2>/dev/null || true
+    done
+}
+
+_save_state(){
+    local seq_file="$1"
+    local state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/molnios"
+    mkdir -p "$state_dir"
+    echo "$seq_file" > "$state_dir/termcolors-last"
+}
+
 run_wallust(){
     command -v wallust &>/dev/null || _die "wallust not found. Is it installed?"
 
     local wal_src tmp_frame=""
 
-    if $IS_VIDEO; then
+    if $IS_VIDEO;then
         command -v ffmpeg &>/dev/null || \
             _die "ffmpeg is required for video support with wallust."
         tmp_frame=$(_extract_frame "$SOURCE_FILE")
@@ -201,13 +220,20 @@ run_wallust(){
     wallust run "$wal_src"
     local ret=$?
     [[ -n "$tmp_frame" ]] && rm -f "$tmp_frame"
+
+    _broadcast_sequences "${XDG_CACHE_HOME:-$HOME/.cache}/wallust/sequences"
+    _save_state "${XDG_CACHE_HOME:-$HOME/.cache}/wallust/sequences"
+
     return $ret
 }
 
+# pywal16 accepts videos natively.
 run_pywal(){
-    # pywal16 accepts video natively via -i, no frame extraction needed
     command -v wal &>/dev/null || _die "pywal16 (wal) not found. Is it installed?"
     wal --recursive -i "$SOURCE_FILE"
+
+    _broadcast_sequences "${XDG_CACHE_HOME:-$HOME/.cache}/wal/sequences"
+    _save_state "${XDG_CACHE_HOME:-$HOME/.cache}/wal/sequences"
 }
 
 run_borderline(){
@@ -229,7 +255,7 @@ case "$BACKEND" in
         # No color backend — borderline-only mode (config: BACKEND=none)
         ;;
     *)
-        _notify_err "Unknown BACKEND '$BACKEND' in termcolors.conf. Falling back to wallust."
+        _notify_err "Unknown BACKEND '$BACKEND' in molnipaper.conf. Falling back to wallust."
         run_wallust
         ;;
 esac

@@ -14,8 +14,15 @@
 # Set default shell.
 # chsh -s $(which zsh)
 
-# Autostart.
+# Pokemons.
 pokemon-colorscripts -r
+
+# Terminal colors.
+_tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/termcolors-last"
+if [[ -f "$_tc_state" ]];then
+    (cat "$(cat "$_tc_state")" 2>/dev/null &)
+fi
+unset _tc_state
 
 # 0. Variables.
 EDITOR=nvim

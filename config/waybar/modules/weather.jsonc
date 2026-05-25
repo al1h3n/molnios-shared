@@ -1,6 +1,6 @@
 {
     "custom/weather": {
-        "exec": "sh ~/.local/share/molnios/scripts/weather.sh -jil almaty",
+        "exec": "sh ~/.local/share/molnios/scripts/weather.sh -ji",
         "return-type": "json",
         "interval": 300,
         "on-click": "xdg-open https:wttr.in"

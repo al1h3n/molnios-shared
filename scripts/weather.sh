@@ -15,12 +15,18 @@
 #   {"text":"…","tooltip":"…","class":"weather"}
 #
 # Waybar config example:
-#   "exec": "sh weather.sh -j -i -l almaty -p 3"
+#   "exec": "sh weather.sh -j -i -l frankfurt -p 3"
 #
 # Hyprlock config example:
-#   text = cmd[update:300] echo "$(sh weather.sh -i -l almaty -p 3)"
+#   text = cmd[update:300] echo "$(sh weather.sh -i -l frankfurt -p 3)"
 
-LOCATION="${WEATHER_LOCATION:-}"
+if [[ -n "${WEATHER_LOCATION:-}" ]];then
+  LOCATION="$WEATHER_LOCATION"
+elif [[ -f "$HOME/.weather" ]];then
+  LOCATION=$(tr -d '[:space:]' < "$HOME/.weather")
+else
+  LOCATION=""
+fi
 SHOW_ICON=false
 JSON_MODE=false
 UNIT="C"

@@ -268,7 +268,7 @@ alias a="alias|fzf --ghost 'These are existing alias in your shell'"
 alias gb="git branch|fzf --ghost 'These are branches in your git repo'"
 
 # Open config dirs.
-alias nv="nvim"
+alias v="nvim"
 alias d="$y $dir"
 alias cfg="$y $conf"
 alias scr="$y $scripts"

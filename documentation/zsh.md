@@ -86,7 +86,7 @@
 `bt` - bluetooth connection. (blueman)
 
 ##### Editing (nvim)
-`nv` - [nvim](https://github.com/neovim/neovim) shortcut.
+`v` - [nvim](https://github.com/neovim/neovim) shortcut.
 `d` - open dotfiles root directory.<br>
 `cfg` - open config dir.<br>
 `scr` - open scripts dir.<br>

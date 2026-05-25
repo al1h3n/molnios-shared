@@ -105,6 +105,7 @@
 `pu` - update all packages (via `yay`).<br>
 
 #### Custom git commands
+`g` - `git --filter=blob:none --depth=1`
 `gbg` - `git status`<br>
 `ga` - `git add`<br>
 `gc` - `git commit -v` (opens editor where you type your commit).<br>

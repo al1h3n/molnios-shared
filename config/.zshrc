@@ -97,6 +97,7 @@ alias cl='printf "\e[H\e[22J"'
 alias s="doas"
 alias duf="duf --only local"
 alias sud="su -c"
+alias g="git --filter=blob:none --depth=1"
 alias k="killall"
 alias pk="pkill"
 alias q="zsh"

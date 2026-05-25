@@ -42,9 +42,9 @@
 }
 
 /* Irritating but kills "Reply" button. */
-.close-button {
+/* .close-button {
   margin: 100px;
-}
+} */
 
 .notification:hover {
   transform: scale(1.06);

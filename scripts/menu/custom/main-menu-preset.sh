@@ -549,7 +549,7 @@ hypr_get_setting(){
 }
 
 hypr_set_setting(){
-    hyprctl eval $@
+    hyprctl eval "$*"
 }
 
 hypr_adjust_gaps_in(){
@@ -731,27 +731,49 @@ hypr_get_monitor_resolution(){
 #  WxH         → <monitor>,WxH@highrr,0x0,1   (scale stays at 1)
 #  W H         → same as WxH (space-separated is normalised to x)
 # ============================================================================
+
+hypr_get_best_rr_for_res(){
+    local monitor=$1
+    local resolution=$2  # e.g. "2560x1440"
+    local w="${resolution%x*}"
+    local h="${resolution#*x}"
+
+    if exists jq; then
+        hyprctl monitors -j 2>/dev/null \
+            | jq -r --arg m "$monitor" --argjson w "$w" --argjson h "$h" \
+              '.[] | select(.name==$m) | .availableModes[]
+               | select(startswith("\($w)x\($h)@"))
+               | ltrimstr("\($w)x\($h)@") | rtrimstr("Hz")
+               | tonumber' \
+            | sort -rn | head -1
+    else
+        hyprctl monitors 2>/dev/null \
+            | grep "availableModes" \
+            | grep -oE "${resolution}@[0-9.]+" \
+            | sed "s/${resolution}@//" \
+            | sort -rn | head -1
+    fi
+}
+
 hypr_set_resolution(){
     local monitor=$(hypr_select_monitor)
     [[ -z "$monitor" ]] && return
 
-    local current_res current_scale
-    current_res=$(hypr_get_monitor_resolution "$monitor")
-    current_scale=$(hypr_get_monitor_scale "$monitor")
+    local current_res=$(hypr_get_monitor_resolution "$monitor")
+    local current_scale=$(hypr_get_monitor_scale "$monitor")
     [[ -z "$current_scale" ]] && current_scale="1"
 
     local prompt
     prompt="Enter resolution:
   WxH or W H  (e.g. 2560x1440  or  2560 1440)
   0           restore from config file
- -1           highres@highrr (keeps current scale: ${current_scale})
+ -1           highres@highrr (native best mode)
 
-Current: ${current_res:-unknown}, scale: ${current_scale}"
+Current: ${current_res:-unknown}, scale: ${current_scale}
+Best available refresh rate will be used automatically."
 
     local new_res=$(show_input "Resolution — $monitor" "$prompt" "")
     [[ -z "$new_res" ]] && return
-
-    # Strip control chars and whitespace
     new_res=$(printf '%s' "$new_res" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
     case $new_res in
@@ -764,29 +786,67 @@ Current: ${current_res:-unknown}, scale: ${current_scale}"
             notify "$monitor → highres@highrr, scale=$current_scale"
             ;;
         *)
-            # Normalise "2560 1440" → "2560x1440"
             new_res="${new_res// /x}"
-            if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]];then
+            if [[ ! "$new_res" =~ ^[0-9]+x[0-9]+$ ]]; then
                 notify_error "Invalid format. Use WxH (e.g. 2560x1440)"
                 return
             fi
+            # Find best available refresh rate for this resolution.
+            local best_rr
+            best_rr=$(hypr_get_best_rr_for_res "$monitor" "$new_res")
 
-            # Try @highrr first; some resolutions don't have a high-refresh mode
-            # so we silently fall back to letting hyprland pick the refresh rate.
-            local result
-            result=$(hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${new_res}@highrr', position = '0x0', scale = $current_scale })" 2>&1)
-            if echo "$result" | grep -qi "invalid";then
-                result=$(hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${new_res}', position = '0x0', scale = $current_scale })" 2>&1)
-                if echo "$result" | grep -qi "invalid";then
-                    notify_error "Could not set resolution: ${new_res} on $monitor"
-                    return
-                fi
-                notify "$monitor → ${new_res} (no high-rr mode), scale=$current_scale"
+            local mode_str
+            if [[ -n "$best_rr" ]]; then
+                mode_str="${new_res}@${best_rr}"
             else
-                notify "$monitor → ${new_res}@highrr, scale=$current_scale"
+                mode_str="$new_res"  # fallback: let Hyprland pick
+            fi
+
+            if hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${mode_str}', position = '0x0', scale = $current_scale })" 2>/dev/null; then
+                notify "$monitor → ${mode_str}, scale=$current_scale"
+            else
+                notify_error "Could not set resolution: ${new_res} on $monitor"
             fi
             ;;
     esac
+}
+
+hypr_test_resolution(){
+    local monitor=$(hypr_select_monitor)
+    [[ -z "$monitor" ]] && return
+
+    local current_res=$(hypr_get_monitor_resolution "$monitor")
+    local current_scale=$(hypr_get_monitor_scale "$monitor")
+    [[ -z "$current_scale" ]] && current_scale="1"
+
+    # List available modes for user to pick from.
+    local available
+    available=$(hyprctl monitors 2>/dev/null | grep "availableModes" | sed 's/.*availableModes: //' | tr ' ' '\n' | grep -v '^$')
+    if [[ -z "$available" ]]; then
+        notify_error "Could not read available modes"
+        return
+    fi
+
+    local -a modes
+    mapfile -t modes <<< "$available"
+
+    local idx
+    idx=$(show_menu "Test Resolution — $monitor" \
+        "Select a mode to test (auto-restores in 10s):" \
+        "${modes[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local chosen="${modes[$idx]}"
+    # Strip trailing "Hz" suffix — Hyprland mode string uses bare number.
+    local mode_str="${chosen%Hz}"
+
+    notify "Testing $mode_str — restoring in 10 seconds..."
+
+    # Apply, wait, restore.
+    hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${mode_str}', position = '0x0', scale = $current_scale })"
+    sleep 10
+    hyprctl reload
+    notify "Restored to config settings"
 }
 
 hypr_set_scale(){
@@ -990,7 +1050,8 @@ register_menu "hyprland_display" \
     "Hyprland Display" \
     "Select display setting:" \
     "󰹑 Resolution" "cmd:hypr_set_resolution" \
-    "󰑒 Scale" "cmd:hypr_set_scale"
+    "󰑒 Scale" "cmd:hypr_set_scale" \
+    "󰙵 Test Mode"  "cmd:hypr_test_resolution"
 
 # Hyprland Misc
 register_menu "hyprland_misc" \

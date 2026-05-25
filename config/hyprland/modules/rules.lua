@@ -59,6 +59,14 @@ hl.window_rule({
     opacity = "1 override"
 })
 
+-- Floating dialogs (used in main menu).
+hl.window_rule({
+    match = { class = "^(floating)$" },
+    float  = true,
+    center = true,
+    size   = { 600, 400 },  -- optional, adjust to taste
+})
+
 
 -- Layer rules.
 -- Notifications

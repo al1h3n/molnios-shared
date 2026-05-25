@@ -65,7 +65,7 @@
 `Super + Shift + Escape` - lock screen.<br>
 
 #### Window management & workspace controls
-`Super + Shift + Q` → Do not stretch window (pseudo / no resize behavior).<br>
+`Super + Shift + Q` → zellij (terminal multiplexer).<br>
 `Super + Shift + W` → Switch window layout axis.<br>
 `Super + Shift + E` → yazi (explorer CLI).<br>
 `Super + Shift + R` → Reload wallpaper (supports awww, mpvpaper & waypaper).<br>
@@ -111,6 +111,9 @@
 `Super + Ctrl + F6` → Show CPU usage.<br>
 `Super + Ctrl + F7` → Show RAM usage.<br>
 `Super + Ctrl + F8` → Show temperature.<br>
+
+#### Window - extra
+`Super + Alt + Q` - Do not stretch window (pseudo / no resize behavior).<br>
 
 #### Eyedropper and everything related to colors
 `Super + Alt + Z` - open eyedropper.<br>

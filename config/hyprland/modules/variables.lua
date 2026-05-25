@@ -7,6 +7,7 @@ if os_release then os_release:close() end
 -- Terminal.
 _G.shell = "sh "
 _G.terminal = "kitty -c " .. conf .. "kitty.conf "
+_G.multiterminal = "zellij -c " .. conf .. "zellij/config.kdl"
 
 -- Flags.
 local noicons = "-no-show-icons -theme-str 'listview{columns: 1;}'"
@@ -62,7 +63,7 @@ _G.borders = shell .. scripts .. "borderline.sh"
 
 _G.explorer = "thunar"
 _G.explorercli = terminal .. "yazi"
-_G.editor = terminal .. " nvim"
+_G.editor = terminal .. "nvim"
 _G.player = "mpv --keep-open --player-operation-mode=pseudo-gui --force-window --volume-max=200"
 _G.blueman = "blueman-manager"
 _G.netman = "nm-connection-editor"

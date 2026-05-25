@@ -25,7 +25,7 @@ local binds = {
     { M.." + end",         actionmenu },
 
     -- SHIFT row — window management.
-    { M.." + SHIFT + Q", hl.dsp.window.pseudo() },
+    { M.." + SHIFT + Q", multiterminal },
     { M.." + SHIFT + W", hl.dsp.layout("togglesplit") },
     { M.." + SHIFT + E", explorercli },
     { M.." + SHIFT + R", shell .. scripts .. "wallpaper.sh -r" },
@@ -47,6 +47,7 @@ local binds = {
     { M.." + CTRL + Z", reload },
 
     -- ALT row — eyedropper signals.
+    { M.." + ALT + Q", hl.dsp.window.pseudo() },
     { M.." + ALT + Z", "pkill -SIGUSR1 " .. eyedropper },
     { M.." + ALT + X", "pkill -SIGUSR2 " .. eyedropper },
 

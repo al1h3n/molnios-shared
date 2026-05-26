@@ -8,6 +8,9 @@
 # Set default shell.
 # chsh -s $(which fish)
 
+# Remove greeting.
+set -g fish_greeting
+
 # ==========================================================
 # Pokemons.
 # ==========================================================

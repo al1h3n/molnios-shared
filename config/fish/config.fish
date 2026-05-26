@@ -320,3 +320,8 @@ set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and H
 # ==========================================================
 # 9. Keybinds.
 # ==========================================================
+
+# 10. Misc.
+if functions -q tide
+    emit fish_prompt
+end

@@ -3,9 +3,8 @@ return {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
     opts = {
-      transparent_mode = true, -- Makes the main background transparent
+      transparent_mode = true,
       overrides = {
-        -- Keep these solid for better readability in menus
         LazyNormal = { bg = "#282828" },
         MasonNormal = { bg = "#282828" },
         NormalFloat = { bg = "#282828" },
@@ -14,13 +13,41 @@ return {
     },
     config = function(_, opts)
       require("gruvbox").setup(opts)
-      vim.cmd("colorscheme gruvbox")
     end,
   },
   {
-    "LazyVim/LazyVim",
+    "RedsXDD/neopywal.nvim",
+    name = "neopywal",
+    priority = 1000,
     opts = {
-      colorscheme = "gruvbox",
+      use_palette = "wallust", -- Tells the plugin to read Wallust json caches
+      transparent_background = true,
     },
+    config = function(_, opts)
+      local neopywal = require("neopywal")
+
+      -- Attempt to compile/load Wallust colors
+      neopywal.setup(opts)
+
+      -- Check if Wallust/Pywal cache files actually exist on the system
+      if neopywal.has_colorscheme() then
+        vim.cmd("colorscheme neopywal")
+      else
+        -- Fallback to Gruvbox if no wallust files are found
+        vim.cmd("colorscheme gruvbox")
+      end
+    end,
+  },
+
+  -- 3. Set the default LazyVim colorscheme dynamically
+  {
+    "LazyVim/LazyVim",
+    opts = function()
+      -- This ensures LazyVim's internal picker knows which scheme is active
+      local has_wallust = require("neopywal").has_colorscheme()
+      return {
+        colorscheme = has_wallust and "neopywal" or "gruvbox",
+      }
+    end,
   },
 }

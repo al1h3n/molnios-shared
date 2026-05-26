@@ -12,11 +12,6 @@
 set -g fish_greeting
 
 # ==========================================================
-# Pokemons.
-# ==========================================================
-pokemon-colorscripts -r
-
-# ==========================================================
 # Terminal colors.
 # ==========================================================
 set _tc_state (test -n "$XDG_CACHE_HOME"; and echo "$XDG_CACHE_HOME"; or echo "$HOME/.cache")/molnios/colors
@@ -36,6 +31,7 @@ if test -f $_tc_state
     set --erase _tc_seq
 end
 set --erase _tc_state
+
 
 # ==========================================================
 # Tide theme setup.
@@ -328,3 +324,5 @@ pay-respects fish | source
 # 8. Environment variables.
 # ==========================================================
 set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and Hyprland. Answer him the questions for both systems."
+
+pokemon-colorscripts -r

@@ -13,6 +13,7 @@
 `ki` / `kitty` - kitty with custom config.<br>
 `ze` - `zellij` shortcut.<br>
 `duf` - `duf` custom shortcut.<br>
+`reset` - reset custom terminal colors.<br>
 
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
@@ -36,6 +37,7 @@
 `find` / `fd` - [fd](https://github.com/sharkdp/fd)<br>
 `sakura` - cbonsai custom config.<br>
 `sakurastatic` - same but without animations.<br>
+`pokemon` - create random pokemon.<br>
 
 `co` - change terminal color scheme via [wallust](https://codeberg.org/explosion-mental/wallust).<br>
 `wa` - set custom wallpaper and change terminal color scheme via [pywal16](https://github.com/eylles/pywal16).<br>
@@ -131,3 +133,6 @@ Example: `cd hyprland` will show fzf window with directories.
 #### FAQ:
 To remove folder type `zoxide remove <dir>`, `zoxide edit` will open interactive window.<br>
 To change `cd` back again to default `z/zi` remove `--cmd cd` flag in `.zshrc` file.
+
+### Other keybinds
+`Ctrl+R` - interactive history.<br>

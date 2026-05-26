@@ -56,7 +56,7 @@ notify_error(){
 power_lock(){
     notify "Locking session..."
     # loginctl lock-session
-    hyprlock -q -c $L_PATH/config/hyprlock
+    hyprlock -q -c $L_PATH/config/hypr/hyprlock.conf
 }
 
 power_shutdown(){

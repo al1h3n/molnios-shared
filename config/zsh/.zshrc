@@ -17,7 +17,12 @@
 # Pokemons.
 pokemon-colorscripts -r
 
-# Terminal colors.
+# Powerlevel10k instant prompt.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]];then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Terminal colors. "reset" to bring back to normal.
 _tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/colors"
 if [[ -f "$_tc_state" ]]; then
   _tc_seq="$(cat "$_tc_state" 2>/dev/null)"
@@ -218,7 +223,7 @@ else
   alias blue="blueutil --power" # brew install blueutil
 fi
 
-alias y="yazi --clear-cache"
+alias y="yazi"
 alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"
@@ -236,6 +241,7 @@ alias lt="eza --icons -TL 2"
 
 alias sakura="cbonsai -k 201,94,213,130 -lt .1"
 alias sakurastatic="cbonsai -k 201,94,213,130 -t .1"
+alias pokemon="pokemon-colorscripts -r"
 alias e="superfile -c $conf/superfile.toml"
 
 fbat(){

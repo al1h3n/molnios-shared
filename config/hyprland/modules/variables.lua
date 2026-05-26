@@ -6,7 +6,7 @@ if os_release then os_release:close() end
 
 -- Terminal.
 _G.shell = "sh "
-_G.terminal = "kitty -c " .. conf .. "kitty.conf "
+_G.terminal = "kitty -c " .. conf .. "kitty/kitty.conf "
 _G.multiterminal = "zellij -c " .. conf .. "zellij/config.kdl"
 
 -- Flags.
@@ -54,7 +54,7 @@ _G.bluetooth = "blueman-applet"
 _G.bar = "waybar -c " .. conf .. "waybar/config-hypr.jsonc -s " .. conf .. "waybar/style.css"
 _G.qbar = "qs"
 _G.notify = "swaync -c " .. conf .. "swaync/swaync.json -s " .. conf .. "swaync/swaync-style.css"
-_G.lock = "hyprlock -q -c " .. conf .. "hyprlock.conf"
+_G.lock = "hyprlock -q -c " .. conf .. "hypr/hyprlock.conf"
 
 _G.wallpaperengine = "waypaper"
 _G.wallpaper = wallpaperengine .. " --restore"

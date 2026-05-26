@@ -332,7 +332,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 export _PR_AI_ADDITIONAL_PROMPT="User is on Arch Linux or nixOS with Zsh and Hyprland. Answer him the questions for both systems."
-alias f="$(pay-respects zsh)"
+eval "$(pay-respects zsh)"
 
 # 9. Keybinds.
 

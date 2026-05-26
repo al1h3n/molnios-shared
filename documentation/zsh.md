@@ -16,6 +16,7 @@
 
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
+`h` / `help` - `apropos` (find commands' definitions starting from string).<br>
 `k`- `killall` (kill program)<br>
 `pk`- `pkill` (kill program)<br>
 `q` - `zsh` (shell)<br>

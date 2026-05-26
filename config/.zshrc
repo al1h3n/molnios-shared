@@ -94,6 +94,8 @@ alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
 
 # Helpful
+alias h="apropos"
+alias help="apropos"
 alias s="doas"
 alias duf="duf --only local"
 alias sud="su -c"

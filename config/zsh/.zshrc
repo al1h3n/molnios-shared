@@ -319,7 +319,7 @@ ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=#fb4934'          # red    — ;, |, 
 ZSH_HIGHLIGHT_STYLES[arg0]='fg=#b8bb26'                      # green  — first word of command
 
 # 7. Theme config.
-source $conf/.p10k.zsh
+source $conf/zsh/.p10k.zsh
 
 # 8. ZSH settings.
 

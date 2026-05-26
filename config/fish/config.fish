@@ -145,8 +145,13 @@ if test (uname) != Darwin
     alias my="sh $scripts/menu/launch-menu.sh -y"
     alias r="sh $scripts/reloadus.sh"
 
-    alias journal="journalctl -xe | fzf --placeholder 'These are logs of currently running services'"
-    alias proc="ps aux | fzf --placeholder 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"
+    function journal --description "Browse systemd logs"
+        journalctl -xe | fzf --placeholder "These are logs of currently running services"
+    end
+    function proc --description "Browse and kill running processes"
+        ps aux | fzf --placeholder "These are running processes on your PC" \
+            --bind "enter:execute(kill -9 {2})+abort"
+    end
 
     alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
 
@@ -279,9 +284,15 @@ function myip --description "Show public IP, location and ISP"
 "
 end
 
-alias en="printenv | fzf --placeholder 'These are environment variables on your PC'"
-alias a="alias | fzf --placeholder 'These are existing aliases in your shell'"
-alias gb="git branch | fzf --placeholder 'These are branches in your git repo'"
+function en --description "Browse environment variables"
+    printenv | fzf --placeholder "These are environment variables on your PC"
+end
+function a --description "Browse aliases"
+    alias | fzf --placeholder "These are existing aliases in your shell"
+end
+function gb --description "Browse git branches"
+    git branch | fzf --placeholder "These are branches in your git repo"
+end
 
 # ==========================================================
 # 6. Editor and navigation.

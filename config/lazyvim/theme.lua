@@ -20,31 +20,27 @@ return {
     name = "neopywal",
     priority = 1000,
     opts = {
-      use_palette = "wallust", -- Tells the plugin to read Wallust json caches
+      use_palette = "wallust",
       transparent_background = true,
     },
     config = function(_, opts)
       local neopywal = require("neopywal")
-
-      -- Attempt to compile/load Wallust colors
       neopywal.setup(opts)
 
-      -- Check if Wallust/Pywal cache files actually exist on the system
       if neopywal.has_colorscheme() then
         vim.cmd("colorscheme neopywal")
       else
-        -- Fallback to Gruvbox if no wallust files are found
         vim.cmd("colorscheme gruvbox")
       end
     end,
   },
-
-  -- 3. Set the default LazyVim colorscheme dynamically
   {
     "LazyVim/LazyVim",
     opts = function()
-      -- This ensures LazyVim's internal picker knows which scheme is active
-      local has_wallust = require("neopywal").has_colorscheme()
+      -- Safely check if neopywal is available in neovim's runtime path yet
+      local status_ok, neopywal = pcall(require, "neopywal")
+      local has_wallust = status_ok and neopywal.has_colorscheme()
+
       return {
         colorscheme = has_wallust and "neopywal" or "gruvbox",
       }

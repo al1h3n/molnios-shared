@@ -24,13 +24,14 @@ Theme: [Tide](https://github.com/IlanCosman/tide).
 `ze` — `zellij` shortcut.<br>
 `duf` — `duf` custom shortcut.<br>
 `reset` — reset custom terminal colors.<br>
+`history clear` — clear history of commands (only for fish).
 
 `s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, which makes it more safe.<br>
 `sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>
 `h` / `help` — `apropos` (find commands' definitions starting from string).<br>
 `k` — `killall` (kill program).<br>
 `pk` — `pkill` (kill program).<br>
-`q` — `fish` (restart shell).<br>
+`q` — `fish` (switch shell).<br>
 `po` — `poweroff` (shutdown PC).<br>
 `re` — `reboot`.<br>
 `ns` — `notify-send`.<br>

@@ -302,6 +302,7 @@ alias lh="ln --help"
 # ==========================================================
 # 7. Shell integrations.
 # ==========================================================
+set -g tide_prompt_async 0 # Prevents ... placeholder and screen wipe.
 
 # fzf key bindings and completions (via fzf-fish plugin).
 fzf --fish | source
@@ -316,12 +317,3 @@ pay-respects fish | source
 # 8. Environment variables.
 # ==========================================================
 set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and Hyprland. Answer him the questions for both systems."
-
-# ==========================================================
-# 9. Keybinds.
-# ==========================================================
-
-# 10. Misc.
-if functions -q tide
-    emit fish_prompt
-end

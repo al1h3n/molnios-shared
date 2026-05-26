@@ -8,9 +8,6 @@
 # Set default shell.
 # chsh -s $(which fish)
 
-# Remove greeting.
-set -g fish_greeting
-
 # ==========================================================
 # Terminal colors.
 # ==========================================================
@@ -32,11 +29,15 @@ if test -f $_tc_state
 end
 set --erase _tc_state
 
-
+# Interactive mode.
+if status is-interactive
 # ==========================================================
 # Tide theme setup.
 # Run once after install to configure Tide:
-tide configure --auto --style=Rainbow --prompt_colors='True color' --show_time=No --rainbow_prompt_separators=Angled --powerline_prompt_heads=Sharp --powerline_prompt_tails=Slanted --powerline_prompt_style='Two lines, character' --prompt_connection=Disconnected --powerline_right_prompt_frame=No --prompt_spacing=Compact --icons='Many icons' --transient=Yes
+if not set -q tide_configured
+        tide configure --auto --style=Rainbow --prompt_colors='True color' --show_time=No --rainbow_prompt_separators=Angled --powerline_prompt_heads=Sharp --powerline_prompt_tails=Slanted --powerline_prompt_style='Two lines, character' --prompt_connection=Disconnected --powerline_right_prompt_frame=No --prompt_spacing=Compact --icons='Many icons' --transient=Yes
+        set -U tide_configured 1
+    end
 # One line adds "D symbol".
 # --powerline_prompt_tails=Round or Slanted
 # ==========================================================
@@ -309,7 +310,6 @@ alias lh="ln --help"
 # ==========================================================
 # 7. Shell integrations.
 # ==========================================================
-set -g tide_prompt_async 0 # Prevents ... placeholder and screen wipe.
 
 # fzf key bindings and completions (via fzf-fish plugin).
 fzf --fish | source
@@ -325,4 +325,10 @@ pay-respects fish | source
 # ==========================================================
 set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and Hyprland. Answer him the questions for both systems."
 
-pokemon-colorscripts -r
+# Pokemon greeting.
+function fish_greeting
+    pokemon-colorscripts -r
+end
+else
+set -U fish_greeting
+end # End of interactive mode.

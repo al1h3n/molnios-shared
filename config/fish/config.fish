@@ -8,7 +8,18 @@
 # Set default shell.
 # chsh -s $(which fish)
 
-# ==========================================================
+# Variables.
+set -gx EDITOR nvim
+set -g sharel ~/.local/share
+set -g bin /usr/local/bin
+
+set -g dir "$sharel/molnios"
+set -g scripts "$dir/scripts"
+set -g conf "$dir/config"
+
+# Interactive mode.
+if status is-interactive
+
 # Terminal colors.
 # ==========================================================
 set _tc_state (test -n "$XDG_CACHE_HOME"; and echo "$XDG_CACHE_HOME"; or echo "$HOME/.cache")/molnios/colors
@@ -28,11 +39,10 @@ if test -f $_tc_state
     set --erase _tc_seq
 end
 set --erase _tc_state
-
-# Interactive mode.
-if status is-interactive
 # ==========================================================
+
 # Tide theme setup.
+# ==========================================================
 # Run once after install to configure Tide:
 if not set -q tide_configured
         tide configure --auto --style=Rainbow --prompt_colors='True color' --show_time=No --rainbow_prompt_separators=Angled --powerline_prompt_heads=Sharp --powerline_prompt_tails=Slanted --powerline_prompt_style='Two lines, character' --prompt_connection=Disconnected --powerline_right_prompt_frame=No --prompt_spacing=Compact --icons='Many icons' --transient=Yes
@@ -42,25 +52,12 @@ if not set -q tide_configured
 # --powerline_prompt_tails=Round or Slanted
 # ==========================================================
 
-# ==========================================================
-# 0. Variables.
-# ==========================================================
-set -gx EDITOR nvim
-set -g sharel ~/.local/share
-set -g bin /usr/local/bin
-
-set -g dir "$sharel/molnios"
-set -g scripts "$dir/scripts"
-set -g conf "$dir/config"
-
 # Completions init (built into fish, auto-loaded).
 # Fish history (built-in, no manual config needed).
 # Fish automatically deduplicates and persists history.
 
+# Aliases and functions.
 # ==========================================================
-# 2. Aliases and functions.
-# ==========================================================
-
 # Clear everything or just move above.
 alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
@@ -74,7 +71,7 @@ alias sud="su -c"
 alias g="git --filter=blob:none --depth=1"
 alias k="killall"
 alias pk="pkill"
-alias q="fish"
+alias q="zsh"
 alias re="reboot"
 alias sl="sleep"
 alias ln="ln -sfn"
@@ -105,11 +102,10 @@ alias vr="warp-cli registration delete"
 alias vt="warp-cli registration new"
 
 alias sw="sh $bin/sweeper.sh"
+alias ml="sh $bin/molnios.sh"
 
+# Alias - OS-specific config.
 # ==========================================================
-# 3. OS-specific config.
-# ==========================================================
-
 if test -f /etc/arch-release
     alias pr="yay --noconfirm -Runs (yay -Qdtq)"
     alias pu="yay --noconfirm"
@@ -132,22 +128,22 @@ if test (uname) != Darwin
             | wl-copy
     end
 
-    alias lock="hyprlock -q -c $conf/hyprlock.conf"
+    alias lock="hyprlock -q -c $conf/hypr/hyprlock.conf"
     alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
     alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
     alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
     alias ns="notify-send"
+    alias nss="notify-send -h int:transient:1"
 
     alias m="sh $scripts/menu/launch-menu.sh"
     alias my="sh $scripts/menu/launch-menu.sh -y"
     alias r="sh $scripts/reloadus.sh"
 
     function journal --description "Browse systemd logs"
-        journalctl -xe | fzf --placeholder "These are logs of currently running services"
+        journalctl -xe | fzf
     end
     function proc --description "Browse and kill running processes"
-        ps aux | fzf --placeholder "These are running processes on your PC" \
-            --bind "enter:execute(kill -9 {2})+abort"
+        ps aux | fzf --bind "enter:execute(kill -9 {2})+abort"
     end
 
     alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
@@ -197,11 +193,10 @@ else
     alias po="shutdown -h now"
     alias blue="blueutil --power"
 end
-
-# ==========================================================
-# 4. Tools and utilities.
 # ==========================================================
 
+# Tools and utilities.
+# ==========================================================
 alias y="yazi" # --clear-cache
 alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
@@ -219,42 +214,57 @@ alias sakura="cbonsai -k 201,94,213,130 -lt .1"
 alias sakurastatic="cbonsai -k 201,94,213,130 -t .1"
 alias pokemon="pokemon-colorscripts -r"
 alias e="superfile -c $conf/superfile.toml"
-
-# ==========================================================
-# 5. fzf functions.
 # ==========================================================
 
+# fzf functions.
+# ==========================================================
 function fbat --description "Find file with fzf and display it with bat"
     set file (fd -HLE .git . \
-        | fzf --placeholder "Enter a file path" \
-              --preview 'if [ -d {} ]; then eza -TL 2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}; fi')
+        | fzf --preview 'if [ -d {} ]; then eza -TL 2 {}; else bat --style=numbers,changes --color=always --line-range :300 {}; fi')
     and bat --style=numbers,changes --color=always "$file"
 end
 
 function gtrack --description "Browse git-tracked files with fzf"
     git ls-files \
-        | fzf --placeholder "These are tracked files by git" \
-              --preview 'bat --color=always --style=numbers {}'
+        | fzf --preview 'bat --color=always --style=numbers {}'
 end
 
 function hist --description "Search and execute command from history"
-    set cmd (history | fzf --placeholder "Search your history")
+    set cmd (history | fzf)
     and commandline -- $cmd
     and commandline -f execute
 end
 
 function txt --description "Find text in files using ripgrep and fzf"
     rg -.Sng '!.git' -g '!node_modules' "$argv[1]" \
-        | fzf --placeholder "Type context of desired file" \
-              --ansi -d : \
+        | fzf --ansi -d : \
               --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
               --preview-window '~3,+{2}+3/2' \
         | bat
 end
 
+function en --description "Browse environment variables"
+    printenv | fzf
+end
+
+function a --description "Browse aliases"
+    alias | fzf
+end
+
+function gb --description "Browse git branches"
+    git branch | fzf
+end
+# ==========================================================
+
+# MolniOS functions.
+# ==========================================================
 function we --description "Show weather for a city (uses wttr.in)"
-    set city (string join '+' $argv)
-    curl wttr.in/$city?format=3
+    if test (count $argv) -eq 0
+        curl wttr.in/?format=3
+    else
+        set city (string join '+' $argv)
+        curl wttr.in/$city?format=3
+    end
 end
 
 function myip --description "Show public IP, location and ISP"
@@ -274,27 +284,21 @@ function myip --description "Show public IP, location and ISP"
     set location "$location, $WHEREAMI_COUNTRY"
 
     echo "
-  󰩟 IP: $WHEREAMI_IP
-   Location: $location
-   Coordinates: $WHEREAMI_LAT,$WHEREAMI_LON
-   ISP (your provider): $WHEREAMI_ISP
+    󰩟 IP: $WHEREAMI_IP
+     Location: $location
+     Coordinates: $WHEREAMI_LAT,$WHEREAMI_LON
+     ISP (your provider): $WHEREAMI_ISP
 "
 end
 
-function en --description "Browse environment variables"
-    printenv | fzf --placeholder "These are environment variables on your PC"
+# Pokemon greeting.
+function fish_greeting
+    pokemon-colorscripts -r
 end
-function a --description "Browse aliases"
-    alias | fzf --placeholder "These are existing aliases in your shell"
-end
-function gb --description "Browse git branches"
-    git branch | fzf --placeholder "These are branches in your git repo"
-end
-
-# ==========================================================
-# 6. Editor and navigation.
 # ==========================================================
 
+# Editor and navigation.
+# ==========================================================
 alias v="nvim"
 alias d="yazi $dir"
 alias cfg="yazi $conf"
@@ -306,29 +310,17 @@ function man --description "Use tldr first, fallback to man"
 end
 
 alias lh="ln --help"
-
-# ==========================================================
-# 7. Shell integrations.
 # ==========================================================
 
-# fzf key bindings and completions (via fzf-fish plugin).
+# Shell integrations & imports.
+# ==========================================================
 fzf --fish | source
-
-# Zoxide (smart cd).
-zoxide init --cmd cd fish | source
-
-# Pay Respects (fix last command).
+zoxide init --cmd cd fish | source # Smart cd.
 pay-respects fish | source
-
 # ==========================================================
-# 8. Environment variables.
+
+# Interactive variables.
 # ==========================================================
 set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and Hyprland. Answer him the questions for both systems."
-
-# Pokemon greeting.
-function fish_greeting
-    pokemon-colorscripts -r
-end
-else
-set -U fish_greeting
+# ==========================================================
 end # End of interactive mode.

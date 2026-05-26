@@ -3,6 +3,8 @@
 # Usage: path.sh <key>
 # ==========================================================
 
+# Will be deprecated in future.
+
 # Detect OS
 BASE=$SHARED_PATH
 MEDIA=$SHARED_MEDIA_PATH
@@ -15,16 +17,17 @@ case "$1" in
     cursors)    echo "$BASE/cursors" ;;
     icons)      echo "$BASE/icons" ;;
     wallpapers) echo "$MEDIA/wallpapers" ;;
-    hyprland)   echo "$BASE/config/hyprconfig" ;;
-    hyprlock)   echo "$BASE/config/hyprlock" ;;
-    rofi)       echo "$BASE/config/rofi" ;;
-    kitty)      echo "$BASE/config/kitty" ;;
-    dunst)      echo "$BASE/config/dunst" ;;
+    hyprland)   echo "$BASE/config/hyprland/hyprland.lua" ;;
+    hyprlock)   echo "$BASE/config/hypr/hyprlock.conf" ;;
+    rofi)       echo "$BASE/config/rofi.rasi" ;;
+    kitty)      echo "$BASE/config/kitty/kitty.conf" ;;
+    dunst)      echo "$BASE/config/dunst.ini" ;;
     waybar)     echo "$BASE/config/waybar" ;;
-    zsh)        echo "$BASE/.zshrc" ;;
-    zsh_theme)  echo "$BASE/.p10k.zsh" ;;
+    zsh)        echo "$BASE/config/zsh/.zshrc" ;;
+    zsh_theme)  echo "$BASE/config/zsh/.p10k.zsh" ;;
+    fish)       echo "$BASE/config/fish/config.fish" ;;
     *)
                 echo "Unknown key: $1" >&2
-                echo "Available: base, media, scripts, config, cursors, icons, wallpapers, hyprland, hyprlock, rofi, kitty, dunst, waybar, zsh, zsh_theme" >&2
+                echo "Available: base, media, scripts, config, cursors, icons, wallpapers, hyprland, hyprlock, rofi, kitty, dunst, waybar, zsh, zsh_theme, fish" >&2
                 exit 1 ;;
 esac

@@ -1,7 +1,6 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ fish shell keybinds
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ Fish keybinds:
 
-Fish shell replaces ZSH. Plugins are managed via Nix (no plugin manager needed).
-Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
+Theme: [Tide](https://github.com/IlanCosman/tide).
 
 ## Keybinds
 
@@ -11,7 +10,6 @@ Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
 `Ctrl + Shift + Left / Right` — word selection / deletion.
 
 `Ctrl + R` — fuzzy history search (via fzf-fish).<br>
-`Ctrl + Up / Down` — history prefix search.
 
 `Tab` — completions with preview (built-in Fish + fzf-fish).
 
@@ -36,6 +34,7 @@ Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
 `po` — `poweroff` (shutdown PC).<br>
 `re` — `reboot`.<br>
 `ns` — `notify-send`.<br>
+`nss` - `notify-send` (temporary notification)<br>
 `sl` — `sleep`.<br>
 `ln` — `ln -sfn`.<br>
 `rr` — **rmproved** (removes all provided files with confirmation).<br>
@@ -49,6 +48,7 @@ Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
 `find` / `fd` — [fd](https://github.com/sharkdp/fd).<br>
 `sakura` — cbonsai custom config.<br>
 `sakurastatic` — same but without animations.<br>
+`pokemon` - create random pokemon.<br>
 
 `co` — change terminal color scheme via [wallust](https://codeberg.org/explosion-mental/wallust).<br>
 `wa` — set custom wallpaper and change terminal color scheme via [pywal16](https://github.com/eylles/pywal16).<br>
@@ -66,6 +66,7 @@ Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
 ---
 
 ### `fzf` related (dynamic lists)
+Apparently `fzf-fish` is smarter than `zsh` one, but doesn't have `--placeholder` argument.
 `fbat` — find file and output it.<br>
 `gtrack` — find tracked files.<br>
 `hist` — view history list.<br>
@@ -90,8 +91,8 @@ Theme: **[Tide](https://github.com/IlanCosman/tide)** (replaces Powerlevel10k).
 ---
 
 ### Commands
-`lock` = `hyprlock -q -c $conf/hyprlock` — enables lock screen.<br>
-`menu` = `rofi -config $conf/rofi -show drun &>/dev/null` — starts application selection menu.<br>
+`lock` = `hyprlock -q -c $conf/hypr/hyprlock` — enables lock screen.<br>
+`menu` = `rofi -config $conf/rofi.rasi -show drun &>/dev/null` — starts application selection menu.<br>
 `y` — starts terminal file manager ([yazi](https://github.com/sxyazi/yazi)).<br>
 `e` — alternative — [superfile](https://github.com/yorukot/superfile).<br>
 `yt` — browse [youtube](https://github.com/Benexl/yt-x) from your terminal.<br>
@@ -167,7 +168,8 @@ To restore default `cd` behavior: remove `--cmd cd` flag in `config.fish`.
 
 ## Notes
 
-- Fish has **no plugin manager** — plugins are managed by **Nix** directly.
+- Based on previous ZSH config. Both will receive same updates, keybinds and documentation.
+- Fish has **no plugin manager** — plugins are managed by **Nix** directly. That said, this is the reason why it's faster.
 - Fish history is **built-in** — automatic deduplication, persistent, no config needed.
 - Fish **completions** are **built-in** — no `compinit` needed.
 - ZSH syntax highlighting is replaced by **Fish's built-in highlighting**.

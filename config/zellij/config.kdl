@@ -11,6 +11,7 @@ web_client {
 }
 
 // Syntax.
+default_shell "fish"
 scroll_buffer_size 5000
 client_async_worker_tasks 0
 show_startup_tips false

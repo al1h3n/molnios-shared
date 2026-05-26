@@ -1,9 +1,15 @@
 # _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ ZSH keybinds:
 
+Theme: [PowerLevel10K](https://github.com/romkatv/powerlevel10k).
+
 `Shift / right arrow` - accept autosuggestion.
 
 `Shift + arrows` - move through words.<br>
 `Ctrl + Shift + arrows` - words selection.
+
+`Ctrl + R` — fuzzy history search (via fzf-fish).<br>
+
+`Tab` — completions with preview.
 
 ### Shortcuts
 
@@ -17,13 +23,14 @@
 
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>
-`h` / `help` - `apropos` (find commands' definitions starting from string).<br>
+`h` / `help` - `apropos` (find commands' definitions starting from string)<br>
 `k`- `killall` (kill program)<br>
 `pk`- `pkill` (kill program)<br>
-`q` - `zsh` (shell)<br>
+`q` - `fish` (shell)<br>
 `po` - `poweroff` (shutdown PC)<br>
 `re` - `reboot`<br>
 `ns` - `notify-send`<br>
+`nss` - `notify-send` (temporary notification)<br>
 `sl` - `sleep`<br>
 `ln` - `ln -sfn`<br>
 `rr` - __rmproved__ (removes all provided files in list)<br>
@@ -73,8 +80,8 @@
 `r` - reloadus script. (reload __configuration__ and applications).<br>
 
 #### Commands
-`lock` = `hyprlock -q -c $conf/hyprlock` - enables lock screen.<br>
-`menu` = `rofi -config $conf/rofi -show drun &>/dev/null` - starts application selection menu.<br>
+`lock` = `hyprlock -q -c $conf/hypr/hyprlock` - enables lock screen.<br>
+`menu` = `rofi -config $conf/rofi.rasi -show drun &>/dev/null` - starts application selection menu.<br>
 `y` - starts terminal file manager ([yazi](https://github.com/sxyazi/yazi))<br>
 `e` - alternative - [superfile](https://github.com/yorukot/superfile)<br>
 `yt` - browse [youtube](https://github.com/Benexl/yt-x) from your terminal. (watch, download videos and not only)<br>
@@ -99,9 +106,10 @@
 
 ##### [Mechabar](https://github.com/sejjy/mechabar)
 `p` - power menu.
-`uu` - update manager.
 `n` - network manager.
 `b` - bluetooth manager.
+`bu` / `bd` — backlight up/down.<br>
+`vu` / `vd` — volume up/down.
 
 #### Arch Linux
 `pr` - remove orphaned packages (via `yay`).<br>
@@ -121,18 +129,17 @@
 `grmv` - `git remote rename`<br>
 
 
-### Navigating (extreme speed)
+## Navigating (extreme speed)
 1. Train zoxide alrorithm by moving into directories as always (it'll check your activity).
 2. Type `cd folder1 folder2` to find nearest folder to your path.<br>
 It will work like this: you wrote 95 times `~/.config/hyprland/custom/img`, next `cd hyprland img` will switch you to the directory!
-#### Rules:
+
+### Rules:
 1. Last component must be final folder.
 2. No reversed search like `cd img hyprland`.<br>
 Or use it with `fzf`: `cd` (most used directories, use `Ctrl+P/N` to navigate).<br>
 Example: `cd hyprland` will show fzf window with directories.
-#### FAQ:
+
+### FAQ:
 To remove folder type `zoxide remove <dir>`, `zoxide edit` will open interactive window.<br>
 To change `cd` back again to default `z/zi` remove `--cmd cd` flag in `.zshrc` file.
-
-### Other keybinds
-`Ctrl+R` - interactive history.<br>

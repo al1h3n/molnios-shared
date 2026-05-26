@@ -116,7 +116,7 @@ alias sud="su -c"
 alias g="git --filter=blob:none --depth=1"
 alias k="killall"
 alias pk="pkill"
-alias q="zsh"
+alias q="fish"
 alias re="reboot"
 alias sl="sleep"
 alias ln="ln -sfn"
@@ -149,6 +149,7 @@ alias vr="warp-cli registration delete"
 alias vt="warp-cli registration new"
 
 alias sw="sh $bin/sweeper.sh"
+alias ml="sh $bin/molnios.sh"
 
 if [ -f /etc/arch-release ];then
   zinit snippet OMZP::archlinux
@@ -168,11 +169,12 @@ if [ "$(uname)" != "Darwin" ];then
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
-  alias lock="hyprlock -q -c $conf/hyprlock.conf" # Doesn't support -qc
+  alias lock="hyprlock -q -c $conf/hypr/hyprlock.conf" # Doesn't support -qc
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
   alias ns="notify-send"
+  alias nss="notify-send -h int:transient:1"
 
   alias m="sh $scripts/menu/launch-menu.sh"
   alias my="sh $scripts/menu/launch-menu.sh -y"
@@ -293,9 +295,9 @@ alias gb="git branch|fzf --ghost 'These are branches in your git repo'"
 
 # Open config dirs.
 alias v="nvim"
-alias d="$y $dir"
-alias cfg="$y $conf"
-alias scr="$y $scripts"
+alias d="yazi $dir"
+alias cfg="yazi $conf"
+alias scr="yazi $scripts"
 
 # Help.
 man() {

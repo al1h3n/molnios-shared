@@ -21,6 +21,15 @@ fi
 export PATH="/run/current-system/sw/bin:$HOME/.nix-profile/bin:$PATH"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
+# Functions.
+notify(){
+    notify-send -h int:transient:1 $@
+}
+
+nerr(){
+    notify-send -u critical $@
+}
+
 # Arguments handling.
 while getopts "r:c" opt;do
   case $opt in
@@ -40,7 +49,7 @@ done
 # 0. Dependencies.
 for cmd in grep cut xargs file magick hyprctl kitty ffmpeg;do
     if ! command -v $cmd &> /dev/null;then
-        notify-send -u critical Borderline "Missing dependency: $cmd"
+        nerr Borderline "Missing dependency: $cmd"
         exit 1
     fi
 done
@@ -60,7 +69,7 @@ if command -v niri &>/dev/null && niri msg version &>/dev/null 2>&1; then
 fi
 
 if ! $HYPRLAND_RUNNING && ! $NIRI_RUNNING; then
-    notify-send -u critical Borderline "No supported compositor found (Hyprland or Niri)."
+    nerr Borderline "No supported compositor found (Hyprland or Niri)."
     exit 1
 fi
 
@@ -70,7 +79,7 @@ CONFIG_FILE=~/.config/waypaper/config.ini
 WALLPAPER=$(grep "^wallpaper = " "$CONFIG_FILE" | cut -d= -f2- | xargs)
 
 if [ ! -f "$CONFIG_FILE" ];then
-    notify-send -u critical Borderline "Waypaper config not found."
+    nerr Borderline "Waypaper config not found."
     exit 1
 fi
 
@@ -80,12 +89,12 @@ if [ -n "$1" ];then
 fi
 
 if [ -z "$WALLPAPER" ];then
-    notify-send -u critical Borderline "No wallpaper path found."
+    nerr Borderline "No wallpaper path found."
     exit 1
 fi
 
 if [ ! -f "$WALLPAPER" ];then
-    notify-send -u critical Borderline "Wallpaper file does not exist: $WALLPAPER"
+    nerr Borderline "Wallpaper file does not exist: $WALLPAPER"
     exit 1
 fi
 
@@ -143,7 +152,7 @@ if $NIRI_RUNNING; then
     NIRI_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"
 
     if [ ! -f "$NIRI_CONFIG" ]; then
-        notify-send -u critical Borderline "Niri config not found: $NIRI_CONFIG"
+        nerr Borderline "Niri config not found: $NIRI_CONFIG"
     else
         niri_c1="${color1}FF"
         niri_c2="${color2}FF"
@@ -187,7 +196,7 @@ if [ ${#sockets[@]} -eq 0 ]; then
     _compositors=""
     $HYPRLAND_RUNNING && _compositors="Hyprland"
     $NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
-    notify-send -h int:transient:1 "Borderline" "Theme applied via ${_compositors} (no Kitty open)\n$color1 / $color2"
+    notify "Borderline" "Theme applied via ${_compositors} (no Kitty open)\n$color1 / $color2"
     exit 0
 fi
 
@@ -203,4 +212,4 @@ done
 _compositors=""
 $HYPRLAND_RUNNING && _compositors="Hyprland"
 $NIRI_RUNNING && _compositors="${_compositors:+$_compositors + }Niri"
-notify-send -h int:transient:1 "Borderline" "Theme applied via ${_compositors}\n$color1 / $color2"
+notify "Borderline" "Theme applied via ${_compositors}\n$color1 / $color2"

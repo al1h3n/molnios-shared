@@ -19,8 +19,17 @@ pokemon-colorscripts -r
 
 # Terminal colors.
 _tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/colors"
-if [[ -f "$_tc_state" ]];then
-    (cat "$(cat "$_tc_state")" 2>/dev/null &)
+if [[ -f "$_tc_state" ]]; then
+  _tc_seq="$(cat "$_tc_state" 2>/dev/null)"
+  if [[ -f "$_tc_seq" ]]; then
+    (cat "$_tc_seq" 2>/dev/null &)
+
+    # Source the matching colors.sh for shell variable access ($color0…$color15)
+    _tc_colors="${_tc_seq%/sequences}/colors.sh"
+    [[ -f "$_tc_colors" ]] && source "$_tc_colors"
+    unset _tc_colors
+  fi
+  unset _tc_seq
 fi
 unset _tc_state
 
@@ -169,17 +178,24 @@ if [ "$(uname)" != "Darwin" ];then
 
   alias am="wlogout -l $conf/wlogout/layout -C $conf/wlogout/wlogout.css -n"
 
-  wa(){
+
   # Change wallpaper with theme (pywall).
   # Works only with images.
+  wa() {
   wal --recursive -i $1
   local wallpaper=$(cat ~/.cache/wal/wal)
   sh $scripts/borderline.sh "$wallpaper"
-  }
+  local seq=~/.cache/wal/sequences
+  [[ -f "$seq" ]] && (cat "$seq" &)
+  [[ -f ~/.cache/wal/colors.sh ]] && source ~/.cache/wal/colors.sh
+}
 
-  co(){
   # Change terminal color scheme. Doesn't support recursive (only file).
-  wallust run $1
+  co() {
+    wallust run $1
+    local seq=~/.cache/wallust/sequences
+    [[ -f "$seq" ]] && (cat "$seq" &)
+    [[ -f ~/.cache/wallust/colors.sh ]] && source ~/.cache/wallust/colors.sh
   }
 
   alias pa="sh $bin/path.sh"

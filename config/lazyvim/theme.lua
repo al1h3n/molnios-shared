@@ -5,44 +5,36 @@ return {
     opts = {
       transparent_mode = true,
       overrides = {
-        LazyNormal = { bg = "#282828" },
+        LazyNormal  = { bg = "#282828" },
         MasonNormal = { bg = "#282828" },
         NormalFloat = { bg = "#282828" },
         FloatBorder = { bg = "#282828" },
       },
     },
-    config = function(_, opts)
-      require("gruvbox").setup(opts)
-    end,
   },
   {
     "RedsXDD/neopywal.nvim",
     name = "neopywal",
-    priority = 1000,
+    priority = 1001, -- load before LazyVim resolves colorscheme
     opts = {
       use_palette = "wallust",
       transparent_background = true,
     },
     config = function(_, opts)
-      local neopywal = require("neopywal")
-      neopywal.setup(opts)
-
-      if neopywal.has_colorscheme() then
-        vim.cmd("colorscheme neopywal")
-      else
-        vim.cmd("colorscheme gruvbox")
-      end
+      -- Just set up the plugin; LazyVim opts below picks the colorscheme
+      require("neopywal").setup(opts)
     end,
   },
   {
     "LazyVim/LazyVim",
     opts = function()
-      -- Safely check if neopywal is available in neovim's runtime path yet
-      local status_ok, neopywal = pcall(require, "neopywal")
-      local has_wallust = status_ok and neopywal.has_colorscheme()
+      -- Check cache files directly — no plugin API needed
+      local has_colors =
+        vim.fn.filereadable(vim.fn.expand("~/.cache/wallust/colors.json")) == 1
+        or vim.fn.filereadable(vim.fn.expand("~/.cache/wal/colors.json")) == 1
 
       return {
-        colorscheme = has_wallust and "neopywal" or "gruvbox",
+        colorscheme = has_colors and "neopywal" or "gruvbox",
       }
     end,
   },

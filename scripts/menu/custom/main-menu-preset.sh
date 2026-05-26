@@ -959,7 +959,7 @@ register_menu "themes" \
     " Select Theme" "menu:theme_select" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
-    " Random Wallpaper" "cmd:wallpaper_random" \
+    " Random Wallpaper" "cmd:wallpaper_random_static_wallust" \
     " Terminal theme" "menu:wallust_colors"
 
 register_menu "wallust_colors" \

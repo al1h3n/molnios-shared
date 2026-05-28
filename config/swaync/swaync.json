@@ -107,7 +107,7 @@
         {
           "label": "",
           "type": "command",
-          "command": "sh -c 'if command -v kitty >/dev/null 2>&1; then kitty -c $L_PATH/config/kitty.conf; elif command -v wezterm >/dev/null 2>&1; then wezterm; fi'"
+          "command": "sh -c 'if command -v kitty >/dev/null 2>&1; then kitty -c $L_PATH/config/kitty/kitty.conf; elif command -v wezterm >/dev/null 2>&1; then wezterm; fi'"
         },
         {
           "label": "󰍃",

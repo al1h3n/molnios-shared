@@ -200,7 +200,21 @@ _save_state(){
     local seq_file="$1"
     local state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/molnios"
     mkdir -p "$state_dir"
+
+    # Write the sequences path (used by theme.lua for backend detection)
     echo "$seq_file" > "$state_dir/colors"
+
+    # ALSO copy the colors.json so neopywal can find it at a fixed path
+    local colors_json
+    if echo "$seq_file" | grep -q "wallust"; then
+        colors_json="${XDG_CACHE_HOME:-$HOME/.cache}/wallust/colors.json"
+    else
+        colors_json="${XDG_CACHE_HOME:-$HOME/.cache}/wal/colors.json"
+    fi
+
+    if [[ -f "$colors_json" ]]; then
+        cp "$colors_json" "$state_dir/colors.json"
+    fi
 }
 
 run_wallust(){

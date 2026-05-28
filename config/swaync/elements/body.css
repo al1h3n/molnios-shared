@@ -56,16 +56,9 @@
   margin-bottom: 6px;
 }
 
-/* Do these even exist? */
-
 .notification-row .notification-background .notification .notification-action {
-  /* The alternative actions below the default action */
+  /* Behind action buttons like authorization for bluetooth. */
   margin: 4px;
   padding: 0;
-  background-color: blue;
-}
-
-.notification-row .notification-background .notification .notification-action>button {
-  border-radius: var(--border-radius);
-  color: var(--text-color);
+  background-color: transparent;
 }

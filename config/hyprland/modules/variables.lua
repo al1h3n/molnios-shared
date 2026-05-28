@@ -7,7 +7,7 @@ if os_release then os_release:close() end
 -- Terminal.
 _G.shell = "sh "
 _G.terminal = "kitty -c " .. conf .. "kitty/kitty.conf "
-_G.multiterminal = "zellij -c " .. conf .. "zellij/config.kdl"
+_G.multiterminal = terminal .. "zellij -c " .. conf .. "zellij/config.kdl"
 
 -- Flags.
 local noicons = "-no-show-icons -theme-str 'listview{columns: 1;}'"

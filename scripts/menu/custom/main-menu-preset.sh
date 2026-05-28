@@ -908,7 +908,7 @@ software_update(){
         $term_cmd bash -c "
             echo 'Starting system update...'
             if command -v nixos-rebuild &>/dev/null; then
-                sudo sh molnios.sh
+                sudo sh /usr/local/bin/molnios.sh -f -dp -nb -np
             fi
             sudo sh sweeper
             echo 'Update complete. Press Enter to close...'

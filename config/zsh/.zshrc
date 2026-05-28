@@ -40,6 +40,7 @@ unset _tc_state
 
 # 0. Variables.
 EDITOR=nvim
+VISUAL=codium
 sharel=~/.local/share
 bin=/usr/local/bin
 
@@ -48,17 +49,16 @@ scripts=$dir/scripts
 conf=$dir/config
 
 # ZSH history.
-HISTSIZE=5000
+HISTSIZE=20000
 SAVEHIST=$HISTSIZE
 HISTFILE=~/.zsh_history
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space # Use spacebar to prevent unimportant commands to be written.
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_SPACE # Use spacebar to prevent unimportant commands to be written.
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+
+setopt AUTOCD # Type just path.
+setopt NUMERIC_GLOB_SORT # Sort by numbers.
 
 # 1. Plugin manager.
 if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ];then

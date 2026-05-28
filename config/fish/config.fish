@@ -10,12 +10,24 @@
 
 # Variables.
 set -gx EDITOR nvim
+set -gx EDITOR codium
 set -g sharel ~/.local/share
 set -g bin /usr/local/bin
 
 set -g dir "$sharel/molnios"
 set -g scripts "$dir/scripts"
 set -g conf "$dir/config"
+
+# setopt
+set -g fish_numeric_sort 1 # NUMERIC_GLOB_SORT
+# AUTOCD - type path for cd.
+function __fish_command_not_found_handler --on-event fish_command_not_found
+    if test -d $argv[1]
+        cd $argv[1]
+    else
+        __fish_default_command_not_found_handler $argv
+    end
+end
 
 # Interactive mode.
 if status is-interactive

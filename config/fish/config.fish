@@ -80,7 +80,6 @@ alias help="apropos"
 alias s="doas"
 alias duf="duf --only local"
 alias sud="su -c"
-alias g="git --filter=blob:none --depth=1"
 alias k="killall"
 alias pk="pkill"
 alias q="zsh"
@@ -115,6 +114,19 @@ alias vt="warp-cli registration new"
 
 alias sw="sh $bin/sweeper.sh"
 alias ml="sh $bin/molnios.sh"
+
+# git.
+alias g='git --filter=blob:none --depth=1'
+alias gbg='git status'
+alias ga='git add'
+alias gc='git commit -v'
+alias gcmsg='git commit -m'
+alias gp='git push'
+alias gr='git revert'
+alias gra='git remote add'
+alias grset='git remote set-url'
+alias grrm='git remote remove'
+alias grmv='git remote rename'
 
 # Alias - OS-specific config.
 # ==========================================================

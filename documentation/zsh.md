@@ -123,6 +123,7 @@ Theme: [PowerLevel10K](https://github.com/romkatv/powerlevel10k).
 `gc` - `git commit -v` (opens editor where you type your commit).<br>
 `gcmsg` - `git commit -m` (type your own text).<br>
 `gp` - `git push`<br>
+`grev` - `git revert COMMIT` (revert changes to commit).<br>
 
 `gra` - `git remote add`<br>
 `grset` - `git remote set-url`<br>

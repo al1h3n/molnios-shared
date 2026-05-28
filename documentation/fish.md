@@ -131,6 +131,22 @@ Apparently `fzf-fish` is smarter than `zsh` one, but doesn't have `--placeholder
 
 ---
 
+#### Custom git commands
+`g` - `git --filter=blob:none --depth=1`
+`gbg` - `git status`<br>
+`ga` - `git add`<br>
+`gc` - `git commit -v` (opens editor where you type your commit).<br>
+`gcmsg` - `git commit -m` (type your own text).<br>
+`gp` - `git push`<br>
+`gr` - `git revert COMMIT` (revert changes to commit).<br>
+
+`gra` - `git remote add`<br>
+`grset` - `git remote set-url`<br>
+`grrm` - `git remote remove`<br>
+`grmv` - `git remote rename`<br>
+
+---
+
 ### Custom git commands
 `g` — `git --filter=blob:none --depth=1`<br>
 `gbg` — `git status`<br>
@@ -138,6 +154,7 @@ Apparently `fzf-fish` is smarter than `zsh` one, but doesn't have `--placeholder
 `gc` — `git commit -v` (opens editor where you type your commit).<br>
 `gcmsg` — `git commit -m` (type your own text).<br>
 `gp` — `git push`<br>
+`gr` - `git revert COMMIT` (revert changes to commit).<br>
 
 `gra` — `git remote add`<br>
 `grset` — `git remote set-url`<br>

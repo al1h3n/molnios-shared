@@ -14,6 +14,7 @@ GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
 RESET="\e[0m"
+CONF=$L_PATH/config
 
 echo -e "\e[38;2;51;204;254mReload\e[38;2;0;255;153mus \e[38;2;11;206;217mby\033[0m \033[38;5;171mal1h3n${RESET}"
 
@@ -28,7 +29,7 @@ kp(){ # Kill process
 }
 
 run(){
-	$1&>/dev/null &
+	$@&>/dev/null &
 }
 
 # 1.1. Dependencies.
@@ -48,18 +49,27 @@ if exists awww;then
 	awww clear-cache
 fi
 
-# 1.3. Utilities.
+# 1.3. Bar.
 if exists waybar;then
 	kp waybar
-	WAY=$L_PATH/config/waybar
+	WAY=$CONF/waybar
 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
-		run "waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css"
+		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
 	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
-		run "waybar -c $WAY/config-niri.jsonc -s $WAY/style.css"
+		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
 	fi
 fi
 
-# 1.4 Hyprland/Niri.
+# 1.4. Notifications.
+if exists swaync;then
+	kp swaync
+	run swaync -c $CONF/swaync/swaync.json -s $CONF/swaync/swaync-style.css
+elif exists dunst;then
+	kp dunst
+	run dunst -conf $L_PATH/config/dunst.ini
+fi
+
+# 1.5 Hyprland/Niri.
 if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
 	hyprctl reload&>/dev/null
 elif [ $XDG_CURRENT_DESKTOP = "niri" ];then

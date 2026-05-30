@@ -10,3 +10,13 @@
 `1-9` - Execute alternative actions.<br>
 `LMB/actions` - Activate notification action.<br>
 `MMB/RMB notification` - Close notification.<br>
+
+### Important note
+If you will use `tlp` modes for perfomance/power saving you will need to disable password on `tlp`.
+On imperative distro:
+```
+sudo visudo -f /etc/sudoers.d/tlp
+
+# Set your username.
+your_username ALL=(ALL) NOPASSWD: /usr/sbin/tlp
+```

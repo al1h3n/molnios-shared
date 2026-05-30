@@ -1,4 +1,5 @@
 {
+  "layer": "top",
   "font": "SF Pro",
   "cssPriority": "user",
   "fit-to-screen": false,
@@ -89,7 +90,7 @@
           "label": "󱧥",
           "type": "toggle",
           "active": false,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo tlp bat || sudo tlp ac'",
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec tlp bat || pkexec tlp ac'",
           "update-command": "sh $L_PATH/scripts/tlp-status.sh"
         },
         {

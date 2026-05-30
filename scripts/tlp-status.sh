@@ -1,1 +1,1 @@
-tlp-stat -s | grep -qE "Power profile.*(SAV|power-saver)" && echo true || echo false
+tlp-stat -s | grep -q "BAT" && echo true || echo false

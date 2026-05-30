@@ -6,8 +6,8 @@ if os_release then os_release:close() end
 
 -- Terminal.
 _G.shell = "sh "
-_G.terminal = "wezterm --config-file " .. conf .. "wezterm/wezterm.lua "
-_G.terminal_kitty = "kitty -c " .. conf .. "kitty/kitty.conf "
+_G.terminal_wez = "wezterm --config-file " .. conf .. "wezterm/wezterm.lua "
+_G.terminal = "kitty -c " .. conf .. "kitty/kitty.conf "
 _G.multiterminal = terminal .. "zellij -c " .. conf .. "zellij/config.kdl"
 
 -- Flags.

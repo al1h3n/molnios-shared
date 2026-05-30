@@ -52,6 +52,96 @@ notify_error(){
     fi
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# TERMINAL HELPERS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Priority order: WezTerm → Kitty → Ghostty → Alacritty → xterm (fallback)
+_TERM_PRIORITY=(wezterm kitty ghostty alacritty xterm)
+
+# Return the launch prefix for a given terminal name, or empty if not installed.
+_term_launch_prefix(){
+    local term="$1"
+    case "$term" in
+        wezterm)   exists wezterm   && echo "wezterm start --class floating" ;;
+        kitty)     exists kitty     && echo "kitty --class floating -e" ;;
+        ghostty)   exists ghostty   && echo "ghostty -e" ;;
+        alacritty) exists alacritty && echo "alacritty -e" ;;
+        xterm)     exists xterm     && echo "xterm -e" ;;
+    esac
+}
+
+# Returns the launch prefix for the highest-priority available terminal.
+_term_auto(){
+    for t in "${_TERM_PRIORITY[@]}";do
+        local prefix
+        prefix=$(_term_launch_prefix "$t")
+        if [[ -n "$prefix" ]];then
+            echo "$prefix"
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Build the list of installed terminals for the menu.
+_term_installed_list(){
+    local list=()
+    for t in "${_TERM_PRIORITY[@]}";do
+        exists "$t" && list+=("$t")
+    done
+    echo "${list[@]}"
+}
+
+# Interactive terminal picker.
+# Presents only installed terminals; if only one is available it is chosen
+# immediately without showing a menu. Prints the launch prefix on stdout.
+_term_pick(){
+    local -a installed
+    mapfile -t installed < <(_term_installed_list | tr ' ' '\n')
+
+    if [[ ${#installed[@]} -eq 0 ]];then
+        notify_error "No supported terminal emulator found"
+        return 1
+    fi
+
+    if [[ ${#installed[@]} -eq 1 ]];then
+        _term_launch_prefix "${installed[0]}"
+        return 0
+    fi
+
+    local idx
+    idx=$(show_menu "Choose Terminal" "Select terminal emulator:" "${installed[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return 1
+
+    _term_launch_prefix "${installed[$idx]}"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPEN TERMINAL ACTION
+# ─────────────────────────────────────────────────────────────────────────────
+
+open_terminal(){
+    local prefix
+    prefix=$(_term_pick) || return
+
+    # Launch with no extra arguments so the terminal opens its default shell.
+    # wezterm's prefix already ends with "--", others end with "-e";
+    # passing no command after "-e" on kitty/alacritty/ghostty/xterm still
+    # opens their default shell correctly.
+    case "$prefix" in
+        "wezterm start --")
+            wezterm start &
+            ;;
+        *)
+            # Strip the trailing "-e" and launch bare so the terminal uses its
+            # configured shell rather than trying to exec an empty string.
+            local bin="${prefix%% *}"
+            $bin &
+            ;;
+    esac
+}
+
 # POWER OPTIONS ACTIONS
 power_lock(){
     notify "Locking session..."
@@ -86,13 +176,9 @@ power_sleep(){
 # CONNECTION OPTIONS ACTIONS
 connection_wifi(){
     if exists nmtui;then
-        if exists kitty;then
-            kitty --class floating -e nmtui
-        elif exists wezterm;then
-            wezterm start -- nmtui
-        else
-            xterm -e nmtui
-        fi
+        local prefix
+        prefix=$(_term_pick) || return
+        $prefix nmtui
     else
         notify_error "nmtui not found"
     fi
@@ -608,10 +694,10 @@ hypr_toggle_shadows(){
     notify "Shadows: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
 }
 
-# Monitor helpers (beckend).
+# Monitor helpers (backend).
 _hypr_display_term_cmd(){
-    if exists kitty;then echo "kitty --class floating -e";return;fi
     if exists wezterm;then echo "wezterm start --";return;fi
+    if exists kitty;then echo "kitty --class floating -e";return;fi
     if exists alacritty;then echo "alacritty -e";return;fi
     if exists ghostty;then echo "ghostty -e";return;fi
     echo
@@ -891,18 +977,8 @@ Examples: 1, 1.6, 2, 3.5
 software_update(){
     notify "Starting system update..."
 
-    local term_cmd=""
-    if exists wezterm; then
-        term_cmd="wezterm start --"
-    elif exists kitty; then
-        term_cmd="kitty --class floating -e"
-    elif exists ghostty; then
-        term_cmd="ghostty -e"
-    elif exists alacritty; then
-        term_cmd="alacritty -e"
-    elif exists xterm; then
-        term_cmd="xterm -e"
-    fi
+    local term_cmd
+    term_cmd=$(_term_auto)
 
     if [[ -n "$term_cmd" ]]; then
         $term_cmd bash -c "
@@ -930,7 +1006,8 @@ register_menu "main" \
     "󰚥 Power Options" "menu:power" \
     "󰏘 Themes & Colors" "menu:themes" \
     "󰹑 Compositor Settings" "menu:compositor" \
-    "󰚰 Software Update" "cmd:software_update"
+    "󰚰 Software Update" "cmd:software_update" \
+    " Open terminal" "cmd:open_terminal"
 
 # Power Options Menu
 register_menu "power" \

@@ -1,4 +1,4 @@
--- hyprconfig (lua edition) - made dor MolniOS.
+-- hyprconfig (lua edition) - made for MolniOS.
 -- Most of the comments are cut, find them in monolithic edition.
 -- Version: 1.0.1.
 
@@ -10,7 +10,7 @@ local conf = l_path .. "/config/"
 -- 2. Tell Lua to look for modules in $conf/hyprland/modules
 package.path = package.path .. ";" .. conf .. "hyprland/modules/?.lua"
 
--- 3. Expose global variables for other
+-- 3. Expose global variables for other modules.
 _G.dir = l_path
 _G.conf = conf
 _G.scripts = l_path .. "/scripts/"

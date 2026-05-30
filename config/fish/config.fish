@@ -18,6 +18,9 @@ set -g dir "$sharel/molnios"
 set -g scripts "$dir/scripts"
 set -g conf "$dir/config"
 
+# Interactive mode.
+if status is-interactive
+
 # setopt
 set -g fish_numeric_sort 1 # NUMERIC_GLOB_SORT
 # AUTOCD - type path for cd.
@@ -28,9 +31,6 @@ function __fish_command_not_found_handler --on-event fish_command_not_found
         __fish_default_command_not_found_handler $argv
     end
 end
-
-# Interactive mode.
-if status is-interactive
 
 # Terminal colors.
 # ==========================================================
@@ -86,9 +86,11 @@ alias q="zsh"
 alias re="reboot"
 alias sl="sleep"
 alias ln="ln -sfn"
-alias ki="kitty -c $conf/kitty.conf"
+alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
+# alias wezterm="wezterm --config-file $conf/wezterm/wezterm.lua"
+alias ki="kitty -c $conf/kitty/kitty.conf"
+alias kitty="kitty -c $conf/kitty/kitty.conf"
 alias ze="zellij -c $conf/zellij/config.kdl"
-alias kitty="kitty -c $conf/kitty.conf"
 
 function rr --description "rm-improved: safely remove files with confirmation"
     if test (count $argv) -eq 0

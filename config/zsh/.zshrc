@@ -121,8 +121,11 @@ alias re="reboot"
 alias sl="sleep"
 alias ln="ln -sfn"
 alias ki="kitty -c $conf/kitty.conf"
-alias ze="zellij -c $conf/zellij/config.kdl"
 alias kitty="kitty -c $conf/kitty.conf"
+alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
+# alias wezterm="wezterm --config-file $conf/wezterm/wezterm.lua"
+alias ze="zellij -c $conf/zellij/config.kdl"
+
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
   if [ $# -eq 0 ];then

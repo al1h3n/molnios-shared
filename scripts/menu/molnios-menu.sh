@@ -113,10 +113,10 @@ SHELL_INPUT_EOF
     rm -f "$output_file"
 
     local term_cmd=""
-    if command -v kitty&>/dev/null;then term_cmd="kitty -c $L_PATH/config/kitty/kitty.conf --class floating -e"
-    elif command -v wezterm&>/dev/null;then term_cmd="wezterm start --"
-    elif command -v alacritty&>/dev/null;then term_cmd="alacritty -e"
+    if command -v wezterm&>/dev/null;then term_cmd="wezterm --config-file $L_PATH/config/wezterm/wezterm.lua start --"
+    elif command -v kitty&>/dev/null;then term_cmd="kitty -c $L_PATH/config/kitty/kitty.conf --class floating -e"
     elif command -v ghostty&>/dev/null;then term_cmd="ghostty -e"
+    elif command -v alacritty&>/dev/null;then term_cmd="alacritty -e"
     elif command -v xterm&>/dev/null;then term_cmd="xterm -e"
     fi
 

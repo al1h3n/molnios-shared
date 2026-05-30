@@ -21,6 +21,7 @@ Theme: [Tide](https://github.com/IlanCosman/tide).
 `c` — `clear` shortcut.<br>
 `cl` — just move everything above.<br>
 `ki` / `kitty` — kitty with custom config.<br>
+`wez` - wezterm with custom config.<br>
 `ze` — `zellij` shortcut.<br>
 `duf` — `duf` custom shortcut.<br>
 `reset` — reset custom terminal colors.<br>

@@ -67,7 +67,6 @@ hl.window_rule({
     size   = { 600, 400 },  -- optional, adjust to taste
 })
 
-
 -- Layer rules.
 -- Notifications
 hl.layer_rule({

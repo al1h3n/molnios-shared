@@ -89,8 +89,8 @@
           "label": "󱧥",
           "type": "toggle",
           "active": false,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec tlp power-saver || pkexec tlp ac'",
-          "update-command": "sh -c 'tlp-stat -s | grep -q \"State.*= AC\" && echo true || echo false'"
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && sudo tlp powersave || sudo tlp ac'",
+          "update-command": "sh -c 'tlp-stat -s | grep -q \"Power profile.*power-saver\" && echo true || echo false'"
         },
         {
           "label": "󰖂",

@@ -1,0 +1,1 @@
+tlp-stat -s | grep -qE "Power profile.*(SAV|power-saver)" && echo true || echo false

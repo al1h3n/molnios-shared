@@ -17,11 +17,12 @@ for k, v in pairs(settings) do
     config[k] = v
 end
 
-if wezterm.gui then
-    for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
-        if gpu.backend == "Vulkan" then
-            config.webgpu_preferred_adapter = gpu
-            break
-        end
-    end
-end
+-- if wezterm.gui then
+--   local gpus = wezterm.gui.enumerate_gpus()
+--   for _, gpu in ipairs(gpus) do
+--     if gpu.backend == "Vulkan" then
+--       config.webgpu_preferred_adapter = gpu
+--       break
+--     end
+--   end
+-- end

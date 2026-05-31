@@ -13,6 +13,9 @@ package.path = package.path .. ";" .. conf .. "wezterm/modules/?.lua"
 _G.wezterm = require("wezterm")
 _G.config = wezterm.config_builder()
 
+local gpucache = require("gpucache")
+config.webgpu_preferred_adapter = gpucache.get_vulkan_gpu()
+
 require("binds")
 require("colors")
 require("performance")

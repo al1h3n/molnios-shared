@@ -1,4 +1,5 @@
 # ya pkg add x/y
+# ya pkg add yazi-rs/flavors:gruvbox-dark
 [flavor]
 dark = "gruvbox-dark"
 # gruvbox-dark, kanagawa

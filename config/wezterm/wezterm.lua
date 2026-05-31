@@ -1,4 +1,4 @@
--- wezterm config - made for MolniOS.
+-- wezterm config v1 - made for MolniOS.
 
 -- 1. Custom variables and directories.
 local home = os.getenv("HOME")

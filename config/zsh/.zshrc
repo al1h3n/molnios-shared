@@ -108,6 +108,7 @@ alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
 
 # Helpful
+alias res="reset"
 alias h="apropos"
 alias help="apropos"
 alias s="doas"

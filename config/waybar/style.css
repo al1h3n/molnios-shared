@@ -26,9 +26,9 @@
 * {
     border: none;
     border-radius: 15px;
-    font-family: "SF Pro"; /*  JetBrainsMono Nerd Font Propo */
+    font-family: "SF Pro"; /* SFMono Nerd Font  */
     font-weight: bold;
-    font-size: 102%;}
+    font-size: 104%;}
 
 window#waybar {
     background-color: @null;

@@ -236,15 +236,6 @@ run_pywal(){
     _save_state "${XDG_CACHE_HOME:-$HOME/.cache}/wal/sequences"
 }
 
-_reload_wezterm(){
-    if command -v wezterm &>/dev/null; then
-        sleep 0.3   # give wallust time to finish writing ~/.cache/wallust/colors
-        for pid in $(pgrep -x wezterm-gui 2>/dev/null); do
-            kill -SIGUSR1 "$pid" 2>/dev/null || true
-        done
-    fi
-}
-
 run_borderline(){
     local bscript="$L_PATH/scripts/borderline.sh"
     [[ -f "$bscript" ]] || _die "borderline.sh not found at: $bscript"
@@ -256,11 +247,9 @@ run_borderline(){
 case "$BACKEND" in
     wallust)
         run_wallust
-        _reload_wezterm
         ;;
     pywal|pywal16)
         run_pywal
-        _reload_wezterm
         ;;
     none|borderline)
         # No color backend — borderline-only mode (config: BACKEND=none)

@@ -1,4 +1,6 @@
 local settings = {
+    -- Download JetBrainsMono Nerd Font for Windows - nerdfonts.com/font-downloads
+
     -- Char select - UTF symbols and emojis.
     -- char_select_bg_color = "#282828",
     char_select_font = wezterm.font "SFMono Nerd Font Medium",
@@ -28,12 +30,6 @@ local settings = {
     show_close_tab_button_in_tabs = false,
     show_new_tab_button_in_tab_bar = false,
     tab_max_width = 32,
-
-    -- Window.
-    window_padding = {
-        left = "2%",
-        top = "2%",
-    }
 }
 
 for k, v in pairs(settings) do

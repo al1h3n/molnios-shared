@@ -1,31 +1,28 @@
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Q { spawn "sh" "~/.config/niri/variables.sh" "$terminal"; }
+    Mod+E { spawn "sh" "~/.config/niri/variables.sh" "$explorer"; }
+    Mod+R { spawn "sh" "~/.config/niri/variables.sh" "$appmenu"; }
+    Mod+T { spawn "sh" "~/.config/niri/variables.sh" "$commandmenu"; }
+    Mod+Y { spawn "sh" "~/.config/niri/variables.sh" "$vmanager"; }
 
-    // --- Core Executions (Using your variables.sh) ---
-    // NOTE: Change /home/YOUR_USER to your actual home directory!
-    Mod+Q { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$terminal"; }
-    Mod+E { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$explorer"; }
-    Mod+R { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$appmenu"; }
-    Mod+T { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$commandmenu"; }
-    Mod+Y { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$vmanager"; }
+    Mod+A { spawn "sh" "~/.config/niri/variables.sh" "$notes"; }
+    Mod+S { spawn "sh" "~/.config/niri/variables.sh" "$browser"; }
+    Mod+G { spawn "sh" "~/.config/niri/variables.sh" "$discord"; }
+    Mod+H { spawn "sh" "~/.config/niri/variables.sh" "$telegram"; }
 
-    Mod+A { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$notes"; }
-    Mod+S { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$browser"; }
-    Mod+G { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$discord"; }
-    Mod+H { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$telegram"; }
+    Mod+X { spawn "sh" "~/.config/niri/variables.sh" "$emojimenu"; }
+    Mod+V { spawn "sh" "~/.config/niri/variables.sh" "$clipman"; }
+    Mod+B { spawn "sh" "~/.config/niri/variables.sh" "$ocr"; }
 
-    Mod+X { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$emojimenu"; }
-    Mod+V { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$clipman"; }
-    Mod+B { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$ocr"; }
-
-    Mod+Grave { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$editor"; }
+    Mod+Grave { spawn "sh" "~/.config/niri/variables.sh" "$editor"; }
     Mod+Shift+Grave { spawn-sh "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"; }
-    Mod+End { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$actionmenu"; }
+    Mod+End { spawn "sh" "~/.config/niri/variables.sh" "$actionmenu"; }
 
-    Mod+Shift+Q { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$multiterminal"; }
-    Mod+Shift+E { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$explorercli"; }
-    Mod+Shift+G { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$gamemode"; }
-    Mod+Shift+C { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$player"; }
+    Mod+Shift+Q { spawn "sh" "~/.config/niri/variables.sh" "$multiterminal"; }
+    Mod+Shift+E { spawn "sh" "~/.config/niri/variables.sh" "$explorercli"; }
+    Mod+Shift+G { spawn "sh" "~/.config/niri/variables.sh" "$gamemode"; }
+    Mod+Shift+C { spawn "sh" "~/.config/niri/variables.sh" "$player"; }
 
     // --- Window Actions ---
     Mod+C { close-window; }
@@ -35,9 +32,9 @@ binds {
     Mod+Z { quit; }
 
     // Alt binds
-    Alt+Tab { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$switcher"; }
+    Alt+Tab { spawn "sh" "~/.config/niri/variables.sh" "$switcher"; }
     Alt+Shift+Tab { spawn-sh "snappy-switcher prev"; }
-    Alt+Ctrl+Tab { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$switchmenu"; }
+    Alt+Ctrl+Tab { spawn "sh" "~/.config/niri/variables.sh" "$switchmenu"; }
 
     // Focus & Movement (Arrow Keys)
     Mod+Left  { focus-column-left; }
@@ -54,12 +51,12 @@ binds {
     // Screen locking / system
     Mod+Space { spawn "hyprctl" "switchxkblayout" "current" "next"; }
     Mod+Escape { spawn "systemctl" "hybrid-sleep"; }
-    Mod+Shift+Escape { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$lock"; }
+    Mod+Shift+Escape { spawn "sh" "~/.config/niri/variables.sh" "$lock"; }
 
     // --- Screenshots & Recording ---
-    Print { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
-    Mod+Insert { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$ocr_simple"; }
-    Mod+Print { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$record"; }
+    Print { spawn "sh" "~/.config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
+    Mod+Insert { spawn "sh" "~/.config/niri/variables.sh" "$ocr_simple"; }
+    Mod+Print { spawn "sh" "~/.config/niri/variables.sh" "$record"; }
     Mod+Shift+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -a"; }
     Mod+Ctrl+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -o"; }
 

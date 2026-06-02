@@ -1,12 +1,4 @@
--- Monitor settings, general (tearing), debug (vfr), and autostarts.
-
--- Monitors
-hl.monitor({
-    output   = "DP-1",
-    mode     = "highres@highrr",
-    position = "0x0",
-    scale    = "1.25"
-})
+-- General (tearing), debug (vfr), and autostarts.
 
 -- Autostart
 hl.on("hyprland.start", function()

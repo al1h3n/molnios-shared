@@ -1,0 +1,60 @@
+prefer-no-csd
+
+// ==========================================
+// WINDOW RULES (With Niri 26.04 Blur!)
+// ==========================================
+// Base window rounding & opacity
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+    opacity 0.9 // Inactive opacity
+
+    // Niri 26.04: Blur behind context menus & pop-ups!
+    popups {
+        geometry-corner-radius 10
+        background-effect {
+            blur true
+        }
+    }
+}
+
+// Active window opacity
+window-rule {
+    match is-active=true
+    opacity 1.0
+}
+
+// Opaque Browsers/Players
+window-rule {
+    match app-id=r#"^(mpv|zen|librewolf|firefox|brave|chrome|chromium)$"#
+    opacity 1.0
+}
+
+// XWayland Drag Fix
+window-rule {
+    match title="^$" app-id="^$"
+    block-out-from "screen-capture"
+}
+
+// Polkit Authentication Dialogs
+window-rule {
+    match app-id=r#"^(polkit-gnome-authentication-agent-1|hyprpolkitagent)$"#
+    open-floating true
+    opacity 0.8
+    background-effect {
+        blur true // Emulates "dim_around" with a beautiful glass effect
+        xray false
+    }
+}
+
+// ==========================================
+// LAYER RULES
+// ==========================================
+// Blur for Waybar, Rofi, SwayNC, Wlogout, Snappy Switcher
+layer-rule {
+    match namespace=r#"^(waybar|rofi|swaync-notification-window|swaync-control-center|logout_dialog|snappy-switcher)$"#
+    background-effect {
+        blur true
+        xray false // Turn off xray so it blurs the active windows behind it, not just the wallpaper
+    }
+}

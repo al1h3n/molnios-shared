@@ -25,7 +25,7 @@ _G.emojimenu = menu .. " emoji " .. noicons
 _G.commandmenu = menu .. " run " .. noicons
 _G.switchmenu = menu .. " window " .. icons
 
-_G.youtube = "yt-x -s " .. icons
+_G.youtube = "yt-x -s -l rofi --rofi-theme-main " .. menuconfig
 _G.switcher = "snappy-switcher" -- Works only on hyprland.
 _G.switcherdaemon = switcher .. " --daemon -c " .. conf .. "snappy.ini"
 

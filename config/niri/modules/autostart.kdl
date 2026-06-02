@@ -1,0 +1,18 @@
+spawn-at-startup "nm-applet"
+spawn-at-startup "blueman-applet"
+
+// Polkit
+spawn-sh-at-startup "systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+
+// Core Daemons (Waybar, SwayNC, Wallpaper)
+spawn-sh-at-startup "waybar -c ~/.local/share/molnios/config/waybar/config-niri.jsonc -s ~/.local/share/molnios/config/waybar/style.css"
+spawn-sh-at-startup "swaync -c ~/.config/niri/config/swaync -s ~/.config/niri/config/swayncstyle"
+spawn-at-startup "waypaper" "--restore"
+spawn-at-startup "mpvpaper-stop"
+spawn-sh-at-startup "~/.config/niri/scripts/borderline.sh"
+
+// Clipboard Managers
+spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
+spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
+spawn-sh-at-startup "wl-clip-persist --clipboard regular"
+spawn-sh-at-startup "faillock --reset"

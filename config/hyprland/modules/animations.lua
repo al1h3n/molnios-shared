@@ -1,4 +1,8 @@
 -- Beziers and animations.
+
+-- Disable animations.
+-- hl.config({ animations = { enabled = 0 }, })
+
 local beziers = {
     easeInOutQuad  = {0.45, 0, 0.55, 1},
     easeInOutQuart = {0.77, 0, 0.18, 1},

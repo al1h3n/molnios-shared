@@ -1,0 +1,23 @@
+animations {
+    // Equivalent to Hyprland's "windowsIn" / "windowsMove" speed 7/6 (window bezier)
+    window-open {
+        duration-ms 200
+        curve "cubic-bezier" 0.13 0.99 0.29 1.08
+    }
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+    window-resize {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+    window-close {
+        duration-ms 150
+        curve "cubic-bezier" 0.13 0.99 0.29 1.08
+    }
+    workspace-switch {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+}

@@ -1,36 +1,46 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ niri keybinds:
+# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ Niri keybinds:
 `Caps Lock` = control.<br>
+`Alt [Shift] + Tab` - next and previous window switch, `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
+
+#### Media
+`PrintScreen` - make _screenshot_ and launch manager.<br>
+`Super + PrintScreen` - __record__ screen.<br>
+`Super + Insert` - OCR - copy text (no UI).<br>
+`Ctrl + PrintScreen` - Native Niri screenshot with __cursor__ pointer included.<br>
+
+#### Media: advanced
+`Super + Shift/Ctrl + PrintScreen` - record screen with _audio_ or via __OBS__.<br>
+
+#### Menus
+`Super + End` - [wlogout](https://github.com/ArtsyMacaw/wlogout) action menu.<br>
+`Super + Shift + /` - Show Niri important hotkeys overlay.<br>
+
+#### Top keybinds (Q~P) - running system applications and switching window mode
 `Super + Space` - switch keyboard layout (by default US/RU).<br>
-`Right Alt` - compose key (used to type special symbols).<br>
 
-`Alt + Tab` - window switcher, `Alt + Shift + Tab` - window menu switcher (advanced).<br>
-`PrintScreen` - make _screenshot_ and save it to __clipboard__, __`~/Screenshots/screenshot_<date>.png`__. `Super + PrintScreen` - __record__ screen.<br>
-`Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).
-
-
-`Super + Q/W/E/R/T/P` - terminal, __free__ window mode, file manager, run application, run command, private workspace.<br>
-`Super + A/S/D/F/G/H; J/K/L` -  notes, browser, show desktop, full screen, discord, telegram; _previous_ song, __pause|unpause__, _next_ song.<br>
-`Super + Z/X/C/V/B` - exit hyprland, emoji picker, close, clipboard manager, OCR advanced (with language selection).
+`Super + Q/W/E/R/T/Y/P` - terminal, toggle __floating__ window mode, file manager, run application, run command, open virtual manager, __merge/expel__ window into column.<br>
+`Super + A/S/D/F/G/H; J/K/L` -  notes, browser, toggle __overview__ (show desktop equivalent), full screen, discord, telegram; _previous_ song, __pause|unpause__, _next_ song.<br>
+`Super + Z/X/C/V/B` - exit niri, emoji picker, close window, clipboard manager, OCR advanced (with language selection).
 
 `Super + Escape` - hibernate. `Super + Shift + Escape` - lock screen (hyprlock).<br>
-`Super + Shift + Escape` - lock screen.<br>
-`Super + Shift + Q/W/E/R/P` - __do not stretch window__, __switch__ window axis, text editor, reload wallpaper, move to private workspace.<br>
-`Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper _engine_, gamemode. <br>
-`Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
-`Super + Shift + F1/2/3/4/5/6` - __volume__ up/down/mute, mute microphone, turn __brightness__ up/down.<br>
-`Super + Ctrl + F1/2/3/4/5/6/7/8` - show volume level, time, date, brighness value, GPU/CPU/RAM load, temperature.
+`Super + Shift + Q/W/E/R` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), toggle __tabbed__ column display, yazi, switch preset window height.<br>
+`Super + Shift + A/S/D/F; G/C` - move window/column to specified location (left column, up window, down window, right column). Gamemode, MPV player. <br>
+`Super + Ctrl + F1/2/3/5/8` - show volume level, time, date, GPU load, temperature.
 
-`Super + Ctrl + Z` - reload all configurations.
-`Super + Ctrl + P` - move from private workspace.
+## Other keybinds
+`Super + grave` - editor (nvim).
+`Super + Shift + grave` - main menu.
 
-## Default keybinds
-`Super + x, x[0-9]` - workspaces. `Super + Shift + x, x[0-9]` - move window to particular one.<br>
-`Super + arrows` - switch to window.<br>
-`Super + Shift + arrow up/down` - zoom/unzoom.
+## Out-of-box keybinds (Niri basics)
+`Super + x, x[1-9]` - workspaces. `Super + Shift + x, x[1-9]` - move window to particular one.<br>
+`Super + arrows` - switch to window/column (Left/Right moves between columns, Up/Down moves within a column).<br>
 
 ## Default keybinds: mouse
 `Super + mouse wheel` - move through workspaces.<br>
-`Super + LMB/RMB` - drag/size windows.
 
 ## Laptop keybinds
-Laptop multimedia keys for volume and LCD brightness are included.
+Laptop multimedia keys for volume and LCD brightness are included and work even when the screen is locked!
+
+#### Facts
+- Niri is a scrollable-tiling Wayland compositor. Windows are arranged in columns on an infinite strip going to the right. Opening a new window never causes existing windows to resize!
+- Niri 26.04 natively blurs transparent context menus and layer-shell interfaces out-of-the-box.

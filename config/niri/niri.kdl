@@ -1,0 +1,8 @@
+/*
+    niriconf - made for MolniOS
+
+    "/-" - comment entire block. Comments are in C-style.
+    Wiki - niri-wm.github.io/niri/Configuration:-Introduction
+*/
+
+include "modules/init.kdl"

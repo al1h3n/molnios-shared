@@ -28,27 +28,6 @@ hl.window_rule({
     rounding = 0
 })
 
--- Glass effect for permissions.
-hl.window_rule({
-    match = { class = "^(polkit-gnome-authentication-agent-1)$", float = true },
-    dim_around = true,
-    center = true,
-    opacity = "1 .8"
-})
-
-hl.window_rule({
-    match = { class = "^(hyprpolkitagent)$", float = true },
-    dim_around = true,
-    center = true,
-    opacity = "1.0 0.8"
-})
-
--- Waybar
-hl.window_rule({
-    match = { class = "^(waybar)$", title = "^(waybar)$" },
-    no_focus = true
-})
-
 -- Opaque browsers/players
 hl.window_rule({
     match = { class = "^(mpv)$" },
@@ -67,8 +46,32 @@ hl.window_rule({
     size   = { 600, 400 },  -- optional, adjust to taste
 })
 
+-- Glass effect for permissions.
+-- Comment if you disabled blur.
+hl.window_rule({
+    match = { class = "^(polkit-gnome-authentication-agent-1)$", float = true },
+    dim_around = true,
+    center = true,
+    opacity = "1 .8"
+})
+
+hl.window_rule({
+    match = { class = "^(hyprpolkitagent)$", float = true },
+    dim_around = true,
+    center = true,
+    opacity = "1.0 0.8"
+})
+
+-- Waybar.
+hl.window_rule({
+    match = { class = "^(waybar)$", title = "^(waybar)$" },
+    no_focus = true
+})
+
 -- Layer rules.
--- Notifications
+
+-- Comment if you disabled blur.
+-- Notifications.
 hl.layer_rule({
     match = { namespace = "notifications" },
     ignore_alpha = 0,

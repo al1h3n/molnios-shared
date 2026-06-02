@@ -1,0 +1,115 @@
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // --- Core Executions (Using your variables.sh) ---
+    // NOTE: Change /home/YOUR_USER to your actual home directory!
+    Mod+Q { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$terminal"; }
+    Mod+E { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$explorer"; }
+    Mod+R { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$appmenu"; }
+    Mod+T { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$commandmenu"; }
+    Mod+Y { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$vmanager"; }
+
+    Mod+A { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$notes"; }
+    Mod+S { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$browser"; }
+    Mod+G { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$discord"; }
+    Mod+H { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$telegram"; }
+
+    Mod+X { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$emojimenu"; }
+    Mod+V { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$clipman"; }
+    Mod+B { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$ocr"; }
+
+    Mod+Grave { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$editor"; }
+    Mod+Shift+Grave { spawn-sh "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"; }
+    Mod+End { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$actionmenu"; }
+
+    Mod+Shift+Q { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$multiterminal"; }
+    Mod+Shift+E { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$explorercli"; }
+    Mod+Shift+G { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$gamemode"; }
+    Mod+Shift+C { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$player"; }
+
+    // --- Window Actions ---
+    Mod+C { close-window; }
+    Mod+F { fullscreen-window; }
+    Mod+W { toggle-window-floating; }
+    Mod+Shift+W { toggle-column-tabbed-display; } // Closest Niri alternative to 'togglesplit'
+    Mod+Z { quit; }
+
+    // Alt binds
+    Alt+Tab { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$switcher"; }
+    Alt+Shift+Tab { spawn-sh "snappy-switcher prev"; }
+    Alt+Ctrl+Tab { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$switchmenu"; }
+
+    // Focus & Movement (Arrow Keys)
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+
+    // Swap / Move Windows (Shift + ASDF translation from Hyprland)
+    Mod+Shift+A { move-column-left; }
+    Mod+Shift+S { move-window-up; }
+    Mod+Shift+D { move-window-down; }
+    Mod+Shift+F { move-column-right; }
+
+    // Screen locking / system
+    Mod+Space { spawn "hyprctl" "switchxkblayout" "current" "next"; }
+    Mod+Escape { spawn "systemctl" "hybrid-sleep"; }
+    Mod+Shift+Escape { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$lock"; }
+
+    // --- Screenshots & Recording ---
+    Print { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
+    Mod+Insert { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$ocr_simple"; }
+    Mod+Print { spawn "sh" "/home/YOUR_USER/.config/niri/variables.sh" "$record"; }
+    Mod+Shift+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -a"; }
+    Mod+Ctrl+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -o"; }
+
+    // Niri native screenshot with new 26.04 pointer metadata feature
+    Ctrl+Print { screenshot-window show-pointer=true; }
+
+    // --- Information Toasts (Ctrl+F1~F8) ---
+    Mod+Ctrl+F1 { spawn-sh "notify-send -h int:transient:1 \"Volume\" \"$(wpctl get-volume @DEFAULT_AUDIO_SINK@)\""; }
+    Mod+Ctrl+F2 { spawn-sh "notify-send -h int:transient:1 \"Time\" \"$(date +%H:%M:%S)\""; }
+    Mod+Ctrl+F3 { spawn-sh "notify-send -h int:transient:1 \"Date\" \"$(date +%d.%m.%Y)\""; }
+    Mod+Ctrl+F5 { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/gpu.sh)\""; }
+    Mod+Ctrl+F8 { spawn-sh "notify-send -h int:transient:1 \"Temp\" \"$(sh ~/.local/share/molnios/scripts/temp.sh)\""; }
+
+    // --- Media & Brightness (Locked + Repeating) ---
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86MonBrightnessUp  allow-when-locked=true { spawn "brightnessctl" "-q" "s" "10%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-q" "s" "10%-"; }
+    Mod+J allow-when-locked=true { spawn "playerctl" "previous"; }
+    Mod+K allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    Mod+L allow-when-locked=true { spawn "playerctl" "next"; }
+
+    // --- Workspaces ---
+    // In Hyprland you had Mod+D and Mod+P mapped to "magic" special workspace.
+    // Niri doesn't have scratchpads, so we map Mod+D to Overview instead.
+    Mod+D { toggle-overview; }
+    Mod+P { consume-or-expel-window-left; }
+
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+}

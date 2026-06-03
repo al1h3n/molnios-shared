@@ -27,3 +27,6 @@ visual.kdl
 
 #### What if I have AMD GPU?
 Remove NVIDIA parameters from env.lua (hyprland) and env.kdl (niri).
+
+#### How to clear my clipboard history?
+`rm -f ~/.cache/cliphist/db`

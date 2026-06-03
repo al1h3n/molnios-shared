@@ -57,8 +57,8 @@ binds {
     Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
     Mod+Insert { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$ocr_simple"; }
     Mod+Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record"; }
-    Mod+Shift+Print { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh $record -a"; }
-    Mod+Ctrl+Print { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh $record -o"; }
+    Mod+Shift+Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record" "-a"; }
+    Mod+Ctrl+Print  { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record" "-o"; }
 
     // Niri native screenshot with new 26.04 pointer metadata feature
     Ctrl+Print { screenshot-window show-pointer=true; }

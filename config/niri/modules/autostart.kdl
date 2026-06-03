@@ -6,10 +6,10 @@ spawn-sh-at-startup "systemctl --user start hyprpolkitagent.service 2>/dev/null 
 
 // Core Daemons (Waybar, SwayNC, Wallpaper)
 spawn-sh-at-startup "waybar -c ~/.local/share/molnios/config/waybar/config-niri.jsonc -s ~/.local/share/molnios/config/waybar/style.css"
-spawn-sh-at-startup "swaync -c ~/.config/niri/config/swaync -s ~/.config/niri/config/swayncstyle"
+spawn-sh-at-startup "swaync -c ~/.local/share/molnios/config/swaync/swaync.json -s ~/.local/share/molnios/config/swaync/swaync-style.css"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "mpvpaper-stop"
-spawn-sh-at-startup "~/.config/niri/scripts/borderline.sh"
+spawn-sh-at-startup "~/.local/share/molnios/scripts/borderline.sh"
 
 // Clipboard Managers
 spawn-sh-at-startup "wl-paste --type text --watch cliphist store"

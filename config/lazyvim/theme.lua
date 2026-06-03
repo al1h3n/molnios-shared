@@ -1,5 +1,10 @@
 return {
   {
+    "dylanaraps/wal.vim",
+    lazy = false,
+    priority = 1000,
+  },
+  {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
     opts = {
@@ -16,7 +21,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "wal", -- gruvbox
     },
   },
 }

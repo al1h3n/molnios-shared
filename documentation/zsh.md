@@ -22,6 +22,7 @@ Theme: [PowerLevel10K](https://github.com/romkatv/powerlevel10k).
 `duf` - `duf` custom shortcut.<br>
 `reset` - reset custom terminal colors.<br>
 `rm -f ~/.zsh_history` - clean ZSH history of commands.<br>
+`mk` - `mkdir -p`.<br>
 
 `s` - [doas](https://github.com/Duncaen/OpenDoas) - has less code than sudo, which makes it more safe.<br>
 `sud` - `su -c $@` (logins as root, sudo does give you temporary permissions).<br>

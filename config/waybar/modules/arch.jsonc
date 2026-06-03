@@ -1,0 +1,9 @@
+{
+  "custom/pacman": {
+    "format": " {} ",
+    "interval": "once",
+    "exec": "checkupdates | wc -l",
+    "on-click": "update-system",
+    "signal": 8
+  }
+}

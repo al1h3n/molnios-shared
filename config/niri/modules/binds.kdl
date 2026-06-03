@@ -1,28 +1,28 @@
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+Q { spawn "sh" "~/.config/niri/variables.sh" "$terminal"; }
-    Mod+E { spawn "sh" "~/.config/niri/variables.sh" "$explorer"; }
-    Mod+R { spawn "sh" "~/.config/niri/variables.sh" "$appmenu"; }
-    Mod+T { spawn "sh" "~/.config/niri/variables.sh" "$commandmenu"; }
-    Mod+Y { spawn "sh" "~/.config/niri/variables.sh" "$vmanager"; }
+    Mod+Q { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$terminal"; }
+    Mod+E { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$explorer"; }
+    Mod+R { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$appmenu"; }
+    Mod+T { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$commandmenu"; }
+    Mod+Y { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$vmanager"; }
 
-    Mod+A { spawn "sh" "~/.config/niri/variables.sh" "$notes"; }
-    Mod+S { spawn "sh" "~/.config/niri/variables.sh" "$browser"; }
-    Mod+G { spawn "sh" "~/.config/niri/variables.sh" "$discord"; }
-    Mod+H { spawn "sh" "~/.config/niri/variables.sh" "$telegram"; }
+    Mod+A { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$notes"; }
+    Mod+S { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$browser"; }
+    Mod+G { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$discord"; }
+    Mod+H { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$telegram"; }
 
-    Mod+X { spawn "sh" "~/.config/niri/variables.sh" "$emojimenu"; }
-    Mod+V { spawn "sh" "~/.config/niri/variables.sh" "$clipman"; }
-    Mod+B { spawn "sh" "~/.config/niri/variables.sh" "$ocr"; }
+    Mod+X { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$emojimenu"; }
+    Mod+V { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$clipman"; }
+    Mod+B { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$ocr"; }
 
-    Mod+Grave { spawn "sh" "~/.config/niri/variables.sh" "$editor"; }
+    Mod+Grave { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$editor"; }
     Mod+Shift+Grave { spawn-sh "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"; }
-    Mod+End { spawn "sh" "~/.config/niri/variables.sh" "$actionmenu"; }
+    Mod+End { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$actionmenu"; }
 
-    Mod+Shift+Q { spawn "sh" "~/.config/niri/variables.sh" "$multiterminal"; }
-    Mod+Shift+E { spawn "sh" "~/.config/niri/variables.sh" "$explorercli"; }
-    Mod+Shift+G { spawn "sh" "~/.config/niri/variables.sh" "$gamemode"; }
-    Mod+Shift+C { spawn "sh" "~/.config/niri/variables.sh" "$player"; }
+    Mod+Shift+Q { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$multiterminal"; }
+    Mod+Shift+E { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$explorercli"; }
+    Mod+Shift+G { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$gamemode"; }
+    Mod+Shift+C { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$player"; }
 
     // --- Window Actions ---
     Mod+C { close-window; }
@@ -32,9 +32,9 @@ binds {
     Mod+Z { quit; }
 
     // Alt binds
-    Alt+Tab { spawn "sh" "~/.config/niri/variables.sh" "$switcher"; }
+    Alt+Tab { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$switcher"; }
     Alt+Shift+Tab { spawn-sh "snappy-switcher prev"; }
-    Alt+Ctrl+Tab { spawn "sh" "~/.config/niri/variables.sh" "$switchmenu"; }
+    Alt+Ctrl+Tab { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$switchmenu"; }
 
     // Focus & Movement (Arrow Keys)
     Mod+Left  { focus-column-left; }
@@ -51,14 +51,14 @@ binds {
     // Screen locking / system
     Mod+Space { spawn "hyprctl" "switchxkblayout" "current" "next"; }
     Mod+Escape { spawn "systemctl" "hybrid-sleep"; }
-    Mod+Shift+Escape { spawn "sh" "~/.config/niri/variables.sh" "$lock"; }
+    Mod+Shift+Escape { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$lock"; }
 
     // --- Screenshots & Recording ---
-    Print { spawn "sh" "~/.config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
-    Mod+Insert { spawn "sh" "~/.config/niri/variables.sh" "$ocr_simple"; }
-    Mod+Print { spawn "sh" "~/.config/niri/variables.sh" "$record"; }
-    Mod+Shift+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -a"; }
-    Mod+Ctrl+Print { spawn-sh "sh ~/.config/niri/variables.sh $record -o"; }
+    Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
+    Mod+Insert { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$ocr_simple"; }
+    Mod+Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record"; }
+    Mod+Shift+Print { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh $record -a"; }
+    Mod+Ctrl+Print { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh $record -o"; }
 
     // Niri native screenshot with new 26.04 pointer metadata feature
     Ctrl+Print { screenshot-window show-pointer=true; }

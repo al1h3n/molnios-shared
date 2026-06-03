@@ -7,8 +7,8 @@
 		"format": "{icon}  {capacity}%",
 		"format-time": "{H}h {M}min",
 		"format-icons": [
-            "", "", "", "", ""
-			// "󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
+      // "", "", "", "", ""
+			"󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
 		],
 		"format-charging": "󰉁 {capacity}%",
 		"tooltip-format": "<b>Discharging</b>: {time}",

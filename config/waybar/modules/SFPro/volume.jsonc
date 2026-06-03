@@ -20,7 +20,10 @@
 			"headphone": "󰋋",
 			"headphone-muted": "󰟎",
 			"headset": "󰋎",
-			"headset-muted": "󰋐"
+			"headset-muted": "󰋐",
+			"phone": "",
+			"portable": "",
+			"car": ""
 		},
 		"on-click": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output mute",
 		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output raise",

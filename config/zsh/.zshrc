@@ -109,6 +109,7 @@ alias cl='printf "\e[H\e[22J"'
 
 # Helpful
 alias res="reset"
+alias mk="mkdir -p"
 alias h="apropos"
 alias help="apropos"
 alias s="doas"

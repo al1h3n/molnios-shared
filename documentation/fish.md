@@ -25,7 +25,8 @@ Theme: [Tide](https://github.com/IlanCosman/tide).
 `ze` — `zellij` shortcut.<br>
 `duf` — `duf` custom shortcut.<br>
 `reset` — reset custom terminal colors.<br>
-`history clear` — clear history of commands (only for fish).
+`history clear` — clear history of commands (only for fish).<br>
+`mk` - `mkdir -p`.
 
 `s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, which makes it more safe.<br>
 `sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>

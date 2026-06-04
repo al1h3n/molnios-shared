@@ -1,0 +1,3 @@
+[templates.pywal_fallback]
+input_path = '~/.config/matugen/templates/colors.sh'
+output_path = '~/.cache/wal/colors.sh'

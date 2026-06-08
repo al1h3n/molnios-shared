@@ -26,7 +26,7 @@ _G.commandmenu = menu .. " run " .. noicons
 _G.switchmenu = menu .. " window " .. icons
 
 _G.youtube = "yt-x -s -l rofi --rofi-theme-main " .. menuconfig
-_G.switcher = "snappy-switcher" -- Works only on hyprland.
+_G.switcher = "snappy-switcher --mod alt" -- Works only on hyprland.
 _G.switcherdaemon = switcher .. " --daemon -c " .. conf .. "snappy.ini"
 
 _G.gpu = shell .. scripts .. "gpu.sh"
@@ -36,6 +36,7 @@ _G.gamemode = shell .. scripts .. "gamemode.sh"
 
 _G.eyedropper = "ie-r"
 _G.actionmenu = "wlogout -nl " .. conf .. "wlogout/layout -C " .. conf .. "wlogout/wlogout.css"
+_G.task_manager = terminal .. "btop"
 
 _G.clipman = shell .. scripts .. "clipboard-images.sh"
 _G.cliptext = "wl-paste --type text --watch cliphist store"

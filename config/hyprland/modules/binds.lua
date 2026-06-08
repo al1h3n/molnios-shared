@@ -45,6 +45,7 @@ local binds = {
 
     -- CTRL row.
     { M.." + CTRL + Z", reload },
+    { "CTRL + SHIFT + escape", task_manager },
 
     -- ALT row — eyedropper signals.
     { M.." + ALT + Q", hl.dsp.window.pseudo() },

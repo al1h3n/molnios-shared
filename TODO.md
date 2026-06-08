@@ -1,0 +1,1 @@
+1. Test snappy-switcher if it works correctly

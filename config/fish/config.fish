@@ -349,6 +349,6 @@ pay-respects fish | source
 
 # Interactive variables.
 # ==========================================================
-set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish and Hyprland. Answer him the questions for both systems."
+set -gx _PR_AI_ADDITIONAL_PROMPT "User is on Arch Linux or nixOS with Fish shell. Answer him the questions for both systems."
 # ==========================================================
 end # End of interactive mode.

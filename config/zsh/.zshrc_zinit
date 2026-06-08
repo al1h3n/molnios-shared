@@ -1,10 +1,18 @@
 # ==========================================================
-# zshconfig sheldon edition.
+# zshconfig zinit edition.
 # Used powerlevel10k theme.
 # ==========================================================
 
 # Temp files will be saved in ~/.cache/zsh, ~/.zsh_history
+
+# Must be called .zshrc
+# Insert in ~/.zshenv
+# export ZDOTDIR=/al1h3n/config
+
 # .zshenv is used for non interactive actions, .zshrc only when user opens terminal interactively.
+
+# Set default shell.
+# chsh -s $(which zsh)
 
 # Pokemons.
 pokemon-colorscripts -r
@@ -52,16 +60,46 @@ setopt HIST_FIND_NO_DUPS
 setopt AUTOCD # Type just path.
 setopt NUMERIC_GLOB_SORT # Sort by numbers.
 
-# 1. Plugin manager (Sheldon)
-if command -v sheldon &>/dev/null;then
-  if [[ -f /etc/arch-release ]];then
-			eval "$(sheldon source --profile arch)"
-	else
-			eval "$(sheldon source)"
-	fi
+# 1. Plugin manager.
+if [ -n "$ZINIT_HOME" ] && [ -f "$ZINIT_HOME/zinit.zsh" ];then
+  # NixOS / MaconlyOS - ZINIT_HOME set by home-manager in zsh.nix.
+  source $ZINIT_HOME/zinit.zsh
 else
-  echo "ERROR: Sheldon is not installed."
+  # Arch - auto-install zinit if missing.
+  ZINIT_HOME=$sharel/zinit/zinit.git
+  if [ ! -d $ZINIT_HOME ];then
+    mkdir -p $(dirname $ZINIT_HOME)
+    git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_HOME
+  fi
+  source $ZINIT_HOME/zinit.zsh
 fi
+
+# 2. Plugins via zinit.
+
+# Theme - load first, instantly.
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+# Core plugins.
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light jirutka/zsh-shift-select
+zinit light Aloxaf/fzf-tab # zinit light marlonrichert/zsh-autocomplete
+
+# Autocomplete - needs to load after compinit.
+# zinit ice wait lucid
+
+# Auto-completion from OhMyZsh. Like gst - aliased to git status.
+zinit snippet OMZP::git # Imports custom commands.
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
+
+# 4. Completions init.
+autoload -Uz compinit
+mkdir -p ~/.cache/zsh/zcompdump
+compinit -d ~/.cache/zsh/zcompdump
+zinit cdreplay -q
 
 # 5. Functions and custom commands.
 
@@ -87,6 +125,7 @@ alias ln="ln -sfn"
 alias ki="kitty -c $conf/kitty.conf"
 alias kitty="kitty -c $conf/kitty.conf"
 alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
+# alias wezterm="wezterm --config-file $conf/wezterm/wezterm.lua"
 alias ze="zellij -c $conf/zellij/config.kdl"
 
 rr(){ # rm-improved
@@ -118,6 +157,7 @@ alias sw="sh $bin/sweeper.sh"
 alias ml="sh $bin/molnios.sh"
 
 if [ -f /etc/arch-release ];then
+  zinit snippet OMZP::archlinux
   alias pr="yay --noconfirm -Runs \$(yay -Qdtq)"
   alias pu="yay --noconfirm" # Can be changed to paru or just pacman.
 fi
@@ -154,13 +194,13 @@ if [ "$(uname)" != "Darwin" ];then
   # Change wallpaper with theme (pywall).
   # Works only with images.
   wa() {
-    wal --recursive -i $1
-    local wallpaper=$(cat ~/.cache/wal/wal)
-    sh $scripts/borderline.sh "$wallpaper"
-    local seq=~/.cache/wal/sequences
-    [[ -f "$seq" ]] && (cat "$seq" &)
-    [[ -f ~/.cache/wal/colors.sh ]] && source ~/.cache/wal/colors.sh
-  }
+  wal --recursive -i $1
+  local wallpaper=$(cat ~/.cache/wal/wal)
+  sh $scripts/borderline.sh "$wallpaper"
+  local seq=~/.cache/wal/sequences
+  [[ -f "$seq" ]] && (cat "$seq" &)
+  [[ -f ~/.cache/wal/colors.sh ]] && source ~/.cache/wal/colors.sh
+}
 
   # Change terminal color scheme. Doesn't support recursive (only file).
   co() {
@@ -309,6 +349,8 @@ bindkey "^[[1;5C" forward-word
 # Ctrl + shift + arrows. [selection]
 bindkey "^[[1;6D" backward-select-word
 bindkey "^[[1;6C" forward-select-word
+# bindkey "^[[1;6D" select-beginning-of-word
+# bindkey "^[[1;6C" select-end-of-word
 
 # ZSH autosuggestion shift keybind.
 bindkey '^[[Z' autosuggest-accept

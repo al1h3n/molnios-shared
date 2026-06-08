@@ -1,0 +1,55 @@
+# Plugins for ZSH - sheldon.
+
+shell = "zsh"
+
+# Theme
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+
+# Completions (must be in fpath before compinit runs)
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+# Inline script to initialize completions correctly in the loading sequence
+[plugins.compinit]
+inline = '''
+autoload -Uz compinit
+mkdir -p ~/.cache/zsh/zcompdump
+compinit -d ~/.cache/zsh/zcompdump
+'''
+
+# Core plugins
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+# Syntax highlighting must be loaded AFTER compinit
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+
+[plugins.zsh-shift-select]
+github = "jirutka/zsh-shift-select"
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
+# Oh-My-Zsh snippets
+[plugins.omz-git]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/git"
+use = ["*.plugin.zsh"]
+
+[plugins.omz-sudo]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/sudo"
+use = ["*.plugin.zsh"]
+
+[plugins.omz-command-not-found]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/command-not-found"
+use = ["*.plugin.zsh"]
+
+[plugins.omz-archlinux]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/archlinux"
+use = ["*.plugin.zsh"]
+profiles = ["arch"]

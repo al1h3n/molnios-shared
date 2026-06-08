@@ -36,7 +36,7 @@ add_icon_spacing(){
 # HELPER FUNCTIONS
 
 exists(){
-	command -v $1&>/dev/null
+	command -v "$1" &>/dev/null
 }
 
 # Notification helper
@@ -125,17 +125,11 @@ open_terminal(){
     local prefix
     prefix=$(_term_pick) || return
 
-    # Launch with no extra arguments so the terminal opens its default shell.
-    # wezterm's prefix already ends with "--", others end with "-e";
-    # passing no command after "-e" on kitty/alacritty/ghostty/xterm still
-    # opens their default shell correctly.
     case "$prefix" in
         "wezterm start --")
             wezterm start &
             ;;
         *)
-            # Strip the trailing "-e" and launch bare so the terminal uses its
-            # configured shell rather than trying to exec an empty string.
             local bin="${prefix%% *}"
             $bin &
             ;;
@@ -145,8 +139,7 @@ open_terminal(){
 # POWER OPTIONS ACTIONS
 power_lock(){
     notify "Locking session..."
-    # loginctl lock-session
-    hyprlock -q -c $L_PATH/config/hypr/hyprlock.conf
+    hyprlock -q -c "$L_PATH/config/hypr/hyprlock.conf"
 }
 
 power_shutdown(){
@@ -158,7 +151,7 @@ power_reboot(){
 }
 
 power_logout(){
-    loginctl terminate-session $XDG_SESSION_ID
+    loginctl terminate-session "$XDG_SESSION_ID"
 }
 
 power_suspend(){
@@ -202,7 +195,6 @@ connection_bluetooth(){
     fi
 }
 
-
 # THEMES & COLORS ACTIONS
 theme_list_themes(){
     local theme_dir="$L_PATH/molnios-themes"
@@ -217,9 +209,9 @@ theme_apply(){
     local theme_name="$1"
     notify "Applying theme: $theme_name"
 
-    # Apply to GTK
+    # Apply to GTK (using pipe delimiter to prevent sed errors on slashes)
     if [[ -f "$HOME/.config/gtk-3.0/settings.ini" ]];then
-        sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$theme_name/" "$HOME/.config/gtk-3.0/settings.ini"
+        sed -i "s|^gtk-theme-name=.*|gtk-theme-name=$theme_name|" "$HOME/.config/gtk-3.0/settings.ini"
     fi
 
     # Apply to waybar
@@ -250,13 +242,9 @@ theme_random(){
 }
 
 # wallust backend.
-
-# Core: run wallust then borderline.
-# $1 = image path for wallust (extracted frame if video)
-# $2 = original file for borderline (may be video)
 _wallust_apply(){
-    local wal_src=$1
-    local borderline_src=$2
+    local wal_src="$1"
+    local borderline_src="$2"
 
     if ! exists wallust;then
         notify_error "wallust not found"
@@ -265,7 +253,7 @@ _wallust_apply(){
 
     wallust run -I background "$wal_src"
 
-    local bscript=$L_PATH/scripts/borderline.sh
+    local bscript="$L_PATH/scripts/borderline.sh"
     if [[ -f "$bscript" ]];then
         sh "$bscript" "$borderline_src"
     else
@@ -273,11 +261,8 @@ _wallust_apply(){
     fi
 }
 
-# ── colors only (no wallpaper change) ────────────────────────────────────────
-# Doesn't seem to work.
-
 wallust_colors_static(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_static)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -297,7 +282,7 @@ wallust_colors_static(){
 }
 
 wallust_colors_video(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_video)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -314,13 +299,11 @@ wallust_colors_video(){
 
     local wp="${paths[$idx]}"
     local frame
-    frame=$(_pywal_extract_frame "$wp")   # reuse — same ffmpeg logic
+    frame=$(_pywal_extract_frame "$wp")
     _wallust_apply "$frame" "$wp"
     rm -f "$frame"
     notify "Wallust colors applied from: ${labels[$idx]}"
 }
-
-# ── wallpaper change + wallust ────────────────────────────────────────────────
 
 wallpaper_random_static_wallust(){
     local wallpapers
@@ -352,7 +335,7 @@ wallpaper_random_video_wallust(){
 }
 
 wallpaper_menu_static_wallust(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_static)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -374,7 +357,7 @@ wallpaper_menu_static_wallust(){
 }
 
 wallpaper_menu_video_wallust(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_video)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -400,20 +383,19 @@ wallpaper_menu_video_wallust(){
 
 # pywal16 (pywal) backend.
 
-# Extract first video frame for pywal (480x270 gives enough palette diversity).
+# Extract first video frame for pywal
 _pywal_extract_frame(){
-    local video=$1
+    local video="$1"
     local tmp=$(mktemp /tmp/molnios_wal_XXXXXX.png)
-    ffmpeg -i "$video" -y -vframes 1 -vf scale=480:270 -v quiet "$tmp"2>/dev/null
-    echo $tmp
+    # Fixed missing space before 2>/dev/null
+    ffmpeg -i "$video" -y -vframes 1 -vf scale=480:270 -v quiet "$tmp" 2>/dev/null
+    echo "$tmp"
 }
 
 # Core: run pywal then borderline.
-# $1 = path passed to wal -i  (image or extracted frame)
-# $2 = path passed to borderline (original file — may be video)
 _pywal_apply(){
-    local wal_src=$1
-    local borderline_src=$2
+    local wal_src="$1"
+    local borderline_src="$2"
 
     if ! exists wal;then
         notify_error "pywal (wal) not found"
@@ -422,11 +404,9 @@ _pywal_apply(){
 
     wal --recursive -i "$wal_src"
 
-    # borderline reads the wallpaper from waypaper config by default,
-    # but we pass the path explicitly so it works regardless.
-    local bscript=$L_PATH/scripts/borderline.sh
+    local bscript="$L_PATH/scripts/borderline.sh"
     if [[ -f "$bscript" ]];then
-        sh $bscript $borderline_src
+        sh "$bscript" "$borderline_src"
     else
         notify_error "borderline.sh not found at $bscript"
     fi
@@ -440,8 +420,8 @@ wallpaper_random_static_pywal(){
         return
     fi
     local wp="${wallpapers[$RANDOM % ${#wallpapers[@]}]}"
-    wallpaper_apply $wp
-    _pywal_apply $wp $wp
+    wallpaper_apply "$wp"
+    _pywal_apply "$wp" "$wp"
     notify "Random static (pywal): $(basename "$wp")"
 }
 
@@ -462,7 +442,7 @@ wallpaper_random_video_pywal(){
 }
 
 wallpaper_menu_static_pywal(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_static)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -477,13 +457,13 @@ wallpaper_menu_static_pywal(){
     [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
 
     local wp="${paths[$idx]}"
-    wallpaper_apply $wp
-    _pywal_apply $wp $wp
+    wallpaper_apply "$wp"
+    _pywal_apply "$wp" "$wp"
     notify "Wallpaper set (pywal): ${labels[$idx]}"
 }
 
 wallpaper_menu_video_pywal(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_video)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -498,10 +478,10 @@ wallpaper_menu_video_pywal(){
     [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
 
     local wp="${paths[$idx]}"
-    wallpaper_apply $wp
+    wallpaper_apply "$wp"
     local frame=$(_pywal_extract_frame "$wp")
-    _pywal_apply $frame $wp
-    rm -f $frame
+    _pywal_apply "$frame" "$wp"
+    rm -f "$frame"
     notify "Video wallpaper set (pywal): ${labels[$idx]}"
 }
 
@@ -521,7 +501,6 @@ wallpaper_list_video(){
 
 wallpaper_apply(){
     local wallpaper_path="$1"
-    # notify "Applying wallpaper..."
 
     if exists waypaper;then
         waypaper --wallpaper "$wallpaper_path"
@@ -534,8 +513,6 @@ wallpaper_apply(){
     elif exists feh;then
         feh --bg-fill "$wallpaper_path"
     fi
-
-    # notify "Wallpaper applied"
 }
 
 wallpaper_random(){
@@ -563,7 +540,7 @@ wallpaper_random_video(){
 }
 
 wallpaper_menu_static(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/static
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/static"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_static)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -576,7 +553,6 @@ wallpaper_menu_static(){
 
     local idx
     idx=$(show_menu "Static Wallpapers" "Select a wallpaper:" "${labels[@]}")
-
     [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
 
     wallpaper_apply "${paths[$idx]}"
@@ -584,7 +560,7 @@ wallpaper_menu_static(){
 }
 
 wallpaper_menu_video(){
-    local wallpaper_dir=$L_PATH/molnios-media/wallpapers/video
+    local wallpaper_dir="$L_PATH/molnios-media/wallpapers/video"
     local -a paths labels
     mapfile -t paths < <(wallpaper_list_video)
     if [[ ${#paths[@]} -eq 0 ]];then
@@ -598,39 +574,50 @@ wallpaper_menu_video(){
 
     local idx
     idx=$(show_menu "Video Wallpapers" "Select a video wallpaper:" "${labels[@]}")
-
     [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
 
     wallpaper_apply "${paths[$idx]}"
     notify "Video wallpaper set: ${labels[$idx]}"
 }
 
-
 # COMPOSITOR SETTINGS ACTIONS
 compositor_reload(){
-    sh $L_PATH/scripts/reloadus.sh
+    sh "$L_PATH/scripts/reloadus.sh"
 }
 
-# Hyprland settings helpers
+# Fixed logic to properly retrieve values from "custom" properties like gaps
 hypr_get_setting(){
     local setting="$1"
     local output
     output=$(hyprctl getoption "$setting" 2>/dev/null)
 
-    # Try to extract int value
-    local value
-    value=$(echo "$output" | grep "int:" | sed -n 's/.*int: \([0-9-]*\).*/\1/p')
+    # 1. Try to extract 'data:' first (Hyprland stores custom values like gaps here)
+    local data_val
+    data_val=$(echo "$output" | grep "data:" | sed -n 's/.*data:[[:space:]]*\(.*\)/\1/p' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-    # If no int found, try float
-    if [[ -z "$value" ]];then
-        value=$(echo "$output" | grep "float:" | sed -n 's/.*float: \([0-9.-]*\).*/\1/p')
+    # Check if data_val is populated and is not an unparsed object
+    if [[ -n "$data_val" && "$data_val" != "<class "* && "$data_val" != "<Hyprlang::"* ]]; then
+        echo "$data_val"
+        return
     fi
 
-    # If still no value, return 0
-    if [[ -z "$value" ]];then
-        echo "0"
+    # 2. Try to extract standard int
+    local int_val
+    int_val=$(echo "$output" | grep "int:" | sed -n 's/.*int:[[:space:]]*\([0-9-]*\).*/\1/p')
+
+    # 3. Try to extract standard float
+    local float_val
+    float_val=$(echo "$output" | grep "float:" | sed -n 's/.*float:[[:space:]]*\([0-9.-]*\).*/\1/p')
+
+    # Figure out the most reasonable value to return
+    if [[ -n "$int_val" && "$int_val" != "0" ]]; then
+        echo "$int_val"
+    elif [[ -n "$float_val" && "$float_val" != "0.000000" && "$float_val" != "0" ]]; then
+        echo "$float_val"
+    elif [[ -n "$int_val" ]]; then
+        echo "$int_val"
     else
-        echo "$value"
+        echo "0"
     fi
 }
 
@@ -638,19 +625,48 @@ hypr_set_setting(){
     hyprctl eval "$*"
 }
 
+# Helper to convert CSS-style gaps into Hyprland 0.55+ Lua tables
+_format_css_gaps() {
+    # Replace commas with spaces, trim extra spaces, and read into an array
+    local cleaned=$(echo "$1" | tr ',' ' ' | tr -s ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    read -ra arr <<< "$cleaned"
+
+    local count=${#arr[@]}
+
+    if [[ $count -eq 0 ]]; then
+        echo "0"
+    elif [[ $count -eq 1 ]]; then
+        # Lua accepts a raw integer if all sides are equal
+        echo "${arr[0]}"
+    elif [[ $count -eq 2 ]]; then
+        # Top/Bottom = 1st | Right/Left = 2nd
+        echo "{ top = ${arr[0]}, right = ${arr[1]}, bottom = ${arr[0]}, left = ${arr[1]} }"
+    elif [[ $count -eq 3 ]]; then
+        # Top = 1st | Right/Left = 2nd | Bottom = 3rd
+        echo "{ top = ${arr[0]}, right = ${arr[1]}, bottom = ${arr[2]}, left = ${arr[1]} }"
+    else
+        # Top = 1st | Right = 2nd | Bottom = 3rd | Left = 4th
+        echo "{ top = ${arr[0]}, right = ${arr[1]}, bottom = ${arr[2]}, left = ${arr[3]} }"
+    fi
+}
+
 hypr_adjust_gaps_in(){
     local current=$(hypr_get_setting "general:gaps_in")
-    local new_value=$(show_input "Gaps In" "Enter gaps in value:" "$current")
+    local new_value=$(show_input "Gaps In" "Enter gaps (e.g. 10 20):" "$current")
     [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ general = { gaps_in = $new_value } })"
+
+    local lua_gaps=$(_format_css_gaps "$new_value")
+    hypr_set_setting "hl.config({ general = { gaps_in = $lua_gaps } })"
     notify "Gaps in set to: $new_value"
 }
 
 hypr_adjust_gaps_out(){
     local current=$(hypr_get_setting "general:gaps_out")
-    local new_value=$(show_input "Gaps Out" "Enter gaps out value:" "$current")
+    local new_value=$(show_input "Gaps Out" "Enter gaps (e.g. 10 20):" "$current")
     [[ -z "$new_value" ]] && return
-    hypr_set_setting "hl.config({ general = { gaps_out = $new_value } })"
+
+    local lua_gaps=$(_format_css_gaps "$new_value")
+    hypr_set_setting "hl.config({ general = { gaps_out = $lua_gaps } })"
     notify "Gaps out set to: $new_value"
 }
 
@@ -707,16 +723,10 @@ hypr_get_monitors(){
     if exists jq;then
         hyprctl monitors -j 2>/dev/null | jq -r '.[].name'
     else
-        # Text format: "Monitor eDP-1 (ID 0):"
         hyprctl monitors 2>/dev/null | awk '/^Monitor/{print $2}'
     fi
 }
 
-# Interactive monitor picker.
-#   - Single monitor  → returned immediately, no UI shown
-#   - Multiple monitors + gum available → gum choose in a terminal window
-#   - Multiple monitors, no gum          → falls back to the framework's show_menu
-# Prints the selected monitor name, or empty string on cancel.
 hypr_select_monitor(){
     local monitors=()
     mapfile -t monitors < <(hypr_get_monitors)
@@ -726,7 +736,6 @@ hypr_select_monitor(){
         return 1
     fi
 
-    # Single monitor — no need to ask
     if [[ ${#monitors[@]} -eq 1 ]];then
         echo "${monitors[0]}"
         return 0
@@ -739,7 +748,6 @@ hypr_select_monitor(){
 
         printf '%s\n' "${monitors[@]}" > "$list_file"
 
-        # Build the gum script (list_file / out_file expanded now; $selected escaped)
         cat > "$sel_script" << GUMEOF
 echo "================================="
 echo "  Select Monitor"
@@ -755,7 +763,6 @@ GUMEOF
             $term_cmd bash "$sel_script"
             sleep 0.3
         else
-            # No terminal found — run inline (will work if already in a tty)
             sh "$sel_script"
         fi
 
@@ -770,7 +777,6 @@ GUMEOF
         return 0
     fi
 
-    # Fallback: framework show_menu
     local idx
     idx=$(show_menu "Select Monitor" "Choose a monitor:" "${monitors[@]}")
     if [[ -n "$idx" ]] && [[ "$idx" =~ ^[0-9]+$ ]];then
@@ -794,7 +800,6 @@ hypr_get_monitor_scale(){
     fi
 }
 
-# Get current resolution for a specific monitor (WxH)
 hypr_get_monitor_resolution(){
     local monitor=$1
     if exists jq;then
@@ -809,18 +814,9 @@ hypr_get_monitor_resolution(){
     fi
 }
 
-# DISPLAY SETTINGS — RESOLUTION
-# ============================================================================
-# Accepted input values:
-#   0          → hyprctl reload  (restore config-file settings)
-#  -1          → <monitor>,highres@highrr,0x0,1
-#  WxH         → <monitor>,WxH@highrr,0x0,1   (scale stays at 1)
-#  W H         → same as WxH (space-separated is normalised to x)
-# ============================================================================
-
 hypr_get_best_rr_for_res(){
     local monitor=$1
-    local resolution=$2  # e.g. "2560x1440"
+    local resolution=$2
     local w="${resolution%x*}"
     local h="${resolution#*x}"
 
@@ -877,7 +873,7 @@ Best available refresh rate will be used automatically."
                 notify_error "Invalid format. Use WxH (e.g. 2560x1440)"
                 return
             fi
-            # Find best available refresh rate for this resolution.
+
             local best_rr
             best_rr=$(hypr_get_best_rr_for_res "$monitor" "$new_res")
 
@@ -885,7 +881,7 @@ Best available refresh rate will be used automatically."
             if [[ -n "$best_rr" ]]; then
                 mode_str="${new_res}@${best_rr}"
             else
-                mode_str="$new_res"  # fallback: let Hyprland pick
+                mode_str="$new_res"
             fi
 
             if hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${mode_str}', position = '0x0', scale = $current_scale })" 2>/dev/null; then
@@ -905,7 +901,6 @@ hypr_test_resolution(){
     local current_scale=$(hypr_get_monitor_scale "$monitor")
     [[ -z "$current_scale" ]] && current_scale="1"
 
-    # List available modes for user to pick from.
     local available
     available=$(hyprctl monitors 2>/dev/null | grep "availableModes" | sed 's/.*availableModes: //' | tr ' ' '\n' | grep -v '^$')
     if [[ -z "$available" ]]; then
@@ -923,12 +918,10 @@ hypr_test_resolution(){
     [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
 
     local chosen="${modes[$idx]}"
-    # Strip trailing "Hz" suffix — Hyprland mode string uses bare number.
     local mode_str="${chosen%Hz}"
 
     notify "Testing $mode_str — restoring in 10 seconds..."
 
-    # Apply, wait, restore.
     hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${mode_str}', position = '0x0', scale = $current_scale })"
     sleep 10
     hyprctl reload
@@ -939,7 +932,6 @@ hypr_set_scale(){
     local monitor=$(hypr_select_monitor)
     [[ -z "$monitor" ]] && return
 
-    # Real per-monitor scale, not the broken getoption path
     local current_scale
     current_scale=$(hypr_get_monitor_scale "$monitor")
     [[ -z "$current_scale" ]] && current_scale="1"
@@ -952,7 +944,6 @@ Examples: 1, 1.6, 2, 3.5
     new_scale=$(show_input "Scale — $monitor" "$prompt" "$current_scale")
     [[ -z "$new_scale" ]] && return
 
-    # Strip control chars
     new_scale=$(printf '%s' "$new_scale" \
         | tr -d '\r\n' \
         | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
@@ -1045,7 +1036,7 @@ register_menu "wallust_colors" \
     " From Static Image" "cmd:wallust_colors_static" \
     "󰈫 From Video Frame"  "cmd:wallust_colors_video"
 
-# Theme Selection (placeholder - will be dynamically populated)
+# Theme Selection
 register_menu "theme_select" \
     "Select Theme" \
     "Choose a theme:" \
@@ -1136,7 +1127,7 @@ register_menu "hyprland_misc" \
     "Miscellaneous settings:" \
     " Info" "cmd:notify 'Additional settings coming soon'"
 
-# Niri Menu (placeholder)
+# Niri Menu
 register_menu "niri" \
     "Niri Settings" \
     "Niri compositor settings:" \

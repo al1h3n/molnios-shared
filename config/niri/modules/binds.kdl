@@ -1,91 +1,90 @@
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+Q { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$terminal"; }
-    Mod+E { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$explorer"; }
-    Mod+R { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$appmenu"; }
-    Mod+T { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$commandmenu"; }
-    Mod+Y { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$vmanager"; }
 
-    Mod+A { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$notes"; }
-    Mod+S { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$browser"; }
-    Mod+G { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$discord"; }
-    Mod+H { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$telegram"; }
+    // --- Core Executions ---
+    Mod+Q hotkey-overlay-title="Terminal" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$terminal'"; }
+    Mod+E hotkey-overlay-title="File Explorer" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$explorer'"; }
+    Mod+R hotkey-overlay-title="App Launcher" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$appmenu'"; }
+    Mod+T hotkey-overlay-title="Run Command" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$commandmenu'"; }
+    Mod+Y hotkey-overlay-title="Virtual Machine" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$vmanager'"; }
 
-    Mod+X { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$emojimenu"; }
-    Mod+V { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$clipman"; }
-    Mod+B { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$ocr"; }
+    Mod+A hotkey-overlay-title="Notes" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$notes'"; }
+    Mod+S hotkey-overlay-title="Browser" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$browser'"; }
+    Mod+G hotkey-overlay-title="Discord" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$discord'"; }
+    Mod+H hotkey-overlay-title="Telegram" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$telegram'"; }
 
-    Mod+Grave { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$editor"; }
-    Mod+Shift+Grave { spawn-sh "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"; }
-    Mod+End { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$actionmenu"; }
+    Mod+X hotkey-overlay-title="Emoji Picker" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$emojimenu'"; }
+    Mod+V hotkey-overlay-title="Clipboard" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$clipman'"; }
+    Mod+B hotkey-overlay-title="OCR" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$ocr'"; }
 
-    Mod+Shift+Q { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$multiterminal"; }
-    Mod+Shift+E { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$explorercli"; }
-    Mod+Shift+G { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$gamemode"; }
-    Mod+Shift+C { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$player"; }
+    Mod+Grave hotkey-overlay-title="Editor" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$editor'"; }
+    Mod+Shift+Grave hotkey-overlay-title="Launch Menu" { spawn-sh "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"; }
+    Mod+End hotkey-overlay-title="Action Menu" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$actionmenu'"; }
+
+    Mod+Shift+Q hotkey-overlay-title="Zellij" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$multiterminal'"; }
+    Mod+Shift+E hotkey-overlay-title="Yazi CLI Explorer" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$explorercli'"; }
+    Mod+Shift+G hotkey-overlay-title="Gamemode" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$gamemode'"; }
+    Mod+Shift+C hotkey-overlay-title="Media Player" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$player'"; }
 
     // --- Window Actions ---
-    Mod+C { close-window; }
-    Mod+F { fullscreen-window; }
-    Mod+W { toggle-window-floating; }
-    Mod+Shift+W { toggle-column-tabbed-display; } // Closest Niri alternative to 'togglesplit'
-    Mod+Z { quit; }
+    Mod+C hotkey-overlay-title="Close Window" { close-window; }
+    Mod+F hotkey-overlay-title="Fullscreen" { fullscreen-window; }
+    Mod+W hotkey-overlay-title="Toggle Floating" { toggle-window-floating; }
+    Mod+Shift+W hotkey-overlay-title="Toggle Tabbed Group" { toggle-column-tabbed-display; }
+    Mod+Z hotkey-overlay-title="Quit Niri" { quit; }
 
     // Alt binds
-    Alt+Tab { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$switcher"; }
-    Alt+Shift+Tab { spawn-sh "snappy-switcher prev"; }
-    Alt+Ctrl+Tab { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$switchmenu"; }
+    Alt+Tab hotkey-overlay-title="Next Window" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$switcher'"; }
+    Alt+Shift+Tab hotkey-overlay-title="Previous Window" { spawn-sh "snappy-switcher prev"; }
+    Alt+Ctrl+Tab hotkey-overlay-title="Window Switcher" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$switchmenu'"; }
 
     // Focus & Movement (Arrow Keys)
-    Mod+Left  { focus-column-left; }
-    Mod+Down  { focus-window-down; }
-    Mod+Up    { focus-window-up; }
-    Mod+Right { focus-column-right; }
+    Mod+Left  hotkey-overlay-title="Focus Left" { focus-column-left; }
+    Mod+Down  hotkey-overlay-title="Focus Down" { focus-window-down; }
+    Mod+Up    hotkey-overlay-title="Focus Up" { focus-window-up; }
+    Mod+Right hotkey-overlay-title="Focus Right" { focus-column-right; }
 
-    // Swap / Move Windows (Shift + ASDF translation from Hyprland)
-    Mod+Shift+A { move-column-left; }
-    Mod+Shift+S { move-window-up; }
-    Mod+Shift+D { move-window-down; }
-    Mod+Shift+F { move-column-right; }
+    // Swap / Move Windows
+    Mod+Shift+A hotkey-overlay-title="Move Left" { move-column-left; }
+    Mod+Shift+S hotkey-overlay-title="Move Up" { move-window-up; }
+    Mod+Shift+D hotkey-overlay-title="Move Down" { move-window-down; }
+    Mod+Shift+F hotkey-overlay-title="Move Right" { move-column-right; }
 
     // Screen locking / system
-    Mod+Space { spawn "hyprctl" "switchxkblayout" "current" "next"; }
-    Mod+Escape { spawn "systemctl" "hybrid-sleep"; }
-    Mod+Shift+Escape { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$lock"; }
+    Mod+Space hotkey-overlay-title="Switch Keyboard Layout" { spawn-sh "hyprctl switchxkblayout current next"; }
+    Mod+Escape hotkey-overlay-title="Hibernate" { spawn-sh "systemctl hybrid-sleep"; }
+    Mod+Shift+Escape hotkey-overlay-title="Lock Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$lock'"; }
 
     // --- Screenshots & Recording ---
-    Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$screenshot_clip_hyprshot"; }
-    Mod+Insert { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$ocr_simple"; }
-    Mod+Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record"; }
-    Mod+Shift+Print { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record" "-a"; }
-    Mod+Ctrl+Print  { spawn "sh" "~/.local/share/molnios/config/niri/variables.sh" "$record" "-o"; }
+    Print hotkey-overlay-title="Screenshot Region" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$screenshot_clip_hyprshot'"; }
+    Mod+Insert hotkey-overlay-title="OCR Simple" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$ocr_simple'"; }
+    Mod+Print hotkey-overlay-title="Record Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record'"; }
+    Mod+Shift+Print hotkey-overlay-title="Record Area" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -a'"; }
+    Mod+Ctrl+Print hotkey-overlay-title="Record Output" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -o'"; }
 
-    // Niri native screenshot with new 26.04 pointer metadata feature
-    Ctrl+Print { screenshot-window show-pointer=true; }
+    Ctrl+Print hotkey-overlay-title="Screenshot App (Pointer)" { screenshot-window show-pointer=true; }
 
     // --- Information Toasts (Ctrl+F1~F8) ---
-    Mod+Ctrl+F1 { spawn-sh "notify-send -h int:transient:1 \"Volume\" \"$(wpctl get-volume @DEFAULT_AUDIO_SINK@)\""; }
-    Mod+Ctrl+F2 { spawn-sh "notify-send -h int:transient:1 \"Time\" \"$(date +%H:%M:%S)\""; }
-    Mod+Ctrl+F3 { spawn-sh "notify-send -h int:transient:1 \"Date\" \"$(date +%d.%m.%Y)\""; }
-    Mod+Ctrl+F5 { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/gpu.sh)\""; }
-    Mod+Ctrl+F8 { spawn-sh "notify-send -h int:transient:1 \"Temp\" \"$(sh ~/.local/share/molnios/scripts/temp.sh)\""; }
+    Mod+Ctrl+F1 hotkey-overlay-title="Info: Volume" { spawn-sh "notify-send -h int:transient:1 \"Volume\" \"$(wpctl get-volume @DEFAULT_AUDIO_SINK@)\""; }
+    Mod+Ctrl+F2 hotkey-overlay-title="Info: Time" { spawn-sh "notify-send -h int:transient:1 \"Time\" \"$(date +%H:%M:%S)\""; }
+    Mod+Ctrl+F3 hotkey-overlay-title="Info: Date" { spawn-sh "notify-send -h int:transient:1 \"Date\" \"$(date +%d.%m.%Y)\""; }
+    Mod+Ctrl+F5 hotkey-overlay-title="Info: GPU" { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/gpu.sh)\""; }
+    Mod+Ctrl+F8 hotkey-overlay-title="Info: Temp" { spawn-sh "notify-send -h int:transient:1 \"Temp\" \"$(sh ~/.local/share/molnios/scripts/temp.sh)\""; }
 
     // --- Media & Brightness (Locked + Repeating) ---
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    XF86MonBrightnessUp  allow-when-locked=true { spawn "brightnessctl" "-q" "s" "10%+"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-q" "s" "10%-"; }
-    Mod+J allow-when-locked=true { spawn "playerctl" "previous"; }
-    Mod+K allow-when-locked=true { spawn "playerctl" "play-pause"; }
-    Mod+L allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Volume Up" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute        allow-when-locked=true hotkey-overlay-title="Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true hotkey-overlay-title="Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86MonBrightnessUp  allow-when-locked=true hotkey-overlay-title="Brightness Up" { spawn-sh "brightnessctl -q s 10%+"; }
+    XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="Brightness Down" { spawn-sh "brightnessctl -q s 10%-"; }
+    Mod+J allow-when-locked=true hotkey-overlay-title="Media Prev" { spawn-sh "playerctl previous"; }
+    Mod+K allow-when-locked=true hotkey-overlay-title="Media Pause" { spawn-sh "playerctl play-pause"; }
+    Mod+L allow-when-locked=true hotkey-overlay-title="Media Next" { spawn-sh "playerctl next"; }
 
     // --- Workspaces ---
-    // In Hyprland you had Mod+D and Mod+P mapped to "magic" special workspace.
-    // Niri doesn't have scratchpads, so we map Mod+D to Overview instead.
-    Mod+D { toggle-overview; }
-    Mod+P { consume-or-expel-window-left; }
+    Mod+D hotkey-overlay-title="Overview" { toggle-overview; }
+    Mod+P hotkey-overlay-title="Merge/Expel Window" { consume-or-expel-window-left; }
 
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }

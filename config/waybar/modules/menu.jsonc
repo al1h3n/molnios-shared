@@ -1,7 +1,7 @@
 {
 	"custom/menu": {
 		"format": "{} ",
-        "exec": "sh ~/.local/share/molnios/scripts/distro.sh",
+        "exec": "sh ~/.local/share/molnios/scripts/menu/distro.sh",
 		"on-click": "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh",
 		"tooltip-format": "  MolniOS - Main menu"
 	}

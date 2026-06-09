@@ -26,7 +26,7 @@
 `Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper _engine_, gamemode. <br>
 `Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
 `Super + Shift + F1/2/3/4/5/6` - __volume__ up/down/mute, mute microphone, turn __brightness__ up/down.<br>
-`Super + Ctrl + F1/2/3/4/5/6/7/8` - show volume level, time, date, brighness value, GPU/CPU/RAM load, temperature.
+`Super + Ctrl + F1/2/3/4/5/6/7/8` - show volume level, time, date, brighness value, GPU/CPU/RAM/Disk load, temperature.
 
 `Super + Alt + Q` - __do not stretch window__.<br>
 `Super + Alt + Z/X` - open eyedropper, open eyedropper history.
@@ -37,6 +37,7 @@
 ## Other keybinds
 `Super + grave` - editor (nvim).
 `Super + Shift + grave` - main menu.
+`Ctrl + Shift + Esc` - `btop`.
 
 ## Out-of-box keybinds (hyprland basics)
 `Super + x, x[0-9]` - workspaces. `Super + Shift + x, x[0-9]` - move window to particular one.<br>

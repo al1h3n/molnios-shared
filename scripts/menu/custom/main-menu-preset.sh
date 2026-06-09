@@ -581,48 +581,62 @@ wallpaper_menu_video(){
 }
 
 # COMPOSITOR SETTINGS ACTIONS
+current_compositor() {
+    if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+        echo hyprland
+    elif [[ -n "${NIRI_SOCKET:-}" ]]; then
+        echo niri
+    else
+        echo unknown
+    fi
+}
+
+open_active_compositor_menu() {
+    local compositor
+
+    if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+        compositor="hyprland"
+    elif [[ -n "${NIRI_SOCKET:-}" ]]; then
+        compositor="niri"
+    else
+        notify_error "No supported compositor detected"
+        return 1
+    fi
+
+    open_menu "$compositor"
+}
+
 compositor_reload(){
     sh "$L_PATH/scripts/reloadus.sh"
 }
 
 # Fixed logic to properly retrieve values from "custom" properties like gaps
-hypr_get_setting(){
+hypr_get_setting() {
     local setting="$1"
-    local output
-    output=$(hyprctl getoption "$setting" 2>/dev/null)
 
-    # 1. Try to extract 'data:' first (Hyprland stores custom values like gaps here)
-    local data_val
-    data_val=$(echo "$output" | grep "data:" | sed -n 's/.*data:[[:space:]]*\(.*\)/\1/p' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-
-    # Check if data_val is populated and is not an unparsed object
-    if [[ -n "$data_val" && "$data_val" != "<class "* && "$data_val" != "<Hyprlang::"* ]]; then
-        echo "$data_val"
-        return
-    fi
-
-    # 2. Try to extract standard int
-    local int_val
-    int_val=$(echo "$output" | grep "int:" | sed -n 's/.*int:[[:space:]]*\([0-9-]*\).*/\1/p')
-
-    # 3. Try to extract standard float
-    local float_val
-    float_val=$(echo "$output" | grep "float:" | sed -n 's/.*float:[[:space:]]*\([0-9.-]*\).*/\1/p')
-
-    # Figure out the most reasonable value to return
-    if [[ -n "$int_val" && "$int_val" != "0" ]]; then
-        echo "$int_val"
-    elif [[ -n "$float_val" && "$float_val" != "0.000000" && "$float_val" != "0" ]]; then
-        echo "$float_val"
-    elif [[ -n "$int_val" ]]; then
-        echo "$int_val"
-    else
-        echo "0"
-    fi
+    hyprctl getoption -j "$setting" 2>/dev/null \
+        | jq -r '
+            .data //
+            .bool //
+            .int //
+            .float //
+            empty
+        '
 }
 
 hypr_set_setting(){
     hyprctl eval "$*"
+}
+
+_bool_toggle() {
+    case "$1" in
+        1|true|TRUE|on|enabled)
+            echo false
+            ;;
+        *)
+            echo true
+            ;;
+    esac
 }
 
 # Helper to convert CSS-style gaps into Hyprland 0.55+ Lua tables
@@ -688,26 +702,23 @@ hypr_adjust_rounding(){
 
 hypr_toggle_animations(){
     local current=$(hypr_get_setting "animations:enabled")
-    local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ animations = { enabled = $lua_bool } })"
-    notify "Animations: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    local new_state=$(_bool_toggle "$current")
+    hypr_set_setting "hl.config({ animations = { enabled = $new_state } })"
+    notify "Animations: $new_state"
 }
 
 hypr_toggle_blur(){
     local current=$(hypr_get_setting "decoration:blur:enabled")
-    local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ decoration = { blur = { enabled = $lua_bool } } })"
-    notify "Blur: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    local new_state=$(_bool_toggle "$current")
+    hypr_set_setting "hl.config({ decoration = { blur = { enabled = $new_state } } })"
+    notify "Blur: $new_state"
 }
 
 hypr_toggle_shadows(){
     local current=$(hypr_get_setting "decoration:shadow:enabled")
-    local new_value=$((1 - current))
-    local lua_bool=$([[ $new_value -eq 1 ]] && echo "true" || echo "false")
-    hypr_set_setting "hl.config({ decoration = { shadow = { enabled = $lua_bool } } })"
-    notify "Shadows: $([[ $new_value -eq 1 ]] && echo 'enabled' || echo 'disabled')"
+    local new_state=$(_bool_toggle "$current")
+    hypr_set_setting "hl.config({ decoration = { shadow = { enabled = $new_state } } })"
+    notify "Shadows: $new_state"
 }
 
 # Monitor helpers (backend).
@@ -964,6 +975,10 @@ Examples: 1, 1.6, 2, 3.5
     esac
 }
 
+gamemode(){
+    sh $L_PATH/scripts/gamemode.sh
+}
+
 # SOFTWARE UPDATE ACTION
 software_update(){
     notify "Starting system update..."
@@ -1077,9 +1092,11 @@ register_menu "wallpaper_wallust" \
 register_menu "compositor" \
     "Compositor Settings" \
     "Select compositor:" \
+    "󰑓 Active Compositor Settings" "menu:open_active_compositor_menu" \
     " Hyprland" "menu:hyprland" \
     "󰂔 Niri" "menu:niri" \
-    "󰑓 Reload All Configs" "cmd:compositor_reload"
+    "󰑓 Reload All Configs" "cmd:compositor_reload" \
+    "󰖺 Toggle gamemode" "cmd:gamemode"
 
 # Hyprland Menu
 register_menu "hyprland" \
@@ -1119,16 +1136,60 @@ register_menu "hyprland_display" \
     "Select display setting:" \
     "󰹑 Resolution" "cmd:hypr_set_resolution" \
     "󰑒 Scale" "cmd:hypr_set_scale" \
-    "󰙵 Test Mode"  "cmd:hypr_test_resolution"
+    "󰙵 Test Mode"  "cmd:hypr_test_resolution" \
+    " Toggle VRR" "cmd:hypr_toggle_vrr"
 
 # Hyprland Misc
 register_menu "hyprland_misc" \
     "Hyprland Misc" \
     "Miscellaneous settings:" \
-    " Info" "cmd:notify 'Additional settings coming soon'"
+    " Toggle Cursor Zoom" "cmd:hypr_toggle_cursor_zoom" \
+    "󱡕 Toggle Tearing" "cmd:hypr_toggle_tearing" \
+    "󰖰 Toggle No CSD" "cmd:hypr_toggle_no_csd"
 
 # Niri Menu
 register_menu "niri" \
     "Niri Settings" \
-    "Niri compositor settings:" \
-    " Info" "cmd:notify 'Niri settings coming soon'"
+    "Select category:" \
+    " Layout" "menu:niri_layout" \
+    " Effects" "menu:niri_effects" \
+    "󰍹 Display" "menu:niri_display" \
+    "󰋜 Overview" "menu:niri_overview" \
+    " Misc" "menu:niri_misc"
+
+register_menu "niri_layout" \
+    "Niri Layout" \
+    "Adjust layout settings:" \
+    " Gaps" "cmd:niri_adjust_gaps" \
+    " Border Width" "cmd:niri_adjust_border_width" \
+    "󰘇 Focus Ring Width" "cmd:niri_adjust_focus_ring_width"
+
+register_menu "niri_effects" \
+    "Niri Effects" \
+    "Adjust visual effects:" \
+    "󰂵 Toggle Blur" "cmd:niri_toggle_blur" \
+    "󰘷 Toggle Shadows" "cmd:niri_toggle_shadow" \
+    "󰂶 Toggle Xray Blur" "cmd:niri_toggle_xray" \
+    "󰍉 Blur Saturation" "cmd:niri_blur_saturation" \
+    "󰍉 Blur Noise" "cmd:niri_blur_noise"
+
+register_menu "niri_display" \
+    "Niri Display" \
+    "Display settings:" \
+    "󰑒 Scale" "cmd:niri_set_scale" \
+    "󰹑 Resolution" "cmd:niri_set_resolution"
+
+register_menu "niri_overview" \
+    "Niri Overview" \
+    "Overview settings:" \
+    "󰋜 Toggle Backdrop Blur" "cmd:niri_toggle_overview_blur" \
+    "󰋜 Toggle Overview Effects" "cmd:niri_toggle_overview_effects"
+
+register_menu "niri_misc" \
+    "Niri Misc" \
+    "Miscellaneous settings:" \
+    "󰖲 Toggle Center Focused Column" "cmd:niri_toggle_center_column" \
+    "󰍹 Toggle Single Column Centering" "cmd:niri_toggle_single_column_center" \
+    "󰖰 Toggle Prefer No CSD" "cmd:niri_toggle_prefer_no_csd"
+
+# " Info" "cmd:notify 'Coming soon'"

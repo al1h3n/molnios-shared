@@ -1,0 +1,7 @@
+animations { off }
+layout {
+	gaps 0
+	shadow { off }
+}
+prefer-no-csd
+blur { off }

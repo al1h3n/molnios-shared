@@ -225,7 +225,7 @@ hist(){
 }
 
 txt() {
-  rg -.Sng '!.git' -g '!node_modules' "$1" | fzf --ghost "Type context of desired file" --ansi -d : --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2' | bat
+  rg -.Sng '!.git' -g '!node_modules' "$1" | fzf +i --ghost "Type context of desired file" --ansi -d : --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2' | bat
 }
 
 we() {

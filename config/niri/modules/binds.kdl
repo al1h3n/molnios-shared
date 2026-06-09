@@ -23,8 +23,17 @@ binds {
 
     Mod+Shift+Q hotkey-overlay-title="Zellij" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$multiterminal'"; }
     Mod+Shift+E hotkey-overlay-title="Yazi CLI Explorer" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$explorercli'"; }
+    Mod+Shift+R hotkey-overlay-title="Reload Wallpaper" { spawn-sh "sh ~/.local/share/molnios/scripts/wallpaper.sh -r"; }
+    Mod+Shift+H hotkey-overlay-title="Wallpaper Engine" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$wallpaperengine'"; }
+
     Mod+Shift+G hotkey-overlay-title="Gamemode" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$gamemode'"; }
-    Mod+Shift+C hotkey-overlay-title="Media Player" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$player'"; }
+    Mod+Shift+Z hotkey-overlay-title="Coder App" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$coder'"; }
+    Mod+Shift+X hotkey-overlay-title="Music Player" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$musicplayer'"; }
+    Mod+Shift+C hotkey-overlay-title="Media Player (MPV)" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$player'"; }
+    Mod+Shift+V hotkey-overlay-title="Bluetooth Manager" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$blueman'"; }
+    Mod+Shift+B hotkey-overlay-title="Network Manager" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$netman'"; }
+
+    Ctrl+Shift+Escape hotkey-overlay-title="Task Manager" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$task_manager'"; }
 
     // --- Window Actions ---
     Mod+C hotkey-overlay-title="Close Window" { close-window; }
@@ -37,6 +46,10 @@ binds {
     Alt+Tab hotkey-overlay-title="Next Window" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$switcher'"; }
     Alt+Shift+Tab hotkey-overlay-title="Previous Window" { spawn-sh "snappy-switcher prev"; }
     Alt+Ctrl+Tab hotkey-overlay-title="Window Switcher" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$switchmenu'"; }
+
+    Mod+Alt+Z hotkey-overlay-title="Eyedropper" { spawn-sh "pkill -SIGUSR1 ie-r"; }
+    Mod+Alt+X hotkey-overlay-title="Eyedropper History" { spawn-sh "pkill -SIGUSR2 ie-r"; }
+    Mod+Ctrl+Z hotkey-overlay-title="Reload Scripts" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$reload'"; }
 
     // Focus & Movement (Arrow Keys)
     Mod+Left  hotkey-overlay-title="Focus Left" { focus-column-left; }
@@ -68,10 +81,21 @@ binds {
     Mod+Ctrl+F1 hotkey-overlay-title="Info: Volume" { spawn-sh "notify-send -h int:transient:1 \"Volume\" \"$(wpctl get-volume @DEFAULT_AUDIO_SINK@)\""; }
     Mod+Ctrl+F2 hotkey-overlay-title="Info: Time" { spawn-sh "notify-send -h int:transient:1 \"Time\" \"$(date +%H:%M:%S)\""; }
     Mod+Ctrl+F3 hotkey-overlay-title="Info: Date" { spawn-sh "notify-send -h int:transient:1 \"Date\" \"$(date +%d.%m.%Y)\""; }
+    Mod+Ctrl+F4 hotkey-overlay-title="Info: Brightness" { spawn-sh "notify-send -h int:transient:1 \"Brightness\" \"$(brightnessctl -m | awk -F, '{print $4}')\""; }
     Mod+Ctrl+F5 hotkey-overlay-title="Info: GPU" { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/gpu.sh)\""; }
+    Mod+Ctrl+F6 hotkey-overlay-title="Info: CPU" { spawn-sh "notify-send -h int:transient:1 \"CPU usage\" \"$(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\\([0-9.]*\\)%* id.*/\\1/' | awk '{printf(\"%.0f%%\",100-$1)}')\""; }
+    Mod+Ctrl+F7 hotkey-overlay-title="Info: RAM" { spawn-sh "notify-send -h int:transient:1 \"RAM usage\" \"$(free | awk '/Mem:/{printf(\"%.0f%%\",$3/$2*100)}')\""; }
     Mod+Ctrl+F8 hotkey-overlay-title="Info: Temp" { spawn-sh "notify-send -h int:transient:1 \"Temp\" \"$(sh ~/.local/share/molnios/scripts/temp.sh)\""; }
 
-    // --- Media & Brightness (Locked + Repeating) ---
+    // --- Desktop Keyboard F-Row Media & Brightness ---
+    Mod+Shift+F1 allow-when-locked=true hotkey-overlay-title="Volume Down" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-"; }
+    Mod+Shift+F2 allow-when-locked=true hotkey-overlay-title="Volume Up" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    Mod+Shift+F3 allow-when-locked=true hotkey-overlay-title="Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    Mod+Shift+F4 allow-when-locked=true hotkey-overlay-title="Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    Mod+Shift+F5 allow-when-locked=true hotkey-overlay-title="Brightness Down" { spawn-sh "brightnessctl -q s 10%-"; }
+    Mod+Shift+F6 allow-when-locked=true hotkey-overlay-title="Brightness Up" { spawn-sh "brightnessctl -q s 10%+"; }
+
+    // --- Laptop Media & Brightness (Locked + Repeating) ---
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Volume Up" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
     XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
     XF86AudioMute        allow-when-locked=true hotkey-overlay-title="Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }

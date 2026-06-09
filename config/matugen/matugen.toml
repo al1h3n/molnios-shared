@@ -1,3 +1,19 @@
-[templates.pywal_fallback]
+# Matugen configuration with pywal-compatible output
+# Location: ~/.config/matugen/matugen.toml
+# ==============================================================================
+
+[templates.pywal_colors]
 input_path = '~/.config/matugen/templates/colors.sh'
 output_path = '~/.cache/wal/colors.sh'
+
+[templates.pywal_sequences]
+input_path = '~/.config/matugen/templates/sequences'
+output_path = '~/.cache/wal/sequences'
+
+[templates.pywal_colors_fish]
+input_path = '~/.config/matugen/templates/colors.fish'
+output_path = '~/.cache/wal/colors.fish'
+
+[templates.pywal_vim]
+input_path = '~/.config/matugen/templates/colors.vim'
+output_path = '~/.cache/wal/colors.vim'

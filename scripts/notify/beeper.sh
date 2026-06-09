@@ -24,8 +24,8 @@ fi
 
 # 2. Try playing with mpv if available, otherwise paplay.
 # Redirect ALL output (errors included) to the log file.
-# if command -v mpv &> /dev/null; then
-#     mpv --no-terminal --volume=50 $FILE
-# else
-#     paplay $FILE --volume=50
-# fi
+if command -v mpv &> /dev/null; then
+    mpv --no-terminal --volume=50 $FILE
+else
+    paplay $FILE --volume=50
+fi

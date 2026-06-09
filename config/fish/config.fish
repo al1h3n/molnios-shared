@@ -265,7 +265,7 @@ end
 
 function txt --description "Find text in files using ripgrep and fzf"
     rg -.Sng '!.git' -g '!node_modules' "$argv[1]" \
-        | fzf --ansi -d : \
+        | fzf +i --ansi -d : \
               --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
               --preview-window '~3,+{2}+3/2' \
         | bat

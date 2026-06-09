@@ -25,6 +25,13 @@
   "keyboard-shortcuts": true,
 
   "text-empty": "Nothing to see here",
+
+  "scripts": {
+    "notify-sound": {
+      "exec": "~/.local/share/molnios/scripts/notify/beeper.sh"
+    }
+  },
+
   "widgets": [
     "buttons-grid",
     "backlight",
@@ -77,7 +84,7 @@
           "type": "toggle",
           "active": true,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && bluetooth on || bluetooth off'",
-          "update-command": "sh $L_PATH/scripts/bluetooth-status.sh"
+          "update-command": "sh $L_PATH/scripts/monitor/bluetooth-status.sh"
         },
         {
           "label": "󰈀",

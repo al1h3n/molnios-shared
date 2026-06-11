@@ -67,7 +67,7 @@ lock="hyprlock -q -c $conf/hypr/hyprlock.conf"
 wallpaperengine="waypaper"
 wallpaper="$wallpaperengine --restore"
 idlewallpaper="mpvpaper-stop"
-borders="$shell $scripts/borderline.sh"
+borders="$shell $scripts/colors/borderline.sh"
 
 # General Applications
 explorer="thunar"

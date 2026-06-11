@@ -2,9 +2,6 @@
 # check_contrast = true
 saturation = 50
 
-[entry]
-template = 'vim'
-target = '~/.cache/wal/colors.vim'
-
+# Generate pywal-compatible output
 [templates]
 pywal = { src = "templates/", dst = "~/.cache/wal/", pywal = true }

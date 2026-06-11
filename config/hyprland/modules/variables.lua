@@ -63,7 +63,7 @@ _G.lock = "hyprlock -q -c " .. conf .. "hypr/hyprlock.conf"
 _G.wallpaperengine = "waypaper"
 _G.wallpaper = wallpaperengine .. " --restore"
 _G.idlewallpaper = "mpvpaper-stop"
-_G.borders = shell .. scripts .. "borderline.sh"
+_G.borders = shell .. scripts .. "colors/borderline.sh"
 
 _G.explorer = "thunar"
 _G.explorercli = terminal .. "yazi"

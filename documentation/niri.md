@@ -26,8 +26,8 @@
 `Main + Escape` - hibernate. `Main + Shift + Escape` - lock screen (hyprlock).<br>
 `Main + Shift + Q/W/E/R` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), toggle __tabbed__ column display, yazi, switch preset window height.<br>
 `Main + Shift + A/S/D/F; G/C` - move window/column to specified location (left column, up window, down window, right column). Gamemode, MPV player. <br>
-`Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
-`Main + Ctrl + F1/2/3/5/8` - show volume level, time, date, GPU load, temperature.
+`Main + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
+`Main + Ctrl + F1/2/3/4/5/6/7/8/9` - show volume level, time, date, brighness value, GPU/CPU/RAM/Disk load, temperature.
 
 ## Other keybinds
 `Main + grave` - editor (nvim).

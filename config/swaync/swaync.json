@@ -99,7 +99,7 @@
           "type": "toggle",
           "active": false,
           "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec tlp bat || pkexec tlp ac'",
-          "update-command": "sh $L_PATH/scripts/tlp-status.sh"
+          "update-command": "sh $L_PATH/scripts/monitor/tlp-status.sh"
         },
         {
           "label": "󰖂",

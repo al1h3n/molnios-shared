@@ -13,13 +13,13 @@ WIFI_STATUS=$(nmcli -t -f ACTIVE,SSID dev wifi | grep '^yes' | cut -d: -f2)
 ETH_STATUS=$(nmcli -t -f TYPE,STATE dev | grep "^ethernet:connected")
 
 if [[ -n $ETH_STATUS ]];then
-    echo "   Connected"
+    echo "  Connected"
     exit 0
 fi
 
 if [[ -n "$WIFI_STATUS" ]];then
-    echo "    $WIFI_STATUS"
+    echo "   $WIFI_STATUS"
     exit 0
 fi
 
-echo "󱘖   Disconnected"
+echo "󱘖  Disconnected"

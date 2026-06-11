@@ -52,6 +52,8 @@ setopt HIST_FIND_NO_DUPS
 setopt AUTOCD # Type just path.
 setopt NUMERIC_GLOB_SORT # Sort by numbers.
 
+compdef eza=ls # Set autocompletion for ls to eza.
+
 # 1. Plugin manager (Sheldon)
 if command -v sheldon &>/dev/null;then
   if [[ -f /etc/arch-release ]];then
@@ -195,6 +197,7 @@ alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"
 alias fast="sh $scripts/fetch.sh -m "
+alias nixfetch="sh $scripts/fetch.sh -f -m $L_PATH/images/nixglass.png -w 30 -p left"
 alias ca="cava -p $conf/cava.ini"
 alias cat="bat -p"
 
@@ -299,23 +302,22 @@ export _PR_AI_ADDITIONAL_PROMPT="User is on Arch Linux or nixOS with Fish shell.
 eval "$(pay-respects zsh)"
 
 # 9. Keybinds.
-
-# Moving in between words.
-
 # Shift + arrows. [moving]
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 
-# Ctrl + shift + arrows. [selection]
-bindkey "^[[1;6D" backward-select-word
-bindkey "^[[1;6C" forward-select-word
-
 # ZSH autosuggestion shift keybind.
 bindkey '^[[Z' autosuggest-accept
+bindkey '^\' autosuggest-toggle
 
-# History search with Ctrl+Up/Down.
-autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+# History search with Up/Down.
+# 1. Load the internal functions from Zsh
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+# 2. Register them as ZLE widgets
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey "^[[1;5A" history-search-backward
-bindkey "^[[1;5B" history-search-forward
+# 3. Bind them to physical keys (Handles standard, Kitty, and WezTerm escape codes)
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search

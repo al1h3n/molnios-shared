@@ -27,8 +27,9 @@
   "text-empty": "Nothing to see here",
 
   "scripts": {
-    "notify-sound": {
-      "exec": "~/.local/share/molnios/scripts/notify/beeper.sh"
+    "notification-sound": {
+      "exec": "sh $HOME/.local/share/molnios/scripts/notify/beeper.sh",
+      "run-on": "receive"
     }
   },
 

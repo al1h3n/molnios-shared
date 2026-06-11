@@ -10,7 +10,7 @@
 
 # Variables.
 set -gx EDITOR nvim
-set -gx EDITOR codium
+set -gx VISUAL codium
 set -g sharel ~/.local/share
 set -g bin /usr/local/bin
 
@@ -230,6 +230,7 @@ alias yt="yt-x -p mpv --preview"
 alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/invincible_variants.mp4"
 alias fas="sh $scripts/fetch.sh -f"
 alias fast="sh $scripts/fetch.sh -m"
+alias nixfetch="sh $scripts/fetch.sh -f -m $L_PATH/images/nixglass.png -w 30 -p left"
 alias ca="cava -p $conf/cava.ini"
 alias cat="bat -p"
 

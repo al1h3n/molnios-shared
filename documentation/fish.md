@@ -103,6 +103,7 @@ Apparently `fzf-fish` is smarter than `zsh` one, but doesn't have `--placeholder
 `fa` — shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (video).<br>
 `fas` — shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
 `fast` — shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (write path to show your own video).<br>
+`nixfetch` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
 `wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>
 `dir` | `ls` | `l` — colorful [ls](https://github.com/eza-community/eza) command. `lt` — tree view with icons.
 

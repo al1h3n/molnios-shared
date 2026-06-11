@@ -26,13 +26,6 @@ tmp/
 *.pid
 *.lock
 
-# Images (optional — remove if needed)
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.svg
-
 # Compiled / binary files
 *.exe
 *.dll

@@ -92,6 +92,7 @@ Theme: [PowerLevel10K](https://github.com/romkatv/powerlevel10k).
 `fa` - shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (video).<br>
 `fas` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
 `fast` - shortcut to custom [anifetch](https://github.com/Notenlish/anifetch) configuration (write path to show your own video).<br>
+`nixfetch` - shortcut to custom [fastfetch](https://github.com/fastfetch-cli/fastfetch) configuration (static image).<br>
 `wh` / `wn` - starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>
 `dir` | `ls` | `l` - colorful [ls](https://github.com/eza-community/eza) command. `lt` - tree view [ls](https://github.com/eza-community/eza) command with icons.
 

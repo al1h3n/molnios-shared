@@ -35,6 +35,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 L_PATH="$(dirname "$(dirname "$SCRIPT_DIR")")"
+export L_PATH
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"
 STATE_DIR="$CACHE_DIR/molnios"
 COLORS_CACHE="$STATE_DIR/colors"

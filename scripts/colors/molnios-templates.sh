@@ -19,30 +19,36 @@ COLORS_SH="$CACHE_DIR/wal/colors.sh"
     exit 1
 }
 
+# pywal16/wallust may reference $FZF_DEFAULT_OPTS (appending to it) inside
+# colors.sh. That variable is not set in this context, which kills the script
+# under set -u. Relax the unbound-variable check for just this one source.
+set +u
 # shellcheck disable=SC1090
 source "$COLORS_SH"
+set -u
 
-# Fallback if colors are in different variables
-color0="${color0:-$wal_color0}"
-color1="${color1:-$wal_color1}"
-color2="${color2:-$wal_color2}"
-color3="${color3:-$wal_color3}"
-color4="${color4:-$wal_color4}"
-color5="${color5:-$wal_color5}"
-color6="${color6:-$wal_color6}"
-color7="${color7:-$wal_color7}"
-color8="${color8:-$wal_color8}"
-color9="${color9:-$wal_color9}"
-color10="${color10:-$wal_color10}"
-color11="${color11:-$wal_color11}"
-color12="${color12:-$wal_color12}"
-color13="${color13:-$wal_color13}"
-color14="${color14:-$wal_color14}"
-color15="${color15:-$wal_color15}"
+# Normalise: some backends use wal_colorN names; fill any gaps with an empty
+# string so later generators degrade gracefully rather than aborting.
+color0="${color0:-${wal_color0:-}}"
+color1="${color1:-${wal_color1:-}}"
+color2="${color2:-${wal_color2:-}}"
+color3="${color3:-${wal_color3:-}}"
+color4="${color4:-${wal_color4:-}}"
+color5="${color5:-${wal_color5:-}}"
+color6="${color6:-${wal_color6:-}}"
+color7="${color7:-${wal_color7:-}}"
+color8="${color8:-${wal_color8:-}}"
+color9="${color9:-${wal_color9:-}}"
+color10="${color10:-${wal_color10:-}}"
+color11="${color11:-${wal_color11:-}}"
+color12="${color12:-${wal_color12:-}}"
+color13="${color13:-${wal_color13:-}}"
+color14="${color14:-${wal_color14:-}}"
+color15="${color15:-${wal_color15:-}}"
 
-background="${background:-$color0}"
-foreground="${foreground:-$color7}"
-cursor="${cursor:-$color7}"
+background="${background:-${color0:-}}"
+foreground="${foreground:-${color7:-}}"
+cursor="${cursor:-${color7:-}}"
 
 # Helper: convert hex to rgba
 hex_to_rgba(){

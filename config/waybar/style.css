@@ -1,6 +1,6 @@
 @import "theme.css";
-@import "theme-dynamic.css";
 @import "style/workspaces.css";
+/* @import "theme-dynamic.css"; */
 
 /* Group style */
 #clock,

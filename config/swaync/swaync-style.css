@@ -16,7 +16,7 @@
 @import "elements/volume.css";
 @import "elements/widgets.css";
 
-@import "colors-dynamic.css";
+/* @import "colors-dynamic.css"; */
 
 * {
   font-family: "SF Pro", sans-serif;

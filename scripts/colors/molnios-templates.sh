@@ -63,12 +63,26 @@ ensure_dir(){
     mkdir -p "$(dirname "$1")"
 }
 
+# Helper: resolve output path for files imported *relatively* by configs in the
+# molnios-shared tree (L_PATH/config/<sub>/).  When L_PATH is exported by
+# colorgen.sh the generated file lands next to the importing config so the
+# relative @import / include works.  Falls back to ~/.config/<sub> when run
+# standalone so the script still works without colorgen.
+_cfg_out(){
+    local sub="$1" file="$2"
+    if [[ -n "${L_PATH:-}" && -d "${L_PATH}/config/${sub}" ]]; then
+        echo "${L_PATH}/config/${sub}/${file}"
+    else
+        echo "${CONFIG_DIR}/${sub}/${file}"
+    fi
+}
+
 # ══════════════════════════════════════════════════════════════════════════════
 # WAYBAR THEME
 # ══════════════════════════════════════════════════════════════════════════════
 
 generate_waybar(){
-    local out="$CONFIG_DIR/waybar/theme-dynamic.css"
+    local out; out=$(_cfg_out waybar theme-dynamic.css)
     ensure_dir "$out"
 
     cat > "$out" << EOF
@@ -121,7 +135,7 @@ EOF
 # ══════════════════════════════════════════════════════════════════════════════
 
 generate_rofi(){
-    local out="$CONFIG_DIR/rofi/colors-dynamic.rasi"
+    local out; out=$(_cfg_out rofi colors-dynamic.rasi)
     ensure_dir "$out"
 
     cat > "$out" << EOF
@@ -209,7 +223,7 @@ EOF
 # ══════════════════════════════════════════════════════════════════════════════
 
 generate_swaync(){
-    local out="$CONFIG_DIR/swaync/colors-dynamic.css"
+    local out; out=$(_cfg_out swaync colors-dynamic.css)
     ensure_dir "$out"
 
     cat > "$out" << EOF
@@ -251,7 +265,7 @@ EOF
 # ══════════════════════════════════════════════════════════════════════════════
 
 generate_kitty(){
-    local out="$CONFIG_DIR/kitty/colors-dynamic.conf"
+    local out; out=$(_cfg_out kitty colors-dynamic.conf)
     ensure_dir "$out"
 
     cat > "$out" << EOF

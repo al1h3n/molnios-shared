@@ -237,7 +237,7 @@ run_pywal(){
 }
 
 run_borderline(){
-    local bscript="$L_PATH/scripts/borderline.sh"
+    local bscript="$L_PATH/scripts/colors/borderline.sh"
     [[ -f "$bscript" ]] || _die "borderline.sh not found at: $bscript"
     sh "$bscript" "$SOURCE_FILE"
 }

@@ -79,11 +79,11 @@ netman="nm-connection-editor"
 vmanager="virt-manager"
 
 # Electron / Web App Wrappers
-browser="$shell $scripts/electron.sh browser"
-discord="$shell $scripts/electron.sh discord"
-notes="$shell $scripts/electron.sh notes"
-coder="$shell $scripts/electron.sh coder"
-musicplayer="$shell $scripts/electron.sh spotify"
+browser="$shell $scripts/launchers/electron.sh browser"
+discord="$shell $scripts/launchers/electron.sh discord"
+notes="$shell $scripts/launchers/electron.sh notes"
+coder="$shell $scripts/launchers/electron.sh coder"
+musicplayer="$shell $scripts/launchers/electron.sh spotify"
 telegram="$shell $scripts/telegram.sh"
 
 set +a

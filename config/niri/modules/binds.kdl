@@ -69,7 +69,6 @@ binds {
     Mod+Shift+Escape hotkey-overlay-title="Lock Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$lock'"; }
 
     // --- Screenshots & Recording ---
-    Print hotkey-overlay-title="Screenshot Region" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$screenshot_clip_hyprshot'"; }
     Mod+Insert hotkey-overlay-title="OCR Simple" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$ocr_simple'"; }
     Mod+Print hotkey-overlay-title="Record Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record'"; }
     Mod+Shift+Print hotkey-overlay-title="Record Area" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -a'"; }
@@ -85,7 +84,7 @@ binds {
     Mod+Ctrl+F5 hotkey-overlay-title="Info: GPU" { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/gpu.sh)\""; }
     Mod+Ctrl+F6 hotkey-overlay-title="Info: CPU" { spawn-sh "notify-send -h int:transient:1 \"CPU usage\" \"$(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\\([0-9.]*\\)%* id.*/\\1/' | awk '{printf(\"%.0f%%\",100-$1)}')\""; }
     Mod+Ctrl+F7 hotkey-overlay-title="Info: RAM" { spawn-sh "notify-send -h int:transient:1 \"RAM usage\" \"$(free | awk '/Mem:/{printf(\"%.0f%%\",$3/$2*100)}')\""; }
-    Mod+Ctrl+F8 hotkey-overlay-title="Info: Disk" { spawn-sh "notify-send -h int:transient:1 \"GPU\" \"$(sh ~/.local/share/molnios/scripts/disk.sh)\""; }
+    Mod+Ctrl+F8 hotkey-overlay-title="Info: Disk" { spawn-sh "notify-send -h int:transient:1 \"Disk\" \"$(sh ~/.local/share/molnios/scripts/disk.sh)\""; }
     Mod+Ctrl+F9 hotkey-overlay-title="Info: Temp" { spawn-sh "notify-send -h int:transient:1 \"Temp\" \"$(sh ~/.local/share/molnios/scripts/temp.sh)\""; }
 
     // --- Desktop Keyboard F-Row Media & Brightness ---

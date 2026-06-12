@@ -14,6 +14,9 @@
 # Optional: verbose mode.
 # echo "[$(date)] Script triggered" >> /tmp/beeper.log
 
+# Check if notification should be disabled.
+[[ "$SWAYNC_APP_NAME" == blueman* ]] && exit 0
+
 # 1. Definitions. If custom file is provided, it'll be the dominant sound.
 DEFAULT_SOUND=$L_PATH/sfx/notifications/breeze.mp3
 if [ -f "$1" ];then

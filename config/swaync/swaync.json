@@ -29,7 +29,8 @@
   "scripts": {
     "notification-sound": {
       "exec": "sh $HOME/.local/share/molnios/scripts/notify/beeper.sh",
-      "run-on": "receive"
+      "run-on": "receive",
+      "app-name": "^(?!blueman)"
     }
   },
 

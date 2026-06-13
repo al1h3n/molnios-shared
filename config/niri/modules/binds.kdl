@@ -92,8 +92,8 @@ binds {
     Mod+Shift+F2 allow-when-locked=true hotkey-overlay-title="Volume Up" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }
     Mod+Shift+F3 allow-when-locked=true hotkey-overlay-title="Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     Mod+Shift+F4 allow-when-locked=true hotkey-overlay-title="Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    Mod+Shift+F5 allow-when-locked=true hotkey-overlay-title="Brightness Down" { spawn-sh "brightnessctl -q s 10%-"; }
-    Mod+Shift+F6 allow-when-locked=true hotkey-overlay-title="Brightness Up" { spawn-sh "brightnessctl -q s 10%+"; }
+    Mod+Shift+F5 allow-when-locked=true hotkey-overlay-title="Brightness Down" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$brightness -10%'"; }
+    Mod+Shift+F6 allow-when-locked=true hotkey-overlay-title="Brightness Up" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$brightness +10%'"; }
 
     // --- Laptop Media & Brightness (Locked + Repeating) ---
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Volume Up" { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"; }

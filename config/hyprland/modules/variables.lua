@@ -34,6 +34,7 @@ _G.gpu = mon .. "gpu.sh"
 _G.temp = mon .. "temp.sh"
 _G.disk = mon .. "disk.sh"
 _G.reload = shell .. scripts .. "reloadus.sh"
+_G.brightness  = shell .. scripts .. "brightness.sh"
 _G.gamemode = shell .. scripts .. "gamemode.sh"
 
 _G.eyedropper = "ie-r"

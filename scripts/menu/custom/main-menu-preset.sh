@@ -345,14 +345,16 @@ register_menu "themes" \
     " Select Theme" "menu:theme_select" \
     "󰇎 Random Theme" "cmd:theme_random" \
     "󰟾 Select Wallpaper" "menu:wallpaper_select" \
-    " Random Wallpaper" "cmd:wallpaper_random_static_wallust" \
-    " Terminal theme" "menu:wallust_colors"
+    " Random Wallpaper" "cmd:wallpaper_random_static_matugen" \
+    " Terminal theme" "menu:term_colors"
 
-register_menu "wallust_colors" \
+register_menu "term_colors" \
     "Terminal Colors" \
     "Pick a source image to generate colors from:" \
-    " From Static Image" "cmd:wallust_colors_static" \
-    "󰈫 From Video Frame"  "cmd:wallust_colors_video"
+    "matugen"  "cmd:matugen_colors_static" \
+    "matugen (video)"   "cmd:matugen_colors_video" \
+    "wallust"    "cmd:wallust_colors_static" \
+    "wallust (video)"   "cmd:wallust_colors_video"
 
 # Theme Selection
 register_menu "theme_select" \
@@ -363,9 +365,10 @@ register_menu "theme_select" \
 register_menu "wallpaper_select" \
     "Select Wallpaper" \
     "Choose color backend:" \
-    "Regular"  "menu:wallpaper_regular" \
-    "Pywal"    "menu:wallpaper_pywal" \
-    "Wallust"  "menu:wallpaper_wallust"
+    "Regular" "menu:wallpaper_regular" \
+    "Pywal" "menu:wallpaper_pywal" \
+    "Wallust" "menu:wallpaper_wallust" \
+    "Matugen" "menu:wallpaper_matugen"
 
 register_menu "wallpaper_regular" \
     "Regular Wallpaper" \
@@ -390,6 +393,14 @@ register_menu "wallpaper_wallust" \
     "󰈫 Video Wallpapers"   "cmd:wallpaper_menu_video_wallust" \
     " Random Static"       "cmd:wallpaper_random_static_wallust" \
     " Random Video"        "cmd:wallpaper_random_video_wallust"
+
+register_menu "wallpaper_matugen" \
+    "Wallpaper + Matugen" \
+    "Set wallpaper and generate Material You theme:" \
+    " Static Images" "cmd:wallpaper_menu_static_matugen" \
+    "󰈫 Video Wallpapers" "cmd:wallpaper_menu_video_matugen" \
+    " Random Static" "cmd:wallpaper_random_static_matugen" \
+    " Random Video" "cmd:wallpaper_random_video_matugen"
 
 # Compositor Settings Menu
 register_menu "compositor" \

@@ -136,8 +136,8 @@ local locked_rep = {
     { M.." + SHIFT + F2",  "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+" },
     { M.." + SHIFT + F3",  "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" },
     { M.." + SHIFT + F4",  "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" },
-    { M.." + SHIFT + F5",  "brightnessctl s 10%-" },
-    { M.." + SHIFT + F6",  "brightnessctl s 10%+" },
+    { M.." + SHIFT + F5",  brightness .. " -10%" },
+    { M.." + SHIFT + F6",  brightness .. " +10%" },
 }
 for _, b in ipairs(locked_rep) do
     hl.bind(b[1], exec(b[2]), { locked = true, repeating = true })

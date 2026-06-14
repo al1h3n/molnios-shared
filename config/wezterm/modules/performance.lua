@@ -4,7 +4,7 @@ local settings = {
     animation_fps = 154; -- For blinking things.
     audible_bell = "Disabled",
     default_cursor_style = 'BlinkingBlock',
-    front_end = "WebGpu",
+    -- front_end = "WebGpu", -- Niri doesn't support WebGpu yet.
     kde_window_background_blur = true,
     macos_window_background_blur = 15,
     max_fps = 154,
@@ -16,13 +16,3 @@ local settings = {
 for k, v in pairs(settings) do
     config[k] = v
 end
-
--- if wezterm.gui then
---   local gpus = wezterm.gui.enumerate_gpus()
---   for _, gpu in ipairs(gpus) do
---     if gpu.backend == "Vulkan" then
---       config.webgpu_preferred_adapter = gpu
---       break
---     end
---   end
--- end

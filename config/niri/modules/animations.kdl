@@ -4,6 +4,10 @@ animations {
         duration-ms 200
         curve "cubic-bezier" 0.13 0.99 0.29 1.08
     }
+    window-close {
+        duration-ms 180
+        curve "cubic-bezier" 0.13 0.99 0.29 1.08
+    }
     window-movement {
         spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
     }

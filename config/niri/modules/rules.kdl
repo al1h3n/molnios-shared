@@ -47,6 +47,15 @@ window-rule {
     }
 }
 
+// Terminals
+window-rule {
+    match app-id=r#"^(org\.wezfurlong\.wezterm|kitty)$"#
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
 // ==========================================
 // LAYER RULES
 // ==========================================

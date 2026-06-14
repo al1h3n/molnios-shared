@@ -81,15 +81,16 @@ case "$APP" in
         ;;
 
     # ── Browser ───────────────────────────────────────────────────────────────
-    # Priority: firefox → brave → ungoogled-chromium → chromium → google-chrome
+    # Priority: librewolf → firefox → brave → ungoogled-chromium → chromium → google-chrome
     # Browsers handle Wayland natively — no Electron flags needed.
 
     browser)
-        try_exec firefox            "$@" ||
-        try_exec brave              "$@" ||
-        try_exec ungoogled-chromium "$@" ||
-        try_exec chromium           "$@" ||
-        try_exec google-chrome      "$@" ||
+        try_exec librewolf "$@" ||
+        try_exec firefox "$@" ||
+        try_exec brave "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec ungoogled-chromium "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec chromium "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec google-chrome "${ELECTRON_FLAGS[@]}" "$@" ||
         { echo "No browser found (tried firefox, brave, ungoogled-chromium, chromium, google-chrome)" >&2; exit 1; }
         ;;
 

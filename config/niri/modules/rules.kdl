@@ -50,11 +50,18 @@ window-rule {
 // ==========================================
 // LAYER RULES
 // ==========================================
-// Blur for Waybar, Rofi, SwayNC, Wlogout, Snappy Switcher
 layer-rule {
-    match namespace=r#"^(waybar|rofi|swaync-notification-window|swaync-control-center|logout_dialog|snappy-switcher)$"#
+    match namespace=r#"^(waybar|rofi|logout_dialog)$"#
     background-effect {
         blur true
         xray false // Turn off xray so it blurs the active windows behind it, not just the wallpaper
+    }
+}
+
+layer-rule {
+    match namespace=r#"^(swaync-control-center|swaync-notification-window)$"
+    background-effect {
+        blur true
+        xray false
     }
 }

@@ -40,6 +40,7 @@ brightness="$shell $scripts/brightness.sh"
 gamemode="$shell $scripts/gamemode.sh"
 eyedropper="ie-r"
 actionmenu="wlogout -nl $conf/wlogout/layout -C $conf/wlogout/wlogout.css"
+task_manager="$terminal btop"
 
 # Clipboard
 clipman="$shell $scripts/clipboard-images.sh"

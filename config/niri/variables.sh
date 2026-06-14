@@ -30,8 +30,7 @@ switchmenu="$menu window $rofi_icons"
 youtube="yt-x -s -l rofi --rofi-theme-main $menuconfig"
 
 # Utilities & System Scripts
-switcher="snappy-switcher"
-switcherdaemon="$switcher --daemon -c $conf/snappy.ini"
+# No switcher.
 
 gpu="$shell $scripts/gpu.sh"
 temp="$shell $scripts/temp.sh"

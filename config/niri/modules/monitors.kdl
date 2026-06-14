@@ -1,6 +1,6 @@
 /-output "DP-1" {
     // mode "2560x1440@160"
-    scale 1.25
+    scale 1.75
     // transform "90" - use for flipped second monitor.
     variable-refresh-rate // Might be laggy.
 }

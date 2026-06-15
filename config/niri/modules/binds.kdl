@@ -42,10 +42,8 @@ binds {
     Mod+Shift+W hotkey-overlay-title="Toggle Tabbed Group" { toggle-column-tabbed-display; }
     Mod+Z hotkey-overlay-title="Quit Niri" { quit; }
 
-    // Alt binds
-    Alt+Tab hotkey-overlay-title="Next Window" { spawn-sh "sh ~/.local/share/molnios/scripts/switcher/niri-cycle.sh next"; }
-    Alt+Shift+Tab hotkey-overlay-title="Previous Window" { spawn-sh "sh ~/.local/share/molnios/scripts/switcher/niri-cycle.sh prev"; }
-    Alt+Ctrl+Tab  hotkey-overlay-title="Window List" { spawn-sh "sh ~/.local/share/molnios/scripts/switcher/niri-switcher.sh"; }
+    // Alt binds.
+    Alt+Ctrl+Tab  hotkey-overlay-title="Window List" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$switchmenu'"; }
 
     Mod+Alt+Z hotkey-overlay-title="Eyedropper" { spawn-sh "pkill -SIGUSR1 ie-r"; }
     Mod+Alt+X hotkey-overlay-title="Eyedropper History" { spawn-sh "pkill -SIGUSR2 ie-r"; }
@@ -69,7 +67,8 @@ binds {
     Mod+Shift+Escape hotkey-overlay-title="Lock Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$lock'"; }
 
     // --- Screenshots & Recording ---
-    Print hotkey-overlay-title="Screenshot" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$screenshot_clip_hyprshot'"; }
+    Print hotkey-overlay-title="Screenshot" { screenshot; }
+    Ctrl+Print hotkey-overlay-title="Screenshot Window" { screenshot-window show-pointer=true; }
     Mod+Insert hotkey-overlay-title="OCR Simple" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$ocr_simple'"; }
     Mod+Print hotkey-overlay-title="Record Screen" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record'"; }
     Mod+Shift+Print hotkey-overlay-title="Record Area" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -a'"; }

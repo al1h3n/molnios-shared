@@ -68,9 +68,10 @@ layer-rule {
 }
 
 layer-rule {
-    match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
+    match namespace=r#"^(swaync-control-center)$"#
     background-effect {
         blur true
         xray false
     }
 }
+// swaync-notification-window

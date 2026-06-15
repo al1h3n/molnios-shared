@@ -4,7 +4,8 @@
 `Alt [Shift] + Tab` - next and previous window switch, `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
 
 #### Media
-`PrintScreen` - make _screenshot_ and launch manager.<br>
+`PrintScreen` - make _screenshot_.<br>
+`Ctrl + PrintScreen` - window screenshot.<br>
 `Main + PrintScreen` - __record__ screen.<br>
 `Main + Insert` - OCR - copy text (no UI).<br>
 `Ctrl + PrintScreen` - Native Niri screenshot with __cursor__ pointer included.<br>

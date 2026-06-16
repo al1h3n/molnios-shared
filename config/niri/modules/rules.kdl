@@ -77,19 +77,11 @@ layer-rule {
     }
 }
 
-layer-rule {
-    match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
-    background-effect {
-        blur true
-        xray false
-    }
-}
-
-layer-rule {
-    match namespace="rofi"
-
-    background-effect {
-        blur true
-        xray false
-    }
-}
+// SwayNC has some errors in blur integration currently.
+// layer-rule {
+//     match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
+//     background-effect {
+//         blur true
+//         xray false
+//     }
+// }

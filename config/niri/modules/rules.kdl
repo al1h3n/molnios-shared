@@ -71,7 +71,7 @@ layer-rule {
     match namespace=r#"^(swaync-control-center)$"#
     background-effect {
         blur true
-        xray false
+        xray true
     }
 }
 

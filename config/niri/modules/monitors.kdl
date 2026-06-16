@@ -1,4 +1,4 @@
--output "DP-1" {
+output "DP-1" {
     // mode "2560x1440@160"
     scale 1.25
     // transform "90" - use for flipped second monitor.

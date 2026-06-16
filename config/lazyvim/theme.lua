@@ -21,7 +21,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "wal", -- gruvbox
+      colorscheme = "gruvbox", -- wal
     },
   },
 }

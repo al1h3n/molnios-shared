@@ -24,6 +24,16 @@ window-rule {
     opacity 1.0
 }
 
+// Inactive window opacity and blur
+window-rule {
+    match is-active=false
+
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
 // Opaque Browsers/Players
 window-rule {
     match app-id=r#"^(mpv|zen|librewolf|firefox|brave|chrome|chromium)$"#

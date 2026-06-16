@@ -1,0 +1,17 @@
+blur {
+    passes 3
+    offset 3.0
+    noise 0.02
+    saturation 1.4
+}
+
+layout {
+	// Shadow range 25
+	shadow {
+			on
+			softness 25 // Softness controls the shadow blur radius.
+			spread 3 // Spread expands the shadow.
+			offset x=0 y=2
+			color "#1A1A1A90"
+	}
+}

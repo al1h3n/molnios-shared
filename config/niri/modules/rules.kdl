@@ -78,16 +78,18 @@ layer-rule {
 }
 
 layer-rule {
-    match namespace=r#"^(swaync-control-center)$"#
+    match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
     background-effect {
         blur true
-        xray true
+        xray false
     }
 }
 
-// layer-rule {
-//     match namespace=r#"^(swaync-notification-window)$"#
-//     background-effect {
-//         blur false
-//     }
-// }
+layer-rule {
+    match namespace="rofi"
+
+    background-effect {
+        blur true
+        xray false
+    }
+}

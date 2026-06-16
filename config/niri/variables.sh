@@ -8,7 +8,7 @@ scripts=$L_PATH/scripts
 
 shell=sh
 terminal_kitty="kitty -c $conf/kitty/kitty.conf"
-terminal="wezterm --config-file $conf/wezterm/wezterm.lua"
+terminal="wezterm --config-file $conf/wezterm/wezterm.lua start --"
 multiterminal="$terminal zellij -c $conf/zellij/config.kdl"
 
 # Rofi.

@@ -74,8 +74,6 @@ binds {
     Mod+Shift+Print hotkey-overlay-title="Record Area" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -a'"; }
     Mod+Ctrl+Print hotkey-overlay-title="Record Output" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$record -o'"; }
 
-    Ctrl+Print hotkey-overlay-title="Screenshot App (Pointer)" { screenshot-window show-pointer=true; }
-
     // --- Information Toasts (Ctrl+F1~F8) ---
     Mod+Ctrl+F1 hotkey-overlay-title="Info: Volume" { spawn-sh "notify-send -h int:transient:1 \"Volume\" \"$(wpctl get-volume @DEFAULT_AUDIO_SINK@)\""; }
     Mod+Ctrl+F2 hotkey-overlay-title="Info: Time" { spawn-sh "notify-send -h int:transient:1 \"Time\" \"$(date +%H:%M:%S)\""; }

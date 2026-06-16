@@ -74,4 +74,10 @@ layer-rule {
         xray false
     }
 }
-// swaync-notification-window
+
+// layer-rule {
+//     match namespace=r#"^(swaync-notification-window)$"#
+//     background-effect {
+//         blur false
+//     }
+// }

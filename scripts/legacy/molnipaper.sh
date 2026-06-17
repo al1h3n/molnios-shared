@@ -54,7 +54,6 @@ set -euo pipefail
 # ── Resolve L_PATH ────────────────────────────────────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-L_PATH="$(dirname "$SCRIPT_DIR")"   # ~/.local/share/molnios
 
 # ── Load NixOS / home-manager environment if needed ──────────────────────────
 

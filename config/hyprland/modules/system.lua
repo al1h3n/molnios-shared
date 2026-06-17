@@ -7,10 +7,10 @@ hl.on("hyprland.start", function()
 
     -- Polkit agent
     hl.exec_cmd(
-        "systemctl --user start hyprpolkitagent.service 2>/dev/null " ..
-        "|| systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null " ..
-        "|| /usr/libexec/hyprpolkitagent " ..
-        "|| /usr/lib/hyprpolkitagent " ..
+        "systemctl --user start polkit-gnome-authentication-agent-1" ..
+        "|| hyprpolkitagent" ..
+        "|| /usr/libexec/hyprpolkitagent" ..
+        "|| /usr/lib/hyprpolkitagent" ..
         "|| /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
     )
 

@@ -148,7 +148,7 @@ local info = {
     { M.." + CTRL + F1", [[notify-send -h int:transient:1 "Current volume" "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)"%" ($3?" "$3:"")}')"]] },
     { M.." + CTRL + F2", [[notify-send -h int:transient:1 "Current time" "$(date +%H:%M:%S)"]] },
     { M.." + CTRL + F3", [[notify-send -h int:transient:1 "Current date" "$(date +%d.%m.%Y)"]] },
-    { M.." + CTRL + F4", [[notify-send -h int:transient:1 "Brightness" "$(brightnessctl -m | awk -F, '{print $4}')"]] },
+    { M.." + CTRL + F4", [[notify-send -h int:transient:1 "Brightness" "$(]] .. brightness .. [[ -g)"]] },
     { M.." + CTRL + F5", [[notify-send -h int:transient:1 "GPU usage" "$(]] .. gpu  .. [[)"]] },
     { M.." + CTRL + F6", [[notify-send -h int:transient:1 "CPU usage" "$(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{printf("%.0f%%",100-$1)}')"]] },
     { M.." + CTRL + F7", [[notify-send -h int:transient:1 "RAM usage" "$(free | awk '/Mem:/{printf("%.0f%%",$3/$2*100)}')"]] },

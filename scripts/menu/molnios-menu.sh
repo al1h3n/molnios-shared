@@ -84,7 +84,7 @@ box_width=44
 # ── title box ────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${YELLOW}${BOLD}┌──────────────────────────────────────────────┐${GRV_RESET}"
-printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}  │${GRV_RESET}\n" "$title"
+printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}│${GRV_RESET}\n" "$title"
 echo -e "${YELLOW}${BOLD}└──────────────────────────────────────────────┘${GRV_RESET}"
 echo ""
 
@@ -113,7 +113,7 @@ SHELL_INPUT_EOF
     rm -f "$output_file"
 
     local term_cmd=""
-    if command -v wezterm&>/dev/null;then term_cmd="wezterm --config-file $L_PATH/config/wezterm/wezterm.lua start --"
+    if command -v wezterm&>/dev/null;then term_cmd="wezterm --config-file $L_PATH/config/wezterm/wezterm.lua start --class floating --"
     elif command -v kitty&>/dev/null;then term_cmd="kitty -c $L_PATH/config/kitty/kitty.conf --class floating -e"
     elif command -v ghostty&>/dev/null;then term_cmd="ghostty -e"
     elif command -v alacritty&>/dev/null;then term_cmd="alacritty -e"

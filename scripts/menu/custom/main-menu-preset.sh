@@ -70,7 +70,7 @@ _TERM_PRIORITY=(wezterm kitty ghostty alacritty xterm)
 _term_launch_prefix(){
     local term="$1"
     case "$term" in
-        wezterm)   exists wezterm   && echo "wezterm start --class floating" ;;
+        wezterm)   exists wezterm   && echo "wezterm --config-file $L_PATH/config/wezterm/wezterm.lua start --class floating --" ;;
         kitty)     exists kitty     && echo "kitty --class floating -e" ;;
         ghostty)   exists ghostty   && echo "ghostty -e" ;;
         alacritty) exists alacritty && echo "alacritty -e" ;;
@@ -171,6 +171,26 @@ power_hibernate(){
 
 power_sleep(){
     systemctl sleep
+}
+
+power_brightness(){
+    local input
+    input=$(show_input "Brightness" "Percentage (e.g. 50%) or relative (+10% / -10%):" "")
+
+    [[ -z "$input" ]] && return 0  # cancelled
+
+    input="${input// /}"  # drop stray spaces
+
+    if [[ ! "$input" =~ ^[+-]?[0-9]{1,3}%?$ ]];then
+        notify_error "Invalid brightness value: $input"
+        return 1
+    fi
+
+    if sh "$L_PATH/scripts/brightness.sh" "$input";then
+        notify "Brightness: $input"
+    else
+        notify_error "Brightness adjustment failed"
+    fi
 }
 
 # CONNECTION OPTIONS ACTIONS
@@ -293,7 +313,7 @@ software_update(){
         $term_cmd bash -c "
             echo 'Starting system update...'
             if command -v nixos-rebuild &>/dev/null; then
-                sudo sh /usr/local/bin/molnios.sh -f -dp -nb -np
+                sudo sh /usr/local/bin/molnios.sh -f -dp -nb
             fi
             sudo sh sweeper
             echo 'Update complete. Press Enter to close...'
@@ -322,6 +342,7 @@ register_menu "main" \
 register_menu "power" \
     "Power Options" \
     "Select power action:" \
+    "󰳲 Brightness" "cmd:power_brightness"  \
     " Lock" "cmd:power_lock" \
     "⏻ Shutdown" "cmd:power_shutdown" \
     " Reboot" "cmd:power_reboot" \

@@ -10,22 +10,30 @@ show_help() {
     echo "  $0 -10%          # Decrease active monitor brightness by 10%"
     echo "  $0 50%           # Set active monitor brightness straight to 50%"
     echo "  $0 -m eDP-1 +10% # Force adjust a specific monitor manually"
+    echo "  $0 -g            # Get active monitor brightness value"
+    echo "  $0 -g -m DP-1    # Get a specific monitor brightness value"
     echo ""
     echo "Options:"
     echo "  -m, --monitor <name>   Manually specify monitor name/connector (e.g., eDP-1, DP-2)"
     echo "  -h, --help             Show this help screen"
+    echo "  -g, --get              Get monitor brightness value"
     exit 0
 }
 
 # --- PARSE ARGUMENTS ---
 MANUAL_MONITOR=""
 VALUE=""
+GET_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -m|--monitor)
             MANUAL_MONITOR="$2"
             shift 2
+            ;;
+        -g|--get)
+            GET_MODE=true
+            shift
             ;;
         -h|--help)
             show_help
@@ -37,7 +45,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ -z "$VALUE" ]; then
+if [ "$GET_MODE" = false ] && [ -z "$VALUE" ]; then
     echo "Error: Missing adjustment value (e.g., +10%, -10%, 50%)."
     show_help
 fi
@@ -76,6 +84,30 @@ get_active_monitor() {
 # Decide target monitor
 TARGET_MONITOR="${MANUAL_MONITOR:-$(get_active_monitor)}"
 
+# Evaluate if target is internal laptop display (standard naming conventions)
+IS_INTERNAL=false
+if [[ "$TARGET_MONITOR" =~ ^(eDP|LVDS|eDP-)[0-9]+$ ]] ||
+   [[ "$TARGET_MONITOR" == "AUTO" && ( -d /sys/class/backlight/intel_backlight || -d /sys/class/backlight/amdgpu_bl0 ) ]]; then
+    IS_INTERNAL=true
+fi
+
+# --- GET MODE IMPLEMENTATION ---
+if [ "$GET_MODE" = true ]; then
+    if [ "$IS_INTERNAL" = true ]; then
+        b_val=$(brightnessctl -c backlight -m 2>/dev/null | awk -F, 'NR==1 {print $4}')
+        echo "${b_val:-0%}"
+    else
+        BUS_INDEX="1"
+        if [ "$TARGET_MONITOR" != "AUTO" ]; then
+            BUS_INDEX=$(ddcutil detect | grep -B 3 "$TARGET_MONITOR" | grep "I2C bus:" | awk -F'-' '{print $2}' || echo "1")
+        fi
+
+        b_val=$(ddcutil -b "$BUS_INDEX" getvcp 10 2>/dev/null | sed -n 's/.*current value = *\([0-9]*\).*/\1%/p')
+        echo "${b_val:-0%}"
+    fi
+    exit 0
+fi
+
 # --- PARSE VALUE INTO FORMATS ---
 # Strip %, extract absolute integer numbers, and sign
 DIGITS=$(echo "$VALUE" | tr -cd '0-9')
@@ -90,11 +122,8 @@ elif [[ "$VALUE" == *"-"* ]]; then
 fi
 
 # --- EXECUTION ENGINE ---
-# Check if target is internal laptop display (standard naming conventions)
-if [[ "$TARGET_MONITOR" =~ ^(eDP|LVDS|eDP-)[0-9]+$ ]] || [ "$TARGET_MONITOR" = "AUTO" && -d /sys/class/backlight/intel_backlight ] || [ "$TARGET_MONITOR" = "AUTO" && -d /sys/class/backlight/amdgpu_bl0 ]; then
-
+if [ "$IS_INTERNAL" = true ]; then
     # Internal Display -> Use brightnessctl
-    # brightnessctl expects format: 10%+ or 10%- or 50%
     if [ "$IS_RELATIVE" = true ]; then
         if [ "$IS_DECREASE" = true ]; then
             BRIGHTNESSCTL_ARG="${DIGITS}%-"
@@ -107,11 +136,8 @@ if [[ "$TARGET_MONITOR" =~ ^(eDP|LVDS|eDP-)[0-9]+$ ]] || [ "$TARGET_MONITOR" = "
 
     echo "Adjusting internal display using brightnessctl ($BRIGHTNESSCTL_ARG)..."
     brightnessctl set "$BRIGHTNESSCTL_ARG"
-
 else
     # External Display -> Use ddcutil
-    # Find matching DDC bus index using the connector identifier string (e.g. DP-1, HDMI-A-1)
-    # If AUTO or match fails, fallback to primary detected screen index 1
     BUS_INDEX="1"
     if [ "$TARGET_MONITOR" != "AUTO" ]; then
         # Parse ddcutil output to find which bus maps to our video connector
@@ -130,6 +156,5 @@ else
     fi
 
     echo "Adjusting external display (Bus $BUS_INDEX) using ddcutil ($DDCUTIL_ARG)..."
-    # Execute through ddcutil without using sudo (requires user in i2c group)
     ddcutil -b "$BUS_INDEX" setvcp 10 $DDCUTIL_ARG
 fi

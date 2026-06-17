@@ -2,6 +2,13 @@
 # Location: ~/.config/matugen/matugen.toml
 # ==============================================================================
 
+[config]
+prefer = "saturation"
+caching = true
+contrast = 1
+set = true
+command = "awww img --transition-type any {{ image }}"
+
 [templates.pywal_colors]
 input_path = '~/.config/matugen/templates/colors.sh'
 output_path = '~/.cache/wal/colors.sh'

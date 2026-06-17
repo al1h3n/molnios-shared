@@ -103,7 +103,7 @@ _wallust_apply(){
         return 1
     fi
 
-    wallust run -I background "$wal_src"
+    wallust -C $L_PATH/config/theming/wallust.toml run -I background "$wal_src"
 
     local bscript="$L_PATH/scripts/borderline.sh"
     if [[ -f "$bscript" ]];then
@@ -366,8 +366,9 @@ _matugen_apply(){
         [[ -z "$_mode" && -n "$_v" ]] && _mode="$_v"
     fi
 
-    matugen --type "${_scheme:-scheme-tonal-spot}" \
-            --mode "${_mode:-dark}" \
+    matugen -t "${_scheme:-scheme-tonal-spot}" \
+            -m "${_mode:-dark}" \
+            -c $L_PATH/config/theming/matugen.toml \
             image "$wal_src"
 
     local bscript="$L_PATH/scripts/borderline.sh"

@@ -585,15 +585,7 @@ manage_repo() {
     done
 }
 
-main() {
-    # Dependency check
-    for cmd in git fd fzf gum nvim; do
-        if ! command -v "$cmd" &>/dev/null; then
-            echo -e "${RED}Error: '$cmd' is not installed or not in PATH.${RESET}"
-            exit 1
-        fi
-    done
-
+select_repo() {
     while true; do
         if [[ ! -f "$CACHE_FILE" ]]; then
             update_cache
@@ -605,7 +597,7 @@ main() {
         local selected_repo
         selected_repo=$(cat "$CACHE_FILE" | fzf \
             --prompt="Select Repo> " \
-            --header="GitCooker - Select a Repository (Press Ctrl-R to refresh cache)" \
+            --header="GitCooker - Select a Repository (Press Ctrl-R to refresh cache, Esc to return to Main Menu)" \
             --header-first \
             --bind "ctrl-r:execute(\"$SCRIPT_PATH\" _refresh_cache)+reload(cat \"$CACHE_FILE\")" \
             --color="bg+:#3c3836,bg:#282828,spinner:#fb4934,hl:#8ec07c" \
@@ -613,8 +605,7 @@ main() {
             --color="marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#8ec07c")
 
         if [[ -z "$selected_repo" ]]; then
-            echo -e "${YELLOW}Exiting GitCooker...${RESET}"
-            exit 0
+            return 0
         fi
 
         if [[ -d "$selected_repo" ]]; then
@@ -625,6 +616,106 @@ main() {
             sleep 2
         fi
     done
+}
+
+main_menu() {
+    while true; do
+        clear
+        title
+        echo -e "${YELLOW}Main Menu${RESET} - Current Dir: ${WHITE}$(pwd)${RESET}\n"
+
+        local main_choice
+        main_choice=$(gum choose \
+            --cursor="> " \
+            "Select" \
+            "Clone" \
+            "Editor" \
+            "Explorer" \
+            "Shell" \
+            "SSH" \
+            "Quit")
+
+        case "$main_choice" in
+            "Select")
+                select_repo
+                ;;
+            "Clone")
+                clear
+                title
+                echo -e "${YELLOW}Clone Repository${RESET}\n"
+
+                local link dest
+                link=$(gum input --prompt="Repository URL (e.g. github.com/user/repo): " --width=70)
+                [[ -z "$link" ]] && continue
+
+                dest=$(gum input --prompt="Destination Path (e.g. ~/projects/repo): " --width=70)
+                [[ -z "$dest" ]] && continue
+
+                # Expand tilde if present
+                dest="${dest/#\~/$REAL_HOME}"
+
+                echo ""
+                clone "$link" "$dest"
+
+                # Automatically refresh cache if clone is successful
+                if [[ -d "$dest" ]]; then
+                    echo -e "\n${GREEN}Updating cache with new repository...${RESET}"
+                    update_cache
+                fi
+
+                gum confirm "Press Enter to continue" || true
+                ;;
+            "Editor")
+                nvim .
+                ;;
+            "Explorer")
+                if command -v yazi &>/dev/null; then
+                    yazi .
+                else
+                    echo -e "${RED}Error: yazi is not installed.${RESET}"
+                    sleep 2
+                fi
+                ;;
+            "Shell")
+                clear
+                title
+                echo -e "${YELLOW}Select Shell for $(pwd):${RESET}\n"
+                local sh_choice
+                sh_choice=$(gum choose --cursor="> " "zsh" "fish" "bash" "Back")
+
+                if [[ "$sh_choice" != "Back" && -n "$sh_choice" ]]; then
+                    if command -v "$sh_choice" &>/dev/null; then
+                        echo -e "\n${GREEN}Entering $sh_choice. Type 'exit' or press Ctrl+D to return to GitCooker.${RESET}\n"
+                        "$sh_choice"
+                    else
+                        echo -e "\n${RED}Error: $sh_choice is not installed.${RESET}"
+                        sleep 2
+                    fi
+                fi
+                ;;
+            "SSH")
+                mkdir -p "$REAL_HOME/.ssh"
+                nvim "$REAL_HOME/.ssh/config"
+                ;;
+            "Quit")
+                clear
+                exit 0
+                ;;
+        esac
+    done
+}
+
+main() {
+    # Dependency check
+    for cmd in git fd fzf gum nvim; do
+        if ! command -v "$cmd" &>/dev/null; then
+            echo -e "${RED}Error: '$cmd' is not installed or not in PATH.${RESET}"
+            exit 1
+        fi
+    done
+
+    # Enter Main Menu Loop
+    main_menu
 }
 
 # ==============================================================================

@@ -1,3 +1,4 @@
+# wayle shell --config ~/repo/molnios-shared/config/wayle/config.toml
 [bar]
 scale = 1
 

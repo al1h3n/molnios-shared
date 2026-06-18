@@ -93,6 +93,7 @@ alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
 alias ki="kitty -c $conf/kitty/kitty.conf"
 alias kitty="kitty -c $conf/kitty/kitty.conf"
 alias ze="zellij -c $conf/zellij/config.kdl"
+alias mostwanted="history | string match -r '^\S+' | sort | uniq -c | sort -nr | head -n 10"
 
 function rr --description "rm-improved: safely remove files with confirmation"
     if test (count $argv) -eq 0
@@ -166,6 +167,7 @@ if test (uname) != Darwin
     alias m="sh $scripts/menu/launch-menu.sh"
     alias my="sh $scripts/menu/launch-menu.sh -y"
     alias r="sh $scripts/reloadus.sh"
+    alias br="sh $scripts/brightness.sh"
 
     function journal --description "Browse systemd logs"
         journalctl -xe | fzf
@@ -217,6 +219,11 @@ if test (uname) != Darwin
     alias bd="sh $mecha/backlight.sh down 5"
     alias vu="sh $mecha/volume.sh output raise 5"
     alias vd="sh $mecha/volume.sh output lower 5"
+
+    if type -q hyprctl
+        alias hy=hyprctl
+        alias hr="hyprctl reload"
+    end
 else
     alias po="shutdown -h now"
     alias blue="blueutil --power"
@@ -339,6 +346,67 @@ function man --description "Use tldr first, fallback to man"
 end
 
 alias lh="ln --help"
+# ==========================================================
+
+# Hooks.
+# ==========================================================
+# Auto bind for cd command (Hooks)
+function python_hook --on-variable PWD
+    if test -d .venv
+        source .venv/bin/activate.fish
+    else if test -d venv
+        source venv/bin/activate.fish
+    else if set -q VIRTUAL_ENV
+        deactivate
+    end
+end
+
+function nix_hook --on-variable PWD
+    if set -q IN_NIX_SHELL; or set -q NIX_DEVELOP; or test -f ".no-auto-nix"
+        return
+    end
+    if test -f "flake.nix"
+        if grep -q "devShells\|devShell" flake.nix 2>/dev/null
+            echo " Detected flake.nix - entering nix develop."
+            set -gx NIX_DEVELOP 1
+            nix develop
+        end
+    else if test -f "shell.nix"
+        echo " Detected shell.nix - entering nix-shell."
+        nix-shell
+    end
+end
+
+function nvm_hook --on-variable PWD
+    if test -f .nvmrc
+        nvm use
+    end
+end
+# ==========================================================
+
+# Dynamic keybinds.
+# ==========================================================
+bind \cxu undo
+bind \cy redo
+bind \cxe edit_command_buffer
+bind \cxl 'clear; commandline -f repaint'
+
+function copy-buffer-to-clipboard
+    if test (uname) = "Darwin"
+        commandline | pbcopy
+    else
+        commandline | wl-copy
+    end
+    echo -e "\nCopied to clipboard"
+    commandline -f repaint
+end
+bind \cxc copy-buffer-to-clipboard
+
+bind \cxgc 'commandline -i "git commit -m \""; commandline -i "\""; commandline -f backward-char'
+bind \cxgp 'commandline -i "git push origin "'
+bind \cxgs 'commandline -i "git status\n"'
+bind \cxgl 'commandline -i "git log --oneline -n 10\n"'
+bind \cxw 'commandline -i "wal --recursive -i \""; commandline -i "\""; commandline -f backward-char'
 # ==========================================================
 
 # Shell integrations & imports.

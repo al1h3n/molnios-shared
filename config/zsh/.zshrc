@@ -32,7 +32,10 @@ unset _tc_state
 
 # 0. Variables.
 EDITOR=nvim
-VISUAL=codium
+VISUAL=nvim # codium
+PHOTO=feh
+MEDIA=mpv
+COMPRESSOR=peazip
 sharel=~/.local/share
 bin=/usr/local/bin
 
@@ -65,13 +68,25 @@ else
   echo "ERROR: Sheldon is not installed."
 fi
 
+autoload zmv
+
 # 5. Functions and custom commands.
+
+exists(){
+	command -v "$1" &>/dev/null
+}
 
 # Clear everything or just move above.
 alias c='printf "\e[H\e[3J"'
 alias cl='printf "\e[H\e[22J"'
 
-# Helpful
+# Output.
+alias -g Q='>/dev/null 2>&1'
+alias -g NE='2>/dev/null'
+alias -g NO='>/dev/null'
+alias -g J='| jq'
+
+# Helpful.
 alias res="reset"
 alias mk="mkdir -p"
 alias h="apropos"
@@ -90,6 +105,7 @@ alias ki="kitty -c $conf/kitty.conf"
 alias kitty="kitty -c $conf/kitty.conf"
 alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
 alias ze="zellij -c $conf/zellij/config.kdl"
+alias mostwanted="fc -ln 1 | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 15"
 
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
@@ -146,6 +162,7 @@ if [ "$(uname)" != "Darwin" ];then
   alias m="sh $scripts/menu/launch-menu.sh"
   alias my="sh $scripts/menu/launch-menu.sh -y"
   alias r="sh $scripts/reloadus.sh"
+  alias br="sh $scripts/brightness.sh"
 
   alias journal="journalctl -xe | fzf --ghost 'These are logs of currently running services'"
   alias proc="ps aux | fzf --ghost 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"
@@ -187,6 +204,11 @@ if [ "$(uname)" != "Darwin" ];then
   alias bd="sh $mecha/backlight.sh down 5"
   alias vu="sh $mecha/volume.sh output raise 5"
   alias vd="sh $mecha/volume.sh output lower 5"
+
+  if exists hyprctl;then
+    alias hy=hyprctl
+    alias hr="hyprctl reload"
+  fi
 else
   alias po="shutdown -h now"
   alias blue="blueutil --power" # brew install blueutil
@@ -273,6 +295,70 @@ man() {
 }
 alias lh="ln --help"
 
+# Auto bind for cd command.
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd nix_hook
+add-zsh-hook chpwd python_hook
+add-zsh-hook chpwd nvm_hook
+
+python_hook(){
+  if [[ -d .venv ]];then
+    source .venv/bin/activate
+  elif [[ -d venv ]];then
+    source venv/bin/activate
+  elif [[ -n "$VIRTUAL_ENV" ]];then
+    deactivate
+  fi
+}
+
+nix_hook(){
+  [[ -n $IN_NIX_SHELL || -n $NIX_DELEOP ]] && return
+  [[ -f ".no-auto-nix" ]] && return
+  if [[ -f "flake.nix" ]];then
+    if grep -q "devShells\|devShell" flake.nix 2>/dev/null;then
+      echo " Detected flake.nix - entering nix develop."
+      export NIX_DEVELOP=1
+      nix develop
+    fi
+    elif [[ -f "shell.nix" ]];then
+      echo " Detected shell.nix - entering nix-shell."
+      nix-shell
+    fi
+}
+
+# Hook for NodeJS projects.
+nvm_hook(){
+  if [[ -f .nvmrc ]];then
+    nvm use
+  fi
+}
+
+# Aliases for files extensions.
+alias -s md=codium
+alias -s txt=$EDITOR
+alias -s rs="cargo run"
+alias -s py=python
+alias -s pdf=masterpdfeditor5
+alias -s sh=sh
+alias -s yaml="bat -l yaml"
+alias -s json=jq
+
+alias -s zip=$COMPRESSOR
+alias -s 7z=$COMPRESSOR
+alias -s rar=$COMPRESSOR
+alias -s tar=$COMPRESSOR
+alias -s gz=$COMPRESSOR
+
+alias -s png=$PHOTO
+alias -s jpg=$PHOTO
+alias -s svg=$PHOTO
+
+alias -s mp3=$MEDIA
+alias -s opus=$MEDIA
+alias -s mkv=$MEDIA
+alias -s mp4=$MEDIA
+alias -s mov=$MEDIA
+
 # 6. ZSH highlight colors — Gruvbox theme. (requires 24-bit terminal)
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#fb4934,bold'        # bright red   — not found
@@ -321,3 +407,56 @@ bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 bindkey '^[OA' up-line-or-beginning-search
 bindkey '^[OB' down-line-or-beginning-search
+
+# Edit command line.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^Xe' edit-command-line
+
+# Undo/redo.
+bindkey '^Xu' undo
+bindkey '^Y' redo
+
+# Clear screen but keep current command buffer (position).
+function clear-screen-and-scrollback() {
+  echoti civis >"$TTY"
+  printf '%b' '\e[H\e[2J\e[3J' >"$TTY"
+  echoti cnorm >"$TTY"
+  zle redisplay
+}
+zle -N clear-screen-and-scrollback
+bindkey '^Xl' clear-screen-and-scrollback
+
+# Copy text.
+if [[ "$(uname)" = "Darwin" ]]; then
+  clipboard_cmd=pbcopy
+else
+  clipboard_cmd=wl-copy
+fi
+
+copy-buffer-to-clipboard() {
+  echo -n "$BUFFER" | $clipboard_cmd
+  zle -M "Copied to clipboard"
+}
+
+zle -N copy-buffer-to-clipboard
+bindkey '^Xc' copy-buffer-to-clipboard
+
+# Dynamic hotkeys. (custom cursor placement).
+git-commit-msg() {
+  LBUFFER+='git commit -m "'
+  RBUFFER='"'
+}
+zle -N git-commit-msg
+bindkey '^Xgc' git-commit-msg
+bindkey -s '^Xgp' 'git push origin '
+bindkey -s '^Xgs' 'git status\n'
+bindkey -s '^Xgl' 'git log --oneline -n 10\n'
+
+
+wal-folder() {
+  LBUFFER+='wal --recursive -i "'
+  RBUFFER='"'
+}
+zle -N wal-folder
+bindkey '^Xw' wal-folder

@@ -99,8 +99,8 @@
           "label": "󱧥",
           "type": "toggle",
           "active": false,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec tlp bat || pkexec tlp ac'",
-          "update-command": "sh $L_PATH/scripts/monitor/tlp-status.sh"
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec powerprofilesctl set power-saver || pkexec powerprofilesctl set performance'",
+          "update-command": "sh $L_PATH/scripts/monitor/ppd-status.sh"
         },
         {
           "label": "󰖂",

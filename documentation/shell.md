@@ -87,6 +87,7 @@
 ### Custom scripts
 `sw` — [sweeper](https://github.com/Alihan1ai9595/sweeper) script (clean system junk).
 `ml` — [molnios](https://codeberg.org/al1h3n/install) script (installation tool).
+`gi` - `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).
 `u` — update system via molnios script.
 `pa` — path script (shorten paths of configurations).
 `m` / `my` — open main menu with Rofi/YAD.

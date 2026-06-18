@@ -119,6 +119,7 @@ alias vt="warp-cli registration new"
 
 alias sw="sh $bin/sweeper.sh"
 alias ml="sh $bin/molnios.sh"
+alias gi="sh $bin/git-cooker.sh"
 
 # git.
 alias g='git --filter=blob:none --depth=1'

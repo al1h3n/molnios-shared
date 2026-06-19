@@ -134,7 +134,7 @@ alias vt="warp-cli registration new"
 
 alias sw="sh $bin/sweeper.sh"
 alias ml="sh $bin/molnios.sh"
-alias gi="sh $bin/git-cooker.sh"
+alias gi="sh $bin/gooker.sh"
 
 if [ -f /etc/arch-release ];then
   alias pr="yay --noconfirm -Runs \$(yay -Qdtq)"

@@ -7,7 +7,7 @@
 # MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
 #                                             yyyyy
 # Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
-# Git Cooker - AIO tool for git based on gum + fzf.
+# Git Cooker (gooker) - AIO tool for git based on gum + fzf.
 
 # ==============================================================================
 #  Colors (Gruvbox Theme)
@@ -352,6 +352,21 @@ update_cache() {
 
     echo -e "${GREEN}Cache updated successfully!${RESET}"
     sleep 1
+}
+
+purge_cache() {
+    clear
+    title
+    echo -e "${RED}Purging cache directory...${RESET}"
+    rm -rf "$CACHE_DIR"
+    mkdir -p "$CACHE_DIR"
+
+    # Reset tracking dirs back to global
+    SEARCH_DIRS=("$REAL_HOME" "/")
+    printf "%s\n" "${SEARCH_DIRS[@]}" > "$SEARCH_DIRS_FILE"
+
+    echo -e "${YELLOW}Cache wiped! Re-caching everything from scratch...${RESET}\n"
+    update_cache
 }
 
 manage_mirrors() {
@@ -830,6 +845,7 @@ main_menu() {
             --cursor="> " \
             "Select Repo" \
             "Change Directory" \
+            "Purge Cache" \
             "Clone" \
             "Editor" \
             "Explorer" \
@@ -865,6 +881,10 @@ main_menu() {
                     echo -e "\n${RED}Directory does not exist: $new_dir${RESET}"
                     sleep 2
                 fi
+                ;;
+            "Purge Cache")
+                purge_cache
+                gum confirm "Press Enter to continue" || true
                 ;;
             "Clone")
                 clear
@@ -952,6 +972,7 @@ if [[ $# -gt 0 ]]; then
     # Parse inline arguments to reuse your standalone functions seamlessly
     case "$1" in
         _refresh_cache) update_cache; exit 0 ;;
+        purge_cache|purge) purge_cache; exit 0 ;;
         repo)           shift; repo "$@" ;;
         clone)          shift; clone "$@" ;;
         remove)         shift; remove "$@" ;;

@@ -66,12 +66,15 @@ if exists swaync;then
 	run swaync -c $CONF/swaync/swaync.json -s $CONF/swaync/swaync-style.css
 elif exists dunst;then
 	kp dunst
-	run dunst -conf $L_PATH/config/dunst.ini
+	run dunst -conf $CONF/dunst.ini
 fi
 
 # 1.5 Hyprland/Niri.
 if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
 	hyprctl reload&>/dev/null
+	if exists snappy-switcher;then
+		run snappy-switcher --daemon -c $CONF/snappy.ini
+	fi
 elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
 	niri msg action load-config-file&>/dev/null
 fi

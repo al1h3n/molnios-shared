@@ -73,6 +73,7 @@ fi
 if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
 	hyprctl reload&>/dev/null
 	if exists snappy-switcher;then
+		kp snappy-switcher
 		run snappy-switcher --daemon -c $CONF/snappy.ini
 	fi
 elif [ $XDG_CURRENT_DESKTOP = "niri" ];then

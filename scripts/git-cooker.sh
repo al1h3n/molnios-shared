@@ -59,6 +59,15 @@ REAL_HOME=${REAL_HOME:-$HOME}
 CACHE_DIR="$REAL_HOME/.cache/gitcooker"
 mkdir -p "$CACHE_DIR"
 CACHE_FILE="$CACHE_DIR/repos.txt"
+SEARCH_DIRS_FILE="$CACHE_DIR/search_dirs.txt"
+
+# Persist user's explicitly selected search directories for fzf cache refreshing
+if [[ -f "$SEARCH_DIRS_FILE" ]]; then
+    mapfile -t SEARCH_DIRS < "$SEARCH_DIRS_FILE"
+else
+    SEARCH_DIRS=("$REAL_HOME" "/")
+    printf "%s\n" "${SEARCH_DIRS[@]}" > "$SEARCH_DIRS_FILE"
+fi
 
 # Identify absolute path to this script for fzf bindings
 if [[ "$0" == /* ]]; then
@@ -334,10 +343,10 @@ ${_BLD}Options:${_RST}
 update_cache() {
     clear
     title
-    echo -e "${YELLOW}Finding .git directories and updating cache...${RESET}"
+    echo -e "${YELLOW}Finding .git directories in [${SEARCH_DIRS[*]}] and updating cache...${RESET}"
 
     # Exclude typical mount points and hidden system dirs to significantly increase performance
-    fd -H '^\.git$' "$REAL_HOME" / -t d -a -E /proc -E /sys -E /dev -E /mnt -E /run 2>/dev/null | \
+    fd -H '^\.git$' "${SEARCH_DIRS[@]}" -t d -a -E /proc -E /sys -E /dev -E /mnt -E /run 2>/dev/null | \
         sed 's#/\.git/*$##' | \
         sort -u > "$CACHE_FILE"
 
@@ -402,17 +411,79 @@ manage_repo() {
     while true; do
         clear
         title
-        echo -e "${BLUE}Current Repository:${RESET} ${WHITE}$repo_path${RESET}\n"
+
+        # --- Fetch Repository State Info ---
+        local current_branch
+        current_branch=$(git branch --show-current 2>/dev/null)
+        [[ -z "$current_branch" ]] && current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+        [[ -z "$current_branch" ]] && current_branch="HEAD"
+
+        local uncommitted
+        uncommitted=$(git status --porcelain 2>/dev/null | wc -l)
+        uncommitted=$((uncommitted)) # Trim whitespaces
+
+        local last_commit
+        last_commit=$(git log -1 --format="%cd" --date=relative 2>/dev/null || echo "None")
+
+        local upstream
+        upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+
+        local repo_status=""
+
+        if [[ -z "$upstream" ]]; then
+            if git rev-parse HEAD >/dev/null 2>&1; then
+                if [[ $uncommitted -gt 0 ]]; then
+                    repo_status="${YELLOW}📝 Uncommitted changes ($uncommitted files)${RESET}"
+                else
+                    repo_status="${BLUE}🚀 Ready to push (No upstream tracking)${RESET}"
+                fi
+            else
+                repo_status="${RED}🐣 Empty repository${RESET}"
+            fi
+        else
+            local counts
+            counts=$(git rev-list --left-right --count HEAD...@{u} 2>/dev/null)
+            local ahead=$(echo "$counts" | awk '{print $1}')
+            local behind=$(echo "$counts" | awk '{print $2}')
+
+            if [[ $uncommitted -gt 0 ]]; then
+                repo_status="${YELLOW}📝 Uncommitted changes ($uncommitted files)${RESET}"
+                [[ $ahead -gt 0 ]] && repo_status+=" | ${BLUE}Ahead by $ahead${RESET}"
+                [[ $behind -gt 0 ]] && repo_status+=" | ${RED}Behind by $behind${RESET}"
+            else
+                if [[ $ahead -gt 0 && $behind -gt 0 ]]; then
+                    repo_status="${YELLOW}⚠️ Diverged (Ahead: $ahead, Behind: $behind)${RESET}"
+                elif [[ $ahead -gt 0 ]]; then
+                    repo_status="${BLUE}🚀 Ready to push (Ahead by $ahead)${RESET}"
+                elif [[ $behind -gt 0 ]]; then
+                    repo_status="${RED}⬇️ Needs pull (Behind by $behind)${RESET}"
+                else
+                    repo_status="${GREEN}✅ Up to date & Clean${RESET}"
+                fi
+            fi
+        fi
+
+        # --- Display Dashboard Subtitle ---
+        echo -e "${BLUE}Repository:${RESET} ${WHITE}$repo_path${RESET}"
+        echo -e "${BLUE}Branch:${RESET}     ${GREEN}$current_branch${RESET} ${WHITE}${upstream:+-> $upstream}${RESET}"
+        echo -e "${BLUE}Status:${RESET}     $repo_status"
+        if [[ "$last_commit" != "None" ]]; then
+            echo -e "${BLUE}Last Commit:${RESET} ${WHITE}$last_commit${RESET}\n"
+        else
+            echo -e "\n"
+        fi
 
         local choice
         choice=$(gum choose \
             --cursor="> " \
             "Status" \
             "Log" \
+            "Branch" \
             "Commit" \
             "Pull" \
             "Push" \
             "Immediate Push" \
+            "Merge" \
             "Mirrors" \
             "Revert" \
             "Editor" \
@@ -437,6 +508,27 @@ manage_repo() {
                 echo -e "${YELLOW}Repository Log (Press 'q' to exit):${RESET}\n"
                 git log --color=always --graph --pretty=format:"%C(yellow)%h%Creset%C(magenta)%d%Creset | %s %C(green)(%cr) %C(cyan)[%an]%Creset" | gum pager
                 ;;
+            "Branch")
+                clear
+                title
+                echo -e "${YELLOW}Manage Branches${RESET}\n"
+                local branches=$(git branch --format='%(refname:short)')
+                local b_choice=$(echo -e "Create New Branch\n$branches" | gum choose --header="Select branch to checkout:")
+
+                if [[ "$b_choice" == "Create New Branch" ]]; then
+                    local new_b=$(gum input --prompt="New branch name: ")
+                    if [[ -n "$new_b" ]]; then
+                        git checkout -b "$new_b"
+                        echo -e "\n${GREEN}Created and checked out to '$new_b'!${RESET}"
+                    fi
+                elif [[ -n "$b_choice" && "$b_choice" != "$current_branch" ]]; then
+                    git checkout "$b_choice"
+                    echo -e "\n${GREEN}Switched to branch '$b_choice'!${RESET}"
+                else
+                    echo -e "\n${YELLOW}Already on branch '$b_choice'.${RESET}"
+                fi
+                gum confirm "Press Enter to continue" || true
+                ;;
             "Commit")
                 clear
                 title
@@ -457,8 +549,79 @@ manage_repo() {
             "Pull")
                 clear
                 title
-                echo -e "${BLUE}Pulling changes...${RESET}\n"
-                git pull
+                echo -e "${BLUE}Pulling changes with Rebase...${RESET}\n"
+
+                local remotes=$(git remote)
+                local r_count=$(echo "$remotes" | wc -w)
+                local target_remote=""
+
+                if [[ $r_count -eq 0 ]]; then
+                    echo -e "${RED}No remotes configured. Cannot pull.${RESET}"
+                    gum confirm "Press Enter to continue" || true
+                    continue
+                elif [[ $r_count -eq 1 ]]; then
+                    target_remote=$(echo "$remotes" | tr -d '[:space:]')
+                else
+                    target_remote=$(echo "$remotes" | gum choose --header="Select remote to pull from:")
+                    [[ -z "$target_remote" ]] && continue
+                fi
+
+                echo -e "Pulling from ${WHITE}$target_remote${RESET} branch ${WHITE}$current_branch${RESET}...\n"
+
+                if git pull --rebase "$target_remote" "$current_branch"; then
+                    echo -e "\n${GREEN}Pull & Rebase completed successfully!${RESET}"
+                else
+                    echo -e "\n${YELLOW}Merge conflicts detected! Entering resolution mode...${RESET}"
+                    sleep 2
+
+                    while test -d .git/rebase-merge || test -d .git/rebase-apply; do
+                        local conflicts=$(git diff --name-only --diff-filter=U)
+
+                        if [[ -n "$conflicts" ]]; then
+                            for f in $conflicts; do
+                                clear
+                                title
+                                echo -e "${RED}Conflict in file:${RESET} ${WHITE}$f${RESET}\n"
+
+                                # In rebase:
+                                # --ours = Upstream/Original changes we are rebasing onto.
+                                # --theirs = Local changes we are trying to replay.
+                                local res_choice=$(gum choose \
+                                    --header="Which version of the file do you want to keep?" \
+                                    "My Local Changes" \
+                                    "Original Remote Changes" \
+                                    "Abort Rebase")
+
+                                case "$res_choice" in
+                                    "My Local Changes")
+                                        git checkout --theirs -- "$f"
+                                        git add "$f"
+                                        ;;
+                                    "Original Remote Changes")
+                                        git checkout --ours -- "$f"
+                                        git add "$f"
+                                        ;;
+                                    "Abort Rebase")
+                                        git rebase --abort
+                                        echo -e "\n${RED}Pull aborted. Repo restored to original state.${RESET}"
+                                        break 2
+                                        ;;
+                                esac
+                            done
+                        fi
+
+                        # Continue Rebase automatically after resolving all conflicts in patch
+                        if ! GIT_EDITOR=true git rebase --continue 2>/dev/null; then
+                            # If it fails to continue because resolution resulted in no actual changes
+                            git rebase --skip 2>/dev/null || break
+                        fi
+                    done
+
+                    if ! (test -d .git/rebase-merge || test -d .git/rebase-apply); then
+                        echo -e "\n${GREEN}Rebase resolved and completed!${RESET}"
+                    fi
+                fi
+
                 echo ""
                 gum confirm "Press Enter to continue" || true
                 ;;
@@ -466,7 +629,23 @@ manage_repo() {
                 clear
                 title
                 echo -e "${BLUE}Pushing changes...${RESET}\n"
-                git push
+
+                local remotes=$(git remote)
+                local r_count=$(echo "$remotes" | wc -w)
+
+                if [[ $r_count -eq 0 ]]; then
+                    echo -e "${RED}No remotes found. Add a mirror first.${RESET}"
+                elif [[ $r_count -eq 1 ]]; then
+                    local single_remote=$(echo "$remotes" | tr -d '[:space:]')
+                    echo -e "${GREEN}1 mirror detected. Auto-pushing to ${WHITE}$single_remote${GREEN}...${RESET}\n"
+                    git push -u "$single_remote" "$current_branch"
+                else
+                    local r_choice=$(echo "$remotes" | gum choose --header="Select remote to push to:")
+                    if [[ -n "$r_choice" ]]; then
+                        echo -e "\n${GREEN}Pushing to $r_choice...${RESET}"
+                        git push -u "$r_choice" "$current_branch"
+                    fi
+                fi
                 echo ""
                 gum confirm "Press Enter to continue" || true
                 ;;
@@ -488,10 +667,6 @@ manage_repo() {
                         git commit -m "$msg"
                         echo ""
 
-                        local current_branch
-                        current_branch=$(git branch --show-current)
-                        [[ -z "$current_branch" ]] && current_branch="HEAD"
-
                         for r in $remotes; do
                             echo -e "${BLUE}Pushing to remote: ${WHITE}$r${RESET}"
                             git push "$r" "$current_branch"
@@ -499,6 +674,32 @@ manage_repo() {
                         echo -e "\n${GREEN}Immediate Push completed!${RESET}"
                     else
                         echo -e "\n${RED}Aborted (empty message).${RESET}"
+                    fi
+                fi
+                gum confirm "Press Enter to continue" || true
+                ;;
+            "Merge")
+                clear
+                title
+                echo -e "${YELLOW}Merging into branch:${RESET} $current_branch\n"
+
+                local other_branches=$(git branch --format='%(refname:short)' | grep -v "^${current_branch}$")
+                if [[ -z "$other_branches" ]]; then
+                    echo -e "${RED}No other branches available to merge.${RESET}"
+                else
+                    local m_choice=$(echo "$other_branches" | gum choose --header="Select branch to merge into $current_branch:")
+                    if [[ -n "$m_choice" ]]; then
+                        if git merge "$m_choice"; then
+                            echo -e "\n${GREEN}Successfully merged '$m_choice' into '$current_branch'!${RESET}"
+                        else
+                            echo -e "\n${RED}Merge failed due to conflicts!${RESET}"
+                            if gum confirm "Abort merge and restore tree? (No = manually fix via Editor/Shell)"; then
+                                git merge --abort
+                                echo -e "\n${YELLOW}Merge aborted successfully.${RESET}"
+                            else
+                                echo -e "\n${YELLOW}Merge left unresolved. Please drop into Shell/Editor to resolve.${RESET}"
+                            fi
+                        fi
                     fi
                 fi
                 gum confirm "Press Enter to continue" || true
@@ -627,7 +828,8 @@ main_menu() {
         local main_choice
         main_choice=$(gum choose \
             --cursor="> " \
-            "Select" \
+            "Select Repo" \
+            "Change Directory" \
             "Clone" \
             "Editor" \
             "Explorer" \
@@ -636,8 +838,33 @@ main_menu() {
             "Quit")
 
         case "$main_choice" in
-            "Select")
+            "Select Repo")
                 select_repo
+                ;;
+            "Change Directory")
+                clear
+                title
+                echo -e "${YELLOW}Change Directory to Scan for Repositories${RESET}\n"
+                echo -e "Specify a path to scope your git search. Use ${WHITE}/${RESET} for the entire system.\n"
+
+                local new_dir
+                new_dir=$(gum input --prompt="Target Path: " --value="$(pwd)" --width=70)
+                [[ -z "$new_dir" ]] && continue
+
+                new_dir="${new_dir/#\~/$REAL_HOME}"
+
+                if [[ -d "$new_dir" ]]; then
+                    cd "$new_dir" || continue
+                    SEARCH_DIRS=("$new_dir")
+                    # Save context so sub-shell fzf cache refreshes inherit this directory
+                    printf "%s\n" "${SEARCH_DIRS[@]}" > "$SEARCH_DIRS_FILE"
+
+                    echo -e "\n${GREEN}Directory changed to $new_dir${RESET}"
+                    update_cache
+                else
+                    echo -e "\n${RED}Directory does not exist: $new_dir${RESET}"
+                    sleep 2
+                fi
                 ;;
             "Clone")
                 clear

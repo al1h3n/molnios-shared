@@ -99,7 +99,7 @@
           "label": "󱧥",
           "type": "toggle",
           "active": false,
-          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec powerprofilesctl set power-saver || pkexec powerprofilesctl set performance'",
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && pkexec powerprofilesctl set power-saver || pkexec powerprofilesctl set balanced'",
           "update-command": "sh $L_PATH/scripts/monitor/ppd-status.sh"
         },
         {

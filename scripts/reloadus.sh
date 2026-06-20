@@ -50,14 +50,18 @@ if exists awww;then
 fi
 
 # 1.3. Bar.
-if exists waybar;then
-	kp waybar
-	WAY=$CONF/waybar
-	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
-		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
-	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
-		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
-	fi
+# if exists waybar;then
+# 	kp waybar
+# 	WAY=$CONF/waybar
+# 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
+# 		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
+# 	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
+# 		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
+# 	fi
+# fi
+if exists noctalia;then
+ kp noctalia
+ run noctalia
 fi
 
 # 1.4. Notifications.

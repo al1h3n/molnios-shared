@@ -5,7 +5,7 @@ spawn-at-startup "blueman-applet"
 spawn-sh-at-startup "systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 // Core Daemons (Waybar, SwayNC, Wallpaper)
-spawn-sh-at-startup "waybar -c ~/.local/share/molnios/config/waybar/config-niri.jsonc -s ~/.local/share/molnios/config/waybar/style.css"
+spawn-sh-at-startup "noctalia"
 spawn-sh-at-startup "swaync -c ~/.local/share/molnios/config/swaync/swaync.json -s ~/.local/share/molnios/config/swaync/swaync-style.css"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "mpvpaper-stop"

@@ -15,7 +15,7 @@ hl.on("hyprland.start", function()
     )
 
     -- Wallpaper, tray, and other main additions.
-    hl.exec_cmd(bar .. " & " .. switcherdaemon .. " & " .. eyedropper .. " & " .. wallpaper .. " && " .. idlewallpaper .. " && " .. borders)
+    hl.exec_cmd(noctalia .. " & " .. switcherdaemon .. " & " .. eyedropper .. " & " .. wallpaper .. " && " .. idlewallpaper .. " && " .. borders)
 
     -- Notifications
     hl.exec_cmd(notify)

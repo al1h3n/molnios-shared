@@ -1,0 +1,195 @@
+[bar]
+order = [ "default" ]
+
+    [bar.default]
+    capsule = true
+    enabled = true
+    end = [
+        "media",
+        "notifications",
+        "clipboard",
+        "network",
+        "bluetooth",
+        "volume",
+        "brightness",
+        "battery",
+        "wallpaper",
+        "session"
+    ]
+    font_family = "SF Pro Display"
+    font_weight = 600
+    margin_ends = 0
+    radius = 80
+    scale = 1.2000000104308128
+    shadow = false
+    start = [ "launcher", "workspaces", "weather", "tray" ]
+
+        [bar.default.dead_zone]
+        command = "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"
+        scroll_down_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm-1' })\"
+"""
+        scroll_up_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm+1' })\"
+"""
+
+[brightness]
+enable_ddcutil = true
+minimum_brightness = 0.099999997764825821
+
+[calendar]
+enabled = true
+
+    [calendar.account.google]
+    name = "Google"
+    type = "google"
+
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "caffeine"
+
+[[control_center.shortcuts]]
+type = "power_profile"
+
+[[control_center.shortcuts]]
+type = "dark_mode"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[location]
+address = "Almaty, Kazakhstan"
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
+    box_height = 70.0
+    box_width = 400.0
+    cx = 1024.0
+    cy = 1033.0
+    output = "DP-1"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        input_opacity = 1.0
+        input_radius = 6.0
+        show_login_button = true
+
+[nightlight]
+enabled = true
+
+[plugins]
+enabled = []
+
+[shell]
+app_icon_color = "on_error"
+corner_radius_scale = 1.1500000171363354
+font_family = "SFMono Nerd Font"
+password_style = "random"
+screen_time_enabled = true
+ui_scale = 1.1500000096857548
+
+    [shell.panel]
+    borders = false
+    wallpaper_placement = "centered"
+
+    [[shell.session.actions]]
+    action = "lock"
+    enabled = true
+    shortcut = "1"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    enabled = true
+    shortcut = "2"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    enabled = true
+    shortcut = "3"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    enabled = true
+    shortcut = "4"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    enabled = true
+    shortcut = "5"
+    variant = "destructive"
+
+    [[shell.session.actions]]
+    action = "command"
+    command = "hyprlock -q -c $L_PATH/config/hypr/hyprlock.conf"
+    enabled = true
+    label = "Hyprlock"
+    variant = "default"
+
+[theme]
+community_palette = "Peche"
+mode = "auto"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "niri", "qt", "wezterm" ]
+    community_ids = [ "spicetify", "pywalfox", "neovim", "yazi" ]
+
+[wallpaper]
+directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature"
+
+    [wallpaper.default]
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+
+    [wallpaper.last]
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+
+[widget.clock]
+format = "{:%d %b %H:%M}"
+
+[widget.launcher]
+capsule = true
+capsule_padding = 18.0
+
+[widget.volume]
+scroll_step = 1
+
+[widget.workspaces]
+capsule_radius = 8
+empty_color = "#006D6D"
+focused_color = "#BBA070"
+occupied_color = "#006D6D"

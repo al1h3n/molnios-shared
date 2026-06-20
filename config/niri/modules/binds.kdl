@@ -7,6 +7,7 @@ binds {
     Mod+R hotkey-overlay-title="App Launcher" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$appmenu'"; }
     Mod+T hotkey-overlay-title="Run Command" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$commandmenu'"; }
     Mod+Y hotkey-overlay-title="Virtual Machine" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$vmanager'"; }
+    Mod+P { toggle-overview; }
 
     Mod+A hotkey-overlay-title="Notes" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$notes'"; }
     Mod+S hotkey-overlay-title="Browser" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$browser'"; }

@@ -1,9 +1,11 @@
 [bar]
-order = [ "default" ]
+order = [ "Main" ]
 
-    [bar.default]
+    [bar.Main]
+    background_opacity = 0.44999998994171619
     capsule = true
-    enabled = true
+    capsule_opacity = 0.79999998211860657
+    capsule_padding = 8.0
     end = [
         "media",
         "notifications",
@@ -17,14 +19,18 @@ order = [ "default" ]
         "session"
     ]
     font_family = "SF Pro Display"
-    font_weight = 600
+    font_weight = 700
+    layer = "overlay"
+    margin_edge = 0
     margin_ends = 0
-    radius = 80
+    padding = 5
+    radius = 0
     scale = 1.2000000104308128
     shadow = false
     start = [ "launcher", "workspaces", "weather", "tray" ]
+    thickness = 40
 
-        [bar.default.dead_zone]
+        [bar.Main.dead_zone]
         command = "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"
         scroll_down_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm-1' })\"
 """
@@ -42,23 +48,26 @@ enabled = true
     name = "Google"
     type = "google"
 
-[[control_center.shortcuts]]
-type = "wifi"
+[control_center]
+width = 800
 
-[[control_center.shortcuts]]
-type = "bluetooth"
+    [[control_center.shortcuts]]
+    type = "wifi"
 
-[[control_center.shortcuts]]
-type = "caffeine"
+    [[control_center.shortcuts]]
+    type = "bluetooth"
 
-[[control_center.shortcuts]]
-type = "power_profile"
+    [[control_center.shortcuts]]
+    type = "caffeine"
 
-[[control_center.shortcuts]]
-type = "dark_mode"
+    [[control_center.shortcuts]]
+    type = "power_profile"
 
-[[control_center.shortcuts]]
-type = "notification"
+    [[control_center.shortcuts]]
+    type = "dark_mode"
+
+    [[control_center.shortcuts]]
+    type = "notification"
 
 [desktop_widgets]
 schema_version = 2
@@ -109,14 +118,16 @@ enabled = []
 
 [shell]
 app_icon_color = "on_error"
-corner_radius_scale = 1.1500000171363354
+corner_radius_scale = 1.3000000193715096
 font_family = "SFMono Nerd Font"
 password_style = "random"
 screen_time_enabled = true
+settings_show_advanced = true
 ui_scale = 1.1500000096857548
 
     [shell.panel]
-    borders = false
+    control_center_placement = "floating"
+    transparency_mode = "soft"
     wallpaper_placement = "centered"
 
     [[shell.session.actions]]
@@ -170,13 +181,13 @@ wallpaper_scheme = "m3-content"
 directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/11.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
 
 [widget.clock]
 format = "{:%d %b %H:%M}"
@@ -189,7 +200,7 @@ capsule_padding = 18.0
 scroll_step = 1
 
 [widget.workspaces]
-capsule_radius = 8
+capsule_radius = 16
 empty_color = "#006D6D"
 focused_color = "#BBA070"
 occupied_color = "#006D6D"

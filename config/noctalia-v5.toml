@@ -78,6 +78,13 @@ widget_order = []
 
     [desktop_widgets.widget]
 
+[dock]
+auto_hide = true
+enabled = true
+launcher_position = "end"
+main_axis_padding = 10
+reserve_space = false
+
 [location]
 address = "Almaty, Kazakhstan"
 
@@ -179,13 +186,13 @@ wallpaper_scheme = "m3-tonal-spot"
 directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/4.jpg"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/4.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/4.jpg"
 
 [widget.clock]
 format = "{:%d %b %H:%M}"

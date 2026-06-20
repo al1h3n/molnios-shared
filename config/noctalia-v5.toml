@@ -2,8 +2,6 @@
 order = [ "Main" ]
 
     [bar.Main]
-    background_opacity = 0.44999998994171619
-    capsule = true
     capsule_opacity = 0.79999998211860657
     capsule_padding = 8.0
     end = [
@@ -26,9 +24,9 @@ order = [ "Main" ]
     padding = 5
     radius = 0
     scale = 1.2000000104308128
-    shadow = false
     start = [ "launcher", "workspaces", "weather", "tray" ]
     thickness = 40
+    widget_spacing = 14
 
         [bar.Main.dead_zone]
         command = "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"
@@ -49,7 +47,7 @@ enabled = true
     type = "google"
 
 [control_center]
-width = 800
+width = 1000
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -122,13 +120,12 @@ corner_radius_scale = 1.3000000193715096
 font_family = "SFMono Nerd Font"
 password_style = "random"
 screen_time_enabled = true
-settings_show_advanced = true
 ui_scale = 1.1500000096857548
 
     [shell.panel]
-    control_center_placement = "floating"
+    launcher_compact = true
+    launcher_session_search = true
     transparency_mode = "soft"
-    wallpaper_placement = "centered"
 
     [[shell.session.actions]]
     action = "lock"
@@ -168,26 +165,27 @@ ui_scale = 1.1500000096857548
     variant = "default"
 
 [theme]
-community_palette = "Peche"
-mode = "auto"
+builtin = "Noctalia"
+community_palette = "Gruvbox Material"
+mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "m3-tonal-spot"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "niri", "qt", "wezterm" ]
-    community_ids = [ "spicetify", "pywalfox", "neovim", "yazi" ]
+    community_ids = [ "pywalfox", "neovim", "yazi" ]
 
 [wallpaper]
-directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature"
+directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/1.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/pixelart/wallhaven-7pzyko.png"
 
 [widget.clock]
 format = "{:%d %b %H:%M}"

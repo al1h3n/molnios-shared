@@ -20,7 +20,7 @@
 #### Top keybinds (Q~P) - running system applications and switching window mode
 `Main + Space` - switch keyboard layout (by default US/RU).<br>
 
-`Main + Q/W/E/R/T/Y/P` - terminal, toggle __floating__ window mode, file manager, run application, run command, open virtual manager, hot corner menu.<br>
+`Main + Q/W/E/R/T/Y/P` - terminal, toggle __floating__ window mode, file manager, run application, run command, open virtual manager, expel window.<br>
 `Main + A/S/D/F/G/H; J/K/L` -  notes, browser, toggle __overview__ (show desktop equivalent), full screen, discord, telegram; _previous_ song, __pause|unpause__, _next_ song.<br>
 `Main + Z/X/C/V/B` - exit niri, emoji picker, close window, clipboard manager, OCR advanced (with language selection).
 

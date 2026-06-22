@@ -122,7 +122,9 @@ alias ml="sh $bin/molnios.sh"
 alias gi="sh $bin/gooker.sh"
 
 # git.
-alias g='git --filter=blob:none --depth=1'
+function g --wraps git
+    git $argv --filter=blob:none --depth=1
+end
 alias gbg='git status'
 alias ga='git add'
 alias gc='git commit -v'

@@ -385,13 +385,18 @@ function nvm_hook --on-variable PWD
         nvm use
     end
 end
+
+function edit_in_nvim
+    set -lx VISUAL nvim
+    edit_command_buffer
+end
 # ==========================================================
 
 # Dynamic keybinds.
 # ==========================================================
 bind \cxu undo
 bind \cy redo
-bind \cxe edit_command_buffer
+bind \cxe edit_in_nvim
 bind \cxl 'clear; commandline -f repaint'
 
 function copy-buffer-to-clipboard

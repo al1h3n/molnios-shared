@@ -131,6 +131,7 @@ alias gc='git commit -v'
 alias gcmsg='git commit -m'
 alias gp='git push'
 alias gr='git revert'
+alias grv="git remote -v"
 alias gra='git remote add'
 alias grset='git remote set-url'
 alias grrm='git remote remove'

@@ -8,19 +8,19 @@
 
 `Shift + Right arrow` / `Shift + Tab` — accept autosuggestion.
 
-`Ctrl + Left / Right` — move through words.
+`Ctrl + Left / Right` — move through words.<br>
 `Ctrl + Shift + Left / Right` — word selection / deletion (depends on terminal emulator).
 
-`Ctrl + R` — fuzzy history search (via fzf-fish).
+`Ctrl + R` — fuzzy history search (via fzf-fish).<br>
 `Tab` — completions with preview (built-in Fish + fzf-fish / ZSH magic-space).
 
 ### Dynamic shortcuts
-`Ctrl + XU` — undo.
-`Ctrl + Y` — redo.
-`Ctrl + XE` — edit command in `$VISUAL`.
-`Ctrl + XL` — clear screen but keep latest content scrollback.
-`Ctrl + XC` — copy current command buffer to clipboard.
-`Ctrl + XW` — generate pywal colors for an input directory.
+`Ctrl + XU` — undo.<br>
+`Ctrl + Y` — redo.<br>
+`Ctrl + XE` — edit command in `$VISUAL`.<br>
+`Ctrl + XL` — clear screen but keep latest content scrollback.<br>
+`Ctrl + XC` — copy current command buffer to clipboard.<br>
+`Ctrl + XW` — generate pywal colors for an input directory.<br>
 `Ctrl + XG` + `C / P / S / L` — `git commit`/`push`/`status`/`log`.
 
 ---
@@ -28,41 +28,41 @@
 ## Shortcuts
 
 ### Helpful
-`(ZSH ONLY) NE / NO / Q` — add to the end of command to silence `stderr` / `stdout` / both.
+`(ZSH ONLY) NE / NO / Q` — add to the end of command to silence `stderr` / `stdout` / both.<br>
 `(ZSH ONLY) J` — add to the end of command to output it to `jq`.
 
-`c` — `clear` shortcut.
-`cl` — just move everything above.
-`ki` / `kitty` — kitty with custom config.
-`wez` — wezterm with custom config.
-`ze` — `zellij` shortcut.
-`duf` — `duf` custom shortcut.
-`reset` / `res` — reset custom terminal colors.
-`history clear` / `rm -f ~/.zsh_history` — clear history of commands.
-`mk` — `mkdir -p`.
+`c` — `clear` shortcut.<br>
+`cl` — just move everything above.<br>
+`ki` / `kitty` — kitty with custom config.<br>
+`wez` — wezterm with custom config.<br>
+`ze` — `zellij` shortcut.<br>
+`duf` — `duf` custom shortcut.<br>
+`reset` / `res` — reset custom terminal colors.<br>
+`history clear` / `rm -f ~/.zsh_history` — clear history of commands.<br>
+`mk` — `mkdir -p`.<br>
 `mostwanted` — most used commands in your shell history.
 
-`s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, making it safer.
-`sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).
-`h` / `help` — `apropos` (find commands' definitions starting from string).
-`k` / `pk` — `killall` / `pkill` (kill program).
-`q` — switch shell (from fish to zsh or vice-versa).
-`po` — `poweroff` (shutdown PC).
-`re` — `reboot`.
-`sl` — `sleep`.
-`ln` — `ln -sfn`.
-`rr` — **rmproved** (removes all provided files with a confirmation prompt).
-`ns` / `nss` — `notify-send` / temporary notification.
-`we` — current weather, uses [wttr.in](https://github.com/chubin/wttr.in). Use city as argument, or leave blank for local.
-`myip` — current location, country, coordinates, ISP and public IP.
-`mu` / `shazam` — custom script using _songrec_ to find the song currently playing.
-`f` — [Pay Respects](https://github.com/iffse/pay-respects) (write `f` after an error to get fix suggestions).
-`cat` — [bat](https://github.com/sharkdp/bat).
-`man` — [tealdeer](https://github.com/tealdeer-rs/tealdeer) — runs `tldr` first, defaults to manpage if missing.
-`sakura` / `sakurastatic` — cbonsai custom tree config (animated / static).
+`s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, making it safer.<br>
+`sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>
+`h` / `help` — `apropos` (find commands' definitions starting from string).<br>
+`k` / `pk` — `killall` / `pkill` (kill program).<br>
+`q` — switch shell (from fish to zsh or vice-versa).<br>
+`po` — `poweroff` (shutdown PC).<br>
+`re` — `reboot`.<br>
+`sl` — `sleep`.<br>
+`ln` — `ln -sfn`.<br>
+`rr` — **rmproved** (removes all provided files with a confirmation prompt).<br>
+`ns` / `nss` — `notify-send` / temporary notification.<br>
+`we` — current weather, uses [wttr.in](https://github.com/chubin/wttr.in). Use city as argument, or leave blank for local.<br>
+`myip` — current location, country, coordinates, ISP and public IP.<br>
+`mu` / `shazam` — custom script using _songrec_ to find the song currently playing.<br>
+`f` — [Pay Respects](https://github.com/iffse/pay-respects) (write `f` after an error to get fix suggestions).<br>
+`cat` — [bat](https://github.com/sharkdp/bat).<br>
+`man` — [tealdeer](https://github.com/tealdeer-rs/tealdeer) — runs `tldr` first, defaults to manpage if missing.<br>
+`sakura` / `sakurastatic` — cbonsai custom tree config (animated / static).<br>
 `pokemon` — create random pokemon.
 
-`co` — change terminal color scheme via [wallust](https://codeberg.org/explosion-mental/wallust).
+`co` — change terminal color scheme via [wallust](https://codeberg.org/explosion-mental/wallust).<br>
 `wa` — set custom wallpaper and change terminal color scheme via [pywal16](https://github.com/eylles/pywal16).
 
 `wifi` / `blue` / `et` — write on/off to switch Wi-Fi / Bluetooth / Ethernet.
@@ -72,75 +72,75 @@
 ---
 
 ### `fzf` related (dynamic lists)
-`fbat` — fuzzy find file and output it via bat.
-`gtrack` — fuzzy find git-tracked files.
-`hist` — fuzzy search and execute from history list.
-`txt` — fuzzy find text inside files (**VERY LAGGY**).
-`journal` — browse all systemd logs.
-`proc` — process list; hit enter to kill (-9) the selected process.
-`en` — environment variables.
-`a` — alias list.
+`fbat` — fuzzy find file and output it via bat.<br>
+`gtrack` — fuzzy find git-tracked files.<br>
+`hist` — fuzzy search and execute from history list.<br>
+`txt` — fuzzy find text inside files (**VERY LAGGY**).<br>
+`journal` — browse all systemd logs.<br>
+`proc` — process list; hit enter to kill (-9) the selected process.<br>
+`en` — environment variables.<br>
+`a` — alias list.<br>
 `gb` — select git branch.
 
 ---
 
 ### Custom scripts
-`sw` — [sweeper](https://github.com/Alihan1ai9595/sweeper) script (clean system junk).
-`ml` — [molnios](https://codeberg.org/al1h3n/install) script (installation tool).
-`gi` - `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).
-`u` — update system via molnios script.
-`pa` — path script (shorten paths of configurations).
-`m` / `my` — open main menu with Rofi/YAD.
-`am` — action wlogout menu.
-`rec` — _recording_ script (record screen).
-`r` — reloadus script (reload **configuration** and applications).
+`sw` — [sweeper](https://github.com/Alihan1ai9595/sweeper) script (clean system junk).<br>
+`ml` — [molnios](https://codeberg.org/al1h3n/install) script (installation tool).<br>
+`gi` - `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).<br>
+`u` — update system via molnios script.<br>
+`pa` — path script (shorten paths of configurations).<br>
+`m` / `my` — open main menu with Rofi/YAD.<br>
+`am` — action wlogout menu.<br>
+`rec` — _recording_ script (record screen).<br>
+`r` — reloadus script (reload **configuration** and applications).<br>
 `br` — brightness script (type value like -10%, 50%, or `-g` to get value).
 
 ---
 
 ### Commands
-`lock` — `hyprlock` screen locker.
-`menu` — `rofi` application selection menu.
-`y` — terminal file manager ([yazi](https://github.com/sxyazi/yazi)).
-`e` — alternative terminal file manager ([superfile](https://github.com/yorukot/superfile)).
-`yt` — browse and play [youtube](https://github.com/Benexl/yt-x) directly from your terminal.
-`fa` / `fas` / `fast` — shortcuts to custom video/static [anifetch](https://github.com/Notenlish/anifetch) configurations.
-`nixfetch` — shortcut to custom NixOS fastfetch.
-`wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).
+`lock` — `hyprlock` screen locker.<br>
+`menu` — `rofi` application selection menu.<br>
+`y` — terminal file manager ([yazi](https://github.com/sxyazi/yazi)).<br>
+`e` — alternative terminal file manager ([superfile](https://github.com/yorukot/superfile)).<br>
+`yt` — browse and play [youtube](https://github.com/Benexl/yt-x) directly from your terminal.<br>
+`fa` / `fas` / `fast` — shortcuts to custom video/static [anifetch](https://github.com/Notenlish/anifetch) configurations.<br>
+`nixfetch` — shortcut to custom NixOS fastfetch.<br>
+`wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>
 `dir` | `ls` | `l` | `lt` — colorful [eza](https://github.com/eza-community/eza) command replacements with icons and tree views.
 
 #### Connection
-`lan` — connection manager (nmtui).
+`lan` — connection manager (nmtui).<br>
 `bt` — bluetooth connection (blueman).
 
 #### Editing
-`v` — [nvim](https://github.com/neovim/neovim) shortcut.
+`v` — [nvim](https://github.com/neovim/neovim) shortcut.<br>
 `d` / `cfg` / `scr` — yazi shortcuts directly to dotfiles / configs / scripts.
 `lh` — `ln --help`
 
 #### [Mechabar](https://github.com/sejjy/mechabar)
-`p` — power menu.
-`n` / `b` — network / bluetooth managers.
-`bu` / `bd` — backlight up / down.
+`p` — power menu.<br>
+`n` / `b` — network / bluetooth managers.<br>
+`bu` / `bd` — backlight up / down.<br>
 `vu` / `vd` — volume up / down.
 
 ---
 
 ### Arch Linux Specific
-`pr` — remove orphaned packages (via `yay`).
+`pr` — remove orphaned packages (via `yay`).<br>
 `pu` — update all packages (via `yay`).
 
 ---
 
 ### Custom Git Commands
-`g` — `git --filter=blob:none --depth=1`
-`gbg` — `git status`
-`ga` — `git add`
-`gc` — `git commit -v` (opens editor).
-`gcmsg` — `git commit -m` (inline text).
-`gp` — `git push`
-`gr` — `git revert COMMIT` (revert changes).
-`gra` / `grset` / `grrm` / `grmv` — `git remote` add / set-url / remove / rename.
+`g` — `git --filter=blob:none --depth=1`<br>
+`gbg` — `git status`<br>
+`ga` — `git add`<br>
+`gc` — `git commit -v` (opens editor).<br>
+`gcmsg` — `git commit -m` (inline text).<br>
+`gp` — `git push`<br>
+`gr` — `git revert COMMIT` (revert changes).<br>
+`grv` / `gra` / `grset` / `grrm` / `grmv` — `git remote` `-v` / `add` / `set-url` / `remove` / `rename`.
 
 ---
 
@@ -165,7 +165,7 @@ Or type `cd` alone to show an `fzf` picker of your most used directories.
 ## (ZSH Only) Extra Features
 
 ### zmv command
-`zmv '(*).log' '$1.txt'` renames all `.log` files to `.txt`.
+`zmv '(*).log' '$1.txt'` renames all `.log` files to `.txt`.<br>
 Simpler syntax: `zmv -W '*.txt' '*.log'`
 *(Use `-n` to preview changes, `-i` for interactive).*
 

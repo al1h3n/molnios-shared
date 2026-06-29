@@ -97,6 +97,7 @@ alias sud="su -c"
 g() {
     git "$@" --filter=blob:none --depth=1
 }
+alias grv="git remote -v"
 alias k="killall"
 alias pk="pkill"
 alias q="fish"

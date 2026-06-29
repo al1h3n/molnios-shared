@@ -15,20 +15,20 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Terminal colors. "reset" to bring back to normal.
-_tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/colors"
-if [[ -f "$_tc_state" ]]; then
-  _tc_seq="$(cat "$_tc_state" 2>/dev/null)"
-  if [[ -f "$_tc_seq" ]]; then
-    (cat "$_tc_seq" 2>/dev/null &)
+# _tc_state="${XDG_CACHE_HOME:-$HOME/.cache}/molnios/colors"
+# if [[ -f "$_tc_state" ]]; then
+#   _tc_seq="$(cat "$_tc_state" 2>/dev/null)"
+#   if [[ -f "$_tc_seq" ]]; then
+#     (cat "$_tc_seq" 2>/dev/null &)
 
-    # Source the matching colors.sh for shell variable access ($color0…$color15)
-    _tc_colors="${_tc_seq%/sequences}/colors.sh"
-    [[ -f "$_tc_colors" ]] && source "$_tc_colors"
-    unset _tc_colors
-  fi
-  unset _tc_seq
-fi
-unset _tc_state
+#     # Source the matching colors.sh for shell variable access ($color0…$color15)
+#     _tc_colors="${_tc_seq%/sequences}/colors.sh"
+#     [[ -f "$_tc_colors" ]] && source "$_tc_colors"
+#     unset _tc_colors
+#   fi
+#   unset _tc_seq
+# fi
+# unset _tc_state
 
 # 0. Variables.
 EDITOR=nvim
@@ -109,6 +109,7 @@ alias kitty="kitty -c $conf/kitty.conf"
 alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
 alias ze="zellij -c $conf/zellij/config.kdl"
 alias mostwanted="fc -ln 1 | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 15"
+alias httpyac="httpyac $1 --json -a | jq -r ".requests[0].response.body" | jq | bat --language=json"
 
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command

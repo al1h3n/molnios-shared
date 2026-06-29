@@ -40,7 +40,8 @@
 `reset` / `res` — reset custom terminal colors.<br>
 `history clear` / `rm -f ~/.zsh_history` — clear history of commands.<br>
 `mk` — `mkdir -p`.<br>
-`mostwanted` — most used commands in your shell history.
+`mostwanted` — most used commands in your shell history.<br>
+`httpyac` — custom `httpyac` script.
 
 `s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, making it safer.<br>
 `sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>
@@ -87,7 +88,7 @@
 ### Custom scripts
 `sw` — [sweeper](https://github.com/Alihan1ai9595/sweeper) script (clean system junk).<br>
 `ml` — [molnios](https://codeberg.org/al1h3n/install) script (installation tool).<br>
-`gi` - `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).<br>
+`gi` — `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).<br>
 `u` — update system via molnios script.<br>
 `pa` — path script (shorten paths of configurations).<br>
 `m` / `my` — open main menu with Rofi/YAD.<br>

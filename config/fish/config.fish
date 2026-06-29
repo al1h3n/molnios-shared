@@ -34,23 +34,23 @@ end
 
 # Terminal colors.
 # ==========================================================
-set _tc_state (test -n "$XDG_CACHE_HOME"; and echo "$XDG_CACHE_HOME"; or echo "$HOME/.cache")/molnios/colors
+# set _tc_state (test -n "$XDG_CACHE_HOME"; and echo "$XDG_CACHE_HOME"; or echo "$HOME/.cache")/molnios/colors
 
-if test -f $_tc_state
-    set _tc_seq (cat $_tc_state 2>/dev/null)
-    if test -f "$_tc_seq"
-        cat "$_tc_seq" 2>/dev/null &
+# if test -f $_tc_state
+#     set _tc_seq (cat $_tc_state 2>/dev/null)
+#     if test -f "$_tc_seq"
+#         cat "$_tc_seq" 2>/dev/null &
 
-        # Source the matching colors.fish for shell variable access.
-        set _tc_colors (string replace '/sequences' '/colors.fish' $_tc_seq)
-        if test -f "$_tc_colors"
-            source "$_tc_colors"
-        end
-        set --erase _tc_colors
-    end
-    set --erase _tc_seq
-end
-set --erase _tc_state
+#         # Source the matching colors.fish for shell variable access.
+#         set _tc_colors (string replace '/sequences' '/colors.fish' $_tc_seq)
+#         if test -f "$_tc_colors"
+#             source "$_tc_colors"
+#         end
+#         set --erase _tc_colors
+#     end
+#     set --erase _tc_seq
+# end
+# set --erase _tc_state
 # ==========================================================
 
 # Tide theme setup.
@@ -94,6 +94,7 @@ alias ki="kitty -c $conf/kitty/kitty.conf"
 alias kitty="kitty -c $conf/kitty/kitty.conf"
 alias ze="zellij -c $conf/zellij/config.kdl"
 alias mostwanted="history | string match -r '^\S+' | sort | uniq -c | sort -nr | head -n 10"
+alias httpyac="httpyac $1 --json -a | jq -r ".requests[0].response.body" | jq | bat --language=json"
 
 function rr --description "rm-improved: safely remove files with confirmation"
     if test (count $argv) -eq 0

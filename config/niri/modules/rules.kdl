@@ -1,15 +1,12 @@
 prefer-no-csd
 
-// ==========================================
-// WINDOW RULES (With Niri 26.04 Blur!)
-// ==========================================
-// Base window rounding & opacity
+// Window rules.
+
+// Base window rounding & opacity.
 window-rule {
     geometry-corner-radius 15
     clip-to-geometry true
-    opacity 0.9 // Inactive opacity
-
-    // Niri 26.04: Blur behind context menus & pop-ups!
+    opacity 0.9 // Inactive opacity.
     popups {
         geometry-corner-radius 10
         background-effect {
@@ -18,13 +15,13 @@ window-rule {
     }
 }
 
-// Active window opacity
+// Active window opacity.
 window-rule {
     match is-active=true
     opacity 1.0
 }
 
-// Inactive window opacity and blur
+// Inactive window opacity and blur.
 window-rule {
     match is-active=false
 
@@ -34,30 +31,30 @@ window-rule {
     }
 }
 
-// Opaque Browsers/Players
+// Opaque Browsers/Players.
 window-rule {
     match app-id=r#"^(mpv|zen|librewolf|firefox|brave|chrome|chromium)$"#
     opacity 1.0
 }
 
-// XWayland Drag Fix
+// XWayland Drag Fix.
 window-rule {
     match title="^$" app-id="^$"
     block-out-from "screen-capture"
 }
 
-// Polkit Authentication Dialogs
+// Polkit Authentication Dialogs.
 window-rule {
     match app-id=r#"^(polkit-gnome-authentication-agent-1|hyprpolkitagent)$"#
     open-floating true
     opacity 0.8
     background-effect {
-        blur true // Emulates "dim_around" with a beautiful glass effect
+        blur true // Emulates "dim_around" with a beautiful glass effect.
         xray false
     }
 }
 
-// Terminals
+// Terminals.
 window-rule {
     match app-id=r#"^(org\.wezfurlong\.wezterm|kitty)$"#
     background-effect {
@@ -66,22 +63,33 @@ window-rule {
     }
 }
 
-// ==========================================
-// LAYER RULES
-// ==========================================
+// Layer rules.
 layer-rule {
     match namespace=r#"^(waybar|rofi|logout_dialog)$"#
     background-effect {
         blur true
-        xray false // Turn off xray so it blurs the active windows behind it, not just the wallpaper
+        xray false
     }
 }
 
 // SwayNC has some errors in blur integration currently.
-// layer-rule {
-//     match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
-//     background-effect {
-//         blur true
-//         xray false
-//     }
-// }
+/-layer-rule {
+    match namespace=r#"^(swaync-control-center|swaync-notification-window)$"#
+    background-effect {
+        blur true
+        xray false
+    }
+}
+/-layer-rule {
+    match namespace=r#"^noctalia-(bar-.+|notification|dock|panel)$"#
+    background-effect {
+        blur true
+        xray false
+    }
+    popups {
+        background-effect {
+            blur true
+            xray false
+        }
+    }
+}

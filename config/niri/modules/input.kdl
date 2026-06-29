@@ -15,6 +15,6 @@ input {
     }
 
     warp-mouse-to-focus
-    focus-follows-mouse max-scroll-amount="10%" // The more, the less space required to focus.
+    focus-follows-mouse max-scroll-amount="5%" // The more, the less space required to focus.
     workspace-auto-back-and-forth // Auto switch to previous when clicked 2 times on current display.
 }

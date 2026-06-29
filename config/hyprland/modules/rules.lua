@@ -90,6 +90,12 @@ hl.layer_rule({
     blur = true,
     animation = "slide top" -- right
 })
+hl.layer_rule({
+	match = { namespace = "^noctalia-(bar-.+|notification|dock|panel)$" },
+	ignore_alpha = 0,
+	blur = true,
+	blur_popups = true
+})
 
 -- Rofi
 hl.layer_rule({

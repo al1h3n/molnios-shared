@@ -2,7 +2,7 @@ spawn-at-startup "nm-applet"
 spawn-at-startup "blueman-applet"
 
 // Polkit
-spawn-sh-at-startup "systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+// spawn-sh-at-startup "systemctl --user start hyprpolkitagent.service 2>/dev/null || systemctl --user start polkit-gnome-authentication-agent-1.service 2>/dev/null || /usr/libexec/hyprpolkitagent || /usr/lib/hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 // Core Daemons (Waybar, SwayNC, Wallpaper)
 spawn-sh-at-startup "noctalia"

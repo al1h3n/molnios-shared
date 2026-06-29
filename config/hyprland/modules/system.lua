@@ -20,7 +20,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd(noctalia .. " & " .. switcherdaemon .. " & " .. eyedropper .. " & " .. wallpaper .. " && " .. idlewallpaper .. " && " .. borders)
 
     -- Notifications
-    hl.exec_cmd(notify)wallpaper
+    hl.exec_cmd(notify)
 
     -- Clipboard managers
     hl.exec_cmd(cliptext .. " & " .. clipmage .. " & " .. clipsave)

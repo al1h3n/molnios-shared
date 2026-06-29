@@ -30,6 +30,7 @@ order = [ "Main" ]
 
         [bar.Main.dead_zone]
         command = "sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"
+        middle_command = "kitty -c $L_PATH/config/kitty/kitty.conf"
         scroll_down_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm-1' })\"
 """
         scroll_up_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm+1' })\"
@@ -47,7 +48,7 @@ enabled = true
     type = "google"
 
 [control_center]
-sidebar_section = "full"
+sidebar = "full"
 width = 800
 
     [[control_center.shortcuts]]
@@ -161,6 +162,7 @@ enabled = []
 
 [shell]
 app_icon_color = "on_error"
+avatar_path = "/home/al1h3n/.local/share/molnios/molnios-media/avatars/archangel.jpg"
 font_family = "SFMono Nerd Font"
 password_style = "random"
 polkit_agent = true

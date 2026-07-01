@@ -25,34 +25,21 @@ detect_compositor() {
 hypr_enable() {
     hyprctl eval '
         hl.config({
-            general = {
-                gaps_in = 0,
-                gaps_out = 0,
-                border_size = 0,
-            },
-
-            animations = {
-                enabled = false,
-            },
-
-            decoration = {
-                shadow = {
-                    enabled = false,
-                },
-                blur = {
-                    enabled = false,
-                },
-                rounding = 0,
-            },
+            general = { gaps_in = 0, gaps_out = 0, border_size = 0 },
+            animations = { enabled = false },
+            decoration = { shadow = { enabled = false }, blur = { enabled = false }, rounding = 0 },
         })
     '
 
     # Set every monitor to scale 1
-    hyprctl monitors -j |
-        jq -r '.[].name' |
-        while read -r mon; do
-            hyprctl keyword monitor "$mon,preferred,auto,1"
-        done
+    local mon_lua=""
+	while read -r mon; do
+		mon_lua+="hl.monitor({ output = \"$mon\", mode = \"highres@highrr\", position = \"0x0\", scale = 1 }); "
+	done < <(hyprctl monitors -j | jq -r '.[].name')
+
+	if [[ -n "$mon_lua" ]]; then
+		hyprctl eval "$mon_lua"
+	fi
     hyprctl notify 1 3000 "rgb(40a02b)" " Gamemode [ON]"
 }
 

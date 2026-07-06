@@ -1,102 +1,81 @@
 #!/usr/bin/env bash
 #
-# Scan, select, pair, and connect to Bluetooth devices
+# Scan, select, and connect to Wi-Fi networks
+# Passing "off" switches off Wi-Fi
 #
-# Requirements:
-# - bluetoothctl (bluez-utils)
-# - fzf
-# - notify-send (libnotify)
+# Requires fzf and networkmanager (nmcli)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
-# Date:    August 19, 2025
+# Date:    August 11, 2025
 # License: MIT
 
 FG_RED="\e[31m"
 FG_RESET="\e[39m"
 
-TIMEOUT=10
+TIMEOUT=5
 
 printf() {
 	command printf "$@" >&2
 }
 
-power_on() {
+switch_on() {
 	local state
-	state=$(bluetoothctl show | awk '/PowerState/ {print $2}')
+	state=$(nmcli radio wifi)
 
-	case $state in
-		off)
-			bluetoothctl power on > /dev/null
-			;;
-		off-blocked)
-			rfkill unblock bluetooth
+	if [[ $state == enabled ]]; then
+		return 0
+	fi
 
-			local new_state
+	nmcli radio wifi on
 
-			local i=1
-			for ((; i <= TIMEOUT; i++)); do
-				printf "\rUnblocking Bluetooth... (%d/%d)" $i $TIMEOUT
+	local new_state
 
-				new_state=$(bluetoothctl show | awk '/PowerState/ {print $2}')
-				if [[ $new_state == on ]]; then
-					break
-				fi
+	local i
+	for ((i = 1; i <= TIMEOUT; i++)); do
+		printf "\rEnabling Wi-Fi... (%d/%d)" $i $TIMEOUT
 
-				sleep 1
-			done
+		new_state=$(nmcli -t -f STATE general)
+		if [[ $new_state != "connected (local only)" ]]; then
+			break
+		fi
 
-			if [[ $new_state != on ]]; then
-				notify-send "Bluetooth" "Failed to unblock" -i "package-purge"
-				exit 1
-			fi
-			;;
-		*)
-			return 0
-			;;
-	esac
+		sleep 1
+	done
 
-	notify-send "Bluetooth On" -i "network-bluetooth-activated" \
-		-h string:x-canonical-private-synchronous:bluetooth
+	notify-send "Wi-Fi Enabled" -i "network-wireless-on" \
+		-h string:x-canonical-private-synchronous:network
 }
 
-get_devices() {
-	bluetoothctl -t $TIMEOUT scan on > /dev/null &
+get_networks() {
+	nmcli device wifi rescan
 
-	local num
+	local i
+	for ((i = 1; i <= TIMEOUT; i++)); do
+		printf "\rScanning for networks... (%d/%d)" $i $TIMEOUT
 
-	local i=1
-	for ((; i <= TIMEOUT; i++)); do
-		printf "\rScanning for devices... (%d/%d)" $i $TIMEOUT
-		printf "\n%bPress [q] to stop%b\n" "$FG_RED" "$FG_RESET"
+		LIST=$(timeout 1 nmcli device wifi list)
+		NETWORKS=$(tail -n +2 <<< "$LIST" | awk '$2 != "--"')
 
-		num=$(bluetoothctl devices | grep -c "Device")
-		printf "\nDevices: %d" "$num"
-
-		# move cursor 3 lines up
-		printf "\e[3F"
-
-		read -rsn 1 -t 1
-		if [[ $REPLY == [Qq] ]]; then
+		if [[ -n $NETWORKS ]]; then
 			break
 		fi
 	done
 
 	printf "\n%bScanning stopped.%b\n\n" "$FG_RED" "$FG_RESET"
 
-	LIST=$(bluetoothctl devices | sed "s/^Device //")
-	if [[ -z $LIST ]]; then
-		notify-send "Bluetooth" "No devices found" -i "package-broken"
+	if [[ -z $NETWORKS ]]; then
+		notify-send "Wi-Fi" "No networks found" -i "package-broken"
 		exit 1
 	fi
 }
 
-select_device() {
+select_network() {
 	local header
-	printf -v header "%-17s %s" "Address" "Name"
+	header=$(head -n 1 <<< "$LIST")
 
 	local options=(
 		"--border=sharp"
-		"--border-label= Bluetooth Devices "
+		"--border-label= Wi-Fi Networks "
 		"--cycle"
 		"--ghost=Search"
 		"--header=$header"
@@ -107,56 +86,49 @@ select_device() {
 		"--reverse"
 	)
 
-	ADDRESS=$(fzf "${options[@]}" <<< "$LIST" | awk '{print $1}')
-	if [[ -z $ADDRESS ]]; then
-		exit 1
-	fi
-
-	local connected
-	connected=$(bluetoothctl info "$ADDRESS" | awk '/Connected/ {print $2}')
-
-	if [[ $connected == yes ]]; then
-		notify-send "Bluetooth" "Already connected to this device" \
-			-i "package-install"
-		exit 1
-	fi
+	BSSID=$(fzf "${options[@]}" <<< "$NETWORKS" | awk '{print $1}')
+	case $BSSID in
+		'')
+			exit 1
+			;;
+		'*')
+			notify-send "Wi-Fi" "Already connected to this network" \
+				-i "package-install"
+			exit 1
+			;;
+	esac
 }
 
-pair_and_connect() {
-	local paired
-	paired=$(bluetoothctl info "$ADDRESS" | awk '/Paired/ {print $2}')
+connect() {
+	printf "Connecting...\n"
 
-	if [[ $paired == no ]]; then
-		printf "Pairing..."
-
-		if ! timeout $TIMEOUT bluetoothctl pair "$ADDRESS" > /dev/null; then
-			notify-send "Bluetooth" "Failed to pair" -i "package-purge"
-			exit 1
-		fi
-	fi
-
-	printf "\nConnecting..."
-
-	if ! timeout $TIMEOUT bluetoothctl connect "$ADDRESS" > /dev/null; then
-		notify-send "Bluetooth" "Failed to connect" -i "package-purge"
+	if ! nmcli -a device wifi connect "$BSSID"; then
+		notify-send "Wi-Fi" "Failed to connect" -i "package-purge"
 		exit 1
 	fi
 
-	notify-send "Bluetooth" "Successfully connected" -i "package-install"
+	notify-send "Wi-Fi" "Successfully connected" -i "package-install"
 }
 
 main() {
-	# make cursor invisible
+	if [[ $1 == off ]]; then
+		nmcli radio wifi off
+		notify-send 'Wi-Fi Disabled' -i 'network-wireless-off' \
+			-h string:x-canonical-private-synchronous:network
+		exit 0
+	fi
+
+	# Make cursor invisible
 	printf "\e[?25l"
 
-	power_on
-	get_devices
+	switch_on
+	get_networks
 
-	# make cursor visible
+	# Make cursor visible
 	printf "\e[?25h"
 
-	select_device
-	pair_and_connect
+	select_network
+	connect
 }
 
-main
+main "$@"

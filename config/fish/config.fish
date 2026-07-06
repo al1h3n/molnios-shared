@@ -246,6 +246,10 @@ alias nixfetch="sh $scripts/fetch.sh -f -m $L_PATH/images/nixglass.png -w 30 -p 
 alias ca="cava -p $conf/cava.ini"
 alias cat="bat -p"
 
+alias wi="impala"
+alias wi="bluetui"
+alias vo="wiremix"
+
 alias dir="eza --icons"
 alias ls="eza --icons -la"
 alias l="eza --icons"

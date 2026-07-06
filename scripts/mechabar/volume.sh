@@ -2,9 +2,7 @@
 #
 # Adjust default device volume and send a notification with the current level
 #
-# Requirements:
-# - pactl (libpulse)
-# - notify-send (libnotify)
+# Requires libpulse (pactl)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    September 07, 2025
@@ -17,7 +15,7 @@ MAX=100
 usage() {
 	local script=${0##*/}
 
-	cat >&2 <<- EOF
+	cat <<- EOF
 		USAGE: $script {input|output} {mute|raise|lower} [value]
 
 		Adjust default device volume and send a notification with the current level
@@ -133,7 +131,7 @@ main() {
 	VALUE=${3:-$DEF_VALUE}
 
 	if ((VALUE < 1)); then
-		usage
+		usage >&2
 		return 1
 	fi
 
@@ -153,16 +151,20 @@ main() {
 			DEV_NAME="Volume"
 			;;
 		*)
-			usage
+			usage >&2
 			return 1
 			;;
 	esac
 
 	case $ACTION in
-		mute)          set_state ;;
-		raise | lower) set_volume ;;
+		mute)
+			set_state
+			;;
+		raise | lower)
+			set_volume
+			;;
 		*)
-			usage
+			usage >&2
 			return 1
 			;;
 	esac

@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 #
 # Scan, select, and connect to Wi-Fi networks
+# Passing "off" switches off Wi-Fi
 #
-# Requirements:
-# - nmcli (networkmanager)
-# - fzf
-# - notify-send (libnotify)
+# Requires fzf and networkmanager (nmcli)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    August 11, 2025
@@ -32,8 +30,8 @@ switch_on() {
 
 	local new_state
 
-	local i=1
-	for ((; i <= TIMEOUT; i++)); do
+	local i
+	for ((i = 1; i <= TIMEOUT; i++)); do
 		printf "\rEnabling Wi-Fi... (%d/%d)" $i $TIMEOUT
 
 		new_state=$(nmcli -t -f STATE general)
@@ -51,8 +49,8 @@ switch_on() {
 get_networks() {
 	nmcli device wifi rescan
 
-	local i=1
-	for ((; i <= TIMEOUT; i++)); do
+	local i
+	for ((i = 1; i <= TIMEOUT; i++)); do
 		printf "\rScanning for networks... (%d/%d)" $i $TIMEOUT
 
 		LIST=$(timeout 1 nmcli device wifi list)
@@ -113,17 +111,24 @@ connect() {
 }
 
 main() {
-	# make cursor invisible
+	if [[ $1 == off ]]; then
+		nmcli radio wifi off
+		notify-send 'Wi-Fi Disabled' -i 'network-wireless-off' \
+			-h string:x-canonical-private-synchronous:network
+		exit 0
+	fi
+
+	# Make cursor invisible
 	printf "\e[?25l"
 
 	switch_on
 	get_networks
 
-	# make cursor visible
+	# Make cursor visible
 	printf "\e[?25h"
 
 	select_network
 	connect
 }
 
-main
+main "$@"

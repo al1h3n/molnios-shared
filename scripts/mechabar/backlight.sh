@@ -2,9 +2,7 @@
 #
 # Adjust screen brightness and send a notification with the current level
 #
-# Requirements:
-# - brightnessctl
-# - notify-send (libnotify)
+# Requires brightnessctl
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    August 28, 2025
@@ -15,7 +13,7 @@ DEF_VALUE=1
 usage() {
 	local script=${0##*/}
 
-	cat >&2 <<- EOF
+	cat <<- EOF
 		USAGE: $script {up|down} [value]
 
 		Adjust screen brightness and send a notification with the current level
@@ -38,7 +36,7 @@ main() {
 	local value=${2:-$DEF_VALUE}
 
 	if ((value < 1)); then
-		usage
+		usage >&2
 		return 1
 	fi
 
@@ -60,7 +58,7 @@ main() {
 				"contrast" -h string:x-canonical-private-synchronous:backlight
 			;;
 		*)
-			usage
+			usage >&2
 			return 1
 			;;
 	esac

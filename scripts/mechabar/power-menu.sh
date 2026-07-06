@@ -2,7 +2,7 @@
 #
 # Launch a power menu
 #
-# Requirement: fzf
+# Requires fzf and systemd (loginctl, systemctl)
 #
 # Author:  Jesse Mirabel <sejjymvm@gmail.com>
 # Date:    August 19, 2025
@@ -40,7 +40,7 @@ main() {
 		Logout)    loginctl terminate-session "$XDG_SESSION_ID" ;;
 		Hibernate) systemctl hibernate ;;
 		Suspend)   systemctl suspend ;;
-		*)         exit 1 ;;
+		*)         return 1 ;;
 	esac
 }
 

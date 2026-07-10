@@ -94,6 +94,7 @@ alias help="apropos"
 alias s="doas"
 alias duf="duf --only local"
 alias sud="su -c"
+unalias g 2>/dev/null
 g() {
     git "$@" --filter=blob:none --depth=1
 }

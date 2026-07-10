@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ [kitty](https://sw.kovidgoyal.net/kitty/overview) keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* [kitty](https://sw.kovidgoyal.net/kitty/overview) keybinds:
 #### Create keybind by `map ctrl+f1 launch cmatrix`
 
 ### Definitions
@@ -13,35 +13,35 @@
 `Cmd + M` - minimize (macOS).
 
 ### Font
-`Main + -/=/backspace` - make font __smaller/bigger/reset__.
+`Main + -/=/backspace` - make font **smaller/bigger/reset**.
 
 ### Links
-`Main + E` - open selected __link__ in entire window.
+`Main + E` - open selected **link** in entire window.
 
 ### Windows (internal)
 `Main + F7/F8` - choose window/swap window with number tips.<br>
-`Main + Enter/W` - _create/close_ internal window.<br>
-`Main + Number` - move to specified _window_. `Main + []` - same. `Main + grave` - move to the top.<br>
+`Main + Enter/W` - *create/close* internal window.<br>
+`Main + Number` - move to specified *window*. `Main + []` - same. `Main + grave` - move to the top.<br>
 `Main + R` - resize windows.<br>
 `Main + E` - open web link in browser.<br>
 `Main + Delete` - reset terminal.<br>
 `Main + A` + `m/l/d/1` - increase/decrease/default/100% opacity.
 
 ### Windows (external)
-`Main + N/W` - create/close new _OS window_.<br>
+`Main + N/W` - create/close new *OS window*.<br>
 `Main + F11` - fullscreen.
 
 ### Clipboard
-`Main + S` - __paste from selection__. Literally.<br>
-`Main + U` - _unicode_ selector. Supports emojis as well.
+`Main + S` - **paste from selection**. Literally.<br>
+`Main + U` - *unicode* selector. Supports emojis as well.
 
 ### Tabs
 `Main + G` / `Main + Alt + T` - set tab's title.<br>
-`Main + T/Q` - _create/close_ a __tab__. Move to each of them by `Ctrl + Tab`. You can use `Main + Left/Right` as well (now removed).<br>
+`Main + T/Q` - *create/close* a **tab**. Move to each of them by `Ctrl + Tab`. You can use `Main + Left/Right` as well (now removed).<br>
 `Main + ./,` - move tab left/right.
 
 ### Moving
-`Main + [Page] Up/Down` - __scroll__ line/page. `Main + Home/End` - to the top/bottom.<br>
+`Main + [Page] Up/Down` - **scroll** line/page. `Main + Home/End` - to the top/bottom.<br>
 `Main + Z/X` - to previous/next prompt.
 
 ### Scrolling

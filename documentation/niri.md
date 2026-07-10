@@ -1,17 +1,17 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ Niri keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* Niri keybinds:
 `Caps Lock` = control.<br>
 `Main` = `Super` / `Alt` (when launching from other WM/DE).<br>
 `Alt [Shift] + Tab` - next and previous window switch, `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
 
 #### Media
-`PrintScreen` - make _screenshot_.<br>
+`PrintScreen` - make *screenshot*.<br>
 `Ctrl + PrintScreen` - window screenshot.<br>
-`Main + PrintScreen` - __record__ screen.<br>
+`Main + PrintScreen` - **record** screen.<br>
 `Main + Insert` - OCR - copy text (no UI).<br>
-`Ctrl + PrintScreen` - Native Niri screenshot with __cursor__ pointer included.<br>
+`Ctrl + PrintScreen` - Native Niri screenshot with **cursor** pointer included.<br>
 
 #### Media: advanced
-`Main + Shift/Ctrl + PrintScreen` - record screen with _audio_ or via __OBS__.<br>
+`Main + Shift/Ctrl + PrintScreen` - record screen with *audio* or via **OBS**.<br>
 
 #### Menus
 `Main + End` - [wlogout](https://github.com/ArtsyMacaw/wlogout) action menu.<br>
@@ -20,12 +20,12 @@
 #### Top keybinds (Q~P) - running system applications and switching window mode
 `Main + Space` - switch keyboard layout (by default US/RU).<br>
 
-`Main + Q/W/E/R/T/Y/P` - terminal, toggle __floating__ window mode, file manager, run application, run command, open virtual manager, expel window.<br>
-`Main + A/S/D/F/G/H; J/K/L` -  notes, browser, toggle __overview__ (show desktop equivalent), full screen, discord, telegram; _previous_ song, __pause|unpause__, _next_ song.<br>
+`Main + Q/W/E/R/T/Y/P` - terminal, toggle **floating** window mode, file manager, run application, run command, open virtual manager, expel window.<br>
+`Main + A/S/D/F/G/H; J/K/L` -  notes, browser, toggle **overview** (show desktop equivalent), full screen, discord, telegram; *previous* song, **pause|unpause**, *next* song.<br>
 `Main + Z/X/C/V/B` - exit niri, emoji picker, close window, clipboard manager, OCR advanced (with language selection).
 
 `Main + Escape` - hibernate. `Main + Shift + Escape` - lock screen (hyprlock).<br>
-`Main + Shift + Q/W/E/R` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), toggle __tabbed__ column display, yazi, switch preset window height.<br>
+`Main + Shift + Q/W/E/R` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), toggle **tabbed** column display, yazi, switch preset window height.<br>
 `Main + Shift + A/S/D/F; G/C` - move window/column to specified location (left column, up window, down window, right column). Gamemode, MPV player. <br>
 `Main + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
 `Main + Ctrl + F1/2/3/4/5/6/7/8/9` - show volume level, time, date, brighness value, GPU/CPU/RAM/Disk load, temperature.

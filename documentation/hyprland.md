@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ hyprland keybinds (in nutshell, as easy as possible)
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* hyprland keybinds (in nutshell, as easy as possible)
 
 ## Keybind layout logic (in nutshell, not exact)
 - `QWER` → launching / execution
@@ -17,8 +17,8 @@
 `Alt + Ctrl + Tab` - window switcher (application menu).<br>
 
 #### Media
-`Print` - make _screenshot_ and launch manager.<br>
-`Super + Print` - __record__ screen.<br>
+`Print` - make *screenshot* and launch manager.<br>
+`Super + Print` - **record** screen.<br>
 `Super + Insert` - OCR (no UI).<br>
 
 #### Screen capture & advanced tools

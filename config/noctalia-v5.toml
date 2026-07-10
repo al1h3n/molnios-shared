@@ -4,18 +4,7 @@ order = [ "Main" ]
     [bar.Main]
     capsule_opacity = 0.79999998211860657
     capsule_padding = 8.0
-    end = [
-        "media",
-        "SwayNC",
-        "clipboard",
-        "network",
-        "bluetooth",
-        "volume",
-        "brightness",
-        "battery",
-        "wallpaper",
-        "session"
-    ]
+    end = [ "tray", "group:g2", "group:g1", "group:g3" ]
     font_family = "SF Pro Display"
     font_weight = 700
     margin_edge = 0
@@ -24,7 +13,7 @@ order = [ "Main" ]
     radius_top_left = 0
     radius_top_right = 0
     scale = 1.2
-    start = [ "launcher", "workspaces", "weather", "tray" ]
+    start = [ "launcher", "workspaces", "active_window", "weather", "media" ]
     thickness = 35
     widget_spacing = 14
 
@@ -35,6 +24,27 @@ order = [ "Main" ]
 """
         scroll_up_command = """hyprctl dispatch \"hl.dsp.focus({ workspace = 'm+1' })\"
 """
+
+        [[bar.Main.capsule_group]]
+        fill = "surface_variant"
+        id = "g1"
+        members = [ "clipboard", "wallpaper", "SwayNC" ]
+        opacity = 0.79999995231628418
+        padding = 8.0
+
+        [[bar.Main.capsule_group]]
+        fill = "surface_variant"
+        id = "g2"
+        members = [ "bluetooth", "network", "volume" ]
+        opacity = 0.79999995231628418
+        padding = 8.0
+
+        [[bar.Main.capsule_group]]
+        fill = "surface_variant"
+        id = "g3"
+        members = [ "brightness", "battery", "session" ]
+        opacity = 0.79999995231628418
+        padding = 8.0
 
 [brightness]
 enable_ddcutil = true
@@ -76,7 +86,6 @@ widget_order = []
 
 [dock]
 auto_hide = true
-enabled = true
 inactive_opacity = 0.64999998547136784
 launcher_position = "end"
 main_axis_padding = 10
@@ -162,7 +171,7 @@ enabled = []
 
 [shell]
 app_icon_color = "on_error"
-avatar_path = "/home/al1h3n/.local/share/molnios/molnios-media/avatars/archangel.jpg"
+avatar_path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/avatars/gold_girl.jpg"
 font_family = "SFMono Nerd Font"
 password_style = "random"
 polkit_agent = true
@@ -175,7 +184,7 @@ ui_scale = 1.1499999999999999
     control_center_placement = "floating"
     launcher_compact = true
     launcher_session_search = true
-    transparency_mode = "glass"
+    transparency_mode = "soft"
 
     [[shell.session.actions]]
     action = "lock"
@@ -220,24 +229,24 @@ ui_scale = 1.1499999999999999
 [theme]
 builtin = "Gruvbox"
 community_palette = "Gruvbox Material"
+mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "faithful"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "niri", "qt", "wezterm" ]
     community_ids = [ "pywalfox", "neovim", "yazi" ]
 
 [wallpaper]
-directory = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static"
+directory = "~/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/6.jpg"
+    path = "/home/al1h3n/Downloads/5m5kLI9.png"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/6.jpg"
+    path = "/home/al1h3n/Downloads/5m5kLI9.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/nature/6.jpg"
+    path = "/home/al1h3n/Downloads/5m5kLI9.png"
 
 [widget.SwayNC]
 command = "swaync-client -t"
@@ -246,6 +255,11 @@ right_command = "pkill swaync;swaync -c $L_PATH/config/swaync/swaync.json -s $L_
 tooltip = "SwayNC notifications"
 type = "custom_button"
 
+[widget.active_window]
+icon_size = 16
+max_length = 150
+title_scroll = "on_hover"
+
 [widget.clock]
 format = "{:%d %b %H:%M}"
 
@@ -253,11 +267,13 @@ format = "{:%d %b %H:%M}"
 capsule = true
 capsule_padding = 18.0
 
+[widget.media]
+hide_when_no_media = true
+max_length = 150
+title_scroll = "always"
+
 [widget.volume]
 scroll_step = 1
-
-[widget.weather]
-capsule = true
 
 [widget.workspaces]
 capsule = true

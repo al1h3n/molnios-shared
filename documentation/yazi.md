@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ yazi keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* yazi keybinds:
 The syntax is kinda like `nvim`.<br>
 `<C-a>` = `Ctrl+A`.<br>
 
@@ -40,7 +40,7 @@ To move cursor further use `Pg Up/Down`.<br>
 `c` - copy menu.<br>
 
 ### Copy menu
-`cd` - copy __directory__ path.<br>
+`cd` - copy **directory** path.<br>
 `cc` - copy file path.<br>
 
 ### Preview

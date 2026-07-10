@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ [wezterm](https://wezterm.org/config/default-keys.html) keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* [wezterm](https://wezterm.org/config/default-keys.html) keybinds:
 
 ## Definitions
 `Ctrl + Shift` = `Main`
@@ -12,7 +12,7 @@
 `Main + Space` - select number.<br>
 
 ### Actions
-`Main + P` - __main action list__.<br>
+`Main + P` - **main action list**.<br>
 `Main + L` - debug overlay.<br>
 
 ### Windows, tabs

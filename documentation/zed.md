@@ -4,4 +4,4 @@ Use the arrow keys to preview themes in real time and press Enter to select and 
 
 Use this hotkey for almost anything.
 
-Now _Zed_ is __worse__ than VSCodium, due to _chatbot_ limitations.
+Currently, Zed is **worse** than VSCodium, due to *chatbot* limitations.

@@ -1,8 +1,8 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ sway notification center keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* sway notification center keybinds:
 `Up/Down` - Navigate notifications.<br>
 `Home` - Navigate to the latest notification.<br>
 `End` - Navigate to the oldest notification.<br>
-`Escape/Caps_Lock` - Close notification panel.<br>
+`Escape/CapsLock` - Close notification panel.<br>
 `Return` - Execute default action or close notification if none.<br>
 `Delete/BackSpace` - Close notification.<br>
 `Shift+C` - Close all notifications.<br>

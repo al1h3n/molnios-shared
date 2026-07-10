@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ rofi keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* rofi keybinds:
 
 ### Navigating
 `Control + Tab`, `Alt + 1~0` - switch types.<br>

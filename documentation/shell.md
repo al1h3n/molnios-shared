@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ shell keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* shell keybinds:
 
 **Themes:**
 - **Fish:** [Tide](https://github.com/IlanCosman/tide)
@@ -56,7 +56,7 @@
 `ns` / `nss` — `notify-send` / temporary notification.<br>
 `we` — current weather, uses [wttr.in](https://github.com/chubin/wttr.in). Use city as argument, or leave blank for local.<br>
 `myip` — current location, country, coordinates, ISP and public IP.<br>
-`mu` / `shazam` — custom script using _songrec_ to find the song currently playing.<br>
+`mu` / `shazam` — custom script using *songrec* to find the song currently playing.<br>
 `f` — [Pay Respects](https://github.com/iffse/pay-respects) (write `f` after an error to get fix suggestions).<br>
 `cat` — [bat](https://github.com/sharkdp/bat).<br>
 `man` — [tealdeer](https://github.com/tealdeer-rs/tealdeer) — runs `tldr` first, defaults to manpage if missing.<br>
@@ -93,7 +93,7 @@
 `pa` — path script (shorten paths of configurations).<br>
 `m` / `my` — open main menu with Rofi/YAD.<br>
 `am` — action wlogout menu.<br>
-`rec` — _recording_ script (record screen).<br>
+`rec` — *recording* script (record screen).<br>
 `r` — reloadus script (reload **configuration** and applications).<br>
 `br` — brightness script (type value like -10%, 50%, or `-g` to get value).
 

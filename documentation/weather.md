@@ -1,4 +1,4 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ weather method:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* weather method:
 
 All weather scripts and widgets use [wttr.in](https://github.com/chubin/wttr.in) data. The weather codes work in following way:
 113 - Sunny

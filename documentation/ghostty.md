@@ -1,1 +1,1 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ ghostty keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* ghostty keybinds:

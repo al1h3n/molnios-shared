@@ -1,14 +1,14 @@
-# _[MolniOS](https://codeberg.org/al1h3n/molnios-install)_ hyprland keybinds:
+# *[MolniOS](https://codeberg.org/al1h3n/molnios-install)* hyprland keybinds:
 `Caps Lock` = control.<br>
 `Alt [Shift] + Tab` - next and previous window switch , `Alt + Ctrl + Tab` - window menu switcher (advanced).<br>
 
 #### Media
-`PrintScreen` - make _screenshot_ and launch manager.<br>
-`Super + PrintScreen` - __record__ screen.<br>
+`PrintScreen` - make *screenshot* and launch manager.<br>
+`Super + PrintScreen` - **record** screen.<br>
 `Super + Insert` - OCR - copy text (no UI).<br>
 
 #### Media: advanced
-`Super + Shift/Ctrl/Alt + PrintScreen` - record screen with _audio_ or via __OBS__, use __OCR__ (image to text).<br>
+`Super + Shift/Ctrl/Alt + PrintScreen` - record screen with *audio* or via **OBS**, use **OCR** (image to text).<br>
 
 #### Menus
 `Super + End` - [wlogout](https://github.com/ArtsyMacaw/wlogout) action menu.<br>
@@ -17,18 +17,18 @@
 `Super + Space` - switch keyboard layout (by default US/RU).<br>
 
 
-`Super + Q/W/E/R/T/Y/P` - terminal, __free__ window mode, file manager, run application, run command, open virtual manager private workspace.<br>
-`Super + A/S/D/F/G/H; J/K/L` -  notes, browser, show desktop, full screen, discord, telegram; _previous_ song, __pause|unpause__, _next_ song.<br>
+`Super + Q/W/E/R/T/Y/P` - terminal, **free** window mode, file manager, run application, run command, open virtual manager private workspace.<br>
+`Super + A/S/D/F/G/H; J/K/L` -  notes, browser, show desktop, full screen, discord, telegram; *previous* song, **pause|unpause**, *next* song.<br>
 `Super + Z/X/C/V/B` - exit hyprland, emoji picker, close, clipboard manager, OCR advanced (with language selection).
 
 `Super + Escape` - hibernate. `Super + Shift + Escape` - lock screen (hyprlock).<br>
-`Super + Shift + Q/W/E/R/P` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), __switch__ window axis, yazi, reload wallpaper, move to private workspace.<br>
-`Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper _engine_, gamemode. <br>
+`Super + Shift + Q/W/E/R/P` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), **switch** window axis, yazi, reload wallpaper, move to private workspace.<br>
+`Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper *engine*, gamemode. <br>
 `Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
-`Super + Shift + F1/2/3/4/5/6` - __volume__ up/down/mute, mute microphone, turn __brightness__ up/down.<br>
+`Super + Shift + F1/2/3/4/5/6` - **volume** up/down/mute, mute microphone, turn **brightness** up/down.<br>
 `Super + Ctrl + F1/2/3/4/5/6/7/8/9` - show volume level, time, date, brighness value, GPU/CPU/RAM/Disk load, temperature.
 
-`Super + Alt + Q` - __do not stretch window__.<br>
+`Super + Alt + Q` - **do not stretch window**.<br>
 `Super + Alt + Z/X` - open eyedropper, open eyedropper history.
 
 `Super + Ctrl + Z/X` - reload all configurations.<br>

@@ -27,7 +27,7 @@ _G.switchmenu = menu .. " window " .. icons
 
 _G.youtube = "yt-x -s -l rofi --rofi-theme-main " .. menuconfig
 _G.switcher = "snappy-switcher --mod alt" -- Works only on hyprland.
-_G.switcherdaemon = switcher .. " --daemon -c " .. conf .. "snappy.ini"
+_G.switcherdaemon = "snappy-switcher --daemon -c " .. conf .. "snappy.ini"
 
 local mon = shell .. scripts .. "monitor/"
 _G.gpu = mon .. "gpu.sh"

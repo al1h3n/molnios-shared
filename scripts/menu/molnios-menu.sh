@@ -32,7 +32,7 @@ debug_var() {
     fi
 }
 
-# 3. Detection of backends: ROFI & YAD.
+# 3. Detection of backends: ROFI, YAD & TUI (gum/fzf).
 detect_backend() {
     if [[ "$BACKEND" != "auto" ]];then
         echo "$BACKEND"
@@ -43,6 +43,12 @@ detect_backend() {
         echo "rofi"
     elif command -v yad &>/dev/null;then
         echo "yad"
+    elif [[ -t 0 && -t 1 ]] && { command -v gum &>/dev/null || command -v fzf &>/dev/null;};then
+        # Only auto-pick the terminal UI when we actually have a tty to draw
+        # into (e.g. run by hand from a shell). A keybind-triggered launch
+        # with no controlling terminal still falls through to "none" below
+        # instead of hanging waiting for input nobody can see.
+        echo "tui"
     else
         echo "none"
     fi
@@ -242,7 +248,136 @@ yad_show_input() {
         --button="OK:0" 2>/dev/null || echo ""
 }
 
-# 7. Menu interface.
+# 7. TUI backend (gum / fzf) — renders inline in the invoking terminal,
+# unlike rofi/yad which pop up their own window. Picked with --backend tui
+# or -t/--tui, and auto-selected when neither rofi nor yad is installed but
+# we're actually attached to a tty (see detect_backend above).
+tui_detect_tool() {
+    if command -v gum &>/dev/null;then
+        echo "gum"
+    elif command -v fzf &>/dev/null;then
+        echo "fzf"
+    else
+        echo "none"
+    fi
+}
+
+# Gruvbox Dark accents — the same palette shell_show_input() uses above —
+# so the TUI backend's picker/input box look at home next to that dialog.
+TUI_YELLOW="#fabd2f"
+TUI_ORANGE="#fe8019"
+TUI_GREEN="#b8bb26"
+TUI_GRAY="#928374"
+TUI_FG="#ebdbb2"
+
+tui_show_menu() {
+    local title="$1"
+    local prompt="$2"
+    shift 2
+    local options=("$@")
+
+    debug "tui_show_menu: title=$title, prompt=$prompt"
+    debug "tui_show_menu: options count=${#options[@]}"
+
+    local tool
+    tool=$(tui_detect_tool)
+
+    case "$tool" in
+        gum)
+            # --label-delimiter shows the label but returns the value after
+            # the delimiter, so we pair each label with its real index —
+            # gum's equivalent of yad's --hide-column trick above.
+            local -a labeled=()
+            local i
+            for i in "${!options[@]}";do
+                labeled+=("${options[$i]}"$'\t'"${i}")
+            done
+
+            # gum's Bubble Tea UI renders to stderr by design (confirmed in
+            # gum's own source: choose/command.go and input/command.go both
+            # pass tea.WithOutput(os.Stderr)), specifically so stdout stays
+            # clean for the captured result below. Redirecting stderr away
+            # would silently discard the entire picker — it'd still be
+            # running, just invisible, waiting on keys nobody can see to
+            # press. So we only rely on the exit code here, not on 2>/dev/null.
+            printf '%s\n' "${labeled[@]}" | gum choose \
+                --label-delimiter=$'\t' \
+                --header="${title}"$'\n'"${prompt}" \
+                --height=20 \
+                --cursor="❯ " \
+                --header.foreground="$TUI_YELLOW" \
+                --cursor.foreground="$TUI_GREEN" \
+                --selected.foreground="$TUI_ORANGE" \
+                || echo ""
+            ;;
+        fzf)
+            # Same idea via a hidden tab-delimited field: --with-nth shows
+            # only the label, but fzf still returns the whole original line.
+            local -a indexed=()
+            local i
+            for i in "${!options[@]}";do
+                indexed+=("${i}"$'\t'"${options[$i]}")
+            done
+
+            local line
+            line=$(printf '%s\n' "${indexed[@]}" | fzf \
+                --delimiter=$'\t' --with-nth=2 \
+                --prompt="❯ " \
+                --header="${title}"$'\n'"${prompt}" \
+                --height="~90%" --layout=reverse --border=rounded \
+                --color="fg:${TUI_FG},header:${TUI_GRAY},prompt:${TUI_GREEN},pointer:${TUI_ORANGE},hl:${TUI_YELLOW},hl+:${TUI_YELLOW},fg+:${TUI_FG}" \
+                || echo "")
+
+            echo "${line%%$'\t'*}"
+            ;;
+        *)
+            echo "ERROR: tui backend requires gum or fzf to be installed" >&2
+            echo ""
+            ;;
+    esac
+}
+
+tui_show_input() {
+    local title="$1"
+    local prompt="$2"
+    local default="$3"
+
+    debug "tui_show_input: title=$title, prompt=$prompt, default=$default"
+
+    if command -v gum &>/dev/null;then
+        # See the note in tui_show_menu()'s gum branch above: gum's UI
+        # renders to stderr on purpose, so it must not be redirected away.
+        gum input \
+            --header="${title}"$'\n'"${prompt}" \
+            --value="$default" \
+            --prompt="❯ " \
+            --width=70 \
+            --header.foreground="$TUI_YELLOW" \
+            --prompt.foreground="$TUI_GREEN" \
+            --cursor.foreground="$TUI_GREEN" \
+            || echo ""
+    else
+        # No gum: fall back to a plain readline prompt, since fzf has no
+        # input-box widget of its own. Needs nothing but bash itself, so
+        # this is also what runs if fzf is the only tool installed.
+        # The decorative lines below are written to fd 2 (not fd 1), since
+        # this function's stdout is captured by the caller as the result —
+        # same reason debug()/notify() write to stderr elsewhere in this file.
+        {
+            echo ""
+            echo -e "\033[1;33m${title}\033[0m"
+            while IFS= read -r pline;do
+                [[ -n "$pline" ]] && echo -e "  \033[2;36m${pline}\033[0m"
+            done <<< "$prompt"
+            echo ""
+        } >&2
+        local result
+        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || result=""
+        echo "$result"
+    fi
+}
+
+# 8. Menu interface.
 show_menu() {
     local title="$1"
     local prompt="$2"
@@ -261,8 +396,11 @@ show_menu() {
         yad)
             yad_show_menu "$title" "$prompt" "${options[@]}"
             ;;
+        tui)
+            tui_show_menu "$title" "$prompt" "${options[@]}"
+            ;;
         *)
-            echo "ERROR: No supported backend found (rofi or yad)" >&2
+            echo "ERROR: No supported backend found (rofi, yad, or tui)" >&2
             exit 1
             ;;
     esac
@@ -285,8 +423,11 @@ show_input() {
         yad)
             yad_show_input "$title" "$prompt" "$default"
             ;;
+        tui)
+            tui_show_input "$title" "$prompt" "$default"
+            ;;
         *)
-            echo "ERROR: No supported backend found (rofi or yad)" >&2
+            echo "ERROR: No supported backend found (rofi, yad, or tui)" >&2
             exit 1
             ;;
     esac
@@ -520,7 +661,7 @@ Usage: $0 [OPTIONS]
 
 OPTIONS:
     -p, --preset FILE       Load menu preset from FILE
-    -b, --backend BACKEND   Force backend (rofi, yad, auto)
+    -b, --backend BACKEND   Force backend (rofi, yad, tui, auto)
     -r, --rofi-config FILE  Custom rofi config file path
     -d, --debug             Enable debug mode
     -h, --help              Show this help message
@@ -528,12 +669,14 @@ OPTIONS:
 BACKENDS:
     rofi    - Use rofi for menu display
     yad     - Use yad for menu display
+    tui     - Use a terminal UI (gum, falling back to fzf) in this terminal
     auto    - Auto-detect available backend (default)
 
 EXAMPLES:
     $0 --preset main-menu.sh
     $0 --preset main-menu.sh --backend rofi --debug
     $0 -p main-menu.sh -b yad -d
+    $0 -p main-menu.sh -b tui
     $0 -p main-menu.sh -r ~/.config/rofi/custom.rasi
 
 EOF
@@ -588,7 +731,7 @@ main() {
     detected_backend=$(detect_backend)
 
     if [[ "$detected_backend" == "none" ]];then
-        echo "ERROR: No supported backend found. Please install rofi or yad." >&2
+        echo "ERROR: No supported backend found. Please install rofi, yad, or a terminal picker (gum/fzf)." >&2
         exit 1
     fi
 

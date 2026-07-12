@@ -140,7 +140,7 @@ hypr_select_monitor(){
         return 0
     fi
 
-    if exists gum;then
+    if exists gum && [[ "$(detect_backend)" != "tui" ]];then
         local list_file="/tmp/molnios-mon-list-$$"
         local out_file="/tmp/molnios-mon-out-$$"
         local sel_script="/tmp/molnios-mon-sel-$$.sh"

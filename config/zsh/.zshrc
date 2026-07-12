@@ -165,8 +165,9 @@ if [ "$(uname)" != "Darwin" ];then
   alias ns="notify-send"
   alias nss="notify-send -h int:transient:1"
 
-  alias m="sh $scripts/menu/launch-menu.sh"
+  alias m="sh $scripts/menu/launch-menu.sh -t"
   alias my="sh $scripts/menu/launch-menu.sh -y"
+  alias mr="sh $scripts/menu/launch-menu.sh"
   alias r="sh $scripts/reloadus.sh"
   alias br="sh $scripts/brightness.sh"
 

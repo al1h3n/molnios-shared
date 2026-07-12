@@ -91,7 +91,7 @@
 `gi` — `git-cooker` script made exclusively for MolniOS (AIO swizz knife for `git`).<br>
 `u` — update system via molnios script.<br>
 `pa` — path script (shorten paths of configurations).<br>
-`m` / `my` — open main menu with Rofi/YAD.<br>
+`m` / `my` / `mr` — open main menu with `gum` + `fzf`/ YAD / Rofi.<br>
 `am` — action wlogout menu.<br>
 `rec` — *recording* script (record screen).<br>
 `r` — reloadus script (reload **configuration** and applications).<br>

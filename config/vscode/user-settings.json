@@ -43,7 +43,7 @@
         "source.organizeImports": "always"
     },
     "editor.cursorSmoothCaretAnimation": "on",
-    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "JetBrainsMono Nerd Font, SFMono Nerd Font",
     "editor.fontLigatures": "'calt', 'liga', 'ss02', 'ss07', 'ss08', 'ss09', 'ss13', 'ss14', 'zero'",
     "editor.fontSize": 16,
     "editor.gotoLocation.multipleDeclarations": "goto",

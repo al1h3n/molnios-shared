@@ -14,7 +14,7 @@ hl.config({
     general = {
         gaps_in = 4,
         gaps_out = 5,
-        border_size = 2,
+        border_size = 0,
         col = { inactive_border = { colors = { BG_LIGHT, BG_DARK } }, },
     },
     decoration = {

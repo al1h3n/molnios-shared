@@ -36,3 +36,6 @@ require("rules")
 require("system")
 require("theme")
 require("visual")
+
+-- Hyprmod's module.
+require("hyprland-gui")

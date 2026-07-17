@@ -10,24 +10,17 @@
 # Part of the MolniOS project.
 # ==============================================================================
 
-# Order of preference (highest → lowest)
-PRIORITY_CLIENTS=(
-    "64gram"
-    "kotatogram kotatogram-desktop"
-    "ayugram ayugram-desktop"
-    "telegram-desktop Telegram telegram"   # NixOS ships as 'Telegram'
-)
-
-for group in "${PRIORITY_CLIENTS[@]}"; do
-    for bin in $group; do
-        if command -v "$bin" >/dev/null 2>&1; then
-            exec "$bin" "$@"
-        fi
-    done
+for bin in \
+  64gram 64gram-desktop \
+  kotatogram kotatogram-desktop Kotatogram \
+  ayugram ayugram-desktop AyuGram \
+  Telegram telegram-desktop telegram
+do
+  if command -v $bin >/dev/null 2>&1;then
+    echo Opened $bin
+    exec $bin "$@"
+  fi
 done
 
-echo "⚠️  No supported Telegram client installed." >&2
-printf "Checked: "
-for group in "${PRIORITY_CLIENTS[@]}"; do echo -n "$group / "; done
-echo >&2
+notify-send -u critical "Telegram launcher" "No supported Telegram client found on PATH." 2>/dev/null
 exit 1

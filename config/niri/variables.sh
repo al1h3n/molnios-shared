@@ -86,7 +86,7 @@ discord="$shell $scripts/launchers/electron.sh discord"
 notes="$shell $scripts/launchers/electron.sh notes"
 coder="$shell $scripts/launchers/electron.sh coder"
 musicplayer="$shell $scripts/launchers/electron.sh spotify"
-telegram="$shell $scripts/telegram.sh"
+telegram="$shell $scripts/launchers/telegram.sh"
 
 set +a
 

@@ -1,6 +1,7 @@
-Current priorities:
-1. Animations for rofi in Niri.
+### Current priorities:
+-
 
-In future:
-1. Color scheme.
-2. Enable SwayNC blur when Niri will support it.
+### In future:
+- ~~Color scheme.~~ (done via Noctalia)
+- Animations for rofi in Niri.
+- Enable SwayNC blur when Niri will support it.

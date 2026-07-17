@@ -18,7 +18,7 @@ STATUS=$(cat $BAT_PATH/status)
 
 # 1. AC / Charging icons.
 if [ ! -d $BAT_PATH ];then
-    ICON="󰦉  "
+    ICON="󰦉 "
     echo "$ICON | AC"
     exit 0
 fi

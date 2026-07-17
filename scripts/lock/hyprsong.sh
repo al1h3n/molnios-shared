@@ -325,25 +325,25 @@ get_player_display() {
 
   case "${player,,}" in
   spotify*)
-    printf '󰓇   Spotify'
+    printf '󰓇  Spotify'
     ;;
   firefox*)
-    printf '    Firefox'
+    printf '   Firefox'
     ;;
   chromium*)
-    printf '󰊯   Chromium'
+    printf '󰊯  Chromium'
     ;;
   brave*)
-    printf '󰞀   Brave'
+    printf '󰞀  Brave'
     ;;
   chrome*)
-    printf '󰊯   Chrome'
+    printf '󰊯  Chrome'
     ;;
   mpv*)
-    printf '   mpv'
+    printf '  mpv'
     ;;
   vlc*)
-    printf '󰕼   VLC'
+    printf '󰕼  VLC'
     ;;
   *)
     printf '%s' "${player:-}"

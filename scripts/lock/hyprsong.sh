@@ -328,7 +328,7 @@ get_player_display() {
     printf '󰓇  Spotify'
     ;;
   firefox*)
-    printf '   Firefox'
+    printf '  Firefox'
     ;;
   chromium*)
     printf '󰊯  Chromium'

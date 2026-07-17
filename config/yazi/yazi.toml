@@ -22,3 +22,44 @@ cursor_blink = true
 
 [confirm]
 trash_title 	= "Remove {n} selected file{s}?"
+
+# Define your custom openers here
+[opener]
+geeqie = [
+    { run = 'geeqie "$@"', orphan = true, desc = "Open with Geeqie" }
+]
+feh = [
+    { run = 'feh "$@"', orphan = true, desc = "Open with feh" }
+]
+
+# Tell Yazi which files should use which opener
+[open]
+prepend_rules = [
+    # Map by specific extensions
+    { name = "*.jp2",  use = "geeqie" },
+    { name = "*.j2k",  use = "geeqie" },
+    { name = "*.jpx",  use = "geeqie" },
+    { name = "*.jpm",  use = "geeqie" },
+    { name = "*.jxl",  use = "geeqie" },
+    { name = "*.avif", use = "geeqie" },
+    { name = "*.heic", use = "geeqie" },
+    { name = "*.heif", use = "geeqie" },
+    { name = "*.exr",  use = "geeqie" },
+    { name = "*.hdr",  use = "geeqie" },
+    { name = "*.dds",  use = "geeqie" },
+    { name = "*.tga",  use = "geeqie" },
+    { name = "*.psd",  use = "geeqie" },
+    { name = "*.cr2",  use = "geeqie" },
+    { name = "*.cr3",  use = "geeqie" },
+    { name = "*.nef",  use = "geeqie" },
+    { name = "*.arw",  use = "geeqie" },
+    { name = "*.dng",  use = "geeqie" },
+    { name = "*.raf",  use = "geeqie" },
+    { name = "*.orf",  use = "geeqie" },
+    { name = "*.rw2",  use = "geeqie" },
+    { name = "*.3fr",  use = "geeqie" },
+    { name = "*.x3f",  use = "geeqie" },
+
+    # Or map anything that is natively recognized as an image by the system
+    { mime = "image/*", use = "geeqie" },
+]

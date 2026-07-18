@@ -7,8 +7,9 @@ conf=$L_PATH/config
 scripts=$L_PATH/scripts
 
 shell=sh
+terminal="wezterm start --" # For Noctalia v5 color generation.
+terminal_wezterm_forced="wezterm --config-file $conf/wezterm/wezterm.lua start --"
 terminal_kitty="kitty -c $conf/kitty/kitty.conf"
-terminal="wezterm --config-file $conf/wezterm/wezterm.lua start --"
 multiterminal="$terminal zellij -c $conf/zellij/config.kdl"
 
 # Rofi.

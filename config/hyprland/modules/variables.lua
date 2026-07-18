@@ -6,8 +6,9 @@ if os_release then os_release:close() end
 
 -- Terminal.
 _G.shell = "sh "
-_G.terminal_wez = "wezterm --config-file " .. conf .. "wezterm/wezterm.lua start -- "
 _G.terminal = "kitty -c " .. conf .. "kitty/kitty.conf "
+_G.terminal_wezterm = "wezterm start --" -- For Noctalia v5 color generation.
+_G.terminal_wezterm_forced = "wezterm --config-file " .. conf .. "wezterm/wezterm.lua start -- "
 _G.multiterminal = terminal .. "zellij -c " .. conf .. "zellij/config.kdl"
 
 -- Flags.

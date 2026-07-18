@@ -21,11 +21,16 @@ if config.front_end == "WebGpu" and wezterm.gui then
     end
 end
 
+-- 3. Imports.
 require("binds")
 require("colors")
 require("performance")
 require("style")
 require("syntax")
 require("tabs")
+
+-- Noctalia v5 colors import.
+local noctalia_colors_file = wezterm.config_dir .. '/colors/Noctalia.toml'
+wezterm.color.load_scheme(noctalia_colors_file)
 
 return config

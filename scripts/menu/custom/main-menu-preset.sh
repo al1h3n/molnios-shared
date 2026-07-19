@@ -312,8 +312,12 @@ software_update(){
     if [[ -n "$term_cmd" ]]; then
         $term_cmd bash -c "
             echo 'Starting system update...'
-            if command -v nixos-rebuild &>/dev/null; then
-                sudo sh /usr/local/bin/molnios.sh -f -dp -nb
+            if command -v nixos-rebuild &>/dev/null;then
+                if command -v doas &>/dev/null;then
+                    doas sh /usr/local/bin/molnios.sh -f -dp -nb
+                else
+                    sudo sh /usr/local/bin/molnios.sh -f -dp -nb
+                fi
             fi
             sudo sh sweeper
             echo 'Update complete. Press Enter to close...'

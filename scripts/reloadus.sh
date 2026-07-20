@@ -8,8 +8,6 @@
 # Reloadus - based on hypreload.sh project.
 # ==============================================================================
 
-#!/bin/bash
-echo -e "\033]0;HR v2 - al1h3n\007"
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"

@@ -59,11 +59,11 @@ local binds = {
     { M.." + down",  hl.dsp.focus({ direction = "down"  }) },
 
     -- Screenshot / record.
-    { "print",                   screenshot_clip_hyprshot },  -- bare print = region screenshot
-    { M.." + insert",            ocr_simple },
-    { M.." + print",             record },
-    { M.." + SHIFT + print",     record .. " -a" },
-    { M.." + CTRL  + print",     record .. " -o" },
+    { "print",               screenshot_clip },
+    { M.." + insert",        ocr_simple },
+    { M.." + print",         record },
+    { M.." + SHIFT + print", record .. " -a" },
+    { M.." + CTRL  + print", record .. " -o" },
 
     -- System.
     { M.." + space",         "hyprctl switchxkblayout current next" },

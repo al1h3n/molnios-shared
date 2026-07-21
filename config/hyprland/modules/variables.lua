@@ -48,7 +48,7 @@ _G.clipmage = "wl-paste --type image --watch cliphist store"
 _G.clipsave = "wl-clip-persist --clipboard regular"
 
 _G.screenshot = [[sh -c 'grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 0)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy']]
-_G.screenshot_clip = [[sh -c 'grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 0)" - | satty --filename - -o ~/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png --save-after-copy']]
+_G.screenshot_clip = [[sh -c 'grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 0)" - | satty -c $L_PATH/config/satty.toml --filename - -o ~/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png --save-after-copy']]
 _G.record = shell .. scripts .. "record.sh"
 _G.ocr = shell .. scripts .. "ocr-select.sh"
 _G.ocr_simple = [[sh -c 'grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tesseract stdin stdout | wl-copy']]

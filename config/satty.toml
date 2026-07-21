@@ -1,0 +1,25 @@
+[general]
+auto-copy = false
+output-filename = "~/Screenshots/satty_%Y-%m-%d_%H:%M:%S.png"
+disable-notifications = false
+
+# [possible values: save-to-clipboard, save-to-file, save-to-file-as, copy-filepath-to-clipboard, exit]
+actions-on-right-click = ["save-to-clipboard"]
+actions-on-enter = ["save-to-file-as"]
+
+[keybinds]
+pointer = "p"
+crop = "c"
+brush = "b"
+line = "i"
+arrow = "z"
+rectangle = "r"
+ellipse = "e"
+text = "t"
+marker = "m"
+blur = "u"
+highlight = "g"
+
+[font]
+family = "SF Pro"
+style = "Regular"

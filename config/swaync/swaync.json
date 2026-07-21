@@ -117,7 +117,7 @@
         {
           "label": "",
           "type": "command",
-          "command": "sh -c 'if command -v wezterm >/dev/null 2>&1; then wezterm --config-file $L_PATH/config/wezterm/wezterm.lua; elif command -v kitty >/dev/null 2>&1; then kitty -c $L_PATH/config/kitty/kitty.conf; elif command -v alacritty >/dev/null 2>&1; then alacritty; fi'"
+          "command": "sh -c 'if command -v wezterm >/dev/null 2>&1; then wezterm start --; elif command -v kitty >/dev/null 2>&1; then kitty -c $L_PATH/config/kitty/kitty.conf; elif command -v alacritty >/dev/null 2>&1; then alacritty; fi'"
         },
         {
           "label": "󰍃",

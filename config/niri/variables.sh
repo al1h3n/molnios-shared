@@ -49,8 +49,6 @@ clipmage="wl-paste --type image --watch cliphist store"
 clipsave="wl-clip-persist --clipboard regular"
 
 # Screenshots, Recording, & OCR
-screenshot='grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy'
-screenshot_clip_hyprshot="sh -c 'hyprshot -m region --raw | satty --filename -'"
 record="$shell $scripts/record.sh"
 ocr="$shell $scripts/ocr-select.sh"
 ocr_simple='grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tesseract stdin stdout | wl-copy'

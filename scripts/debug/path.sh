@@ -1,5 +1,5 @@
 # ==========================================================
-# path.sh - Universal path resolver for Molniux/MolnixOS
+# path.sh - Universal path resolver for Molniux/MolnixOS. Deprecated.
 # Usage: path.sh <key>
 # ==========================================================
 

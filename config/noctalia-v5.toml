@@ -289,6 +289,10 @@ hide_when_no_media = true
 max_length = 150
 title_scroll = "always"
 
+[widget.volume.actions]
+scroll_down = "volume-down 1"
+scroll_up = "volume-up 1"
+
 [widget.workspaces]
 capsule = true
 capsule_padding = 4

@@ -55,12 +55,14 @@ case "$APP" in
         ;;
 
     # ── Communications ────────────────────────────────────────────────────────
-    # Priority: goofcord → equicord → vesktop → webcord → discord
+    # Priority: dorion → goofcord → equicord → vesktop → webcord → discord
     # discord-canary and discord-ptb are omitted — same source as discord.
 
     discord)
+        try_exec Dorion "$@" ||
         try_exec goofcord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec equicord "${ELECTRON_FLAGS[@]}" "$@" ||
+        try_exec equibop "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec vesktop "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec webcord "${ELECTRON_FLAGS[@]}" "$@" ||
         try_exec discord "${ELECTRON_FLAGS[@]}" "$@" ||

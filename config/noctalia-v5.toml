@@ -15,7 +15,7 @@ order = [ "Main" ]
     radius_top_left = 0
     radius_top_right = 0
     scale = 1.2500000111758709
-    start = [ "launcher", "workspaces", "active_window", "weather", "media", "volume" ]
+    start = [ "launcher", "workspaces", "active_window", "weather", "media" ]
     thickness = 35
     widget_spacing = 14
 
@@ -255,13 +255,13 @@ source = "wallpaper"
 directory = "~/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/plants/4.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/plants/4.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/plants/4.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
 
 [widget.SwayNC]
 glyph = "bell"

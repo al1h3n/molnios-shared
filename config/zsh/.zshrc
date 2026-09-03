@@ -290,6 +290,80 @@ myip() {
 "
 }
 
+ag() {
+  emulate -L zsh
+  setopt local_options pipefail
+
+  if (( $# == 0 )); then
+    print -u2 "usage: ag <owner/repo|url> [skill ...] [-- extra flags]"
+    return 1
+  fi
+
+  if ! command -v gum >/dev/null 2>&1; then
+    print -u2 "ag: needs gum -> https://github.com/charmbracelet/gum"
+    return 1
+  fi
+
+  local source=$1; shift
+  local -a explicit=() extra=()
+  local a
+  for a in "$@"; do
+    if [[ $a == -* ]]; then
+      extra+=("$a")          # pass unknown flags straight through
+    else
+      explicit+=("$a")       # treat as an explicit skill name
+    fi
+  done
+
+  local -a selected=()
+  if (( ${#explicit[@]} > 0 )); then
+    selected=("${explicit[@]}")   # user already named the skill(s) -> skip the picker
+  else
+    local tmp
+    tmp=$(mktemp) || return 1
+
+    gum style --foreground 244 "Looking up skills in $source..."
+    if ! NO_COLOR=1 npx --yes skills add "$source" --list >"$tmp" 2>&1; then
+      gum style --foreground 1 "Couldn't list skills for $source:"
+      sed -E $'s/\x1b\[[0-9;?]*[A-Za-z]//g' "$tmp" >&2
+      rm -f "$tmp"
+      return 1
+    fi
+
+    local -a names=()
+    names=("${(@f)$(sed -E $'s/\x1b\[[0-9;?]*[A-Za-z]//g' "$tmp" \
+      | grep -E '^\| {4}[^ ]' \
+      | sed -E 's/^\| {4}//')}")
+    rm -f "$tmp"
+
+    if (( ${#names[@]} == 0 )); then
+      gum style --foreground 1 "No skills found in $source."
+      return 1
+    elif (( ${#names[@]} == 1 )); then
+      selected=("${names[@]}")   # only one skill -> nothing to choose
+      gum style --foreground 2 "Only one skill available: ${names[1]}"
+    else
+      local picked
+      picked=$(printf '%s\n' "${names[@]}" \
+        | gum choose --no-limit --height 15 \
+            --header "Select skill(s) from $source:")
+      if [[ -z $picked ]]; then
+        gum style --foreground 3 "Nothing selected, aborting."
+        return 1
+      fi
+      selected=("${(@f)picked}")
+    fi
+  fi
+
+  local -a skillflags=()
+  for a in "${selected[@]}"; do
+    skillflags+=(--skill "$a")
+  done
+
+  gum style --foreground 2 "Installing: ${(j:, :)selected} from $source"
+  npx --yes skills add "$source" "${skillflags[@]}" -g -y -a claude-code opencode "${extra[@]}"
+}
+
 alias en="printenv|fzf --ghost 'These are environment variables on your PC'"
 alias a="alias|fzf --ghost 'These are existing alias in your shell'"
 alias gb="git branch|fzf --ghost 'These are branches in your git repo'"

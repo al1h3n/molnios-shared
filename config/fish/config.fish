@@ -337,6 +337,74 @@ function myip --description "Show public IP, location and ISP"
 "
 end
 
+function ag --description "Install an AI skill globally and embed it to Claude Code and OpenCode"
+    if test (count $argv) -eq 0
+        echo "usage: ag <owner/repo|url> [skill ...] [-- extra flags]" >&2
+        return 1
+    end
+
+    if not command -q gum
+        echo "ag: needs gum -> https://github.com/charmbracelet/gum" >&2
+        return 1
+    end
+
+    set -l source $argv[1]
+    set -l rest $argv[2..-1]
+
+    set -l explicit
+    set -l extra
+    for a in $rest
+        if string match -q -- '-*' $a
+            set -a extra $a
+        else
+            set -a explicit $a
+        end
+    end
+
+    set -l esc \x1b
+    set -l strip_ansi "s/$esc\[[0-9;?]*[A-Za-z]//g"
+
+    set -l selected
+    if test (count $explicit) -gt 0
+        set selected $explicit
+    else
+        set -l tmp (mktemp)
+        gum style --foreground 244 "Looking up skills in $source..."
+        if not env NO_COLOR=1 npx --yes skills add $source --list >$tmp 2>&1
+            gum style --foreground 1 "Couldn't list skills for $source:"
+            sed -E "$strip_ansi" $tmp >&2
+            rm -f $tmp
+            return 1
+        end
+
+        set -l names (sed -E "$strip_ansi" $tmp | grep -E '^\| {4}[^ ]' | sed -E 's/^\| {4}//')
+        rm -f $tmp
+
+        if test (count $names) -eq 0
+            gum style --foreground 1 "No skills found in $source."
+            return 1
+        else if test (count $names) -eq 1
+            set selected $names
+            gum style --foreground 2 "Only one skill available: $names[1]"
+        else
+            set -l picked (printf '%s\n' $names | gum choose --no-limit --height 15 --header "Select skill(s) from $source:")
+            if test (count $picked) -eq 0
+                gum style --foreground 3 "Nothing selected, aborting."
+                return 1
+            end
+            set selected $picked
+        end
+    end
+
+    set -l skillflags
+    for a in $selected
+        set -a skillflags --skill $a
+    end
+
+    gum style --foreground 2 "Installing: "(string join ', ' -- $selected)" from $source"
+    npx --yes skills add $source $skillflags -g -y -a claude-code opencode $extra
+end
+
 # Pokemon greeting.
 function fish_greeting
     pokemon-colorscripts -r

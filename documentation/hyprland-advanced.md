@@ -22,7 +22,7 @@
 `Super + Z/X/C/V/B` - exit hyprland, emoji picker, close, clipboard manager, OCR advanced (with language selection).
 
 `Super + Escape` - hibernate. `Super + Shift + Escape` - lock screen (hyprlock).<br>
-`Super + Shift + Q/W/E/R/P` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), **switch** window axis, yazi, reload wallpaper, move to private workspace.<br>
+`Super + Shift + Q/W/E/R/T/P` - terminal multiplexer [zellij](https://github.com/zellij-org/zellij), **switch** window axis, yazi, reload wallpaper, freeze a wayland game, move to private workspace.<br>
 `Super + Shift + A/S/D/F; G/H` - move window to specified location (left, up, down, right). Open wallpaper *engine*, gamemode. <br>
 `Super + Shift + Z/X/C/V/B` - open Coding app/Spotify/MPV/bluetooth/network manager.<br>
 `Super + Shift + F1/2/3/4/5/6` - **volume** up/down/mute, mute microphone, turn **brightness** up/down.<br>

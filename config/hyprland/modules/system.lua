@@ -27,6 +27,9 @@ hl.on("hyprland.start", function()
 
     -- Additional programs
     hl.exec_cmd("faillock --reset")
+
+    -- Hyprglass plugin
+    hl.exec_cmd("hyprctl plugin load $L_PATH/external/hyprglass.so")
 end)
 
 hl.config({

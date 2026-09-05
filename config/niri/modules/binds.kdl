@@ -24,6 +24,7 @@ binds {
     Mod+Shift+Q hotkey-overlay-title="Zellij" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$multiterminal'"; }
     Mod+Shift+E hotkey-overlay-title="Yazi CLI Explorer" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$explorercli'"; }
     Mod+Shift+R hotkey-overlay-title="Reload Wallpaper" { spawn-sh "sh ~/.local/share/molnios/scripts/wallpaper.sh -r"; }
+    Mod+Shift+T hotkey-overlay-title="Freeze/unfreeze game" { spawn "wl-freeze" "-a"; }
     Mod+Shift+H hotkey-overlay-title="Wallpaper Engine" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$wallpaperengine'"; }
 
     Mod+Shift+G hotkey-overlay-title="Gamemode" { spawn-sh "sh ~/.local/share/molnios/config/niri/variables.sh '$gamemode'"; }

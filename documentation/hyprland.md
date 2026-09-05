@@ -69,6 +69,7 @@
 `Super + Shift + W` → Switch window layout axis.<br>
 `Super + Shift + E` → yazi (explorer CLI).<br>
 `Super + Shift + R` → Reload wallpaper (supports awww, mpvpaper & waypaper).<br>
+`Super + Shift + T` → Freeze a wayland game.<br>
 `Super + Shift + P` → Move window to private workspace.<br>
 
 #### Window movement

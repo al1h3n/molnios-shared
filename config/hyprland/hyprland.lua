@@ -39,3 +39,6 @@ require("visual")
 
 -- Hyprmod's module.
 require("hyprland-gui")
+
+-- Plugins.
+require("hyprglass")

@@ -1,0 +1,1 @@
+Add `ALSOFT_DRIVERS=pulse` variable when launching native game like Minecraft.

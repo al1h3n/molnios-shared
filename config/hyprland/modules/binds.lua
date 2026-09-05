@@ -30,6 +30,7 @@ local binds = {
     { M.." + SHIFT + E", explorercli },
     { M.." + SHIFT + R", shell .. scripts .. "wallpaper.sh -r" },
     -- SHIFT row — swap windows.
+    { M.." + SHIFT + T", "wl-freeze -a" },
     { M.." + SHIFT + A", hl.dsp.window.swap({ direction = "left"  }) },
     { M.." + SHIFT + S", hl.dsp.window.swap({ direction = "up"    }) },
     { M.." + SHIFT + D", hl.dsp.window.swap({ direction = "down"  }) },

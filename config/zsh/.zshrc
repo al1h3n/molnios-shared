@@ -171,7 +171,7 @@ if [ "$(uname)" != "Darwin" ];then
   alias r="sh $scripts/reloadus.sh"
   alias br="sh $scripts/brightness.sh"
   alias cla="sh $scripts/vibe-launcher.sh -a claude"
-  alias cla="sh $scripts/vibe-launcher.sh -a opencode"
+  alias ope="sh $scripts/vibe-launcher.sh -a opencode"
 
   alias journal="journalctl -xe | fzf --ghost 'These are logs of currently running services'"
   alias proc="ps aux | fzf --ghost 'These are running processes on your PC' --bind 'enter:execute(kill -9 {2})+abort'"

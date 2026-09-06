@@ -174,6 +174,8 @@ if test (uname) != Darwin
     alias mr="sh $scripts/menu/launch-menu.sh"
     alias r="sh $scripts/reloadus.sh"
     alias br="sh $scripts/brightness.sh"
+    alias cla="sh $scripts/vibe-launcher.sh -a claude"
+    alias cla="sh $scripts/vibe-launcher.sh -a opencode"
 
     function journal --description "Browse systemd logs"
         journalctl -xe | fzf

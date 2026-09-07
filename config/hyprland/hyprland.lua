@@ -41,4 +41,4 @@ require("visual")
 require("hyprland-gui")
 
 -- Plugins.
-require("hyprglass")
+-- require("hyprglass") -- Doesn't seem to work.

@@ -16,34 +16,36 @@ CONF=$L_PATH/config
 
 echo -e "\e[38;2;51;204;254mReload\e[38;2;0;255;153mus \e[38;2;11;206;217mby\033[0m \033[38;5;171mal1h3n${RESET}"
 
-exists(){
-	command -v $@&>/dev/null
+exists(){ # True only if a process of the given program is running
+	pgrep -x -- "$1" &>/dev/null
+}
+
+installed(){ # True if the command exists (for one-shot tools with no daemon)
+	command -v -- "$1" &>/dev/null
 }
 
 kp(){ # Kill process
-	if pgrep&>/dev/null $1; then
-		pkill $1
-	fi
+	pgrep -x -- "$1" &>/dev/null && pkill -x -- "$1"
 }
 
 run(){
-	$@&>/dev/null &
+	"$@" &>/dev/null &
 }
 
 # 1.1. Dependencies.
-# if ! exists zenity;then
+# if ! installed zenity;then
 # 	echo -e "${RED}You have to install ${YELLOW}zenity${RED} package.${RESET}"
 # 	read;exit 0
 # fi
 
 # 1.2. Wallpaper engines.
-if exists waypaper;then
-	waypaper --restore&>/dev/null
+if installed waypaper;then
+	waypaper --restore &>/dev/null
 fi
-if exists swww;then
+if exists swww-daemon;then
 	swww clear-cache
 fi
-if exists awww;then
+if exists awww-daemon;then
 	awww clear-cache
 fi
 
@@ -51,15 +53,15 @@ fi
 # if exists waybar;then
 # 	kp waybar
 # 	WAY=$CONF/waybar
-# 	if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
+# 	if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ];then
 # 		run waybar -c $WAY/config-hypr.jsonc -s $WAY/style.css
-# 	elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
+# 	elif [ "$XDG_CURRENT_DESKTOP" = "niri" ];then
 # 		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
 # 	fi
 # fi
 if exists noctalia;then
- kp noctalia
- run noctalia
+	kp noctalia
+	run noctalia
 fi
 
 # 1.4. Notifications.
@@ -72,16 +74,15 @@ elif exists dunst;then
 fi
 
 # 1.5 Hyprland/Niri.
-if [ -n $HYPRLAND_INSTANCE_SIGNATURE ];then
-	hyprctl reload&>/dev/null
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ];then
+	hyprctl reload &>/dev/null
 	if exists snappy-switcher;then
 		kp snappy-switcher
 		run snappy-switcher --daemon -c $CONF/snappy.ini
 	fi
-elif [ $XDG_CURRENT_DESKTOP = "niri" ];then
-	niri msg action load-config-file&>/dev/null
+elif [ "$XDG_CURRENT_DESKTOP" = "niri" ];then
+	niri msg action load-config-file &>/dev/null
 fi
-
 
 echo -e "\n\033[38;5;46mConfigurations were successfully reloaded.${RESET}"
 

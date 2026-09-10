@@ -121,7 +121,7 @@ address = "Almaty, Kazakhstan"
 [lockscreen_widgets]
 enabled = false
 schema_version = 2
-widget_order = [ "lockscreen-login-box@DP-1" ]
+widget_order = [ "lockscreen-login-box@WAYLAND-1", "lockscreen-login-box@FALLBACK", "lockscreen-login-box@DP-1" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -140,6 +140,60 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "FALLBACK"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@WAYLAND-1"]
+    box_height = 196.0
+    box_width = 474.0
+    cx = 253.0
+    cy = 368.0
+    output = "WAYLAND-1"
+    placement_height = 550.0
+    placement_width = 506.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@WAYLAND-1".settings]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
@@ -246,22 +300,35 @@ builtin = "Gruvbox"
 community_palette = "Gruvbox Material"
 mode = "dark"
 source = "wallpaper"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "niri", "qt", "wezterm" ]
-    community_ids = [ "pywalfox", "neovim", "yazi" ]
+    community_ids = [
+        "claude-code",
+        "opencode",
+        "spicetify",
+        "pywalfox",
+        "pywalfox-beta4",
+        "telegram",
+        "neovim",
+        "obsidian",
+        "vscode",
+        "obs",
+        "yazi"
+    ]
 
 [wallpaper]
 directory = "~/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/arch.png"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/arch.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/11-IoT-LTSC-24H2.png"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/os/arch.png"
 
 [widget.SwayNC]
 glyph = "bell"

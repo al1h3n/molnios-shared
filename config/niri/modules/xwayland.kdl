@@ -1,0 +1,3 @@
+xwayland-satellite {
+  path "/run/current-system/sw/bin/xwayland-satellite"
+}

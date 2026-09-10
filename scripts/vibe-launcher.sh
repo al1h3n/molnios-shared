@@ -10,7 +10,7 @@ set -euo pipefail
 
 CONF=$L_PATH/config/vibe-launcher.conf
 
-TERMINALS="wezterm kitty ghostty alacritty xterm macterm powershell cmd custom"
+TERMINALS="here wezterm kitty ghostty alacritty xterm macterm powershell cmd custom"
 APPS="claude opencode"
 
 die() { printf 'launcher: %s\n' "$*" >&2; exit 1; }
@@ -27,7 +27,10 @@ asked for interactively (gum, else fzf, else a plain prompt).
   -a, --app CMD         Command to run in it. Default: claude. Any command
                         works: "opencode", "nvim .", "claude --resume".
   -t, --terminal NAME   auto | ask | $TERMINALS
-                        auto walks the precedence list, ask prompts.
+                        auto reuses the current terminal when there is one and
+                        otherwise walks the precedence list, ask prompts.
+                        here never opens a window: the command replaces the
+                        launcher in the terminal it was started from.
   -c, --custom-cmd TPL  Terminal command template; implies --terminal custom.
                         Tokens: @DIR@ (directory), @CMD@ (the command).
   -s, --start-dir PATH  Where the directory picker starts browsing.
@@ -154,7 +157,14 @@ if [ "$TERMINAL" = ask ]; then
     TERMINAL="$(choose Terminal $TERMINALS)"
     [ -n "$TERMINAL" ] || die "no terminal chosen"
 fi
-[ "$TERMINAL" = auto ] && TERMINAL="$(detect_terminal)"
+if [ "$TERMINAL" = auto ]; then
+    # Started from a terminal already: reuse it rather than opening a second
+    # one. The tty test lives here and not in detect_terminal because that runs
+    # inside a command substitution, where stdout is a pipe and never a tty.
+    # A launcher fired from a hotkey, .desktop entry or menu has no tty and
+    # falls through to the window-opening precedence list.
+    if [ -t 0 ] && [ -t 1 ]; then TERMINAL=here; else TERMINAL="$(detect_terminal)"; fi
+fi
 
 # --- launch -----------------------------------------------------------------
 
@@ -179,7 +189,11 @@ fi
 spawn() { nohup "$@" >/dev/null 2>&1 & disown; }
 
 case "$TERMINAL" in
-    wezterm)   spawn wezterm-gui start --cwd "$DIR_NATIVE" -- "$SHELL_BIN" -lc "$INNER_CMD" ;;
+    here)
+        # No new window: exec so the command inherits this terminal outright
+        # instead of running under a launcher that would linger as its parent.
+        cd "$DIR" && eval "exec $APP" ;;
+    wezterm)   spawn wezterm start --cwd "$DIR_NATIVE" -- "$SHELL_BIN" -lc "$INNER_CMD" ;;
     kitty)     spawn kitty --directory "$DIR" "$SHELL_BIN" -lc "$INNER_CMD" ;;
     ghostty)   spawn ghostty --working-directory="$DIR" -e "$SHELL_BIN" -lc "$INNER_CMD" ;;
     alacritty) spawn alacritty --working-directory "$DIR" -e "$SHELL_BIN" -lc "$INNER_CMD" ;;

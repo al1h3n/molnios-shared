@@ -41,7 +41,8 @@
 `history clear` / `rm -f ~/.zsh_history` — clear history of commands.<br>
 `mk` — `mkdir -p`.<br>
 `mostwanted` — most used commands in your shell history.<br>
-`httpyac` — custom `httpyac` script.
+`httpyac` — custom `httpyac` script.<br>
+`ag` — install an AI skill globally and embed it into Claude Code / OpenCode. Usage: `ag <owner/repo|url> [skill ...]` (uses `gum` for interactive picking).
 
 `s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, making it safer.<br>
 `sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>
@@ -105,6 +106,7 @@
 `y` — terminal file manager ([yazi](https://github.com/sxyazi/yazi)).<br>
 `e` — alternative terminal file manager ([superfile](https://github.com/yorukot/superfile)).<br>
 `yt` — browse and play [youtube](https://github.com/Benexl/yt-x) directly from your terminal.<br>
+`radio` / `ra` — play a YouTube video as background audio via `mpv`. Accepts a YouTube ID or URL and a volume (0-100) as arguments, e.g. `radio dQw4w9WgXcQ 30`. Prompts for a new video to switch to on the fly without restarting `mpv`.<br>
 `fa` / `fas` / `fast` — shortcuts to custom video/static [anifetch](https://github.com/Notenlish/anifetch) configurations.<br>
 `nixfetch` — shortcut to custom NixOS fastfetch.<br>
 `wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>

@@ -407,6 +407,133 @@ function ag --description "Install an AI skill globally and embed it to Claude C
     npx --yes skills add $source $skillflags -g -y -a claude-code opencode $extra
 end
 
+# --- Radio (YouTube audio player via mpv) -------------------------------
+
+function __radio_extract_id
+    set -l input $argv[1]
+    set -l cap (string match -r '(?:youtu\.be/|youtube\.com/(?:watch\?v=|live/|shorts/)|[?&]v=)([A-Za-z0-9_-]{11})' -- $input)
+    if test (count $cap) -ge 2
+        echo $cap[2]
+        return
+    end
+    if string match -qr '^[A-Za-z0-9_-]{11}$' -- $input
+        echo $input
+    end
+end
+
+function __radio_deps_ok
+    for dep in $argv
+        if not command -q $dep
+            gum style --foreground 1 "radio: needs $dep"
+            return 1
+        end
+    end
+end
+
+function __radio_mpv_alive
+    set -l sock $argv[1]
+    test -S $sock; and echo '{"command":["get_property","pid"]}' | nc -U -w1 $sock >/dev/null 2>&1
+end
+
+function __radio_start
+    set -l id $argv[1]
+    set -l volume $argv[2]
+    set -l sock $argv[3]
+    rm -f $sock
+    mpv --msg-level=all=error --no-video --volume=$volume \
+        --input-ipc-server=$sock "https://youtu.be/$id" >/tmp/radio-mpv.log 2>&1 &
+    disown
+    sleep 1
+end
+
+function radio --description "Interactive mpv radio with live video switching via IPC"
+    __radio_deps_ok mpv gum nc; or return 1
+
+    set -l sock "$XDG_RUNTIME_DIR/mpv-radio.sock"
+    if test -z "$XDG_RUNTIME_DIR"
+        set sock /tmp/mpv-radio.sock
+    end
+    set -l example dQw4w9WgXcQ
+    set -l video E2vONfzoyRI
+    set -l volume 50
+
+    if test -n "$argv[1]"
+        set -l id (__radio_extract_id $argv[1])
+        if test -z "$id"
+            gum style --foreground 1 "radio: couldn't extract a YouTube ID from '$argv[1]'"
+            return 1
+        end
+        set video $id
+    end
+
+    if test -n "$argv[2]"
+        if not string match -qr '^[0-9]+$' -- $argv[2]; or test $argv[2] -lt 0; or test $argv[2] -gt 100
+            gum style --foreground 1 "radio: volume must be an integer 0-100, got '$argv[2]'"
+            return 1
+        end
+        set volume $argv[2]
+    end
+
+    if not __radio_mpv_alive $sock
+        gum style --foreground 244 "Starting MPV..."
+        __radio_start $video $volume $sock
+    end
+
+    while true
+        gum style --border rounded --padding "1 2" --foreground 212 --border-foreground 212 \
+            "Radio MPV" \
+            "" \
+            "← / →   seek 5s        [ / ]   playback speed" \
+            "p       pause/resume   m       mute" \
+            "9 / 0   volume -/+     q       quit" \
+            "" \
+            "Enter a YouTube ID or URL to switch video." \
+            "" \
+            "Examples:" \
+            "  $example" \
+            "  https://youtu.be/$example" \
+            "  https://youtube.com/watch?v=$example" \
+            "  https://youtube.com/live/$example"
+
+        set -l input (gum input --placeholder "New video (q to quit)")
+
+        if test -z "$input"
+            continue
+        end
+
+        if contains -- $input q quit exit
+            gum style --foreground 244 "Closing MPV..."
+            if __radio_mpv_alive $sock
+                echo '{"command":["quit"]}' | nc -U -w1 $sock >/dev/null 2>&1
+            end
+            rm -f $sock
+            break
+        end
+
+        set -l id (__radio_extract_id $input)
+        if test -z "$id"
+            gum style --foreground 1 "Invalid YouTube ID or URL."
+            continue
+        end
+
+        if not __radio_mpv_alive $sock
+            gum style --foreground 244 "MPV is not running. Starting it..."
+            __radio_start $id $volume $sock
+            continue
+        end
+
+        gum style --foreground 2 "Loading: $id"
+        if not echo "{\"command\":[\"loadfile\",\"https://youtu.be/$id\",\"replace\"]}" | nc -U -w1 $sock >/dev/null 2>&1
+            gum style --foreground 1 "MPV closed while changing the video. Restarting..."
+            __radio_start $id $volume $sock
+        end
+    end
+end
+
+function ra --description "Alias for radio"
+    radio $argv
+end
+
 # Pokemon greeting.
 function fish_greeting
     pokemon-colorscripts -r

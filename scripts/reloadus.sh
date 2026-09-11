@@ -14,9 +14,6 @@ YELLOW="\e[33m"
 RED="\e[31m"
 RESET="\e[0m"
 
-: "${L_PATH:=$HOME/.local/share/molnios}"
-CONF="$L_PATH/config"
-
 echo -e "\e[38;2;51;204;254mReload\e[38;2;0;255;153mus \e[38;2;11;206;217mby\033[0m \033[38;5;171mal1h3n${RESET}"
 
 pids(){ # PIDs of a running program.
@@ -63,7 +60,48 @@ run(){ # Start a program detached, so it survives this script and its terminal.
 }
 
 reloaded(){ echo -e "  ${GREEN}$1${RESET} reloaded."; }
-skipped(){ echo -e "  ${YELLOW}$1${RESET} not running, skipped."; }
+started(){ echo -e "  ${GREEN}$1${RESET} was not running, started."; }
+skipped(){ echo -e "  ${YELLOW}$1${RESET} is not installed, skipped."; }
+
+session_env(){ # Session variables of the graphical session owned by uid $1, first value wins.
+	local uid="$1" dir pid line key list want
+	want='^(WAYLAND_DISPLAY|XDG_RUNTIME_DIR|XDG_CURRENT_DESKTOP|DBUS_SESSION_BUS_ADDRESS|DISPLAY|XAUTHORITY|HYPRLAND_INSTANCE_SIGNATURE|L_PATH|HOME|PATH)='
+	declare -A seen
+	# The compositor carries the login PATH, HOME and L_PATH but never WAYLAND_DISPLAY,
+	# which only its children get. Read the compositor first, then everything else.
+	list="$(pids niri) $(pids Hyprland) $(pids sway) $(pids river)"
+	for dir in /proc/[0-9]*; do list="$list ${dir#/proc/}"; done
+	for pid in $list; do
+		[ "$(stat -c %u "/proc/$pid" 2>/dev/null)" = "$uid" ] || continue
+		while IFS= read -r line; do
+			key="${line%%=*}"
+			[ -n "${seen[$key]}" ] && continue
+			seen[$key]=1
+			printf '%s\n' "$line"
+		done < <({ tr '\0' '\n' < "/proc/$pid/environ" | grep -E "$want"; } 2>/dev/null)
+	done
+	[ -n "${seen[WAYLAND_DISPLAY]}" ]
+}
+
+# Never act as root. Root has no Wayland socket and no user PATH, so every IPC
+# reload fails, the restart fallback kills the user daemons and cannot start them
+# again. Drop back into the real session instead.
+if [ "$(id -u)" -eq 0 ];then
+	TARGET="${SUDO_USER:-}"
+	if [ -n "$TARGET" ] && [ "$TARGET" != root ];then
+		mapfile -t SESSION < <(session_env "$(id -u "$TARGET")")
+	fi
+	if [ "${#SESSION[@]}" -gt 0 ];then
+		echo -e "${YELLOW}Running as root, switching back to ${TARGET}.${RESET}"
+		exec sudo -u "$TARGET" env "${SESSION[@]}" bash -- "$0" "$@"
+	fi
+	echo -e "${RED}Refusing to run as root: no graphical session found.${RESET}"
+	echo -e "Run this script as your desktop user instead."
+	exit 1
+fi
+
+: "${L_PATH:=$HOME/.local/share/molnios}"
+CONF="$L_PATH/config"
 
 # 1.1. Wallpaper engines.
 # Clear the cache before repainting, otherwise the stale cache is what gets drawn.
@@ -94,28 +132,42 @@ if exists noctalia;then # Noctalia v5.
 	# Native IPC reload keeps the bar, dock and widgets alive. Restart only if it fails.
 	if noctalia msg config-reload &>/dev/null;then
 		noctalia msg dock-reload &>/dev/null
+		reloaded noctalia
 	else
 		kp noctalia
 		run noctalia
+		started noctalia
 	fi
-	reloaded noctalia
+elif installed noctalia;then
+	run noctalia
+	started noctalia
 else
 	skipped noctalia
 fi
 
 # 1.3. Notifications.
 if exists swaync;then
-	if ! swaync-client --reload-config --reload-css &>/dev/null;then
+	if swaync-client --reload-config --reload-css &>/dev/null;then
+		reloaded swaync
+	else
 		kp swaync
 		run swaync -c "$CONF/swaync/swaync.json" -s "$CONF/swaync/swaync-style.css"
+		started swaync
 	fi
-	reloaded swaync
 elif exists dunst;then
-	if ! dunstctl reload "$CONF/dunst.ini" &>/dev/null;then
+	if dunstctl reload "$CONF/dunst.ini" &>/dev/null;then
+		reloaded dunst
+	else
 		kp dunst
 		run dunst -conf "$CONF/dunst.ini"
+		started dunst
 	fi
-	reloaded dunst
+elif installed swaync;then
+	run swaync -c "$CONF/swaync/swaync.json" -s "$CONF/swaync/swaync-style.css"
+	started swaync
+elif installed dunst;then
+	run dunst -conf "$CONF/dunst.ini"
+	started dunst
 else
 	skipped "notification daemon"
 fi

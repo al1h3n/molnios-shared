@@ -87,7 +87,7 @@ session_env(){ # Session variables of the graphical session owned by uid $1, fir
 # reload fails, the restart fallback kills the user daemons and cannot start them
 # again. Drop back into the real session instead.
 if [ "$(id -u)" -eq 0 ];then
-	TARGET="${SUDO_USER:-}"
+	TARGET="${SUDO_USER:-${DOAS_USER:-}}"
 	if [ -n "$TARGET" ] && [ "$TARGET" != root ];then
 		mapfile -t SESSION < <(session_env "$(id -u "$TARGET")")
 	fi

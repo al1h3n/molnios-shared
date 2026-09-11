@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # MM    MM              dd           bb                         lll  1  hh      333333
 # MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
 # MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
@@ -12,44 +13,74 @@ GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
 RESET="\e[0m"
-CONF=$L_PATH/config
+
+: "${L_PATH:=$HOME/.local/share/molnios}"
+CONF="$L_PATH/config"
 
 echo -e "\e[38;2;51;204;254mReload\e[38;2;0;255;153mus \e[38;2;11;206;217mby\033[0m \033[38;5;171mal1h3n${RESET}"
 
-exists(){ # True only if a process of the given program is running
-	pgrep -x -- "$1" &>/dev/null
+pids(){ # PIDs of a running program.
+	# pgrep -x matches /proc/PID/comm, which is capped at 15 characters and on
+	# NixOS holds the wrapper name ".<program>-wrapped" (noctalia -> ".noctalia-wrapp").
+	# So resolve /proc/PID/exe instead and strip the wrapper decoration.
+	local dir pid exe base found=""
+	for dir in /proc/[0-9]*; do
+		pid="${dir#/proc/}"
+		[ "$pid" = "$$" ] && continue
+		exe="$(readlink "$dir/exe" 2>/dev/null)" || continue
+		base="${exe##*/}"
+		base="${base% (deleted)}"
+		base="${base#.}"
+		base="${base%-wrapped}"
+		[ "$base" = "$1" ] && found="$found $pid"
+	done
+	[ -n "$found" ] || return 1
+	printf '%s\n' $found
 }
 
-installed(){ # True if the command exists (for one-shot tools with no daemon)
+exists(){ # True only if a process of the given program is running.
+	pids "$1" >/dev/null
+}
+
+installed(){ # True if the command exists (for one-shot tools with no daemon).
 	command -v -- "$1" &>/dev/null
 }
 
-kp(){ # Kill process
-	pgrep -x -- "$1" &>/dev/null && pkill -x -- "$1"
+kp(){ # Kill a process and wait for it to actually die, so the restart cannot race it.
+	local list pid i
+	list="$(pids "$1")" || return 1
+	kill $list 2>/dev/null
+	for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+		pids "$1" >/dev/null || return 0
+		sleep 0.1
+	done
+	kill -9 $list 2>/dev/null
+	sleep 0.2
 }
 
-run(){
-	"$@" &>/dev/null &
+run(){ # Start a program detached, so it survives this script and its terminal.
+	setsid -f "$@" &>/dev/null || "$@" &>/dev/null &
 }
 
-# 1.1. Dependencies.
-# if ! installed zenity;then
-# 	echo -e "${RED}You have to install ${YELLOW}zenity${RED} package.${RESET}"
-# 	read;exit 0
-# fi
+reloaded(){ echo -e "  ${GREEN}$1${RESET} reloaded."; }
+skipped(){ echo -e "  ${YELLOW}$1${RESET} not running, skipped."; }
 
-# 1.2. Wallpaper engines.
-if installed waypaper;then
-	waypaper --restore &>/dev/null
-fi
+# 1.1. Wallpaper engines.
+# Clear the cache before repainting, otherwise the stale cache is what gets drawn.
 if exists swww-daemon;then
-	swww clear-cache
+	swww clear-cache &>/dev/null
+	reloaded swww-daemon
 fi
 if exists awww-daemon;then
-	awww clear-cache
+	awww clear-cache &>/dev/null
+	reloaded awww-daemon
+fi
+if installed waypaper;then
+	waypaper --restore &>/dev/null
+	reloaded waypaper
 fi
 
-# 1.3. Bar.
+# 1.2. Bar.
 # if exists waybar;then
 # 	kp waybar
 # 	WAY=$CONF/waybar
@@ -59,29 +90,48 @@ fi
 # 		run waybar -c $WAY/config-niri.jsonc -s $WAY/style.css
 # 	fi
 # fi
-if exists noctalia;then
-	kp noctalia
-	run noctalia
+if exists noctalia;then # Noctalia v5.
+	# Native IPC reload keeps the bar, dock and widgets alive. Restart only if it fails.
+	if noctalia msg config-reload &>/dev/null;then
+		noctalia msg dock-reload &>/dev/null
+	else
+		kp noctalia
+		run noctalia
+	fi
+	reloaded noctalia
+else
+	skipped noctalia
 fi
 
-# 1.4. Notifications.
+# 1.3. Notifications.
 if exists swaync;then
-	kp swaync
-	run swaync -c $CONF/swaync/swaync.json -s $CONF/swaync/swaync-style.css
+	if ! swaync-client --reload-config --reload-css &>/dev/null;then
+		kp swaync
+		run swaync -c "$CONF/swaync/swaync.json" -s "$CONF/swaync/swaync-style.css"
+	fi
+	reloaded swaync
 elif exists dunst;then
-	kp dunst
-	run dunst -conf $CONF/dunst.ini
+	if ! dunstctl reload "$CONF/dunst.ini" &>/dev/null;then
+		kp dunst
+		run dunst -conf "$CONF/dunst.ini"
+	fi
+	reloaded dunst
+else
+	skipped "notification daemon"
 fi
 
-# 1.5 Hyprland/Niri.
+# 1.4 Hyprland/Niri.
 if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ];then
 	hyprctl reload &>/dev/null
+	reloaded hyprland
 	if exists snappy-switcher;then
 		kp snappy-switcher
-		run snappy-switcher --daemon -c $CONF/snappy.ini
+		run snappy-switcher --daemon -c "$CONF/snappy.ini"
+		reloaded snappy-switcher
 	fi
 elif [ "$XDG_CURRENT_DESKTOP" = "niri" ];then
 	niri msg action load-config-file &>/dev/null
+	reloaded niri
 fi
 
 echo -e "\n\033[38;5;46mConfigurations were successfully reloaded.${RESET}"

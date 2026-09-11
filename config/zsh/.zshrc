@@ -109,8 +109,8 @@ alias ki="kitty -c $conf/kitty.conf"
 alias kitty="kitty -c $conf/kitty.conf"
 alias wez="wezterm --config-file $conf/wezterm/wezterm.lua"
 alias ze="zellij -c $conf/zellij/config.kdl"
-alias mostwanted="fc -ln 1 | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 15"
-alias httpyac="httpyac $1 --json -a | jq -r ".requests[0].response.body" | jq | bat --language=json"
+alias mostwanted="fc -ln 1 | awk '{print \$1}' | sort | uniq -c | sort -nr | head -n 15"
+httpyac(){ command httpyac "$@" --json -a | jq -r '.requests[0].response.body' | jq | bat --language=json; }
 
 rr(){ # rm-improved
   # 1. Check if files were actually passed to the command
@@ -125,7 +125,7 @@ rr(){ # rm-improved
 
   # 3. Check if the answer is 'y' or 'Y'
   if [[ "$reply" =~ ^[Yy]$ ]];then
-    sudo rm -rf $@
+    s rm -rf $@
   else
     echo "\nCancelled."
   fi

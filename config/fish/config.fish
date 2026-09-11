@@ -105,7 +105,7 @@ function rr --description "rm-improved: safely remove files with confirmation"
     read --prompt-str "Do you want to run rm -rf $argv [y/n]? " reply
 
     if string match -qr '^[Yy]$' -- $reply
-        sudo rm -rf $argv
+        s rm -rf $argv
     else
         echo "\nCancelled."
     end

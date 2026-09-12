@@ -1,6 +1,5 @@
 -- hyprconfig (lua edition) - made for MolniOS.
 -- Most of the comments are cut, find them in monolithic edition.
--- Version: 1.0.1.
 
 -- 1. Resolve your $L_PATH and $conf variables dynamically
 local home = os.getenv("HOME")
@@ -41,4 +40,4 @@ require("visual")
 require("hyprland-gui")
 
 -- Plugins.
--- require("hyprglass") -- Doesn't seem to work.
+require("hyprglass")

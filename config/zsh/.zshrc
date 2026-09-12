@@ -131,6 +131,11 @@ rr(){ # rm-improved
   fi
 }
 
+if exists nix;then
+  alias ni="nix-shell -p"
+  alias nic="doas nix-collect-garbage -d"
+fi
+
 alias vq="warp-cli disconnect"
 alias vw="warp-cli status"
 alias ve="warp-cli connect"

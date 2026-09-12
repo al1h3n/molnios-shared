@@ -246,6 +246,12 @@ alias fa="sh $scripts/fetch.sh -m $L_PATH/molnios-media/wallpapers/fastfetch/inv
 alias fas="sh $scripts/fetch.sh -f"
 alias fast="sh $scripts/fetch.sh -m"
 alias nixfetch="sh $scripts/fetch.sh -f -m $L_PATH/images/nixglass.png -w 30 -p left"
+
+if type -q nix
+    alias ni="nix-shell -p"
+    alias nic="doas nix-collect-garbage -d"
+end
+
 alias ca="cava -p $conf/cava.ini"
 alias cat="bat -p"
 

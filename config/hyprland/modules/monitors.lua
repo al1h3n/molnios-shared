@@ -10,3 +10,9 @@ hl.config({
         force_zero_scaling = true
     },
 })
+
+-- General (tearing), debug (vfr).
+hl.config({
+    general = { allow_tearing = true },
+    debug = { vfr = 1 },
+})

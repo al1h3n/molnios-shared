@@ -33,7 +33,7 @@ require("layout")
 require("misc")
 require("monitors")
 require("rules")
-require("system")
+require("autostart")
 require("theme")
 require("visual")
 

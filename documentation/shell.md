@@ -133,6 +133,10 @@
 `pr` — remove orphaned packages (via `yay`).<br>
 `pu` — update all packages (via `yay`).
 
+### nix Specific
+`ni` - `nix-shell -p`<br>
+`nic` - `doas nix-collect-garbage -d` (delete old generations).
+
 ---
 
 ### Custom Git Commands

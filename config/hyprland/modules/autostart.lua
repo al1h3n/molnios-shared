@@ -1,5 +1,3 @@
--- General (tearing), debug (vfr), and autostarts.
-
 -- Autostart
 hl.on("hyprland.start", function()
     -- Network and Bluetooth
@@ -31,8 +29,3 @@ hl.on("hyprland.start", function()
     -- Hyprglass plugin
     hl.exec_cmd("hyprctl plugin load $L_PATH/external/hyprglass.so")
 end)
-
-hl.config({
-    general = { allow_tearing = true },
-    debug = { vfr = 1 },
-})

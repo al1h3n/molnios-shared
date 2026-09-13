@@ -16,7 +16,15 @@ hl.plugin.load("/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/lib/l
 -- Do not add a `{ fullscreen = true } -> +hyprglass_disabled` rule. `+tag` is
 -- additive and is never withdrawn when the match stops holding, so one
 -- fullscreen toggle would kill glass on that window until it is closed.
-local glassed = { "kitty", "wezterm", "polkit-gnome-authentication-agent-1", "hyprpolkitagent" }
+-- Wayland app_ids, not friendly names: wezterm reports
+-- "org.wezfurlong.wezterm", so a "^(wezterm)$" rule never matched it and the
+-- window was never tagged. Cross-check with layout.lua's swallow_regex.
+local glassed = {
+    "kitty",
+    "org\\.wezfurlong\\.wezterm",
+    "polkit-gnome-authentication-agent-1",
+    "hyprpolkitagent",
+}
 for _, class in ipairs(glassed) do
     hl.window_rule({ match = { class = "^(" .. class .. ")$" }, tag = "+hyprglass_enabled" })
 end
@@ -68,25 +76,33 @@ if hl.plugin.hyprglass then
         fresnel_strength  = 0.45,
         specular_strength = 0.90,
 
-        -- Cool near-neutral, 8% strength. Apple tints barely at all.
-        tint_color = 0x8899aa14,
+        -- Cool near-neutral, 6% strength. Apple treats tint as *semantic* - a
+        -- blue confirm button, a red destructive one - and warns against tinting
+        -- for decoration, so a decorative tint stays near the floor.
+        tint_color = 0x8899aa10,
 
+        -- The reference pipeline darkens exactly once (glassColor *= 0.90) and
+        -- then ADDS white at the rim (+= vec3(1.0) * rim * 0.55). Net luminance
+        -- is roughly neutral. It has no contrast curve, no desaturation and no
+        -- adaptive dimming at all - those three are hyprglass extras, and
+        -- stacking them under a 0.90 brightness darkened the plate four times
+        -- over. 27's "darkened edge" is a thin separation line at the rim, not a
+        -- dimmer surface; conflating the two is what made this too dark.
         dark = {
-            -- 0.90 is the reference shader's own glass tint multiplier.
-            brightness = 0.90,
-            contrast   = 1.05,
-            saturation = 0.85,
+            brightness = 0.94,
+            contrast   = 1.0,
+            saturation = 0.95,
             vibrancy   = 0.30,
-            -- The legibility fix 27 is named for: pull bright backgrounds down
-            -- so text on the glass survives a busy wallpaper.
-            adaptive_dim = 0.45,
+            -- Some dimming stays for the 27 legibility pass, but a quarter, not
+            -- half: the blur already flattens a busy background.
+            adaptive_dim = 0.25,
         },
         light = {
-            brightness     = 1.10,
-            contrast       = 0.95,
-            saturation     = 0.90,
+            brightness     = 1.06,
+            contrast       = 1.0,
+            saturation     = 0.95,
             vibrancy       = 0.25,
-            adaptive_boost = 0.45,
+            adaptive_boost = 0.25,
         },
     })
 
@@ -103,26 +119,31 @@ if hl.plugin.hyprglass then
         blur_strength   = 0.6,
         blur_iterations = 2,
         glass_opacity   = 0.65,
-        tint_color      = 0x8899aa08,
+        tint_color      = 0x8899aa06,
 
         -- Rim optics stay: without them a clear plate is just a hole.
         chromatic_aberration = 0.4,
         specular_strength    = 0.95,
 
-        dark  = { brightness = 0.96, adaptive_dim = 0.20 },
-        light = { brightness = 1.05, adaptive_boost = 0.20 },
+        dark  = { brightness = 0.97, saturation = 1.0, adaptive_dim = 0.15 },
+        light = { brightness = 1.03, saturation = 1.0, adaptive_boost = 0.15 },
     })
 
-    -- Tinted: the frosted end. Heavier diffusion, stronger tint, desaturated -
-    -- closest to the old Reduce Transparency fallback, and the one to pick when
-    -- text on glass has to stay readable over anything.
+    -- Tinted: the frosted end. Frosted, not dark - the distinction matters,
+    -- because four knobs here all darken and they multiply. brightness 0.82 with
+    -- adaptive_dim 0.6 and tint alpha 0x3c came out dimmer than no glass at all,
+    -- which is not what the slider's tinted end does: it scatters more light,
+    -- it does not absorb more. So the frosting comes from blur alone, and
+    -- brightness sits *above* goldengate's 0.90 to pay for the extra diffusion.
     hg.preset("goldengate_tinted", {
         inherits = "goldengate",
 
         blur_strength   = 3.2,
         blur_iterations = 5,
         glass_opacity   = 1.0,
-        tint_color      = 0x8899aa3c,
+        -- 0x28 (16%) not 0x3c (23%): the tint is a hue, not a neutral-density
+        -- filter.
+        tint_color      = 0x8899aa24,
 
         -- Frosted glass scatters instead of refracting cleanly, so the rim
         -- optics come down as the diffusion goes up.
@@ -131,14 +152,16 @@ if hl.plugin.hyprglass then
         lens_distortion      = 0.1,
 
         dark = {
-            brightness   = 0.82,
-            saturation   = 0.7,
-            adaptive_dim = 0.6,
+            -- 0.90 is the reference shader's own glass tint multiplier, and this
+            -- is the preset heavy enough to carry it.
+            brightness   = 0.90,
+            saturation   = 0.85,
+            adaptive_dim = 0.40,
         },
         light = {
-            brightness     = 1.14,
-            saturation     = 0.75,
-            adaptive_boost = 0.6,
+            brightness     = 1.10,
+            saturation     = 0.85,
+            adaptive_boost = 0.40,
         },
     })
 

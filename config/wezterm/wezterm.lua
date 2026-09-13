@@ -13,6 +13,24 @@ package.path = package.path .. ";" .. conf .. "wezterm/modules/?.lua"
 _G.wezterm = require("wezterm")
 _G.config = wezterm.config_builder()
 
+-- 2.1. Platform detection.
+-- Settings that are valid on one compositor and not the other are decided here
+-- rather than commented out in performance.lua. WebGpu is the case that matters:
+-- niri has no support for it, Hyprland does.
+_G.platform = (function()
+    if wezterm.target_triple:find("darwin") then return "macos" end
+    if os.getenv("HYPRLAND_INSTANCE_SIGNATURE") then return "hyprland" end
+    if os.getenv("NIRI_SOCKET") then return "niri" end
+    return (os.getenv("XDG_CURRENT_DESKTOP") or "unknown"):lower()
+end)()
+
+if platform == "hyprland" then
+    config.front_end = "WebGpu"
+end
+
+-- Has to stay after the assignment above, not before it: front_end was only ever
+-- set in performance.lua, which is required further down, so this block read a
+-- nil front_end and the adapter was never selected.
 if config.front_end == "WebGpu" and wezterm.gui then
     local gpucache = require("gpucache")
     local adapter = gpucache.get_vulkan_gpu()

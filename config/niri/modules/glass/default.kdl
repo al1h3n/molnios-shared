@@ -1,0 +1,38 @@
+// macOS 27 "Golden Gate" Liquid Glass - niri-glass default preset.
+// Mirrors the `goldengate` hyprglass preset in
+// config/hyprland/modules/hyprglass.lua; keep the two in step.
+//
+// niri-glass names its knobs differently from hyprglass:
+//   refraction-strength  <- the rim bend (hyprglass refraction_strength)
+//   edge-lighting        <- fresnel_strength
+//   glow-weight          <- specular_strength
+//   fringing             <- chromatic_aberration
+//   physical-refraction  <- Snell's-law path instead of the cheap approximation
+window-rule {
+    match app-id=r#"^(kitty|org\.wezfurlong\.wezterm)$"#
+
+    background-effect {
+        blur true
+        xray true
+
+        liquid-glass {
+            refraction-strength 3.0
+            refraction-power 1.0
+            power-factor 10
+
+            // 27's depth cue: brighter highlight, darker rim.
+            glow-weight 0.0001
+            edge-lighting 0.2
+
+            // Flat, colour-accurate interior; the bezel carries the look.
+            lens-distortion 0
+            physical-refraction 0
+            fringing 0
+
+            saturation 0.85
+            vibrancy 0.30
+            adaptive-dim 0.45
+            adaptive-boost 0.45
+        }
+    }
+}

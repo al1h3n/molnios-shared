@@ -689,3 +689,46 @@ niri_toggle_glass(){
     _niri_reload
     [[ "$new" == "#true" ]] && notify "Liquid Glass: enabled" || notify "Liquid Glass: disabled"
 }
+
+# Liquid Glass preset. Rewrites the include line in modules/glass.kdl, which is
+# the only place the active preset is named. Needs niri-glass: stock niri
+# rejects the liquid-glass node and would refuse to load the config.
+niri_glass_preset(){
+    _niri_check || return
+
+    local cfg glass
+    cfg=$(_niri_config_path)
+    glass="$(dirname "$cfg")/modules/glass.kdl"
+
+    [[ -f "$glass" ]] || { notify_error "Not found:\n$glass"; return 1; }
+
+    local -a presets=("clear" "default" "tinted")
+    local -a labels=("Clear (most transparent)" "Default (macOS 27)" "Tinted (most frosted)" "Disable glass")
+
+    local idx
+    idx=$(show_menu "Liquid Glass Preset" "Transparency, clear to frosted:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    cp "$glass" "$glass.bak"
+
+    if [[ "$idx" -eq 3 ]];then
+        sed -i 's|^include "glass/.*|// include "glass/default.kdl"|' "$glass"
+        _niri_reload
+        notify "Liquid Glass: disabled"
+        return
+    fi
+
+    sed -i "s|^\(// \)\?include \"glass/.*|include \"glass/${presets[$idx]}.kdl\"|" "$glass"
+
+    # niri refuses an invalid config outright, so validate before reloading and
+    # put the previous file back if this niri cannot parse liquid-glass.
+    if ! niri validate -c "$cfg" &>/dev/null;then
+        mv "$glass.bak" "$glass"
+        notify_error "Config rejected. Running niri has no liquid-glass support.\nEnable niri-glass in molnixos/pkgs/niri.nix first."
+        return 1
+    fi
+
+    rm -f "$glass.bak"
+    _niri_reload
+    notify "Liquid Glass preset: ${labels[$idx]}"
+}

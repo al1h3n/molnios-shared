@@ -3,12 +3,14 @@ prefer-no-csd
 // Window rules.
 
 // Base window rounding & opacity.
+// 17 to match Hyprland's decoration:rounding. Niri has no rounding_power, so
+// these corners stay circular where Hyprland's are a superellipse.
 window-rule {
-    geometry-corner-radius 15
+    geometry-corner-radius 17
     clip-to-geometry true
     opacity 0.9 // Inactive opacity.
     popups {
-        geometry-corner-radius 10
+        geometry-corner-radius 12
         background-effect {
             blur true
         }

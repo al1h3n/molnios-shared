@@ -90,6 +90,58 @@ if hl.plugin.hyprglass then
         },
     })
 
+    -- The two ends of macOS 27's Liquid Glass transparency slider, which
+    -- replaced 26's binary Reduce Transparency toggle. Both inherit goldengate
+    -- and carry only the deltas, so retuning the base retunes all three.
+    --
+    -- Clear: barely any frosting, the refracted rim does all the work. What the
+    -- slider's "ultra clear" end looks like. Legibility over a busy wallpaper
+    -- drops - that is the trade the slider exists to expose.
+    hg.preset("goldengate_clear", {
+        inherits = "goldengate",
+
+        blur_strength   = 0.6,
+        blur_iterations = 2,
+        glass_opacity   = 0.65,
+        tint_color      = 0x8899aa08,
+
+        -- Rim optics stay: without them a clear plate is just a hole.
+        chromatic_aberration = 0.4,
+        specular_strength    = 0.95,
+
+        dark  = { brightness = 0.96, adaptive_dim = 0.20 },
+        light = { brightness = 1.05, adaptive_boost = 0.20 },
+    })
+
+    -- Tinted: the frosted end. Heavier diffusion, stronger tint, desaturated -
+    -- closest to the old Reduce Transparency fallback, and the one to pick when
+    -- text on glass has to stay readable over anything.
+    hg.preset("goldengate_tinted", {
+        inherits = "goldengate",
+
+        blur_strength   = 3.2,
+        blur_iterations = 5,
+        glass_opacity   = 1.0,
+        tint_color      = 0x8899aa3c,
+
+        -- Frosted glass scatters instead of refracting cleanly, so the rim
+        -- optics come down as the diffusion goes up.
+        chromatic_aberration = 0.2,
+        fresnel_strength     = 0.3,
+        lens_distortion      = 0.1,
+
+        dark = {
+            brightness   = 0.82,
+            saturation   = 0.7,
+            adaptive_dim = 0.6,
+        },
+        light = {
+            brightness     = 1.14,
+            saturation     = 0.75,
+            adaptive_boost = 0.6,
+        },
+    })
+
     -- Namespaces match exactly, no regex, so per-monitor ones are listed by
     -- hand. mask_threshold is layer_rule ignore_alpha, kept above the shadow
     -- alpha so the glass does not bleed into the drop shadow.

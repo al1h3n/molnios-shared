@@ -1,0 +1,15 @@
+// Liquid Glass for niri - DISABLED.
+//
+// Stock niri rejects the `liquid-glass` node outright ("unexpected node
+// `liquid-glass`"), so including this on stock niri makes the whole config
+// invalid and niri refuses to start. It only parses under niri-glass, which
+// patches niri's own source
+// glass/ holds the three presets, matching the hyprglass ones:
+//   clear.kdl    ultra-clear end of the macOS 27 transparency slider
+//   default.kdl  goldengate
+//   tinted.kdl   frosted end
+//
+// The menu switcher rewrites the include line below, so keep it on one line and
+// keep the commented form exactly as it is.
+
+// include "glass/default.kdl"

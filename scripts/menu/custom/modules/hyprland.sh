@@ -388,3 +388,24 @@ hypr_toggle_glass(){
         hyprctl plugin load "$so" >/dev/null && notify "Liquid Glass: enabled"
     fi
 }
+
+# Liquid Glass preset. The three presets mirror the macOS 27 transparency
+# slider; see config/hyprland/modules/hyprglass.lua.
+hypr_glass_preset(){
+    hyprctl plugin list | grep -q hyprglass || {
+        notify_error "hyprglass is not loaded.\nToggle Liquid Glass on first."
+        return 1
+    }
+
+    local -a presets=("goldengate_clear" "goldengate" "goldengate_tinted")
+    local -a labels=("Clear (most transparent)" "Default (macOS 27)" "Tinted (most frosted)")
+
+    local idx
+    idx=$(show_menu "Liquid Glass Preset" "Transparency, clear to frosted:" "${labels[@]}")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    # hyprctl keyword is refused by the lua parser, so the plugin's own lua
+    # namespace is called through eval instead.
+    hypr_set_setting "hl.plugin.hyprglass.config({ default_preset = '${presets[$idx]}' })"
+    notify "Liquid Glass preset: ${labels[$idx]}"
+}

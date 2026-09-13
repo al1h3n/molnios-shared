@@ -134,6 +134,37 @@ rr(){ # rm-improved
 if exists nix;then
   alias ni="nix-shell -p"
   alias nic="doas nix-collect-garbage -d"
+
+  # Per-language dev shells from ~/.config/shells (molnixos: home/dots/shells.nix).
+  #   ns        - list templates
+  #   ns rust   - enter that shell
+  #   nsc rust  - drop it in as ./shell.nix, nix_hook then auto-enters on cd
+  # find, not a glob: zsh and fish both hard-error on an unmatched wildcard,
+  # and ~/.config/shells is missing until home-manager has run once.
+  __ns_list(){
+    find -L "$HOME/.config/shells" -maxdepth 1 -name '*.nix' -printf '%f\n' 2>/dev/null \
+      | sed 's/\.nix$//' | sort
+  }
+
+  ns(){
+    local d="$HOME/.config/shells"
+    if [ -z "$1" ];then
+      local t="$(__ns_list)"
+      [ -n "$t" ] && echo "$t" || echo "No templates in $d." >&2
+      return
+    fi
+    [ -f "$d/$1.nix" ] || { echo "No '$1' template in $d." >&2; return 1; }
+    nix-shell "$d/$1.nix"
+  }
+
+  nsc(){
+    local d="$HOME/.config/shells"
+    [ -f "$d/$1.nix" ] || { echo "No '$1' template in $d." >&2; return 1; }
+    [ -e shell.nix ] && { echo "shell.nix already exists here." >&2; return 1; }
+    cp "$d/$1.nix" shell.nix && echo "$1.nix -> ./shell.nix"
+  }
+
+  compdef '_values shell $(__ns_list)' ns nsc
 fi
 
 alias vq="warp-cli disconnect"
@@ -167,8 +198,10 @@ if [ "$(uname)" != "Darwin" ];then
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
-  alias ns="notify-send"
-  alias nss="notify-send -h int:transient:1"
+  # nt, not ns: ns/nsc are the nix-shell template helpers above, and a zsh alias
+  # shadows a function of the same name.
+  alias nt="notify-send"
+  alias nts="notify-send -h int:transient:1"
 
   alias m="sh $scripts/menu/launch-menu.sh -t"
   alias my="sh $scripts/menu/launch-menu.sh -y"

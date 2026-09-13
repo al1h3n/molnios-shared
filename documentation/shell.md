@@ -54,7 +54,7 @@
 `sl` — `sleep`.<br>
 `ln` — `ln -sfn`.<br>
 `rr` — **rmproved** (removes all provided files with a confirmation prompt).<br>
-`ns` / `nss` — `notify-send` / temporary notification.<br>
+`nt` / `nts` — `notify-send` / temporary notification.<br>
 `we` — current weather, uses [wttr.in](https://github.com/chubin/wttr.in). Use city as argument, or leave blank for local.<br>
 `myip` — current location, country, coordinates, ISP and public IP.<br>
 `mu` / `shazam` — custom script using *songrec* to find the song currently playing.<br>
@@ -109,7 +109,8 @@
 `radio` / `ra` — play a YouTube video as background audio via `mpv`. Accepts a YouTube ID or URL and a volume (0-100) as arguments, e.g. `radio dQw4w9WgXcQ 30`. Prompts for a new video to switch to on the fly without restarting `mpv`.<br>
 `fa` / `fas` / `fast` — shortcuts to custom video/static [anifetch](https://github.com/Notenlish/anifetch) configurations.<br>
 `nixfetch` — shortcut to custom NixOS fastfetch.<br>
-`wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri).<br>
+`wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri). Dead: noctalia is the bar that actually autostarts.<br>
+`m` / `my` / `mr` — MolniOS manager menu (`scripts/menu/launch-menu.sh`): `-t` TUI (gum), `-y` yad, no flag rofi. Compositor settings, wallpapers, themes, power, and the Liquid Glass toggle live here.<br>
 `dir` | `ls` | `l` | `lt` — colorful [eza](https://github.com/eza-community/eza) command replacements with icons and tree views.
 
 #### Connection
@@ -135,7 +136,10 @@
 
 ### nix Specific
 `ni` - `nix-shell -p`<br>
-`nic` - `doas nix-collect-garbage -d` (delete old generations).
+`nic` - `doas nix-collect-garbage -d` (delete old generations).<br>
+`ns` — list the per-language dev shells in `~/.config/shells` (molnixos: `home/dots/shells.nix`). With an argument, enters that one: `ns rust`. Throwaway — nothing is written to the project, and leaving the shell ends it.<br>
+`nsc` — copies a template in as `./shell.nix`: `nsc rust`. Persistent and project-local, so `nix_hook` auto-enters it on every `cd` into that directory. Refuses to overwrite an existing `shell.nix`.<br>
+Both tab-complete the template names.
 
 ---
 

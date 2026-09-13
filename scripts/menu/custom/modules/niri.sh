@@ -640,3 +640,52 @@ niri_toggle_prefer_no_csd(){
     _niri_reload
     notify "prefer-no-csd: $state"
 }
+
+# Liquid Glass (niri-glass). The effect renders in niri's background-effect
+# path, so "blur #false" in that block switches the glass off with it. Flips the
+# value in place and prints the new one, instead of a read pass plus a write
+# pass over the same block.
+_niri_flip_in_subblock(){
+    local block="$1" sub="$2" key="$3"
+    local cfg new
+    cfg=$(_niri_config_path)
+
+    new=$(awk -v BLK="$block" -v SUB="$sub" -v KEY="$key" '
+    BEGIN { in_blk=0; in_sub=0; depth=0; done=0 }
+    {
+        tmp=$0; opens=gsub(/\{/,"",tmp)
+        tmp=$0; closes=gsub(/\}/,"",tmp)
+
+        if (!in_blk && depth==0 && $0 ~ ("^[[:space:]]*" BLK "([[:space:]]|\\{)") && opens>0)
+            in_blk=1
+        if (in_blk && !in_sub && depth==1 && $0 ~ ("^[[:space:]]*" SUB "[[:space:]]*\\{") && opens>0)
+            in_sub=1
+
+        if (in_sub && depth==2 && !done && $1==KEY) {
+            print ($2 ~ /true/) ? "#false" : "#true"
+            done=1
+        }
+
+        depth += opens - closes
+        if (in_sub && depth<=1) in_sub=0
+        if (depth==0)           in_blk=0
+    }' "$cfg")
+
+    [[ -n "$new" ]] || return 1
+    _niri_set_in_subblock "$block" "$sub" "$key" "$new"
+    echo "$new"
+}
+
+niri_toggle_glass(){
+    _niri_check                     || return
+    _niri_require_block "window-rule" || return
+    _niri_backup
+
+    local new
+    new=$(_niri_flip_in_subblock "window-rule" "background-effect" "blur") || {
+        notify_error "No 'background-effect { blur }' in the first window-rule.\nAdd it to use this toggle."
+        return 1
+    }
+    _niri_reload
+    [[ "$new" == "#true" ]] && notify "Liquid Glass: enabled" || notify "Liquid Glass: disabled"
+}

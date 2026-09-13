@@ -166,8 +166,9 @@ if test (uname) != Darwin
     alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
     alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
     alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"
-    alias ns="notify-send"
-    alias nss="notify-send -h int:transient:1"
+    # nt, not ns: ns/nsc are the nix-shell template helpers below.
+    alias nt="notify-send"
+    alias nts="notify-send -h int:transient:1"
 
     alias m="sh $scripts/menu/launch-menu.sh -t"
     alias my="sh $scripts/menu/launch-menu.sh -y"
@@ -250,6 +251,47 @@ alias nixfetch="sh $scripts/fetch.sh -f -m $L_PATH/images/nixglass.png -w 30 -p 
 if type -q nix
     alias ni="nix-shell -p"
     alias nic="doas nix-collect-garbage -d"
+
+    # Per-language dev shells from ~/.config/shells (molnixos: home/dots/shells.nix).
+    #   ns        - list templates
+    #   ns rust   - enter that shell
+    #   nsc rust  - drop it in as ./shell.nix, nix_hook then auto-enters on cd
+    # find, not a glob: fish and zsh both hard-error on an unmatched wildcard,
+    # and ~/.config/shells is missing until home-manager has run once.
+    function __ns_list
+        find -L "$HOME/.config/shells" -maxdepth 1 -name '*.nix' -printf '%f\n' 2>/dev/null \
+            | string replace -r '\.nix$' '' | sort
+    end
+
+    function ns --description "Enter a nix-shell template from ~/.config/shells"
+        set -l d "$HOME/.config/shells"
+        if test -z "$argv[1]"
+            set -l t (__ns_list)
+            test -n "$t"; and printf '%s\n' $t; or echo "No templates in $d." >&2
+            return
+        end
+        if not test -f "$d/$argv[1].nix"
+            echo "No '$argv[1]' template in $d." >&2
+            return 1
+        end
+        nix-shell "$d/$argv[1].nix"
+    end
+
+    function nsc --description "Copy a ~/.config/shells template in as ./shell.nix"
+        set -l d "$HOME/.config/shells"
+        if not test -f "$d/$argv[1].nix"
+            echo "No '$argv[1]' template in $d." >&2
+            return 1
+        end
+        if test -e shell.nix
+            echo "shell.nix already exists here." >&2
+            return 1
+        end
+        cp "$d/$argv[1].nix" shell.nix; and echo "$argv[1].nix -> ./shell.nix"
+    end
+
+    complete -c ns -f -a "(__ns_list)"
+    complete -c nsc -f -a "(__ns_list)"
 end
 
 alias ca="cava -p $conf/cava.ini"

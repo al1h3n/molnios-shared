@@ -406,3 +406,19 @@ hypr_toggle_cursor_zoom(){
         notify "Cursor zoom: off"
     fi
 }
+
+# Liquid Glass (hyprglass plugin). The plugin is loaded from hyprglass.lua at
+# parse time, so the toggle is load/unload: flipping plugin:hyprglass:enabled
+# would not reach the windows that carry a hyprglass_enabled tag, since tags
+# override the global. Hyprland re-parses the config after a load, which is what
+# re-applies the presets and layer whitelist.
+hypr_toggle_glass(){
+    local so="/etc/profiles/per-user/$USER/lib/libhyprglass.so"
+    [[ -f "$so" ]] || { notify_error "hyprglass not installed:\n$so"; return 1; }
+
+    if hyprctl plugin list | grep -q hyprglass;then
+        hyprctl plugin unload "$so" >/dev/null && notify "Liquid Glass: disabled"
+    else
+        hyprctl plugin load "$so" >/dev/null && notify "Liquid Glass: enabled"
+    fi
+}

@@ -461,7 +461,8 @@ register_menu "hyprland_decorations" \
     "Adjust decoration settings:" \
     "󰘇 Rounding" "cmd:hypr_adjust_rounding" \
     "󰘷 Toggle Shadows" "cmd:hypr_toggle_shadows" \
-    "󰂵 Toggle Blur" "cmd:hypr_toggle_blur"
+    "󰂵 Toggle Blur" "cmd:hypr_toggle_blur" \
+    "󰠱 Toggle Liquid Glass" "cmd:hypr_toggle_glass"
 
 # Hyprland Animations
 register_menu "hyprland_animations" \
@@ -506,6 +507,7 @@ register_menu "niri_effects" \
     "Niri Effects" \
     "Adjust visual effects:" \
     "󰂵 Toggle Blur" "cmd:niri_toggle_blur" \
+    "󰠱 Toggle Liquid Glass" "cmd:niri_toggle_glass" \
     "󰘷 Toggle Shadows" "cmd:niri_toggle_shadow" \
     "󰂶 Toggle Xray Blur" "cmd:niri_toggle_xray" \
     "󰍉 Blur Saturation" "cmd:niri_blur_saturation" \

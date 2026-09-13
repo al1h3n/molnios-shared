@@ -3,7 +3,7 @@ hl.config({
     decoration = {
         shadow = {
             -- enabled = 0, -- Disable shadows.
-            range = 25,
+            range = 15,
             render_power = 3,
             color = BG_DARK,
         },

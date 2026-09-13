@@ -4,7 +4,11 @@
   --button-color: rgba(255, 255, 255, .08);
 
   /* Default variables. */
-  --cc-bg: rgba(20,20,20,0.8);
+  /* The control center panel itself. This was 0.8 alpha, which is why hyprglass
+     looked broken here while the notification body (--noti-bg-alpha .33) showed
+     the effect fine: the glass was rendering, then 80% opaque black was painted
+     straight over it. Keep this low or the panel eats its own backdrop. */
+  --cc-bg: rgba(20,20,20,0.3);
   --noti-border-color: rgba(255, 255, 255, .15);
   --noti-bg: 48,48,48;
   --noti-bg-alpha: .33;

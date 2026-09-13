@@ -14,12 +14,12 @@ hl.config({
     general = {
         gaps_in = 4,
         gaps_out = 5,
-        border_size = 0,
+        border_size = 2,
         col = { inactive_border = { colors = { BG_LIGHT, BG_DARK } }, },
     },
     decoration = {
-        rounding = 10,
-        rounding_power = 5,
+        rounding = 17,
+        rounding_power = 3,
         active_opacity = 1,
         inactive_opacity = .9,
     },

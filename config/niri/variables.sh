@@ -33,8 +33,8 @@ youtube="yt-x -s -l rofi --rofi-theme-main $menuconfig"
 # Utilities & System Scripts
 # No switcher.
 
-gpu="$shell $scripts/gpu.sh"
-temp="$shell $scripts/temp.sh"
+gpu="$shell $scripts/monitor/gpu.sh"
+temp="$shell $scripts/monitor/temp.sh"
 reload="$shell $scripts/reloadus.sh"
 brightness="$shell $scripts/brightness.sh"
 gamemode="$shell $scripts/gamemode.sh"

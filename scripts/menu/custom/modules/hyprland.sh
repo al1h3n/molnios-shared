@@ -110,14 +110,6 @@ hypr_toggle_shadows(){
 }
 
 # Monitor helpers (backend).
-_hypr_display_term_cmd(){
-    if exists wezterm;then echo "wezterm start --";return;fi
-    if exists kitty;then echo "kitty --class floating -e";return;fi
-    if exists alacritty;then echo "alacritty -e";return;fi
-    if exists ghostty;then echo "ghostty -e";return;fi
-    echo
-}
-
 hypr_get_monitors(){
     if exists jq;then
         hyprctl monitors -j 2>/dev/null | jq -r '.[].name'
@@ -140,42 +132,9 @@ hypr_select_monitor(){
         return 0
     fi
 
-    if exists gum && [[ "$(detect_backend)" != "tui" ]];then
-        local list_file="/tmp/molnios-mon-list-$$"
-        local out_file="/tmp/molnios-mon-out-$$"
-        local sel_script="/tmp/molnios-mon-sel-$$.sh"
-
-        printf '%s\n' "${monitors[@]}" > "$list_file"
-
-        cat > "$sel_script" << GUMEOF
-echo "================================="
-echo "  Select Monitor"
-echo "================================="
-selected=\$(gum choose --header "Available monitors:" < "$list_file")
-echo "\$selected" > "$out_file"
-GUMEOF
-        chmod +x "$sel_script"
-
-        local term_cmd=$(_hypr_display_term_cmd)
-
-        if [[ -n "$term_cmd" ]];then
-            $term_cmd bash "$sel_script"
-            sleep 0.3
-        else
-            sh "$sel_script"
-        fi
-
-        local result
-        if [[ -f "$out_file" ]];then
-            result=$(cat "$out_file")
-            rm -f "$out_file"
-        fi
-        rm -f "$list_file" "$sel_script"
-
-        echo "$result"
-        return 0
-    fi
-
+    # show_menu already renders through whatever backend is active - gum on tui,
+    # rofi/yad otherwise. The old path here wrote three temp files and spawned a
+    # terminal just to run `gum choose` behind the framework's back.
     local idx
     idx=$(show_menu "Select Monitor" "Choose a monitor:" "${monitors[@]}")
     if [[ -n "$idx" ]] && [[ "$idx" =~ ^[0-9]+$ ]];then
@@ -319,10 +278,17 @@ hypr_test_resolution(){
     local chosen="${modes[$idx]}"
     local mode_str="${chosen%Hz}"
 
-    notify "Testing $mode_str — restoring in 10 seconds..."
+    notify "Testing $mode_str — keep it or wait 10s to restore"
 
     hypr_set_setting "hl.monitor({ output = '$monitor', mode = '${mode_str}', position = '0x0', scale = $current_scale })"
-    sleep 10
+
+    # A blind `sleep 10` restored a mode that may well have been fine. gum's
+    # timeout keeps the same 10s safety net but lets a working mode be kept.
+    if exists gum && gum confirm --timeout=10s --default=no "Keep $mode_str?";then
+        notify "Kept $mode_str"
+        return
+    fi
+
     hyprctl reload
     notify "Restored to config settings"
 }

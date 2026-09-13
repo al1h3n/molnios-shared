@@ -28,7 +28,7 @@ local binds = {
     { M.." + SHIFT + Q", multiterminal },
     { M.." + SHIFT + W", hl.dsp.layout("togglesplit") },
     { M.." + SHIFT + E", explorercli },
-    { M.." + SHIFT + R", shell .. scripts .. "wallpaper.sh -r" },
+    { M.." + SHIFT + R", wallpaper },
     -- SHIFT row — swap windows.
     { M.." + SHIFT + T", "wl-freeze -a" },
     { M.." + SHIFT + A", hl.dsp.window.swap({ direction = "left"  }) },

@@ -191,7 +191,7 @@ if test (uname) != Darwin
     function wa --description "Set wallpaper and change terminal colors via pywal"
         wal --recursive -i $argv[1]
         set wallpaper (cat ~/.cache/wal/wal)
-        sh $scripts/borderline.sh "$wallpaper"
+        sh $scripts/colors/borderline.sh "$wallpaper"
         set seq ~/.cache/wal/sequences
         if test -f "$seq"
             cat "$seq" &
@@ -222,8 +222,8 @@ if test (uname) != Darwin
     # Mechabar.
     set mecha "$scripts/mechabar"
     alias p="sh $mecha/power-menu.sh"
-    alias n="sh $mecha/network.sh"
-    alias b="sh $mecha/bluetooth.sh"
+    alias n="sh $mecha/network.sh menu"
+    alias b="sh $mecha/bluetooth.sh menu"
     alias bu="sh $mecha/backlight.sh up 5"
     alias bd="sh $mecha/backlight.sh down 5"
     alias vu="sh $mecha/volume.sh output raise 5"

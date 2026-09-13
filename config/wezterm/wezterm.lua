@@ -29,8 +29,13 @@ require("style")
 require("syntax")
 require("tabs")
 
--- Noctalia v5 colors import.
-local noctalia_colors_file = wezterm.config_dir .. '/colors/Noctalia.toml'
-wezterm.color.load_scheme(noctalia_colors_file)
+-- Noctalia v5 colors.
+local noctalia_colors_dir = (os.getenv("XDG_CONFIG_HOME") or (home .. "/.config")) .. "/wezterm/colors"
+local noctalia_scheme = io.open(noctalia_colors_dir .. "/Noctalia.toml")
+if noctalia_scheme then
+    noctalia_scheme:close()
+    config.color_scheme_dirs = { noctalia_colors_dir }
+    config.color_scheme = "Noctalia"
+end
 
 return config

@@ -196,7 +196,7 @@ if [ "$(uname)" != "Darwin" ];then
   wa() {
   wal --recursive -i $1
   local wallpaper=$(cat ~/.cache/wal/wal)
-  sh $scripts/borderline.sh "$wallpaper"
+  sh $scripts/colors/borderline.sh "$wallpaper"
   local seq=~/.cache/wal/sequences
   [[ -f "$seq" ]] && (cat "$seq" &)
   [[ -f ~/.cache/wal/colors.sh ]] && source ~/.cache/wal/colors.sh

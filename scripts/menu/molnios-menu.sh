@@ -54,91 +54,56 @@ detect_backend() {
     fi
 }
 
-# 4. Shell window renderer.
+# 4. Fallback input renderer.
+_menu_term_cmd() {
+    if command -v wezterm &>/dev/null;then echo "wezterm start --class floating --"
+    elif command -v kitty &>/dev/null;then echo "kitty --class floating -e"
+    elif command -v ghostty &>/dev/null;then echo "ghostty -e"
+    elif command -v alacritty &>/dev/null;then echo "alacritty -e"
+    elif command -v xterm &>/dev/null;then echo "xterm -e"
+    fi
+}
+
 shell_show_input() {
-    local title="$1"
-    local prompt="$2"
-    local default="$3"
+    local title="$1" prompt="$2" default="$3"
 
-    local input_script="$STATE_DIR/input_dialog.sh"
-    local output_file="$STATE_DIR/input_result.txt"
-
-    # Write the interactive script with full color support
-    cat > "$input_script" << 'SHELL_INPUT_EOF'
-#!/usr/bin/env bash
-title="$1"
-prompt="$2"
-default="$3"
-output_file="$4"
-
-# Gruvbox Dark – true color
-GRV_BG="\033[48;2;40;40;40m"         # bg  #282828
-GRV_RESET="\033[0m"
-BOLD="\033[1m"
-DIM="\033[2m"
-
-# Foreground palette
-FG="\033[38;2;235;219;178m"           # fg     #ebdbb2  – title text
-YELLOW="\033[38;2;250;189;47m"        # yellow #fabd2f  – frame / borders
-AQUA="\033[38;2;142;192;124m"         # aqua   #8ec07c  – prompt lines
-ORANGE="\033[38;2;254;128;25m"        # orange #fe8019  – current value
-GREEN="\033[38;2;184;187;38m"         # green  #b8bb26  – input caret
-GRAY="\033[38;2;146;131;116m"         # gray   #928374  – "Current:" label
-
-box_width=44
-
-# ── title box ────────────────────────────────────────────────────────────────
-echo ""
-echo -e "${YELLOW}${BOLD}┌──────────────────────────────────────────────┐${GRV_RESET}"
-printf "${YELLOW}${BOLD}│${GRV_RESET}  ${FG}${BOLD}%-44s${GRV_RESET}${YELLOW}${BOLD}│${GRV_RESET}\n" "$title"
-echo -e "${YELLOW}${BOLD}└──────────────────────────────────────────────┘${GRV_RESET}"
-echo ""
-
-# ── prompt lines ─────────────────────────────────────────────────────────────
-while IFS= read -r line; do
-    if [[ -n "$line" ]]; then
-        echo -e "  ${AQUA}${DIM}${line}${GRV_RESET}"
-    else
-        echo
-    fi
-done <<< "$prompt"
-
-# ── current value ─────────────────────────────────────────────────────────────
-echo ""
-if [[ -n "$default" ]]; then
-    echo -e "  ${GRAY}Current:${GRV_RESET}  ${ORANGE}${BOLD}${default}${GRV_RESET}"
-    echo ""
-fi
-
-# ── input caret ───────────────────────────────────────────────────────────────
-read -r -p "$(echo -e "  ${GREEN}${BOLD}❯${GRV_RESET} ")" -e -i "$default" user_input
-printf '%s' "$user_input" > "$output_file"
-SHELL_INPUT_EOF
-
-    chmod +x "$input_script"
-    rm -f "$output_file"
-
-    local term_cmd=""
-    if command -v wezterm&>/dev/null;then term_cmd="wezterm start --class floating --"
-    # "--config-file $L_PATH/config/wezterm/wezterm.lua" removed for Noctalia colorscheme.
-    elif command -v kitty&>/dev/null;then term_cmd="kitty -c $L_PATH/config/kitty/kitty.conf --class floating -e"
-    elif command -v ghostty&>/dev/null;then term_cmd="ghostty -e"
-    elif command -v alacritty&>/dev/null;then term_cmd="alacritty -e"
-    elif command -v xterm&>/dev/null;then term_cmd="xterm -e"
+    if ! command -v gum &>/dev/null;then
+        {
+            echo ""
+            echo -e "\033[1;33m${title}\033[0m"
+            while IFS= read -r pline;do
+                [[ -n "$pline" ]] && echo -e "  \033[2;36m${pline}\033[0m"
+            done <<< "$prompt"
+            echo ""
+        } >&2
+        local result
+        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || result=""
+        echo "$result"
+        return
     fi
 
+    if [[ -t 0 ]];then
+        tui_show_input "$title" "$prompt" "$default"
+        return
+    fi
+
+    local term_cmd out
+    term_cmd=$(_menu_term_cmd)
     if [[ -z "$term_cmd" ]];then
-        bash "$input_script" "$title" "$prompt" "$default" "$output_file"
-    else
-        $term_cmd bash "$input_script" "$title" "$prompt" "$default" "$output_file"
-        sleep .2
+        tui_show_input "$title" "$prompt" "$default"
+        return
     fi
+    out="$STATE_DIR/input_result.txt"
+    rm -f "$out"
+    # gum writes its UI to stderr and the answer to stdout, so only stdout is
+    # redirected into the file.
+    $term_cmd gum input \
+        --header="${title}"$'\n'"${prompt}" \
+        --value="$default" \
+        --prompt="❯ " \
+        --width=70 > "$out"
 
-    if [[ -f "$output_file" ]];then
-        cat "$output_file"
-    else
-        echo
-    fi
+    [[ -f "$out" ]] && cat "$out" || echo ""
 }
 
 # 5. rofi backend.
@@ -186,8 +151,9 @@ rofi_show_input() {
 
     debug "rofi_show_input: title=$title, prompt=$prompt, default=$default"
 
-    # Use shell input window for better input support
-    shell_show_input "$title" "$prompt" "$default"
+    command -v rofi &>/dev/null || { shell_show_input "$title" "$prompt" "$default"; return; }
+    rofi -dmenu -p "$prompt" -mesg "$title" -filter "$default" \
+        ${ROFI_CONFIG:+-config "$ROFI_CONFIG"} < /dev/null 2>/dev/null || echo ""
 }
 
 # 6. YAD backend.
@@ -263,8 +229,7 @@ tui_detect_tool() {
     fi
 }
 
-# Gruvbox Dark accents — the same palette shell_show_input() uses above —
-# so the TUI backend's picker/input box look at home next to that dialog.
+# Gruvbox Dark accents for the gum/fzf widgets.
 TUI_YELLOW="#fabd2f"
 TUI_ORANGE="#fe8019"
 TUI_GREEN="#b8bb26"

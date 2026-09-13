@@ -13,3 +13,6 @@ include "visual.kdl"
 include "gamemode.kdl"
 include "misc.kdl"
 include "xwayland.kdl"
+
+// Niri plugins.
+include "~/.config/niri/noctalia.kdl"

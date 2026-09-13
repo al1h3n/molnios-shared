@@ -9,7 +9,7 @@ spawn-sh-at-startup "noctalia"
 spawn-sh-at-startup "swaync -c ~/.local/share/molnios/config/swaync/swaync.json -s ~/.local/share/molnios/config/swaync/swaync-style.css"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "mpvpaper-stop"
-spawn-sh-at-startup "~/.local/share/molnios/scripts/borderline.sh"
+spawn-sh-at-startup "~/.local/share/molnios/scripts/colors/borderline.sh"
 
 // Clipboard Managers
 spawn-sh-at-startup "wl-paste --type text --watch cliphist store"

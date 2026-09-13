@@ -1,12 +1,5 @@
-# MM    MM              dd           bb                         lll  1  hh      333333
-# MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
-# MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
-# MM    MM aa  aaa dd   dd eeeee     bb   bb  yyyyyy    aa  aaa lll  11 hh   hh     333 nn   nn
-# MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
-#                                             yyyyy
-# Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
-# borderline v1.2 - Niri support.
-# Used to get 2 main colors of theme for Hyprland/Niri dynamically.
+#!/usr/bin/env bash
+# Borderline - Used to get 2 main colors of theme for Hyprland/Niri dynamically.
 # Part of the MolniOS project.
 # ==============================================================================
 
@@ -74,24 +67,27 @@ if ! $HYPRLAND_RUNNING && ! $NIRI_RUNNING; then
 fi
 
 # 2. Get the current wallpaper path.
-# Waypaper updates its config file before running the post-command.
-CONFIG_FILE=~/.config/waypaper/config.ini
-WALLPAPER=$(grep "^wallpaper = " "$CONFIG_FILE" | cut -d= -f2- | xargs)
+WAYPAPER_CONFIG=~/.config/waypaper/config.ini
+NOCTALIA_STATE=~/.local/state/noctalia/settings.toml
 
-if [ ! -f "$CONFIG_FILE" ];then
-    nerr Borderline "Waypaper config not found."
-    exit 1
-fi
-
-# Fallback if argument is passed directly.
 if [ -n "$1" ];then
     WALLPAPER=$1
+elif [ -f "$WAYPAPER_CONFIG" ];then
+    WALLPAPER=$(grep "^wallpaper = " "$WAYPAPER_CONFIG" | cut -d= -f2- | xargs)
+fi
+
+# [wallpaper.last] path = "..." - quoted, so strip the quotes.
+if [ -z "$WALLPAPER" ] && [ -f "$NOCTALIA_STATE" ];then
+    WALLPAPER=$(sed -n '/^\[wallpaper.last\]/,/^\[/{s/^path *= *"\(.*\)"/\1/p}' "$NOCTALIA_STATE")
 fi
 
 if [ -z "$WALLPAPER" ];then
-    nerr Borderline "No wallpaper path found."
+    nerr Borderline "No wallpaper path found (waypaper, noctalia, or argument)."
     exit 1
 fi
+
+# Expand a leading ~ that either config may have stored literally.
+case "$WALLPAPER" in "~"/*) WALLPAPER="$HOME${WALLPAPER#\~}";; esac
 
 if [ ! -f "$WALLPAPER" ];then
     nerr Borderline "Wallpaper file does not exist: $WALLPAPER"

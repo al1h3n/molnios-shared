@@ -304,28 +304,34 @@ gamemode(){
 
 # SOFTWARE UPDATE ACTION
 software_update(){
-    notify "Starting system update..."
+    local installer=/usr/local/bin/molnios.sh
+    local sweeper=/usr/local/bin/sweeper/sweeper.sh
+    local su=""
+
+    exists doas && su=doas
+    [[ -z "$su" ]] && exists sudo && su=sudo
+    [[ -z "$su" ]] && { notify_error "Neither doas nor sudo found"; return 1; }
+
+    [[ -x "$installer" || -f "$installer" ]] || {
+        notify_error "Installer not symlinked:\n$installer\nRun molnios.sh once to create it."
+        return 1
+    }
 
     local term_cmd
     term_cmd=$(_term_auto)
-
-    if [[ -n "$term_cmd" ]]; then
-        $term_cmd bash -c "
-            echo 'Starting system update...'
-            if command -v nixos-rebuild &>/dev/null;then
-                if command -v doas &>/dev/null;then
-                    doas sh /usr/local/bin/molnios.sh -f -dp -nb
-                else
-                    sudo sh /usr/local/bin/molnios.sh -f -dp -nb
-                fi
-            fi
-            sudo sh sweeper
-            echo 'Update complete. Press Enter to close...'
-            read
-        "
-    else
-        notify_error "No terminal emulator found"
-    fi
+    [[ -n "$term_cmd" ]] || { notify_error "No terminal emulator found"; return 1; }
+    notify "Starting system update..."
+    $term_cmd bash -c "
+        echo 'Starting system update...'
+        $su sh '$installer' -f -dp -nb
+        [ -f '$sweeper' ] && $su sh '$sweeper'
+        echo
+        if command -v gum >/dev/null 2>&1;then
+            gum confirm 'Update finished. Close this window?' && exit 0
+        else
+            read -r -p 'Update complete. Press Enter to close...'
+        fi
+    "
 }
 
 

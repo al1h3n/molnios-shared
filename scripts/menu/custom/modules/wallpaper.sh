@@ -105,7 +105,7 @@ _wallust_apply(){
 
     wallust -C $L_PATH/config/theming/wallust.toml run -I background "$wal_src"
 
-    local bscript="$L_PATH/scripts/borderline.sh"
+    local bscript="$L_PATH/scripts/colors/borderline.sh"
     if [[ -f "$bscript" ]];then
         sh "$bscript" "$borderline_src"
     else
@@ -256,7 +256,7 @@ _pywal_apply(){
 
     wal --recursive -i "$wal_src"
 
-    local bscript="$L_PATH/scripts/borderline.sh"
+    local bscript="$L_PATH/scripts/colors/borderline.sh"
     if [[ -f "$bscript" ]];then
         sh "$bscript" "$borderline_src"
     else
@@ -371,7 +371,7 @@ _matugen_apply(){
             -c $L_PATH/config/theming/matugen.toml \
             image "$wal_src"
 
-    local bscript="$L_PATH/scripts/borderline.sh"
+    local bscript="$L_PATH/scripts/colors/borderline.sh"
     if [[ -f "$bscript" ]];then
         sh "$bscript" "$borderline_src"
     else

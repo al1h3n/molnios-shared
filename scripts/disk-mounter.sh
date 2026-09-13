@@ -1,10 +1,4 @@
-# MM    MM              dd           bb                         lll  1  hh      333333
-# MMM  MMM   aa aa      dd   eee     bb      yy   yy      aa aa lll 111 hh         3333 nn nnn
-# MM MM MM  aa aaa  dddddd ee   e    bbbbbb  yy   yy     aa aaa lll  11 hhhhhh    3333  nnn  nn
-# MM    MM aa  aaa dd   dd eeeee     bb   bb  yyyyyy    aa  aaa lll  11 hh   hh     333 nn   nn
-# MM    MM  aaa aa  dddddd  eeeee    bbbbbb       yy     aaa aa lll 111 hh   hh 333333  nn   nn
-#                                             yyyyy
-# Support - al1h3n(tg,ds) | Donate me - ko-fi.com/al1h3n
+#!/usr/bin/env bash
 # Disk Mounter - easily mount your disks.
 # ==============================================================================
 
@@ -17,7 +11,7 @@ RESET="\e[0m"
 
 if [ $EUID -ne 0 ];then
     echo -e "${YELLOW}Elevation needed. Restarting with doas..${RESET}"
-    exec doas sh $0 $@
+    exec doas bash "$0" "$@"
 fi
 
 title(){
@@ -47,15 +41,24 @@ mnt(){
 gui(){
     echo -e "${RED}--- Interactive Mode ---${RESET}"
 
-    read -rp "$(echo -e ${FINISH}Device\ \(e.g.\ /dev/sda1\): ${RESET})" dev
-    read -rp "$(echo -e ${FINISH}Mount\ path\ \(e.g.\ /mnt/disk\): ${RESET})" pth
+    local dev pth
+    if command -v gum >/dev/null 2>&1;then
+        dev=$(lsblk -rno NAME,SIZE,FSTYPE,LABEL 2>/dev/null \
+            | awk '$3 != "" && $3 != "swap" {print "/dev/"$0}' \
+            | gum choose --header "Device to mount:" | awk '{print $1}')
+        [[ -n "$dev" ]] || { echo -e "${RED}✖ No device selected${RESET}"; exit 1; }
+        pth=$(gum input --header "Mount path:" --value "/mnt/${dev##*/}")
+    else
+        read -rp "$(echo -e ${FINISH}Device\ \(e.g.\ /dev/sda1\): ${RESET})" dev
+        read -rp "$(echo -e ${FINISH}Mount\ path\ \(e.g.\ /mnt/disk\): ${RESET})" pth
+    fi
 
     if [[ -z "$dev" || -z "$pth" ]];then
         echo -e "${RED}✖ Invalid input${RESET}"
         exit 1
     fi
 
-    mnt $dev $pth
+    mnt "$dev" "$pth"
 }
 
 if [[ -z $1 || -z "$2" ]];then

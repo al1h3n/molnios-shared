@@ -41,3 +41,13 @@ require("hyprland-gui")
 
 -- Plugins.
 require("hyprglass")
+
+-- Noctalia's palette, written to ~/.config/hypr/noctalia.lua by its "hyprland" builtin template.
+-- The file only defines apply_theme() and returns it, so nothing happened until
+-- something called it - that is why theme changes never reached the borders. Loaded last so it wins over theme.lua's fallbacks.
+local noctalia_theme = io.open(home .. "/.config/hypr/noctalia.lua")
+if noctalia_theme then
+    noctalia_theme:close()
+    local ok, mod = pcall(dofile, home .. "/.config/hypr/noctalia.lua")
+    if ok and type(mod) == "table" and mod.apply_theme then mod.apply_theme() end
+end

@@ -8,7 +8,11 @@
  *
  * Absolute path: @import resolves relative to this stylesheet, which lives in
  * the repo rather than ~/.config. */
-@import "file:///home/al1h3n/.config/gtk-3.0/noctalia.css";
+/* Must be url(...): a bare quoted "file://..." is treated as a relative path
+ * by GTK3 and appended to this file's directory, producing
+ * ".../colors/file:/home/.../noctalia.css" and a failed import - which drops
+ * every @define-color below and takes the icons down with it. */
+@import url("file:///home/al1h3n/.config/gtk-3.0/noctalia.css");
 
 @define-color bg @window_bg_color;
 @define-color fg @window_fg_color;

@@ -7,7 +7,11 @@
  *
  * Absolute path on purpose: swaync resolves @import relative to the stylesheet,
  * which lives in the repo, not in ~/.config. */
-@import "file:///home/al1h3n/.config/gtk-3.0/noctalia.css";
+/* Must be url(...): a bare quoted "file://..." is treated as a relative path
+ * by GTK3 and appended to this file's directory, producing
+ * ".../colors/file:/home/.../noctalia.css" and a failed import - which drops
+ * every @define-color below and takes the icons down with it. */
+@import url("file:///home/al1h3n/.config/gtk-3.0/noctalia.css");
 
 :root {
   --notification-center-color: @window_bg_color;

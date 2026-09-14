@@ -1,6 +1,7 @@
 /* Original config - https://github.com/ErikReider/SwayNotificationCenter/blob/main/data/style/style.scss */
 
-@import "colors/dark.css";
+@import "colors/noctalia.css";
+/* @import "colors/dark.css"; */
 /* @import "colors/light.css"; */
 
 @import "variables/variables.css";

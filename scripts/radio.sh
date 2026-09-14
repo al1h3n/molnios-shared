@@ -26,8 +26,8 @@ if [ -z "${YT_X_BROWSER:-}" ] && [ -f "$HOME/.librewolf/personal/cookies.sqlite"
     export YT_X_BROWSER="firefox:$HOME/.librewolf/personal"
 fi
 
-err(){ gum style --foreground 1 "radio: $*"; }
-info(){ gum style --foreground 244 "$*"; }
+err(){ gum style --foreground 1 "radio: $*" >&2; }
+info(){ gum style --foreground 244 "$*" >&2; }
 
 deps_ok(){
     local dep missing=0
@@ -155,13 +155,26 @@ now_playing(){
         | sed -n 's/.*"data":"\([^"]*\)".*/\1/p' | head -n1
 }
 
+# mpv is detached and has no tty, so its keybinds are unreachable. Everything
+# here goes over the IPC socket instead.
 controls(){
-    gum style --border rounded --padding "1 2" --foreground 212 --border-foreground 212 \
-        "mpv keys (focus the player's terminal)" \
-        "" \
-        "← / →   seek 5s        [ / ]   speed" \
-        "p       pause          m       mute" \
-        "9 / 0   volume -/+     q       quit player"
+    alive || { err "player is not running"; return 1; }
+    while true;do
+        local c
+        c=$(gum choose --header "controls - $(now_playing)" \
+            "Pause / resume" "Volume +10" "Volume -10" \
+            "Seek +10s" "Seek -10s" "Mute" "Back") || return 0
+        case "$c" in
+            "Pause / resume") ipc '{"command":["cycle","pause"]}' ;;
+            "Volume +10")     ipc '{"command":["add","volume",10]}' ;;
+            "Volume -10")     ipc '{"command":["add","volume",-10]}' ;;
+            "Seek +10s")      ipc '{"command":["seek",10]}' ;;
+            "Seek -10s")      ipc '{"command":["seek",-10]}' ;;
+            Mute)             ipc '{"command":["cycle","mute"]}' ;;
+            Back)             return 0 ;;
+        esac
+        alive || { err "player exited"; return 1; }
+    done
 }
 
 main(){

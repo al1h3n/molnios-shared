@@ -1,0 +1,31 @@
+/* swaync colours driven by noctalia.
+ *
+ * noctalia regenerates ~/.config/gtk-3.0/noctalia.css on every theme and
+ * wallpaper change, with both light and dark resolved into the same GTK
+ * variable names. Importing it and aliasing those names means swaync follows
+ * automatically, with nothing to toggle.
+ *
+ * Absolute path on purpose: swaync resolves @import relative to the stylesheet,
+ * which lives in the repo, not in ~/.config. */
+@import "file:///home/al1h3n/.config/gtk-3.0/noctalia.css";
+
+:root {
+  --notification-center-color: @window_bg_color;
+  --notification-center-color-hovered: @card_bg_color;
+  --button-color: @accent_bg_color;
+
+  /* Kept translucent for hyprglass: the glass renders behind the panel, so an
+     opaque background paints straight over it. */
+  --cc-bg: alpha(@window_bg_color, 0.3);
+  --noti-border-color: alpha(@window_fg_color, 0.15);
+  --noti-bg: alpha(@card_bg_color, 0.33);
+  --noti-bg-hover: alpha(@card_bg_color, 0.5);
+  --noti-bg-focus: alpha(@accent_bg_color, 0.4);
+
+  --noti-bg-alpha: .33;
+  --noti-close-bg: alpha(@window_fg_color, 0.25);
+
+  --text-color: @window_fg_color;
+  --text-color-disabled: alpha(@window_fg_color, 0.5);
+  --bg-selected: @accent_bg_color;
+}

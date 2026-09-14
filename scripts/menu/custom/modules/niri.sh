@@ -3,12 +3,27 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 _NIRI_CONFIG_DEFAULT="${HOME}/.config/niri/config.kdl"
-
-# Follow symlinks — NixOS/home-manager symlinks ~/.config/niri/config.kdl into
-# the mutable dotfiles repo; readlink -f gives us the real writable path.
 _niri_config_path(){
-    local raw="${NIRI_CONFIG_PATH:-${_NIRI_CONFIG_DEFAULT}}"
+    local raw="${NIRI_CONFIG_PATH:-${NIRI_CONFIG:-$_NIRI_CONFIG_DEFAULT}}"
     readlink -f "$raw" 2>/dev/null || echo "$raw"
+}
+
+# The settings live in modules/*.kdl, not in the entry file, which is nothing but
+# include lines. Every helper below used to grep the entry file and therefore
+# reported "No 'layout {}' block found" for every block that does exist.
+_niri_block_file(){
+    local block="$1" cfg dir f
+    cfg=$(_niri_config_path)
+    dir=$(dirname "$cfg")
+    for f in "$cfg" "$dir"/modules/*.kdl "$dir"/*.kdl;do
+        [[ -f "$f" ]] || continue
+        # Anchored at column 0: these are top-level blocks, and an indented
+        # match picks up nested ones - "layout" resolved to input.kdl's
+        # xkb { layout "us" } otherwise. The trailing alternation also catches
+        # bare keywords like prefer-no-csd that end the line.
+        grep -qE "^${block}([[:space:]]*\\{|[[:space:]]*$)" "$f" && { echo "$f"; return 0; }
+    done
+    return 1
 }
 
 _niri_check(){
@@ -30,23 +45,30 @@ _niri_backup(){
     cp "$cfg" "${cfg}.molnios.bak" 2>/dev/null || true
 }
 
+# niri watches its config and reloads on write, so this only reports breakage.
+# The old `niri msg action reload-config` is not a real action (it is
+# `load-config-file`), so every edit ended with "Niri config reload failed".
 _niri_reload(){
-    if niri msg action reload-config 2>/dev/null; then
+    local cfg
+    cfg=$(_niri_config_path)
+    if niri validate -c "$cfg" &>/dev/null;then
         notify "Niri config reloaded"
     else
-        notify_error "Niri config reload failed"
+        notify_error "Niri config is invalid - niri kept the previous one"
     fi
 }
 
 # Guard: fail with a notification if a named top-level block is absent.
 _niri_require_block(){
-    local block="$1"
-    local cfg
-    cfg=$(_niri_config_path)
-    if ! grep -qE "^[[:space:]]*${block}[[:space:]]*\{" "$cfg"; then
-        notify_error "No '${block} {}' block found in config.\nAdd the block to use this toggle."
+    local block="$1" f
+    if ! f=$(_niri_block_file "$block");then
+        notify_error "No '${block} {}' block found in the config or its modules.\nAdd the block to use this toggle."
         return 1
     fi
+    [[ -w "$f" ]] || {
+        notify_error "Read-only:\n${f}"
+        return 1
+    }
 }
 
 # ── Low-level KDL block editors (awk) ────────────────────────────────────────
@@ -63,7 +85,7 @@ _niri_require_block(){
 _niri_set_in_block(){
     local block="$1" key="$2" value="$3"
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "$block" || _niri_config_path)
     awk -v BLK="$block" -v KEY="$key" -v VAL="$value" '
     BEGIN { in_blk=0; depth=0; done=0 }
     {
@@ -90,7 +112,7 @@ _niri_set_in_block(){
 _niri_set_in_subblock(){
     local block="$1" sub="$2" key="$3" value="$4"
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "$block" || _niri_config_path)
     awk -v BLK="$block" -v SUB="$sub" -v KEY="$key" -v VAL="$value" '
     BEGIN { in_blk=0; in_sub=0; depth=0; done=0 }
     {
@@ -122,7 +144,7 @@ _niri_set_in_subblock(){
 _niri_toggle_block_flag(){
     local block="$1" flag="$2"
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "$block" || _niri_config_path)
 
     local present
     present=$(awk -v BLK="$block" -v FLAG="$flag" '
@@ -175,7 +197,8 @@ _niri_toggle_block_flag(){
 _niri_toggle_top_flag(){
     local flag="$1"
     local cfg
-    cfg=$(_niri_config_path)
+    # A bare top-level keyword, so the flag name is what identifies the file.
+    cfg=$(_niri_block_file "$flag" || _niri_config_path)
     if grep -qE "^[[:space:]]*${flag}[[:space:]]*$" "$cfg"; then
         sed -i "/^[[:space:]]*${flag}[[:space:]]*$/d" "$cfg"
         echo "off"
@@ -648,7 +671,7 @@ niri_toggle_prefer_no_csd(){
 _niri_flip_in_subblock(){
     local block="$1" sub="$2" key="$3"
     local cfg new
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "$block" || _niri_config_path)
 
     new=$(awk -v BLK="$block" -v SUB="$sub" -v KEY="$key" '
     BEGIN { in_blk=0; in_sub=0; depth=0; done=0 }

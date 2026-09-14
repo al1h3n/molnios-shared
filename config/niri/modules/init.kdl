@@ -11,6 +11,7 @@ include "recent-windows.kdl"
 include "rules.kdl"
 include "visual.kdl"
 include "gamemode.kdl"
+include "overview.kdl"
 include "misc.kdl"
 include "xwayland.kdl"
 

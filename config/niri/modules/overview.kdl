@@ -1,0 +1,19 @@
+// Overview (Mod+D). The menu's overview toggles need this block to exist -
+// without it every one of them reported "No 'overview {}' block found".
+//
+// niri 26.04 accepts exactly three children here. `off` and `backdrop-blur-off`
+// are NOT among them; the menu used to write those and niri rejected the whole
+// config. Verified with `niri validate`:
+//   zoom <0.0-0.75>        how far out the overview zooms
+//   backdrop-color "#hex"  colour behind the workspaces
+//   workspace-shadow        nested block, and it does take a bare `off`
+overview {
+    zoom 0.5
+    backdrop-color "#101418"
+
+    workspace-shadow {
+        softness 40
+        spread 5
+        offset x=0 y=10
+    }
+}

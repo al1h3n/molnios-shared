@@ -1,0 +1,17 @@
+/* wlogout colours driven by noctalia.
+ *
+ * wlogout.css hardcoded @import "colors/dark.css", so the logout screen stayed
+ * dark when noctalia switched to a light theme. noctalia regenerates
+ * ~/.config/gtk-3.0/noctalia.css on every theme change with both variants
+ * resolved into the same GTK variable names, so importing it makes wlogout
+ * follow with nothing to toggle.
+ *
+ * Absolute path: @import resolves relative to this stylesheet, which lives in
+ * the repo rather than ~/.config. */
+@import "file:///home/al1h3n/.config/gtk-3.0/noctalia.css";
+
+@define-color bg @window_bg_color;
+@define-color fg @window_fg_color;
+@define-color accent @accent_bg_color;
+@define-color bg_button @card_bg_color;
+@define-color bg_button_hover @accent_bg_color;

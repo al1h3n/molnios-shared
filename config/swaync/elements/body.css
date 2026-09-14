@@ -5,8 +5,12 @@
 }
 
 .notification-row .notification-background .notification {
-  /* The actual notification. */
+  /* The actual notification.
+     This had no background, so the body was whatever showed through it: the
+     hyprglass plate on Hyprland, and plain desktop on niri - which is why it
+     read as transparent there until :hover painted --noti-bg-hover. */
   border-radius: var(--rounding-notification);
+  background: var(--noti-bg);
 }
 
 .notification-row .notification-background .notification.critical {
@@ -31,7 +35,7 @@
 .notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button {
   /* Reply button. */
   margin-left: 4px;
-  background: rgba(var(--noti-bg), var(--noti-bg-alpha));
+  background: alpha(var(--noti-bg), var(--noti-bg-alpha));
 }
 
 .notification-row .notification-background .notification .notification-action > button {

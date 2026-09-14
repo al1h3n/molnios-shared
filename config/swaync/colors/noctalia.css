@@ -18,7 +18,11 @@
      opaque background paints straight over it. */
   --cc-bg: alpha(@window_bg_color, 0.3);
   --noti-border-color: alpha(@window_fg_color, 0.15);
-  --noti-bg: alpha(@card_bg_color, 0.33);
+  /* 0.6, not the old 0.33: at 0.33 the body is unreadable anywhere the
+     compositor is not drawing glass behind it (niri). Still translucent enough
+     for hyprglass to show through on Hyprland. */
+  --noti-bg: alpha(@card_bg_color, 0.6);
+  --noti-bg-darker: alpha(@window_bg_color, 0.8);
   --noti-bg-hover: alpha(@card_bg_color, 0.5);
   --noti-bg-focus: alpha(@accent_bg_color, 0.4);
 

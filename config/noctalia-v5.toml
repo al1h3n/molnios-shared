@@ -322,7 +322,19 @@ wallpaper_scheme = "m3-tonal-spot"
         "obsidian",
         "vscode",
         "obs",
-        "yazi"
+        "yazi",
+        # Added after auditing config/ against noctalia's community catalog:
+        # each of these ships a template upstream and was running on static
+        # colours here.
+        "rofi",
+        "snappy-switcher",
+        "zellij",
+        "fastfetch",
+        "prismlauncher",
+        "bat",
+        "fzf",
+        "lazygit",
+        "zathura"
     ]
 
 # Noctalia owns the wallpaper, so waypaper's post_command never fires and the

@@ -551,27 +551,59 @@ niri_set_resolution(){
 # register_menu and its two entries from the preset.
 # ─────────────────────────────────────────────────────────────────────────────
 
-niri_toggle_overview_blur(){
-    _niri_check                  || return
-    _niri_require_block "overview" || return
-    _niri_backup
-    local state
-    state=$(_niri_toggle_block_flag "overview" "backdrop-blur-off")
-    _niri_reload
-    [[ "$state" == "on" ]] && notify "Overview backdrop blur: disabled" \
-                           || notify "Overview backdrop blur: enabled"
+# Add or remove a bare flag inside a block at any nesting depth. Prints "on"
+# when the flag was added, "off" when removed.
+_niri_toggle_nested_flag(){
+    local block="$1" flag="$2" cfg dir f
+    # _niri_block_file anchors at column 0 for top-level blocks; this one is
+    # nested and therefore indented, so search unanchored.
+    cfg=$(_niri_config_path)
+    dir=$(dirname "$cfg")
+    for f in "$cfg" "$dir"/modules/*.kdl "$dir"/*.kdl;do
+        [[ -f "$f" ]] || continue
+        grep -qE "^[[:space:]]*${block}[[:space:]]*\\{" "$f" && { cfg="$f"; break; }
+    done
+
+    if awk "/${block}[[:space:]]*\\{/,/^[[:space:]]*\\}/" "$cfg" \
+        | grep -qE "^[[:space:]]*${flag}[[:space:]]*$";then
+        sed -i "/${block}[[:space:]]*{/,/^[[:space:]]*}/{/^[[:space:]]*${flag}[[:space:]]*$/d}" "$cfg"
+        echo "off"
+    else
+        sed -i "/${block}[[:space:]]*{/a\\        ${flag}" "$cfg"
+        echo "on"
+    fi
 }
 
-niri_toggle_overview_effects(){
-    _niri_check                  || return
+niri_toggle_overview_shadow(){
+    _niri_check                    || return
     _niri_require_block "overview" || return
     _niri_backup
+    # workspace-shadow is nested inside overview, and _niri_toggle_block_flag
+    # only enters blocks at depth 0 - it silently did nothing here.
     local state
-    state=$(_niri_toggle_block_flag "overview" "off")
+    state=$(_niri_toggle_nested_flag "workspace-shadow" "off")
     _niri_reload
-    [[ "$state" == "on" ]] && notify "Overview effects: disabled" \
-                           || notify "Overview effects: enabled"
+    [[ "$state" == "on" ]] && notify "Overview shadow: disabled" \
+                           || notify "Overview shadow: enabled"
 }
+
+niri_overview_zoom(){
+    _niri_check                    || return
+    _niri_require_block "overview" || return
+
+    local idx
+    idx=$(show_menu "Overview Zoom" "How far out the overview zooms:" \
+        "0.25 (closest)" "0.5 (default)" "0.75 (widest)")
+    [[ -z "$idx" ]] || [[ ! "$idx" =~ ^[0-9]+$ ]] && return
+
+    local zooms=("0.25" "0.5" "0.75")
+    _niri_backup
+    _niri_set_in_block "overview" "zoom" "${zooms[$idx]}"
+    _niri_reload
+    notify "Overview zoom: ${zooms[$idx]}"
+}
+
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # NIRI MISC FUNCTIONS

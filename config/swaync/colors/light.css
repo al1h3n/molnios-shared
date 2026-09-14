@@ -6,7 +6,7 @@
   /* Default variables. */
   --cc-bg: rgba(255,255,255,.95);
   --noti-border-color: rgba(0,0,0,.15);
-  --noti-bg: 255,255,255;
+  --noti-bg: rgba(230,230,230,0.6);
   --noti-bg-alpha: .9;
   --noti-bg-hover: rgba(235, 235, 235, 1);
   --noti-bg-focus: rgba(200, 200, 200, .6);

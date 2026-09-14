@@ -52,8 +52,8 @@
   transform: scale(0.96);
   background: rgba(255, 255, 255, .04);
   box-shadow:
-    0 0 0 1 rgba(0, 0, 0, .2) inset,
-    0 2 4 rgba(0, 0, 0, .4);
+    0 0 0 1px rgba(0, 0, 0, .2) inset,
+    0 2px 4px rgba(0, 0, 0, .4);
 }
 
 .widget-buttons-grid flowboxchild > button.toggle:checked {

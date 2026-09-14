@@ -10,7 +10,7 @@
      straight over it. Keep this low or the panel eats its own backdrop. */
   --cc-bg: rgba(20,20,20,0.3);
   --noti-border-color: rgba(255, 255, 255, .15);
-  --noti-bg: 48,48,48;
+  --noti-bg: rgba(48,48,48,0.6);
   --noti-bg-alpha: .33;
   --noti-bg-hover: rgba(29, 32, 33, .3);
   --noti-bg-focus: rgba(68, 68, 68, .6);

@@ -530,8 +530,8 @@ register_menu "niri_display" \
 register_menu "niri_overview" \
     "Niri Overview" \
     "Overview settings:" \
-    "󰋜 Toggle Backdrop Blur" "cmd:niri_toggle_overview_blur" \
-    "󰋜 Toggle Overview Effects" "cmd:niri_toggle_overview_effects"
+    "󰋜 Toggle Workspace Shadow" "cmd:niri_toggle_overview_shadow" \
+    "󰍉 Overview Zoom" "cmd:niri_overview_zoom"
 
 register_menu "niri_misc" \
     "Niri Misc" \

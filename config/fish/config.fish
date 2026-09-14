@@ -162,7 +162,7 @@ if test (uname) != Darwin
             | wl-copy
     end
 
-    alias lock="hyprlock -q -c $conf/hypr/hyprlock.conf"
+    alias lock="hyprlock -q -c $conf/hypr/hyprlock-glass.conf"
     alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
     alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
     alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"

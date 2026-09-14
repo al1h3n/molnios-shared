@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "hyprlock -q -c $L_PATH/config/hypr/hyprlock.conf",
+    "action" : "hyprlock -q -c $L_PATH/config/hypr/hyprlock-glass.conf",
     "text" : "Lock",
     "keybind" : "l"
 }

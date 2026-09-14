@@ -194,7 +194,7 @@ if [ "$(uname)" != "Darwin" ];then
   function sc(){
     grim -g "$(slurp -b 000000CC -s FFFFFF00 -c 00FF00 -w 1)" - | tee $(xdg-user-dir PICTURES)/Screenshots/screenshot_$(date +%Y-%m-%d_%H:%M:%S).png | wl-copy
   }
-  alias lock="hyprlock -q -c $conf/hypr/hyprlock.conf" # Doesn't support -qc
+  alias lock="hyprlock -q -c $conf/hypr/hyprlock-glass.conf" # Doesn't support -qc
   alias menu="rofi -config $conf/rofi.rasi -show drun &>/dev/null"
   alias wh="waybar -c $conf/waybar/config-hypr.jsonc -s $conf/waybar/style.css"
   alias wn="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css"

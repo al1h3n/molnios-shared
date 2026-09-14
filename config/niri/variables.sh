@@ -62,7 +62,7 @@ bar_waybar="waybar -c $conf/waybar/config-niri.jsonc -s $conf/waybar/style.css" 
 noctalia="noctalia"
 qbar="qs"
 notify="swaync -c $conf/swaync/swaync.json -s $conf/swaync/swaync-style.css"
-lock="hyprlock -q -c $conf/hypr/hyprlock.conf"
+lock="hyprlock -q -c $conf/hypr/hyprlock-glass.conf"
 
 # Appearance
 wallpaperengine="waypaper"

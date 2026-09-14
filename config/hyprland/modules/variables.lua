@@ -61,7 +61,7 @@ _G.waybar = "waybar -c " .. conf .. "waybar/config-hypr.jsonc -s " .. conf .. "w
 _G.noctalia = "noctalia"
 _G.qbar = "qs"
 _G.notify = "swaync -c " .. conf .. "swaync/swaync.json -s " .. conf .. "swaync/swaync-style.css"
-_G.lock = "hyprlock -q -c " .. conf .. "hypr/hyprlock.conf"
+_G.lock = "hyprlock -q -c " .. conf .. "hypr/hyprlock-glass.conf"
 
 _G.wallpaperengine = "waypaper"
 _G.wallpaper = wallpaperengine .. " --restore"

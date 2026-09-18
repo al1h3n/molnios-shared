@@ -36,7 +36,7 @@ if hl.plugin.hyprglass then
         -- Whitelist model: off globally, on per tag and per layer.
         enabled = false,
         default_theme = "dark",
-        default_preset = "goldengate",
+        default_preset = "goldengate_tinted",
         layers = { enabled = true },
     })
 

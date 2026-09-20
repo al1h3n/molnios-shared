@@ -1,7 +1,7 @@
 -- Dwindle for togglesplit, layout, window priorities, swallow.
 hl.config({
     general = {
-        layout = "dwindle",
+        layout = "scrolling", -- Or dwindle for default layout.
         resize_on_border = true,
     },
     dwindle = {
@@ -10,6 +10,7 @@ hl.config({
         smart_resizing = true,
     },
     master = { new_status = master },
+    scrolling = {},
     misc = {
         enable_swallow = 1,
         swallow_regex = "^(Alacritty|kitty|foot|footclient|firefox|org.wezfurlong.wezterm|com.mitchellh.ghostty)$",

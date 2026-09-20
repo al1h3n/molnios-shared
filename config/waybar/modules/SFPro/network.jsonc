@@ -9,7 +9,7 @@
         "tooltip-format-ethernet": "󰈀  {ifname}\n{ipaddr}/{cidr}\n⬇ {bandwidthDownBytes} ⬆ {bandwidthUpBytes}",
         "tooltip-format-wifi": "{icon} {essid} ({signalStrength}%)\n{ipaddr}/{cidr}\n⬇ {bandwidthDownBytes} ⬆ {bandwidthUpBytes}",
         "tooltip-format-disconnected": "Disconnected",
-        "on-click": "kitty -c $L_PATH/config/kitty -e ~/.local/share/molnios/scripts/mechabar/network.sh",
+        "on-click": "kitty -c $L_PATH/config/kitty/kitty.conf -e ~/.local/share/molnios/scripts/mechabar/network.sh menu",
         "on-click-right": "sh ~/.local/share/molnios/scripts/toggle-network.sh"
     },
 

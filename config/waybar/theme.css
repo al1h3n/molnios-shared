@@ -58,8 +58,8 @@
 @define-color main-bg       @mantle;
 @define-color main-fg       @text;
 @define-color hover-bg      @base;
-@define-color hover-fg      alpha(@main-fg, 0.75);
-@define-color outline       shade(@main-bg, 0.5);
+@define-color hover-fg      alpha(@main-fg, .75);
+@define-color outline       shade(@main-bg, .5);
 @define-color text 			@white;
 
 /* Modules colors */
@@ -67,6 +67,11 @@
 /* Main body */
 @define-color bg1 #272f39;
 @define-color bg2 @black;
+
+@define-color bg1-semi alpha(@bg1, .5);
+@define-color bg2-semi alpha(@bg2, .5);
+@define-color mantle-semi alpha(@mantle, .5);
+
 /* @define-color bg1 #FBF5DF;
 @define-color bg2 #FFFADA; */
 

@@ -188,6 +188,7 @@ if hl.plugin.hyprglass then
         "noctalia-dock",
         "noctalia-panel",
         "noctalia-notification",
+        "molni-waybar",
     }) do
         hg.layer(ns, { mask_threshold = 0.5, mask_mode = "alpha" })
     end

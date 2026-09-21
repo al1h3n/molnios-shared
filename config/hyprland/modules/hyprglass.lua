@@ -110,14 +110,14 @@ if hl.plugin.hyprglass then
     -- replaced 26's binary Reduce Transparency toggle. Both inherit goldengate
     -- and carry only the deltas, so retuning the base retunes all three.
     --
-    -- Clear: barely any frosting, the refracted rim does all the work. What the
-    -- slider's "ultra clear" end looks like. Legibility over a busy wallpaper
-    -- drops - that is the trade the slider exists to expose.
+    -- Clear: a light diffusion pass keeps the plate recognizably liquid rather
+    -- than leaving only chromatic fringing. It remains distinctly clearer than
+    -- the base and tinted presets.
     hg.preset("goldengate_clear", {
         inherits = "goldengate",
 
-        blur_strength   = 0.6,
-        blur_iterations = 2,
+        blur_strength   = 1.2,
+        blur_iterations = 3,
         glass_opacity   = 0.65,
         tint_color      = 0x8899aa06,
 

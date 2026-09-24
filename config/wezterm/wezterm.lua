@@ -39,8 +39,16 @@ require("syntax")
 require("tabs")
 
 -- Noctalia v5 colors.
+-- Noctalia rewrites this file via an atomic replace whenever the palette
+-- changes (wallpaper swap, accent change, etc). automatically_reload_config
+-- (on by default) only watches wezterm.lua itself, so those updates never
+-- reached a running WezTerm without a manual restart. Explicitly watching
+-- the file wires it into the same reload machinery, and wezterm's watcher
+-- (parent-directory based) survives the atomic replace.
 local noctalia_colors_dir = (os.getenv("XDG_CONFIG_HOME") or (home .. "/.config")) .. "/wezterm/colors"
-local noctalia_scheme = io.open(noctalia_colors_dir .. "/Noctalia.toml")
+local noctalia_colors_file = noctalia_colors_dir .. "/Noctalia.toml"
+wezterm.add_to_config_reload_watch_list(noctalia_colors_file)
+local noctalia_scheme = io.open(noctalia_colors_file)
 if noctalia_scheme then
     noctalia_scheme:close()
     config.color_scheme_dirs = { noctalia_colors_dir }

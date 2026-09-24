@@ -165,7 +165,7 @@ if $NIRI_RUNNING; then
 fi
 
 
-# 5. Update Kitty terminal elements. (seems not to work properly).
+# 5. Update Kitty terminal elements.
 KITTY_TEMP="/tmp/kitty_borderline_theme.conf"
 cat <<EOF > "$KITTY_TEMP"
 cursor=$color1
@@ -184,7 +184,7 @@ EOF
 
 # Enable nullglob to safely handle missing sockets
 shopt -s nullglob
-sockets=("$XDG_RUNTIME_DIR"/kitty/borderline-*)
+sockets=("$XDG_RUNTIME_DIR"/kitty-borderline-*)
 
 
 # If no sockets found, we are done (already updated)
@@ -199,8 +199,9 @@ fi
 # Apply to all found Kitty instances
 for socket in "${sockets[@]}"; do
     if [ -S "$socket" ]; then
-        # Point set-colors to the temp file
-        kitty @ --to "unix:@$socket" set-colors -a "$KITTY_TEMP" &>/dev/null
+        # Point set-colors to the temp file. No leading @: these are real
+        # filesystem sockets (see kitty.conf's listen_on), not abstract ones.
+        kitty @ --to "unix:$socket" set-colors -a "$KITTY_TEMP" &>/dev/null
     fi
 done
 

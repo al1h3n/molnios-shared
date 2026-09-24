@@ -9,7 +9,7 @@ order = [ "Main" ]
     capsule_opacity = 0.79999998211860657
     capsule_padding = 8.0
     center = [ "clock", "temp" ]
-    end = [ "tray", "group:g2", "group:g1", "group:g3" ]
+    end = [ "tray", "bar", "group:g2", "group:g1", "group:g3" ]
     font_family = "SF Pro Display"
     font_weight = 700
     margin_edge = 0
@@ -233,11 +233,11 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@winit"]
     box_height = 196.0
     box_width = 810.0
-    cx = 592.0
-    cy = 498.0
+    cx = 1280.0
+    cy = 1020.1676635742188
     output = "winit"
-    placement_height = 680.0
-    placement_width = 1184.0
+    placement_height = 1393.0
+    placement_width = 2560.0
     rotation = 0.0
     type = "login_box"
 
@@ -267,7 +267,7 @@ offset_x = 7
 offset_y = 7
 
 [plugins]
-enabled = [ "harveywuk/airpods", "noctalia/wallhaven" ]
+enabled = [ "harveywuk/airpods", "noctalia/wallhaven", "alexander/game-launcher", "yuuto/calculator" ]
 
 [shell]
 app_icon_color = "on_error"
@@ -351,13 +351,13 @@ wallpaper_scheme = "m3-tonal-spot"
 directory = "~/.local/share/molnios/molnios-media/wallpapers/static"
 
     [wallpaper.default]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/other/KpdKpCM.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/wallhaven-7jx17y.jpg"
 
     [wallpaper.last]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/other/KpdKpCM.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/wallhaven-7jx17y.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/other/KpdKpCM.jpg"
+    path = "/home/al1h3n/.local/share/molnios/molnios-media/wallpapers/static/wallhaven-7jx17y.jpg"
 
 [widget.SwayNC]
 glyph = "bell"
@@ -374,7 +374,11 @@ max_length = 150
 title_scroll = "on_hover"
 
 [widget.airpods]
+hide_when_disconnected = false
 type = "harveywuk/airpods:airpods"
+
+[widget.bar]
+type = "yuuto/calculator:bar"
 
 [widget.bluetooth]
 enabled = false

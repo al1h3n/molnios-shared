@@ -6,4 +6,3 @@
 */
 
 include "modules/init.kdl"
-include "modules/glass.kdl"

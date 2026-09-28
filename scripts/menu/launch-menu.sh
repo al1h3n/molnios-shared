@@ -9,6 +9,7 @@ PRESET_FILE="$SCRIPT_DIR/custom/main-menu-preset.sh"
 # Default backend (auto-detect)
 BACKEND="auto"
 DEBUG=0
+INPUT_BACKEND=""
 # ROFI_CONFIG=/home/al1h3n/repo/molnios-shared/config/rofi-menu.rasi
 
 # Parse arguments
@@ -34,6 +35,10 @@ shift 2
 DEBUG=1
 shift
 ;;
+-i|--input-backend)
+INPUT_BACKEND="$2"
+shift 2
+;;
 -h|--help)
 cat << EOF
 MolniOS Main Menu Launcher
@@ -44,6 +49,7 @@ OPTIONS:
     -t, --tui               Force terminal UI backend (gum, falling back to fzf)
     -c, --rofi-config FILE  Custom rofi config file path
     -d, --debug             Enable debug mode
+    -i, --input-backend NAME  Value-entry backend (rofi, yad, tui, terminal, auto)
     -h, --help              Show this help
 EXAMPLES:
 $0                      # Auto-detect backend
@@ -65,6 +71,9 @@ done
 CMD="$MENU_SCRIPT --preset $PRESET_FILE --backend $BACKEND"
 if [[ $DEBUG -eq 1 ]]; then
 CMD="$CMD --debug"
+fi
+if [[ -n "$INPUT_BACKEND" ]]; then
+CMD="$CMD --input-backend \"$INPUT_BACKEND\""
 fi
 if [[ -n "$ROFI_CONFIG" ]]; then
 CMD="$CMD --rofi-config \"$ROFI_CONFIG\""

@@ -51,8 +51,6 @@ hypr_disable() {
 niri_enable() {
     ln -sf $L_PATH/config/niri/modules/gamemode/on.kdl ~/.config/niri/modules/gamemode.kdl
 
-    niri msg action reload-config
-
     niri msg --json outputs |
         jq -r '.[].name' |
         while read -r output; do
@@ -64,8 +62,6 @@ niri_enable() {
 
 niri_disable() {
     ln -sf $L_PATH/config/niri/modules/gamemode/off.kdl ~/.config/niri/modules/gamemode.kdl
-    niri msg action reload-config
-
     notify "Disabled (Niri)"
 }
 

@@ -11,6 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MENU_STACK=()
 DEBUG_MODE=0
 BACKEND="auto"
+INPUT_BACKEND="auto"
 L_PATH="${L_PATH:-$HOME/.local/share/molnios}"
 ROFI_CONFIG=""
 
@@ -51,6 +52,16 @@ detect_backend() {
         echo "tui"
     else
         echo "none"
+    fi
+}
+
+# Value entry can use a different UI from menu selection. In particular, a
+# keybind-launched menu has no controlling terminal, so `terminal` opens one.
+detect_input_backend() {
+    if [[ "$INPUT_BACKEND" != "auto" ]];then
+        echo "$INPUT_BACKEND"
+    else
+        detect_backend
     fi
 }
 
@@ -152,8 +163,19 @@ rofi_show_input() {
     debug "rofi_show_input: title=$title, prompt=$prompt, default=$default"
 
     command -v rofi &>/dev/null || { shell_show_input "$title" "$prompt" "$default"; return; }
-    rofi -dmenu -p "$prompt" -mesg "$title" -filter "$default" \
-        ${ROFI_CONFIG:+-config "$ROFI_CONFIG"} < /dev/null 2>/dev/null || echo ""
+
+    # Keep value prompts on the same known-good theme as menus. The old path
+    # skipped this fallback and inherited the user's unrelated Rofi theme.
+    local -a rofi_args=(-dmenu -p "$prompt" -mesg "$title" -filter "$default")
+    if [[ -n "$ROFI_CONFIG" && -f "$ROFI_CONFIG" ]];then
+        rofi_args+=(-config "$ROFI_CONFIG")
+    elif [[ -f "$L_PATH/config/rofi-menu.rasi" ]];then
+        rofi_args+=(-config "$L_PATH/config/rofi-menu.rasi")
+    elif [[ -f "$HOME/.config/rofi/config.rasi" ]];then
+        rofi_args+=(-config "$HOME/.config/rofi/config.rasi")
+    fi
+
+    rofi "${rofi_args[@]}" < /dev/null 2>/dev/null || echo ""
 }
 
 # 6. YAD backend.
@@ -378,7 +400,7 @@ show_input() {
     local default="${3:-}"
 
     local backend
-    backend=$(detect_backend)
+    backend=$(detect_input_backend)
 
     debug "show_input: backend=$backend"
 
@@ -392,8 +414,11 @@ show_input() {
         tui)
             tui_show_input "$title" "$prompt" "$default"
             ;;
+        terminal)
+            shell_show_input "$title" "$prompt" "$default"
+            ;;
         *)
-            echo "ERROR: No supported backend found (rofi, yad, or tui)" >&2
+            echo "ERROR: No supported input backend found (rofi, yad, tui, or terminal)" >&2
             exit 1
             ;;
     esac
@@ -627,7 +652,8 @@ Usage: $0 [OPTIONS]
 
 OPTIONS:
     -p, --preset FILE       Load menu preset from FILE
-    -b, --backend BACKEND   Force backend (rofi, yad, tui, auto)
+    -b, --backend BACKEND         Force menu backend (rofi, yad, tui, auto)
+        --input-backend BACKEND   Force value-entry backend (rofi, yad, tui, terminal, auto)
     -r, --rofi-config FILE  Custom rofi config file path
     -d, --debug             Enable debug mode
     -h, --help              Show this help message
@@ -637,6 +663,10 @@ BACKENDS:
     yad     - Use yad for menu display
     tui     - Use a terminal UI (gum, falling back to fzf) in this terminal
     auto    - Auto-detect available backend (default)
+
+INPUT BACKENDS:
+    terminal - Open a floating terminal for value entry
+    auto     - Use the selected menu backend (default)
 
 EXAMPLES:
     $0 --preset main-menu.sh
@@ -659,6 +689,10 @@ main() {
                 ;;
             -b|--backend)
                 BACKEND="$2"
+                shift 2
+                ;;
+            --input-backend)
+                INPUT_BACKEND="$2"
                 shift 2
                 ;;
             -r|--rofi-config)
@@ -689,6 +723,7 @@ main() {
 
     debug "Starting MolniOS Menu System"
     debug_var "BACKEND"
+    debug_var "INPUT_BACKEND"
     debug_var "DEBUG_MODE"
     debug_var "preset_file"
 

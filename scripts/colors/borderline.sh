@@ -145,22 +145,31 @@ fi
 # Lines must exist in the config already; borderline will not insert them.
 # Niri doesn't support dynamic border animations.
 if $NIRI_RUNNING; then
-    NIRI_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"
+    NIRI_CONFIG="${NIRI_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/niri/niri.kdl}"
+    NIRI_CONFIG_DIR=$(dirname "$NIRI_CONFIG")
+    NIRI_FOCUS_RING_CONFIG=""
+    for candidate in "$NIRI_CONFIG" "$NIRI_CONFIG_DIR"/modules/*.kdl;do
+        [[ -f "$candidate" ]] || continue
+        grep -qE "^[[:space:]]*focus-ring[[:space:]]*\\{" "$candidate" && {
+            NIRI_FOCUS_RING_CONFIG="$candidate"
+            break
+        }
+    done
 
-    if [ ! -f "$NIRI_CONFIG" ]; then
-        nerr Borderline "Niri config not found: $NIRI_CONFIG"
+    if [ -z "$NIRI_FOCUS_RING_CONFIG" ]; then
+        nerr Borderline "Niri focus-ring config not found under: $NIRI_CONFIG_DIR"
     else
         niri_c1="${color1}FF"
         niri_c2="${color2}FF"
         sed -i \
-            -E "s|^(\s*)(active-color\|active-gradient)\s+.*|\1active-gradient from=\"${niri_c1}\" to=\"${niri_c2}\" angle=45|" \
-            "$NIRI_CONFIG"
+            -E "s|^(\s*active-color\s+)\"#[0-9A-Fa-f]{6,8}\"|\1\"${niri_c1}\"|" \
+            "$NIRI_FOCUS_RING_CONFIG"
 
-        # Keep inactive-color behavior intact
         sed -i \
             -E "s|^(\s*inactive-color\s+)\"#[0-9A-Fa-f]{6,8}\"|\1\"${niri_c2}\"|" \
-            "$NIRI_CONFIG"
-        niri msg action reload-config
+            "$NIRI_FOCUS_RING_CONFIG"
+        niri validate -c "$NIRI_CONFIG" &>/dev/null || \
+            nerr Borderline "Niri rejected the updated focus-ring config"
     fi
 fi
 

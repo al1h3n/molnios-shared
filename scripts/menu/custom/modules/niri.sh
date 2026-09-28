@@ -2,7 +2,7 @@
 # NIRI CONFIG HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 
-_NIRI_CONFIG_DEFAULT="${HOME}/.config/niri/config.kdl"
+_NIRI_CONFIG_DEFAULT="${HOME}/.config/niri/niri.kdl"
 _niri_config_path(){
     local raw="${NIRI_CONFIG_PATH:-${NIRI_CONFIG:-$_NIRI_CONFIG_DEFAULT}}"
     readlink -f "$raw" 2>/dev/null || echo "$raw"
@@ -22,6 +22,17 @@ _niri_block_file(){
         # xkb { layout "us" } otherwise. The trailing alternation also catches
         # bare keywords like prefer-no-csd that end the line.
         grep -qE "^${block}([[:space:]]*\\{|[[:space:]]*$)" "$f" && { echo "$f"; return 0; }
+    done
+    return 1
+}
+
+_niri_output_file(){
+    local output="$1" cfg dir f
+    cfg=$(_niri_config_path)
+    dir=$(dirname "$cfg")
+    for f in "$cfg" "$dir"/modules/*.kdl "$dir"/*.kdl;do
+        [[ -f "$f" ]] || continue
+        grep -qF "output \"${output}\"" "$f" && { echo "$f"; return 0; }
     done
     return 1
 }
@@ -84,8 +95,9 @@ _niri_require_block(){
 # _niri_set_in_block BLOCK KEY VALUE
 _niri_set_in_block(){
     local block="$1" key="$2" value="$3"
-    local cfg
+    local cfg tmp
     cfg=$(_niri_block_file "$block" || _niri_config_path)
+    tmp="${cfg}.tmp"
     awk -v BLK="$block" -v KEY="$key" -v VAL="$value" '
     BEGIN { in_blk=0; depth=0; done=0 }
     {
@@ -104,15 +116,20 @@ _niri_set_in_block(){
         depth += opens - closes
         if (depth==0) in_blk=0
         print
-    }' "$cfg" > "${cfg}.tmp" && mv "${cfg}.tmp" "$cfg"
+    }
+    END { exit !done }' "$cfg" > "$tmp" && mv "$tmp" "$cfg" || {
+        rm -f "$tmp"
+        return 1
+    }
 }
 
 # Replace "KEY VALUE" at depth-2 inside SUB, which is a sub-block of BLOCK.
 # _niri_set_in_subblock BLOCK SUB KEY VALUE
 _niri_set_in_subblock(){
     local block="$1" sub="$2" key="$3" value="$4"
-    local cfg
+    local cfg tmp
     cfg=$(_niri_block_file "$block" || _niri_config_path)
+    tmp="${cfg}.tmp"
     awk -v BLK="$block" -v SUB="$sub" -v KEY="$key" -v VAL="$value" '
     BEGIN { in_blk=0; in_sub=0; depth=0; done=0 }
     {
@@ -134,7 +151,38 @@ _niri_set_in_subblock(){
         if (in_sub  && depth<=1) in_sub=0
         if (depth==0)            in_blk=0
         print
-    }' "$cfg" > "${cfg}.tmp" && mv "${cfg}.tmp" "$cfg"
+    }
+    END { exit !done }' "$cfg" > "$tmp" && mv "$tmp" "$cfg" || {
+        rm -f "$tmp"
+        return 1
+    }
+}
+
+_niri_set_border_width(){
+    local width="$1" cfg tmp
+    cfg=$(_niri_block_file "layout") || return 1
+    if grep -qE "^[[:space:]]*border[[:space:]]*\\{" "$cfg";then
+        _niri_set_in_subblock "layout" "border" "width" "$width"
+        return
+    fi
+
+    tmp="${cfg}.tmp"
+    awk -v WIDTH="$width" '
+    BEGIN { inserted=0 }
+    !inserted && /^[[:space:]]*layout[[:space:]]*\{/ {
+        print
+        match($0,/^[[:space:]]*/); ind=substr($0,1,RLENGTH) "    "
+        print ind "border {"
+        print ind "    width " WIDTH
+        print ind "}"
+        inserted=1
+        next
+    }
+    { print }
+    END { exit !inserted }' "$cfg" > "$tmp" && mv "$tmp" "$cfg" || {
+        rm -f "$tmp"
+        return 1
+    }
 }
 
 # Toggle a bare-keyword flag inside a named top-level block.
@@ -215,7 +263,7 @@ _niri_toggle_top_flag(){
 niri_adjust_gaps(){
     _niri_check || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "layout") || { notify_error "No 'layout {}' block found"; return; }
 
     local current
     current=$(awk '
@@ -236,7 +284,7 @@ niri_adjust_gaps(){
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
-    _niri_set_in_block "layout" "gaps" "$new_val"
+    _niri_set_in_block "layout" "gaps" "$new_val" || { notify_error "Could not update gaps"; return; }
     _niri_reload
     notify "Gaps → ${new_val}px"
 }
@@ -244,7 +292,7 @@ niri_adjust_gaps(){
 niri_adjust_border_width(){
     _niri_check || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "layout") || { notify_error "No 'layout {}' block found"; return; }
     local current
     current=$(sed -n '/^\s*border\s*{/,/^\s*}/{
         /^\s*width\s/{ s/^\s*width\s\+\([0-9.]*\).*/\1/; p; q }
@@ -258,7 +306,7 @@ niri_adjust_border_width(){
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
-    _niri_set_in_subblock "layout" "border" "width" "$new_val"
+    _niri_set_border_width "$new_val" || { notify_error "Could not update border width"; return; }
     _niri_reload
     notify "Border width → ${new_val}px"
 }
@@ -266,7 +314,7 @@ niri_adjust_border_width(){
 niri_adjust_focus_ring_width(){
     _niri_check || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "layout") || { notify_error "No 'layout {}' block found"; return; }
     local current
     current=$(sed -n '/^\s*focus-ring\s*{/,/^\s*}/{
         /^\s*width\s/{ s/^\s*width\s\+\([0-9.]*\).*/\1/; p; q }
@@ -280,7 +328,7 @@ niri_adjust_focus_ring_width(){
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
-    _niri_set_in_subblock "layout" "focus-ring" "width" "$new_val"
+    _niri_set_in_subblock "layout" "focus-ring" "width" "$new_val" || { notify_error "Could not update focus-ring width"; return; }
     _niri_reload
     notify "Focus ring width → ${new_val}px"
 }
@@ -322,13 +370,12 @@ niri_toggle_blur(){
 }
 
 niri_toggle_shadow(){
-    _niri_check              || return
-    _niri_require_block "shadow" || return
+    _niri_check || return
     _niri_backup
     local state
-    state=$(_niri_toggle_block_flag "shadow" "off")
+    state=$(_niri_toggle_nested_flag "shadow" "on")
     _niri_reload
-    [[ "$state" == "on" ]] && notify "Shadow: disabled" || notify "Shadow: enabled"
+    [[ "$state" == "on" ]] && notify "Shadow: enabled" || notify "Shadow: disabled"
 }
 
 niri_toggle_xray(){
@@ -360,7 +407,7 @@ niri_blur_saturation(){
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
-    _niri_set_in_block "blur" "saturation" "$new_val"
+    _niri_set_in_block "blur" "saturation" "$new_val" || { notify_error "Could not update blur saturation"; return; }
     _niri_reload
     notify "Blur saturation → $new_val"
 }
@@ -383,7 +430,7 @@ niri_blur_noise(){
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
-    _niri_set_in_block "blur" "noise" "$new_val"
+    _niri_set_in_block "blur" "noise" "$new_val" || { notify_error "Could not update blur noise"; return; }
     _niri_reload
     notify "Blur noise → $new_val"
 }
@@ -468,8 +515,9 @@ _niri_select_output(){
 # Edit a key inside an  output "NAME" { }  block in the config file.
 _niri_set_output_val(){
     local output="$1" key="$2" value="$3"
-    local cfg
-    cfg=$(_niri_config_path)
+    local cfg tmp
+    cfg=$(_niri_output_file "$output") || return 1
+    tmp="${cfg}.tmp"
     awk -v OUT="$output" -v KEY="$key" -v VAL="$value" '
     BEGIN { in_out=0; depth=0; done=0 }
     {
@@ -488,7 +536,11 @@ _niri_set_output_val(){
         depth += opens - closes
         if (depth==0) in_out=0
         print
-    }' "$cfg" > "${cfg}.tmp" && mv "${cfg}.tmp" "$cfg"
+    }
+    END { exit !done }' "$cfg" > "$tmp" && mv "$tmp" "$cfg" || {
+        rm -f "$tmp"
+        return 1
+    }
 }
 
 niri_set_scale(){
@@ -514,7 +566,7 @@ niri_set_scale(){
         return
     }
     _niri_backup
-    _niri_set_output_val "$output" "scale" "$new_scale"
+    _niri_set_output_val "$output" "scale" "$new_scale" || { notify_error "Could not update $output"; return; }
     _niri_reload
     notify "$output → scale $new_scale"
 }
@@ -538,7 +590,7 @@ niri_set_resolution(){
 
     local chosen="${modes[$idx]% \*}"   # strip the " *" current-mode marker
     _niri_backup
-    _niri_set_output_val "$output" "mode" "\"$chosen\""
+    _niri_set_output_val "$output" "mode" "\"$chosen\"" || { notify_error "Could not update $output"; return; }
     _niri_reload
     notify "$output → $chosen"
 }
@@ -612,7 +664,7 @@ niri_overview_zoom(){
 niri_toggle_center_column(){
     _niri_check || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "layout") || { notify_error "No 'layout {}' block found"; return; }
 
     local current
     current=$(awk '
@@ -635,7 +687,7 @@ niri_toggle_center_column(){
 
     local new_val="${opts[$idx]}"
     _niri_backup
-    _niri_set_in_block "layout" "center-focused-column" "\"$new_val\""
+    _niri_set_in_block "layout" "center-focused-column" "\"$new_val\"" || { notify_error "Could not update centering"; return; }
     _niri_reload
     notify "center-focused-column → $new_val"
 }
@@ -643,7 +695,7 @@ niri_toggle_center_column(){
 niri_toggle_single_column_center(){
     _niri_check || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "layout") || { notify_error "No 'layout {}' block found"; return; }
 
     local present
     present=$(awk '

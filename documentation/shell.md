@@ -106,7 +106,7 @@
 `y` — terminal file manager ([yazi](https://github.com/sxyazi/yazi)).<br>
 `e` — alternative terminal file manager ([superfile](https://github.com/yorukot/superfile)).<br>
 `yt` — browse and play [youtube](https://github.com/Benexl/yt-x) directly from your terminal.<br>
-`radio` / `ra` — play a YouTube video as background audio via `mpv`. Accepts a YouTube ID or URL and a volume (0-100) as arguments, e.g. `radio dQw4w9WgXcQ 30`. Prompts for a new video to switch to on the fly without restarting `mpv`.<br>
+`radio` / `ra` — browse YouTube with yt-x and play the selection in cliamp. Defaults to -13 dB; use `radio --vol -20` or `radio dQw4w9WgXcQ -20` to change startup volume. cliamp handles playback controls; quitting cliamp returns to the radio menu.<br>
 `fa` / `fas` / `fast` — shortcuts to custom video/static [anifetch](https://github.com/Notenlish/anifetch) configurations.<br>
 `nixfetch` — shortcut to custom NixOS fastfetch.<br>
 `wh` / `wn` — starts [waybar](https://github.com/Alexays/Waybar) with custom configuration (hyprland/niri). Dead: noctalia is the bar that actually autostarts.<br>

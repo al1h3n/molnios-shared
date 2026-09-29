@@ -404,7 +404,7 @@ ag() {
   npx --yes skills add "$source" "${skillflags[@]}" -g -y -a claude-code opencode "${extra[@]}"
 }
 
-radio(){ sh "$scripts/radio.sh" "$@"; }
+radio(){ sh "$scripts/radio/radio.sh" "$@"; }
 alias ra="radio"
 
 alias en="printenv|fzf --ghost 'These are environment variables on your PC'"

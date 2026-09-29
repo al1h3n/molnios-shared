@@ -175,7 +175,7 @@ power_sleep(){
 
 power_brightness(){
     local input
-    input=$(show_input "Brightness" "Percentage (e.g. 50%) or relative (+10% / -10%):" "")
+    input=$(show_input "Brightness" "Percentage (e.g. 50%) or relative (+10% / -10%):" "") || return
 
     [[ -z "$input" ]] && return 0  # cancelled
 

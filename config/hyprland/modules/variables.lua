@@ -42,7 +42,7 @@ _G.eyedropper = "ie-r"
 _G.actionmenu = "wlogout -nl " .. conf .. "wlogout/layout -C " .. conf .. "wlogout/wlogout.css"
 _G.task_manager = terminal .. "btop"
 
-_G.clipman = shell .. scripts .. "clipboard-images.sh"
+_G.clipman = "bash " .. scripts .. "clipboard-images.sh"
 _G.cliptext = "wl-paste --type text --watch cliphist store"
 _G.clipmage = "wl-paste --type image --watch cliphist store"
 _G.clipsave = "wl-clip-persist --clipboard regular"

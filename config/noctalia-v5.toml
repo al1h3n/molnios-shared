@@ -23,7 +23,7 @@ order = [ "Main" ]
     widget_spacing = 14
 
         [bar.Main.dead_zone.actions]
-        left = "exec sh ~/.local/share/molnios/scripts/menu/launch-menu.sh"
+        left = "exec sh ~/.local/share/molnios/scripts/menu/launch-menu.sh --input-backend terminal"
         middle = "exec kitty -c $L_PATH/config/kitty/kitty.conf"
         scroll_down = """exec hyprctl dispatch \"hl.dsp.focus({ workspace = 'm-1' })\"
 """

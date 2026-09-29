@@ -1,6 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # NIRI CONFIG HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
+# Numeric defaults in the prompts match config/niri/modules/{layout,visual}.kdl.
 
 _NIRI_CONFIG_DEFAULT="${HOME}/.config/niri/niri.kdl"
 _niri_config_path(){
@@ -161,9 +162,41 @@ _niri_set_in_subblock(){
 _niri_set_border_width(){
     local width="$1" cfg tmp
     cfg=$(_niri_block_file "layout") || return 1
+    if [[ "$width" == off ]] && ! grep -qE "^[[:space:]]*border[[:space:]]*\\{" "$cfg";then
+        return 0
+    fi
     if grep -qE "^[[:space:]]*border[[:space:]]*\\{" "$cfg";then
-        _niri_set_in_subblock "layout" "border" "width" "$width"
-        return
+        tmp="${cfg}.tmp"
+        awk -v WIDTH="$width" '
+        BEGIN { in_border=0; depth=0; done=(WIDTH=="off"); enabled=0 }
+        {
+            tmp=$0; opens=gsub(/\{/,"",tmp); tmp=$0; closes=gsub(/\}/,"",tmp)
+            if (!in_border && $0 ~ /^[[:space:]]*border[[:space:]]*\{/ && opens>0) {
+                in_border=1; border_depth=depth+1
+                print
+                print (WIDTH=="off" ? "        off" : "        on")
+                enabled=1
+            } else if (in_border && depth==border_depth && $1=="off") {
+                next
+            } else if (in_border && depth==border_depth && $1=="on") {
+                next
+            } else if (in_border && depth==border_depth && $1=="width" && WIDTH!="off") {
+                match($0,/^[[:space:]]*/); ind=substr($0,1,RLENGTH)
+                print ind "width " WIDTH
+                done=1
+            } else if (in_border && depth==border_depth && closes>0 && !done) {
+                print "        width " WIDTH
+                print
+                done=1
+            } else print
+            depth += opens - closes
+            if (in_border && depth<border_depth) in_border=0
+        }
+        END { exit !(enabled && done) }' "$cfg" > "$tmp" && mv "$tmp" "$cfg" || {
+            rm -f "$tmp"
+            return 1
+        }
+        return 0
     fi
 
     tmp="${cfg}.tmp"
@@ -173,6 +206,7 @@ _niri_set_border_width(){
         print
         match($0,/^[[:space:]]*/); ind=substr($0,1,RLENGTH) "    "
         print ind "border {"
+        print ind "    on"
         print ind "    width " WIDTH
         print ind "}"
         inserted=1
@@ -277,10 +311,9 @@ niri_adjust_gaps(){
     }' "$cfg")
 
     local new_val
-    new_val=$(show_input "Niri — Gaps" \
+    new_val=$(show_setting_input "Niri — Gaps" \
         "Gap between windows and the screen edge (pixels):" \
-        "${current:-16}")
-    [[ -z "$new_val" ]] && return
+        "${current:-16}" 8) || return
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
@@ -299,16 +332,15 @@ niri_adjust_border_width(){
     }' "$cfg")
 
     local new_val
-    new_val=$(show_input "Niri — Border Width" \
+    new_val=$(show_setting_input "Niri — Border Width" \
         "Inactive window border width (pixels):" \
-        "${current:-4}")
-    [[ -z "$new_val" ]] && return
-    [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
+        "${current:-4}" off) || return
+    [[ "$new_val" != off && ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
     _niri_set_border_width "$new_val" || { notify_error "Could not update border width"; return; }
     _niri_reload
-    notify "Border width → ${new_val}px"
+    [[ "$new_val" == off ]] && notify "Border: off (default)" || notify "Border width → ${new_val}px"
 }
 
 niri_adjust_focus_ring_width(){
@@ -321,10 +353,9 @@ niri_adjust_focus_ring_width(){
     }' "$cfg")
 
     local new_val
-    new_val=$(show_input "Niri — Focus Ring Width" \
+    new_val=$(show_setting_input "Niri — Focus Ring Width" \
         "Active window focus ring width (pixels):" \
-        "${current:-4}")
-    [[ -z "$new_val" ]] && return
+        "${current:-4}" 2) || return
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
@@ -393,17 +424,16 @@ niri_blur_saturation(){
     _niri_check            || return
     _niri_require_block "blur" || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "blur") || return
     local current
     current=$(sed -n '/^\s*blur\s*{/,/^\s*}/{
         /^\s*saturation\s/{ s/^\s*saturation\s\+\([0-9.]*\).*/\1/; p; q }
     }' "$cfg")
 
     local new_val
-    new_val=$(show_input "Niri — Blur Saturation" \
+    new_val=$(show_setting_input "Niri — Blur Saturation" \
         "Color saturation of blurred content:\n  0.0 = grayscale   1.0 = natural   >1.0 = vivid" \
-        "${current:-1.0}")
-    [[ -z "$new_val" ]] && return
+        "${current:-1.0}" 1.4) || return
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
@@ -416,17 +446,16 @@ niri_blur_noise(){
     _niri_check            || return
     _niri_require_block "blur" || return
     local cfg
-    cfg=$(_niri_config_path)
+    cfg=$(_niri_block_file "blur") || return
     local current
     current=$(sed -n '/^\s*blur\s*{/,/^\s*}/{
         /^\s*noise\s/{ s/^\s*noise\s\+\([0-9.]*\).*/\1/; p; q }
     }' "$cfg")
 
     local new_val
-    new_val=$(show_input "Niri — Blur Noise" \
+    new_val=$(show_setting_input "Niri — Blur Noise" \
         "Grain/noise texture on blurred surfaces (0.0–1.0):" \
-        "${current:-0.1}")
-    [[ -z "$new_val" ]] && return
+        "${current:-0.1}" 0.02) || return
     [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && { notify_error "Invalid value: $new_val"; return; }
 
     _niri_backup
@@ -496,8 +525,17 @@ try:
             scale = (o.get('logical') or {}).get('scale') or o.get('scale') or 1.0
             print(scale); sys.exit(0)
     print(1.0)
-except: print(1.0)
+except Exception: print(1.0)
 " 2>/dev/null
+}
+
+_niri_default_scale(){
+    local output="$1" source="${L_PATH:-$HOME/.local/share/molnios}/config/niri/modules/monitors.kdl"
+    awk -v OUT="$output" '
+        $1=="output" { active=($2=="\"" OUT "\"") }
+        active && $1=="scale" { print $2; found=1; exit }
+        END { if (!found) print "1.0" }
+    ' "$source" 2>/dev/null || echo 1.0
 }
 
 # Interactive output picker; echoes connector name to stdout.
@@ -524,10 +562,21 @@ _niri_set_output_val(){
         tmp=$0; opens=gsub(/\{/,"",tmp)
         tmp=$0; closes=gsub(/\}/,"",tmp)
 
-        if (!in_out && depth==0 && $0 ~ ("^output[[:space:]]+\"" OUT "\"") && opens>0)
+        if (!in_out && depth==0 && $0 ~ ("^output[[:space:]]+\"" OUT "\"[[:space:]]*\\{") && opens>0) {
             in_out=1
+            print
+            if (KEY=="mode") {
+                # A commented mode is not a setting. Insert an active mode
+                # immediately, or remove it when resetting to automatic.
+                if (VAL!="") print "    mode " VAL
+                done=1
+            }
+            depth += opens - closes
+            next
+        }
 
-        if (in_out && depth==1 && !done && $1==KEY) {
+        if (in_out && depth==1 && $1==KEY && $0 !~ /^[[:space:]]*\/\//) {
+            if (done && KEY=="mode") { depth += opens - closes; next }
             match($0,/^[[:space:]]*/); ind=substr($0,1,RLENGTH)
             $0 = ind KEY " " VAL
             done=1
@@ -547,19 +596,18 @@ niri_set_scale(){
     _niri_check || return
     local output
     output=$(_niri_select_output) || return
-    local current
+    local current default_scale
     current=$(_niri_current_scale "$output")
+    default_scale=$(_niri_default_scale "$output")
 
     local new_scale
-    new_scale=$(show_input "Niri — Scale ($output)" \
-        "HiDPI scale factor for $output.\nExamples: 1, 1.25, 1.5, 2\n0 — reload config (restore saved value)" \
-        "${current:-1}")
-    [[ -z "$new_scale" ]] && return
+    new_scale=$(show_setting_input "Niri — Scale ($output)" \
+        "HiDPI scale factor for $output.\nExamples: 1, 1.25, 1.5, 2\n0 — restore configured default" \
+        "${current:-1}" "$default_scale") || return
     new_scale=$(printf '%s' "$new_scale" | tr -d '[:space:]')
 
     if [[ "$new_scale" == "0" ]]; then
-        _niri_reload
-        return
+        new_scale=$default_scale
     fi
     [[ ! "$new_scale" =~ ^[0-9]+(\.[0-9]+)?$ ]] && {
         notify_error "Invalid scale: $new_scale"
@@ -585,14 +633,15 @@ niri_set_resolution(){
 
     local idx
     idx=$(show_menu "Niri — Resolution ($output)" \
-        "Select display mode  (* = current):" "${modes[@]}")
+        "Select display mode  (* = current):" "Automatic (default)" "${modes[@]}")
     [[ -z "$idx" || ! "$idx" =~ ^[0-9]+$ ]] && return
 
-    local chosen="${modes[$idx]% \*}"   # strip the " *" current-mode marker
+    local chosen=""
+    [[ "$idx" == 0 ]] || chosen="${modes[$((idx-1))]% \*}"   # strip the " *" current-mode marker
     _niri_backup
-    _niri_set_output_val "$output" "mode" "\"$chosen\"" || { notify_error "Could not update $output"; return; }
+    _niri_set_output_val "$output" "mode" "${chosen:+\"$chosen\"}" || { notify_error "Could not update $output"; return; }
     _niri_reload
-    notify "$output → $chosen"
+    notify "$output → ${chosen:-automatic (default)}"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

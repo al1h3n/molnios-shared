@@ -88,7 +88,7 @@ shell_show_input() {
             echo ""
         } >&2
         local result
-        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || result=""
+        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || return 1
         echo "$result"
         return
     fi
@@ -100,21 +100,16 @@ shell_show_input() {
 
     local term_cmd out
     term_cmd=$(_menu_term_cmd)
-    if [[ -z "$term_cmd" ]];then
-        tui_show_input "$title" "$prompt" "$default"
-        return
-    fi
+    [[ -n "$term_cmd" ]] || return 1
     out="$STATE_DIR/input_result.txt"
-    rm -f "$out"
-    # gum writes its UI to stderr and the answer to stdout, so only stdout is
-    # redirected into the file.
-    $term_cmd gum input \
-        --header="${title}"$'\n'"${prompt}" \
-        --value="$default" \
-        --prompt="❯ " \
-        --width=70 > "$out"
-
-    [[ -f "$out" ]] && cat "$out" || echo ""
+    rm -f "$out" "$out.ok"
+    # The terminal launcher can exit successfully even when gum was cancelled.
+    # A completion marker keeps Cancel distinct from a submitted empty value.
+    $term_cmd bash -c '
+        gum input --header="$1"$'"'\n'"'"$2" --value="$3" --prompt="❯ " --width=70 > "$4" && touch "$4.ok"
+    ' bash "$title" "$prompt" "$default" "$out" || return 1
+    [[ -f "$out.ok" ]] || return 1
+    cat "$out"
 }
 
 # 5. rofi backend.
@@ -175,7 +170,7 @@ rofi_show_input() {
         rofi_args+=(-config "$HOME/.config/rofi/config.rasi")
     fi
 
-    rofi "${rofi_args[@]}" < /dev/null 2>/dev/null || echo ""
+    rofi "${rofi_args[@]}" < /dev/null 2>/dev/null
 }
 
 # 6. YAD backend.
@@ -234,7 +229,7 @@ yad_show_input() {
         --width=400 \
         --center \
         --button="Cancel:1" \
-        --button="OK:0" 2>/dev/null || echo ""
+        --button="OK:0" 2>/dev/null
 }
 
 # 7. TUI backend (gum / fzf) — renders inline in the invoking terminal,
@@ -343,7 +338,7 @@ tui_show_input() {
             --header.foreground="$TUI_YELLOW" \
             --prompt.foreground="$TUI_GREEN" \
             --cursor.foreground="$TUI_GREEN" \
-            || echo ""
+            || return 1
     else
         # No gum: fall back to a plain readline prompt, since fzf has no
         # input-box widget of its own. Needs nothing but bash itself, so
@@ -360,7 +355,7 @@ tui_show_input() {
             echo ""
         } >&2
         local result
-        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || result=""
+        read -r -e -i "$default" -p "$(echo -e '\033[1;32m❯\033[0m ')" result || return 1
         echo "$result"
     fi
 }
@@ -422,6 +417,14 @@ show_input() {
             exit 1
             ;;
     esac
+}
+
+# Blank submission restores the setting's configured default; Cancel returns
+# nonzero so callers leave the current value alone.
+show_setting_input() {
+    local value
+    value=$(show_input "$1" "$2"$'\n'"Clear input for default: $4" "$3") || return 1
+    printf '%s\n' "${value:-$4}"
 }
 
 # ============================================================================

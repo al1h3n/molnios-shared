@@ -43,7 +43,7 @@ actionmenu="wlogout -nl $conf/wlogout/layout -C $conf/wlogout/wlogout.css"
 task_manager="$terminal btop"
 
 # Clipboard
-clipman="$shell $scripts/clipboard-images.sh"
+clipman="bash $scripts/clipboard-images.sh"
 cliptext="wl-paste --type text --watch cliphist store"
 clipmage="wl-paste --type image --watch cliphist store"
 clipsave="wl-clip-persist --clipboard regular"

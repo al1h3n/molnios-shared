@@ -1,4 +1,4 @@
-# Hyprland modules.
+# Hyprland modules. Numeric defaults below match config/hyprland/modules/theme.lua.
 hypr_get_setting() {
     local setting="$1"
 
@@ -54,8 +54,8 @@ _format_css_gaps() {
 
 hypr_adjust_gaps_in(){
     local current=$(hypr_get_setting "general:gaps_in")
-    local new_value=$(show_input "Gaps In" "Enter gaps (e.g. 10 20):" "$current")
-    [[ -z "$new_value" ]] && return
+    local new_value
+    new_value=$(show_setting_input "Gaps In" "Enter gaps (e.g. 10 20):" "$current" 4) || return
 
     local lua_gaps=$(_format_css_gaps "$new_value")
     hypr_set_setting "hl.config({ general = { gaps_in = $lua_gaps } })"
@@ -64,8 +64,8 @@ hypr_adjust_gaps_in(){
 
 hypr_adjust_gaps_out(){
     local current=$(hypr_get_setting "general:gaps_out")
-    local new_value=$(show_input "Gaps Out" "Enter gaps (e.g. 10 20):" "$current")
-    [[ -z "$new_value" ]] && return
+    local new_value
+    new_value=$(show_setting_input "Gaps Out" "Enter gaps (e.g. 10 20):" "$current" 5) || return
 
     local lua_gaps=$(_format_css_gaps "$new_value")
     hypr_set_setting "hl.config({ general = { gaps_out = $lua_gaps } })"
@@ -74,16 +74,16 @@ hypr_adjust_gaps_out(){
 
 hypr_adjust_border_size(){
     local current=$(hypr_get_setting "general:border_size")
-    local new_value=$(show_input "Border Size" "Enter border size:" "$current")
-    [[ -z "$new_value" ]] && return
+    local new_value
+    new_value=$(show_setting_input "Border Size" "Enter border size:" "$current" 2) || return
     hypr_set_setting "hl.config({ general = { border_size = $new_value } })"
     notify "Border size set to: $new_value"
 }
 
 hypr_adjust_rounding(){
     local current=$(hypr_get_setting "decoration:rounding")
-    local new_value=$(show_input "Rounding" "Enter rounding value:" "$current")
-    [[ -z "$new_value" ]] && return
+    local new_value
+    new_value=$(show_setting_input "Rounding" "Enter rounding value:" "$current" 17) || return
     hypr_set_setting "hl.config({ decoration = { rounding = $new_value } })"
     notify "Rounding set to: $new_value"
 }
@@ -206,14 +206,14 @@ hypr_set_resolution(){
     local prompt
     prompt="Enter resolution:
   WxH or W H  (e.g. 2560x1440  or  2560 1440)
-  0           restore from config file
+  0           restore from config file (also: submit blank)
  -1           highres@highrr (native best mode)
 
 Current: ${current_res:-unknown}, scale: ${current_scale}
 Best available refresh rate will be used automatically."
 
-    local new_res=$(show_input "Resolution — $monitor" "$prompt" "")
-    [[ -z "$new_res" ]] && return
+    local new_res
+    new_res=$(show_setting_input "Resolution — $monitor" "$prompt" "" 0) || return
     new_res=$(printf '%s' "$new_res" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
     case $new_res in
@@ -303,11 +303,10 @@ hypr_set_scale(){
 
     local prompt="Enter scale factor:
 Examples: 1, 1.6, 2, 3.5
-0 - Restore from config file."
+ 0 - Restore from config file (also: submit blank)."
 
     local new_scale
-    new_scale=$(show_input "Scale — $monitor" "$prompt" "$current_scale")
-    [[ -z "$new_scale" ]] && return
+    new_scale=$(show_setting_input "Scale — $monitor" "$prompt" "$current_scale" 0) || return
 
     new_scale=$(printf '%s' "$new_scale" \
         | tr -d '\r\n' \
@@ -357,10 +356,9 @@ hypr_toggle_cursor_zoom(){
     # At 1.0 (no zoom) → ask for a factor.  Otherwise → toggle off.
     if [[ -z "$current" ]] || awk "BEGIN{exit !($current <= 1.05)}"; then
         local new_val
-        new_val=$(show_input "Cursor Zoom" \
+        new_val=$(show_setting_input "Cursor Zoom" \
             "Enter zoom factor (e.g. 1.5, 2.0).\nSet to 1 to disable." \
-            "${current:-2.0}")
-        [[ -z "$new_val" ]] && return
+            "${current:-2.0}" 1.0) || return
         [[ ! "$new_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && {
             notify_error "Invalid zoom factor: $new_val"
             return

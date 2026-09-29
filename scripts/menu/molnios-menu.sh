@@ -189,29 +189,28 @@ yad_show_menu() {
         done
     fi
 
-    local yad_list=""
-    for i in "${!options[@]}";do
-        yad_list+="$i\n${options[$i]}\n"
-    done
-
     debug "yad_show_menu: Calling yad with title='$title'"
 
     local result
-    result=$(echo -e "$yad_list" | yad \
-        --list \
-        --title "$title" \
-        --text "$prompt" \
-        --column="Index:HD" \
-        --column="Option" \
-        --hide-column=1 \
-        --no-headers \
-        --width=500 \
-        --height=400 \
-        --center \
-        --button="Cancel:1" \
-        --button="Select:0" 2>/dev/null | cut -d'|' -f1 || echo "")
+    result=$(
+        for i in "${!options[@]}";do
+            printf '%s\n%s\n' "$i" "${options[$i]}"
+        done | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' | yad \
+            --list \
+            --title "$title" \
+            --text "$prompt" \
+            --column="Index:HD" \
+            --column="Option" \
+            --print-column=1 \
+            --no-headers \
+            --width=500 \
+            --height=400 \
+            --center \
+            --button="Cancel:1" \
+            --button="Select:0" 2>/dev/null || echo ""
+    )
 
-    echo "$result"
+    echo "${result%%|*}"
 }
 
 yad_show_input() {
@@ -364,6 +363,7 @@ tui_show_input() {
 show_menu() {
     local title="$1"
     local prompt="$2"
+    prompt=${prompt//\\n/$'\n'}
     shift 2
     local options=("$@")
 
@@ -392,6 +392,7 @@ show_menu() {
 show_input() {
     local title="$1"
     local prompt="$2"
+    prompt=${prompt//\\n/$'\n'}
     local default="${3:-}"
 
     local backend
@@ -589,6 +590,12 @@ show_menu_by_id() {
             # User cancelled
             pop_menu
             return 0
+        fi
+
+        if [[ ! "$selection" =~ ^[0-9]+$ ]] || (( selection >= ${#actions[@]} ));then
+            debug "Invalid menu selection: $selection"
+            pop_menu
+            return 1
         fi
 
         local action="${actions[$selection]}"

@@ -49,13 +49,13 @@ exists(){
 # Notification helper
 notify(){
     if exists notify-send;then
-        notify-send -h int:transient:1 "MolniOS Manager" "$1"
+        notify-send -h int:transient:1 "MolniOS Manager" "${1//\\n/$'\n'}"
     fi
 }
 
 notify_error(){
     if exists notify-send;then
-        notify-send -h int:transient:1 -u critical "MolniOS Manager" "$1"
+        notify-send -h int:transient:1 -u critical "MolniOS Manager" "${1//\\n/$'\n'}"
     fi
 }
 

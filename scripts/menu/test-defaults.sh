@@ -13,6 +13,13 @@ cp -R "$root/config/niri" "$tmp/niri"
 NIRI_CONFIG_PATH="$tmp/niri/niri.kdl"
 notify() { :; }
 notify_error() { return 1; }
+niri() {
+    if [[ "$*" == 'msg --json outputs' ]];then
+        printf '%s\n' '{"DP-1":{"name":"DP-1","modes":[{"width":1920,"height":1080,"refresh_rate":60000}],"current_mode":0,"logical":{"scale":1.25}}}'
+    else
+        command niri "$@"
+    fi
+}
 
 show_input() { :; }
 [[ $(show_setting_input "Gaps" "Pixels" 30 8) == 8 ]]

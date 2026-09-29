@@ -13,6 +13,7 @@ window-rule {
         geometry-corner-radius 12
         background-effect {
             blur true
+            xray false
         }
     }
 }
@@ -57,6 +58,21 @@ window-rule {
 }
 
 // Terminals.
+// Rofi's Wayland layer blur is rectangular. As an XWayland window, Niri can
+// clip the same blur to the rounded window geometry instead.
+window-rule {
+    match app-id="^Rofi$"
+    open-floating true
+    geometry-corner-radius 12
+    clip-to-geometry true
+    focus-ring { off; }
+    border { off; }
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
 window-rule {
     match app-id="floating"
     open-floating true
@@ -72,7 +88,9 @@ window-rule {
 
 // Layer rules.
 layer-rule {
-    match namespace=r#"^(waybar|rofi|logout_dialog)$"#
+    // Rofi has rounded transparent corners; Niri's layer blur would draw a
+    // rectangle behind them (layer corner-radius only affects shadows).
+    match namespace=r#"^(waybar|logout_dialog)$"#
     background-effect {
         blur true
         xray false
@@ -87,7 +105,7 @@ layer-rule {
         xray false
     }
 }
-/-layer-rule {
+layer-rule {
     match namespace=r#"^noctalia-(bar-.+|notification|dock|panel)$"#
     background-effect {
         blur true

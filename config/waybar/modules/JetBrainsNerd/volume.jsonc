@@ -26,8 +26,8 @@
 			"car": ""
 		},
 		"on-click": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output mute",
-		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output raise",
-		"on-scroll-down": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output lower",
+		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output up",
+		"on-scroll-down": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh output down",
 		"tooltip-format": "<b>Output Device</b>: {desc}",
 		"max-volume": "80"
 	},
@@ -38,8 +38,8 @@
 		"format-source": "󰍬 {volume}%",
 		"format-source-muted": "󰍭 {volume}%",
 		"on-click": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh input mute",
-		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh input raise",
-		"on-scroll-down": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh input lower",
+		"on-scroll-up": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh input up",
+		"on-scroll-down": "sh ~/.local/share/molnios/scripts/mechabar/volume.sh input down",
 		"tooltip-format": "<b>Input Device</b>: {desc}"
 	}
 }

@@ -15,7 +15,7 @@ multiterminal="$terminal zellij -c $conf/zellij/config.kdl"
 # Rofi.
 rofi_noicons="-no-show-icons -theme-str 'listview{columns: 1;}'"
 rofi_icons="-show-icons"
-menuid=rofi
+menuid="env -u WAYLAND_DISPLAY rofi -normal-window"
 
 if grep -q "ID=nixos" /etc/os-release 2>/dev/null; then
     menuconfig=""

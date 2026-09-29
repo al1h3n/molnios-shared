@@ -113,6 +113,14 @@ shell_show_input() {
 }
 
 # 5. rofi backend.
+_rofi_command() {
+    if [[ -n "${NIRI_SOCKET:-}" && -n "${DISPLAY:-}" ]];then
+        env -u WAYLAND_DISPLAY rofi -normal-window "$@"
+    else
+        rofi "$@"
+    fi
+}
+
 rofi_show_menu() {
     local title="$1"
     local prompt="$2"
@@ -140,7 +148,7 @@ rofi_show_menu() {
         debug "Using default rofi config: ~/.config/rofi/config.rasi"
     fi
 
-    printf '%s\n' "${options[@]}" | rofi \
+    printf '%s\n' "${options[@]}" | _rofi_command \
         -dmenu \
         -i \
         -p "$prompt" \
@@ -170,7 +178,7 @@ rofi_show_input() {
         rofi_args+=(-config "$HOME/.config/rofi/config.rasi")
     fi
 
-    rofi "${rofi_args[@]}" < /dev/null 2>/dev/null
+    _rofi_command "${rofi_args[@]}" < /dev/null 2>/dev/null
 }
 
 # 6. YAD backend.

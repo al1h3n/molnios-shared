@@ -404,6 +404,7 @@ ag() {
   npx --yes skills add "$source" "${skillflags[@]}" -g -y -a claude-code opencode "${extra[@]}"
 }
 
+alias cli="cliamp --vol -12"
 radio(){ sh "$scripts/radio/radio.sh" "$@"; }
 alias ra="radio"
 

@@ -455,6 +455,7 @@ function ag --description "Install an AI skill globally and embed it to Claude C
     npx --yes skills add $source $skillflags -g -y -a claude-code opencode $extra
 end
 
+alias cli="cliamp --vol -12"
 function radio --description "YouTube audio player (yt-x discovery + cliamp)"
     bash "$scripts/radio/radio.sh" $argv
 end

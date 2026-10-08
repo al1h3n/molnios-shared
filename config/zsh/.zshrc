@@ -271,7 +271,7 @@ alias ca="cava -p $conf/cava.ini"
 alias cat="bat -p"
 
 alias wi="impala"
-alias wi="bluetui"
+alias bi="bluetui"
 alias vo="wiremix"
 
 alias l="eza --icons always"

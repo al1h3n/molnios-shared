@@ -69,6 +69,8 @@
 
 `wifi` / `blue` / `et` — write on/off to switch Wi-Fi / Bluetooth / Ethernet.
 
+`wi` / `bi` / `vo` - TUI managers: impala (Wi-Fi), bluetui (Bluetooth), wiremix (volume).
+
 `vq` / `vw` / `ve` / `vr` / `vt` — `warp-cli` disconnect / status / connect / reg delete / reg new.
 
 ---

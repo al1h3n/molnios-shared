@@ -420,14 +420,14 @@ function ag --description "Install an AI skill globally and embed it to Claude C
     else
         set -l tmp (mktemp)
         gum style --foreground 244 "Looking up skills in $source..."
-        if not env NO_COLOR=1 npx --yes skills add $source --list >$tmp 2>&1
+    if not env NO_COLOR=1 bunx --bun skills add $source --list >$tmp 2>&1
             gum style --foreground 1 "Couldn't list skills for $source:"
             sed -E "$strip_ansi" $tmp >&2
             rm -f $tmp
             return 1
         end
 
-        set -l names (sed -E "$strip_ansi" $tmp | grep -E '^\| {4}[^ ]' | sed -E 's/^\| {4}//')
+        set -l names (sed -E "$strip_ansi" $tmp | grep -E '^(\||│) {4}[^ ]' | sed -E 's/^(\||│) {4}//')
         rm -f $tmp
 
         if test (count $names) -eq 0
@@ -452,7 +452,7 @@ function ag --description "Install an AI skill globally and embed it to Claude C
     end
 
     gum style --foreground 2 "Installing: "(string join ', ' -- $selected)" from $source"
-    npx --yes skills add $source $skillflags -g -y -a claude-code opencode $extra
+    bunx --bun skills add $source $skillflags -g -y -a claude-code opencode $extra
 end
 
 alias cli="cliamp --vol -12"

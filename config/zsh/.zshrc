@@ -363,7 +363,7 @@ ag() {
     tmp=$(mktemp) || return 1
 
     gum style --foreground 244 "Looking up skills in $source..."
-    if ! NO_COLOR=1 npx --yes skills add "$source" --list >"$tmp" 2>&1; then
+    if ! NO_COLOR=1 bunx --bun skills add "$source" --list >"$tmp" 2>&1; then
       gum style --foreground 1 "Couldn't list skills for $source:"
       sed -E $'s/\x1b\[[0-9;?]*[A-Za-z]//g' "$tmp" >&2
       rm -f "$tmp"
@@ -401,7 +401,7 @@ ag() {
   done
 
   gum style --foreground 2 "Installing: ${(j:, :)selected} from $source"
-  npx --yes skills add "$source" "${skillflags[@]}" -g -y -a claude-code opencode "${extra[@]}"
+  bunx --bun skills add "$source" "${skillflags[@]}" -g -y -a claude-code opencode "${extra[@]}"
 }
 
 alias cli="cliamp --vol -12"

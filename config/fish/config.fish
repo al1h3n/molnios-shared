@@ -118,7 +118,7 @@ alias ve="warp-cli connect"
 alias vr="warp-cli registration delete"
 alias vt="warp-cli registration new"
 
-alias sw="sh $bin/sweeper.sh"
+alias sw="sweeper"
 alias ml="sh $bin/molnios.sh"
 alias gi="sh $bin/gooker.sh"
 
@@ -420,7 +420,7 @@ function ag --description "Install an AI skill globally and embed it to Claude C
     else
         set -l tmp (mktemp)
         gum style --foreground 244 "Looking up skills in $source..."
-    if not env NO_COLOR=1 bunx --bun skills add $source --list >$tmp 2>&1
+        if not env NO_COLOR=1 bunx --bun skills add $source --list >$tmp 2>&1
             gum style --foreground 1 "Couldn't list skills for $source:"
             sed -E "$strip_ansi" $tmp >&2
             rm -f $tmp

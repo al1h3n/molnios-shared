@@ -173,7 +173,7 @@ alias ve="warp-cli connect"
 alias vr="warp-cli registration delete"
 alias vt="warp-cli registration new"
 
-alias sw="sh $bin/sweeper.sh"
+alias sw="sweeper"
 alias ml="sh $bin/molnios.sh"
 alias gi="sh $bin/gooker.sh"
 
@@ -372,8 +372,8 @@ ag() {
 
     local -a names=()
     names=("${(@f)$(sed -E $'s/\x1b\[[0-9;?]*[A-Za-z]//g' "$tmp" \
-      | grep -E '^\| {4}[^ ]' \
-      | sed -E 's/^\| {4}//')}")
+      | grep -E '^(\||│) {4}[^ ]' \
+      | sed -E 's/^(\||│) {4}//')}")
     rm -f "$tmp"
 
     if (( ${#names[@]} == 0 )); then

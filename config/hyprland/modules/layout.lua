@@ -1,7 +1,7 @@
 -- Dwindle for togglesplit, layout, window priorities, swallow.
 hl.config({
     general = {
-        layout = "scrolling", -- Or dwindle for default layout.
+        layout = "scrolling", -- dwindle/scrolling
         resize_on_border = true,
     },
     dwindle = {

@@ -41,6 +41,7 @@ require("hyprland-gui")
 
 -- Plugins.
 require("hyprglass")
+require("hypr3d")
 
 -- Noctalia's palette, written to ~/.config/hypr/noctalia.lua by its "hyprland" builtin template.
 -- The file only defines apply_theme() and returns it, so nothing happened until

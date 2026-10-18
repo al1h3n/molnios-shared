@@ -43,6 +43,7 @@
 `mostwanted` — most used commands in your shell history.<br>
 `httpyac` — custom `httpyac` script.<br>
 `ag` — install an AI skill globally and embed it into Claude Code / OpenCode. Usage: `ag <owner/repo|url> [skill ...]` (uses `gum` for interactive picking).
+`h3d` - custom [hypr3d](https://github.com/samine825/Hypr3D) script with scenes.
 
 `s` — [doas](https://github.com/Duncaen/OpenDoas) — has less code than sudo, making it safer.<br>
 `sud` — `su -c $@` (logins as root, sudo gives only temporary permissions).<br>

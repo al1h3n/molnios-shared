@@ -122,6 +122,8 @@ alias sw="sweeper"
 alias ml="sh $bin/molnios.sh"
 alias gi="sh $bin/gooker.sh"
 
+alias h3d="python $conf/hyprland/hypr3d-scenes.py"
+
 # git.
 function g --wraps git
     git $argv --filter=blob:none --depth=1

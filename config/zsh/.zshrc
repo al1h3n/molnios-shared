@@ -177,6 +177,8 @@ alias sw="sweeper"
 alias ml="sh $bin/molnios.sh"
 alias gi="sh $bin/gooker.sh"
 
+alias h3d="python $conf/hyprland/hypr3d-scenes.py"
+
 if [ -f /etc/arch-release ];then
   alias pr="yay --noconfirm -Runs \$(yay -Qdtq)"
   alias pu="yay --noconfirm" # Can be changed to paru or just pacman.

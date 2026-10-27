@@ -32,14 +32,23 @@ if hl.plugin.hypr3d then
     hl.bind("SUPER + F6", controls.prev)
     hl.bind("SUPER + F7", controls.next)
     hl.bind("SUPER + F8", controls.reset)
+    local flying = scene.flying
     local inspecting = false
-    controls.inspect = function()
-        inspecting = not inspecting
+    local function apply_movement()
         hypr3d.config({ player = {
-            flying = inspecting or scene.flying,
+            flying = inspecting or flying,
             collision = not inspecting,
         } })
     end
+    controls.fly = function()
+        flying = not flying
+        apply_movement()
+    end
+    controls.inspect = function()
+        inspecting = not inspecting
+        apply_movement()
+    end
+    hl.bind("SUPER + F10", controls.fly)
     hl.bind("SUPER + F11", controls.inspect)
 
     hypr3d.config({

@@ -142,6 +142,38 @@
 Laptop multimedia keys for volume and LCD brightness are included.<br>
 Try it by yourself!<br>
 
+### Hypr3D: 3D workspace
+[Hypr3D](https://github.com/samine825/Hypr3D) lets you walk or fly around your windows in a 3D scene.<br>
+
+#### Workspace, scenes & flight
+`Super + F12` → Toggle the 3D workspace.<br>
+`Super + F6` / `Super + F7` → Previous / next scene.<br>
+`Super + F8` → Reload the current scene and return to its spawn point.<br>
+`Super + F10` → Toggle flying / walking (collisions stay enabled outside inspection mode).<br>
+`Super + F11` → Toggle inspection mode: fly through walls and floors. Toggle off to restore collisions and your selected flying / walking mode.<br>
+
+Flight starts with the scene's default. Reloading the config, switching scenes or resetting a scene restores that default and exits inspection mode. Closing and reopening 3D keeps your movement mode.<br>
+
+#### Movement & camera (while in 3D movement mode)
+Mouse movement → Look around.<br>
+`W / A / S / D` → Move forward / left / backward / right.<br>
+`Space` → Rise while flying; jump while walking.<br>
+`Shift` → Descend while flying.<br>
+Hold `Ctrl` (or `Caps Lock`) → Sprint (2.5× speed).<br>
+Hold `C` → Zoom the camera; use the mouse wheel to adjust zoom. Release `C` to return to normal.<br>
+`F3` → Toggle debug information and collision wireframe (also works in window-input mode).<br>
+`F5` → Switch between first-person, third-person rear and third-person front views.<br>
+`Super + Left Alt` → Switch between movement and window-input mode. Window-input mode frees the cursor and lets you type in the focused window; toggle again to resume moving.<br>
+
+#### Windows in 3D
+Aim at a window to interact with it. In window-input mode, use the free cursor to click, scroll and type.<br>
+`Super + LMB` + mouse movement → Drag the window.<br>
+`Super + RMB` + mouse movement → Resize the window.<br>
+`Super + middle mouse button` + mouse movement → Rotate the window.<br>
+`Super + mouse wheel` → Move the window closer / farther.<br>
+
+See [the advanced Hypr3D controls section](hyprland-advanced.md#hypr3d-3d-workspace-controls) for the full reference. Configure custom binds in [`config/hyprland/modules/hypr3d.lua`](../config/hyprland/modules/hypr3d.lua).<br>
+
 ## Editing
 Everything can be changed in `hyprconfig` file. Just locate section `Keybinds` and change letters in binds!<br>
 

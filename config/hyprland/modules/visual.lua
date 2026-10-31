@@ -18,7 +18,12 @@ hl.config({
             noise = .01,
             ignore_opacity = true,
             xray = false,
-            -- variant = "acrylic", -- Liquid Glass, will be available after v0.56.3
+
+            -- variant = "acrylic", -- Liquid Glass
+            acrylic = {
+                aberration = .25,
+                refraction = 48,
+            },
         },
     },
 })
